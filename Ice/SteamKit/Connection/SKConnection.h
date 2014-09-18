@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GCDAsyncSocket.h"
 
 typedef enum {
     SKConnectionStatusOffline       = 0,
@@ -16,9 +15,8 @@ typedef enum {
     SKConnectionStatusOnline        = 2
 } SKConnectionStatus;
 
-@interface SKConnection : NSObject <GCDAsyncSocketDelegate>
+@interface SKConnection : NSObject
 {
-    GCDAsyncSocket  *_socket;
     NSMutableData   *_buffer;
     
     SKConnectionStatus  _status;

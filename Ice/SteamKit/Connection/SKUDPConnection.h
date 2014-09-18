@@ -6,9 +6,10 @@
 //  Copyright (c) 2014 Exurion. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "SKConnection.h"
+#import "GCDAsyncUdpSocket.h"
 
-@interface SKUDPConnection : NSObject
+@interface SKUDPConnection : SKConnection <GCDAsyncUdpSocketDelegate>
 
 /**
  * Returns a known server list

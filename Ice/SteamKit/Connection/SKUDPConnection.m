@@ -7,13 +7,14 @@
 //
 
 #import "SKUDPConnection.h"
+#import "SKPacket.h"
 
 @implementation SKUDPConnection
 
 + (NSArray *)knownServerList
 {
 	return @[
-		@"a server"
+		@"146.66.152.12:27017"
 	];
 }
 
@@ -30,6 +31,13 @@
 {
 	NSString *address = [[[self class] knownServerList] objectAtIndex:0];
 	return [self initWithServerAddress:address];
+}
+
+#pragma mark - Opening the connection
+
+- (void)connect
+{
+	
 }
 
 @end

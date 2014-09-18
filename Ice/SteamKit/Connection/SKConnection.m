@@ -7,12 +7,6 @@
 //
 
 #import "SKConnection.h"
-#import "SKPacket.h"
-
-#define CONNECTION_TIMEOUT  5000
-#define MAGIC_HEADER        0x31305456 // VT01
-#define TEST_SERVER         @"72.165.61.174"
-#define TEST_SERVER_PORT    27017
 
 @implementation SKConnection
 
@@ -38,8 +32,7 @@
 {
     if( (self = [super init]) )
     {
-        _socket		= [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-        _status		= SKConnectionStatusOffline;
+		_status		= SKConnectionStatusOffline;
 		_buffer		= [[NSMutableData alloc] init];
     }
     return self;
@@ -47,8 +40,6 @@
 
 - (void)dealloc
 {
-    [_socket release];
-    _socket = nil;
 	[_buffer release];
 	_buffer = nil;
     [super dealloc];
@@ -69,12 +60,6 @@
               [SKConnection connectionStatusToString:[self status]]);
         return;
     }
-    
-    NSError *socketErr = nil;
-    if( ![_socket connectToHost:TEST_SERVER onPort:TEST_SERVER_PORT error:&socketErr] )
-    {
-        NSLog(@"Error on socket connect: %@", socketErr);
-    }
 }
 
 - (void)disconnect
@@ -94,11 +79,9 @@
     {
         return;
     }
-    [_socket writeData:data withTimeout:-1 tag:_dataCount];
-    _dataCount++;
 }
 
-- (void)checkForPacket
+/*- (void)checkForPacket
 {
 	BOOL shouldContinue		= NO;
 	UInt32 packetLen			= 0;
@@ -126,16 +109,11 @@
 	{
 		[self checkForPacket];
 	}
-}
-
-- (void)handlePacket:(SKPacket *)packet
-{
-	
-}
+}*/
 
 #pragma mark - GCDAsyncSocketDelegate
 
-- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+/*- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
     NSLog(@"Connected to steam server %@:%u", host, port);
 	[sock readDataWithTimeout:-1 tag:0];
@@ -154,6 +132,6 @@
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
     NSLog(@"Wrote some data with tag %lu", tag);
-}
+}*/
 
 @end
