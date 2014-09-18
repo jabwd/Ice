@@ -7,6 +7,7 @@
 //
 
 #import "SKConnection.h"
+#import "SKPacket.h"
 
 #define CONNECTION_TIMEOUT  5000
 #define MAGIC_HEADER        0x31305456 // VT01
@@ -97,6 +98,41 @@
     _dataCount++;
 }
 
+- (void)checkForPacket
+{
+	BOOL shouldContinue		= NO;
+	UInt32 packetLen			= 0;
+	[_buffer getBytes:&packetLen length:sizeof(UInt32)];
+	NSLog(@"Found a packet of length %u", (unsigned int)packetLen);
+	
+	// Check to see if we have enough data to scan this packet and create it
+	if( [_buffer length] >= packetLen )
+	{
+		UInt32 doubleSize = sizeof(UInt32)*2;
+		NSData *packetData = [_buffer subdataWithRange:NSMakeRange(doubleSize, packetLen)];
+		[_buffer replaceBytesInRange:NSMakeRange(0, packetLen+doubleSize) withBytes:NULL length:0];
+		SKPacket *packet = [[SKPacket alloc] initWithData:packetData];
+		if( [packet isValid] )
+		{
+			shouldContinue = YES;
+		}
+		[self handlePacket:packet];
+		[packet release];
+	}
+	
+	// Make sure the buffer is empty of all available packets
+	// that could be scanned
+	if( [_buffer length] > 3 && shouldContinue )
+	{
+		[self checkForPacket];
+	}
+}
+
+- (void)handlePacket:(SKPacket *)packet
+{
+	
+}
+
 #pragma mark - GCDAsyncSocketDelegate
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
@@ -108,9 +144,10 @@
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
 	NSLog(@"Received data: %@", data);
-	NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-	NSLog(@"Data as string %@", str);
-	[str release];
+	
+	[_buffer appendData:data];
+	[self checkForPacket];
+	
 	[sock readDataWithTimeout:-1 tag:0];
 }
 
