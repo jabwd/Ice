@@ -31,7 +31,7 @@ typedef enum
 	BOOL _newPacket;				// Determines whether this is one we should scan or generate
 }
 
-@property (readonly) NSData *data;
+@property (atomic, retain) NSData *data;
 
 @property (assign) UInt16 type;
 @property (assign) UInt32 destination;

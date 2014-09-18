@@ -136,17 +136,48 @@
 	return [packet autorelease];
 }
 
++ (SKPacket *)connectChallengePacket:(NSData *)payload
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	NSData *sub = [payload subdataWithRange:NSMakeRange(0x0, 0x4)];
+	[[self class] transform:sub];
+	
+	packet.type				= 0x0403;
+	packet.sequenceNumber	= 1;
+	packet.destination		= 0x000000400;
+	packet.source			= 0x0;
+	packet.splitCount		= 1;
+	packet.lastReceivedSeqNumber = 0;
+	packet.firstSeqNumber	= 0;
+	packet.dataLength		= 0;
+	packet.data				= sub;
+	
+	return [packet autorelease];
+}
+
 #pragma mark - Some handy stuff
 
 - (NSString *)description
 {
 	NSMutableString *str = [[NSMutableString alloc] init];
-	
 	[str appendFormat:@"[SKPacket type=%u ", _type];
 	[str appendFormat:@"seq=%u ", _sequenceNumber];
-	[str appendFormat:@"len=%u payload=%@]", _len, _data];
-	
+	[str appendFormat:@"len=%u src=%u dst=%u payload=%@]", _len, _source, _destination, _data];
 	return [str autorelease];
+}
+
++ (void)transform:(NSData *)input
+{
+	char keyBytes[4] = {
+		0xA4, 0x26, 0xDF, 0x2B
+	};
+	char *inputBytes = (char*)[input bytes];
+	for(NSInteger i=0;i<4;i++)
+	{
+		unsigned char c = inputBytes[i] ^ keyBytes[i];
+		inputBytes[i] = c;
+	}
 }
 
 @end
