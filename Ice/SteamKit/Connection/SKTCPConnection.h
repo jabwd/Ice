@@ -7,7 +7,13 @@
 //
 
 #import "SKConnection.h"
+#import "GCDAsyncSocket.h"
 
-@interface SKTCPConnection : SKConnection
+@interface SKTCPConnection : SKConnection <GCDAsyncSocketDelegate>
+{
+	GCDAsyncSocket *_socket;
+}
+
+- (id)initWithAddress:(NSString *)address;
 
 @end

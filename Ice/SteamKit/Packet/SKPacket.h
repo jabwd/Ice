@@ -10,8 +10,15 @@
 
 typedef enum
 {
-	SKPacketIDUnknown = -1
+	SKPacketIDUnknown				= -1,
+	SKPacketIDLoginRequest			= 1,
+	SKPacketIDLoginResponse			= 2,
+	SKPacketIDLoginChallenge		= 3
 } SKPacketID;
+
+extern NSInteger const SKPacketMinimumDataLength;
+
+
 
 @interface SKPacket : NSObject
 {

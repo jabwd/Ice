@@ -11,5 +11,8 @@
 @interface EXAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSTextField *packetDataField;
+
+- (IBAction)scanPacketData:(id)sender;
 
 @end

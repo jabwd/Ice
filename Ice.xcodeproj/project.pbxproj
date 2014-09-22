@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
+		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
 		36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E766DC19C6D54000D9C761 /* Cocoa.framework */; };
 		36E766E719C6D54000D9C761 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 36E766E519C6D54000D9C761 /* InfoPlist.strings */; };
 		36E766E919C6D54000D9C761 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E766E819C6D54000D9C761 /* main.m */; };
@@ -36,8 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		36B714B719D07A4F006F08B3 /* SKSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSession.h; path = SteamKit/Session/SKSession.h; sourceTree = "<group>"; };
+		36B714B819D07A4F006F08B3 /* SKSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSession.m; path = SteamKit/Session/SKSession.m; sourceTree = "<group>"; };
 		36DAFB5519CAD81600A65E6F /* SKUDPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKUDPConnection.h; path = SteamKit/Connection/SKUDPConnection.h; sourceTree = "<group>"; };
 		36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKUDPConnection.m; path = SteamKit/Connection/SKUDPConnection.m; sourceTree = "<group>"; };
+		36DAFB5819CB30DF00A65E6F /* SKTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKTCPConnection.h; path = SteamKit/Connection/SKTCPConnection.h; sourceTree = "<group>"; };
+		36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKTCPConnection.m; path = SteamKit/Connection/SKTCPConnection.m; sourceTree = "<group>"; };
 		36E766D919C6D54000D9C761 /* Ice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36E766DC19C6D54000D9C761 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		36E766DF19C6D54000D9C761 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -88,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36B714B619D07A3A006F08B3 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				36B714B719D07A4F006F08B3 /* SKSession.h */,
+				36B714B819D07A4F006F08B3 /* SKSession.m */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
 		36E766D019C6D54000D9C761 = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +189,7 @@
 		36E7671019C6D8BB00D9C761 /* SteamKit */ = {
 			isa = PBXGroup;
 			children = (
+				36B714B619D07A3A006F08B3 /* Session */,
 				36E7671819C6DAC300D9C761 /* Packet */,
 				36E7671119C6D8C100D9C761 /* Connection */,
 			);
@@ -191,6 +207,8 @@
 				36E7671A19C6DAF500D9C761 /* SKConnection.m */,
 				36DAFB5519CAD81600A65E6F /* SKUDPConnection.h */,
 				36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */,
+				36DAFB5819CB30DF00A65E6F /* SKTCPConnection.h */,
+				36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -304,9 +322,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
+				36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
 				36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */,
+				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,

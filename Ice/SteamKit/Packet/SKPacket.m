@@ -12,10 +12,13 @@
 #define MAGIC_XOR			0xA426DF2B
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
 
+NSInteger const SKPacketMinimumDataLength = 24;
+
 @implementation SKPacket
 
 - (id)initWithDataString:(NSString *)dataString
 {
+	dataString = [dataString stringByReplacingOccurrencesOfString:@" " withString:@""];
 	if( (self = [super init]) )
 	{
 		NSInteger bytes = (NSInteger)([dataString length]/2);
@@ -71,6 +74,13 @@
 {
 	NSMutableData *buff = [[NSMutableData alloc] initWithData:_data];
 	
+	if( [buff length] < 0x24 )
+	{
+		NSLog(@"Not enough data available to scan packet header");
+		[buff release];
+		return;
+	}
+	
 	// ignore the magic header
 	[buff getBytes:&_len			range:NSMakeRange(0x04, 0x2)];
 	[buff getBytes:&_type			range:NSMakeRange(0x06, 0x2)];
@@ -94,7 +104,7 @@
 	// that comes AFTER the header ( should be obv. )
 	NSMutableData *finalBuffer	= [[NSMutableData alloc] init];
 	_len = (UInt16)[_data length];
-	UInt32 magicHeader			= 0x31305456;
+	UInt32 magicHeader			= 0x31305356;
 	
 	// Generate the packet header
 	[finalBuffer appendBytes:&magicHeader	length:sizeof(UInt32)];
@@ -124,14 +134,14 @@
 {
 	SKPacket *packet = [[SKPacket alloc] init];
 	
-	packet.type				= 0x0001;
-	packet.source			= 0x00000400;
-	packet.destination		= 0x00000000;
-	packet.sequenceNumber	= 0x00010000;
-	packet.lastReceivedSeqNumber	= 0x00000000;
+	packet.type				= 1;
+	packet.source			= 1024;
+	packet.destination		= 0;
+	packet.sequenceNumber	= 1;
+	packet.lastReceivedSeqNumber	= 0;
 	packet.splitCount				= 0;
-	packet.firstSeqNumber			= 0x0;
-	packet.dataLength				= 0x0;
+	packet.firstSeqNumber			= 0;
+	packet.dataLength				= 0;
 	
 	return [packet autorelease];
 }

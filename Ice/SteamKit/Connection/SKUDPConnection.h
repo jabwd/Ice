@@ -10,6 +10,15 @@
 #import "GCDAsyncUdpSocket.h"
 
 @interface SKUDPConnection : SKConnection <GCDAsyncUdpSocketDelegate>
+{
+	GCDAsyncUdpSocket *_UDPSocket;
+	
+	NSString	*_host;
+	UInt16		_port;
+}
+
+@property (readonly) NSString *host;
+@property (readonly) UInt16 port;
 
 /**
  * Returns a known server list

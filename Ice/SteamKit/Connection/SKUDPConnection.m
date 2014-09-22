@@ -8,12 +8,15 @@
 
 #import "SKUDPConnection.h"
 #import "SKPacket.h"
+#import <netinet/in.h>
 
 @implementation SKUDPConnection
 
 + (NSArray *)knownServerList
 {
 	return @[
+		@"146.66.155.9:27017",
+		@"72.165.61.185:27017",
 		@"146.66.152.12:27017"
 	];
 }
@@ -22,7 +25,44 @@
 {
 	if( (self = [super init]) )
 	{
+		// Parse the server address into a host
+		// and a port
+		NSArray *comp = [server componentsSeparatedByString:@":"];
+		if( [comp count] != 2 )
+		{
+			NSLog(@"Incorrect server address given! %@", server);
+			[self release];
+			return nil;
+		}
+		_host = [comp objectAtIndex:0];
+		_port = (UInt16)[[comp objectAtIndex:1] integerValue];
 		
+		
+		// Setup the socket for listening and sending
+		_UDPSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+		NSError *socketError = nil;
+		[_UDPSocket enableBroadcast:YES error:nil];
+		if( ![_UDPSocket bindToPort:0 error:&socketError] )
+		{
+			NSLog(@"Error binding socket %@", socketError);
+			[self release];
+			return nil;
+		}
+		
+		if( ![_UDPSocket connectToHost:_host onPort:_port error:&socketError] )
+		{
+			NSLog(@"Unable to connect to host %@ %@", _host, socketError);
+			[self release];
+			return nil;
+		}
+		
+		if( ![_UDPSocket beginReceiving:&socketError] )
+		{
+			NSLog(@"Unable to start receviing data %@", socketError);
+			[self release];
+			return nil;
+		}
+		NSLog(@"Setup complete");
 	}
 	return self;
 }
@@ -33,11 +73,89 @@
 	return [self initWithServerAddress:address];
 }
 
+- (void)dealloc
+{
+	[_UDPSocket release];
+	_UDPSocket = nil;
+	[super dealloc];
+}
+
 #pragma mark - Opening the connection
 
 - (void)connect
 {
-	
+	[super connect];
+	SKPacket *p = [[SKPacket connectPacket] retain];
+	NSData *data = [p generate];
+	[self sendData:data];
+	[p release];
+}
+
+- (void)disconnect
+{
+	[super disconnect];
+}
+
+- (void)sendData:(NSData *)data
+{
+	[super sendData:nil];
+	NSLog(@"attempting to send data %@", data);
+	[_UDPSocket sendData:data withTimeout:-1 tag:0];
+}
+
+- (void)sendPacket:(SKPacket *)packet
+{
+	NSLog(@"S: %@", packet);
+	NSData *d = [packet generate];
+	[self sendData:d];
+}
+
+- (void)checkForPacket
+{
+	if( [_buffer length] > SKPacketMinimumDataLength )
+	{
+		SKPacket *packet = [[SKPacket alloc] initWithData:_buffer];
+		if( packet )
+		{
+			
+		}
+		NSLog(@"R: %@", packet);
+		[packet release];
+	}
+}
+
+#pragma mark - UDPSocket delegate
+
+- (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error
+{
+	NSLog(@"Socket closed %@", error);
+}
+
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
+{
+	[_buffer appendData:data];
+	[self checkForPacket];
+}
+
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didConnectToAddress:(NSData *)address
+{
+	SKPacket *p = [[SKPacket connectPacket] retain];
+	[self sendPacket:p];
+	[p release];
+}
+
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag
+{
+}
+
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
+{
+	NSLog(@"Did not send data");
+}
+
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotConnect:(NSError *)error
+{
+	NSLog(@"Socket did not connect");
 }
 
 @end
