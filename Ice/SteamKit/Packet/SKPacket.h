@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum
+typedef NS_ENUM(UInt16, SKPacketType)
 {
-	SKPacketIDUnknown				= -1,
-	SKPacketIDLoginRequest			= 1,
-	SKPacketIDLoginResponse			= 2,
-	SKPacketIDLoginChallenge		= 3
-} SKPacketID;
+	SKPacketTypeUnknown						= -1,
+	SKPacketTypeConnectBegin				= 1,
+	SKPacketTypeConnectChallenge			= 2,
+	SKPacketTypeConnectChallengeResponse	= 1027, // 0x0403
+	SKPacketTypeClientDestination			= 1028, // 0x0404
+	SKPackettypeClient28ByteStream			= 1030, // 0x0406
+};
 
 extern NSInteger const SKPacketMinimumDataLength;
 
@@ -24,23 +26,23 @@ extern NSInteger const SKPacketMinimumDataLength;
 {
 	NSData *_data;
 	
-	UInt16 _len;					// Length of the packtes data ( minus the header )
-	UInt16 _type;					// Some type
-	UInt32 _destination;			//
-	UInt32 _source;					//
-	UInt32 _sequenceNumber;			// Seq number of this packet
-	UInt32 _lastReceivedSeqNumber;	// Last seq # received from the server
-	UInt32 _splitCount;				// Number of packets the massage is split in
-	UInt32 _firstSeqNumber;			// Sequence number of the first packet in the series
-	UInt32 _dataLength;				// Of the total message, so spans over more packets
-									// If split count > 1
+	UInt16			_len;						// Length of the packtes data ( minus the header )
+	SKPacketType	_type;						// Some type
+	UInt32			_destination;				// Some internal IDing system
+	UInt32			_source;					// obv.
+	UInt32			_sequenceNumber;			// Seq number of this packet
+	UInt32			_lastReceivedSeqNumber;		// Last seq # received from the server
+	UInt32			_splitCount;				// Number of packets the massage is split in
+	UInt32			_firstSeqNumber;			// Sequence number of the first packet in the series
+	UInt32			_dataLength;				// Of the total message, so spans over more packets
+												// If split count > 1
 	
 	BOOL _newPacket;				// Determines whether this is one we should scan or generate
 }
 
 @property (atomic, retain) NSData *data;
 
-@property (assign) UInt16 type;
+@property (assign) SKPacketType type;
 @property (assign) UInt32 destination;
 @property (assign) UInt32 source;
 @property (assign) UInt32 sequenceNumber;
@@ -57,6 +59,8 @@ extern NSInteger const SKPacketMinimumDataLength;
 
 //----------------------------------------------------------------------------------------------+
 // Packet templates
+
 + (SKPacket *)connectPacket;
++ (SKPacket *)connectChallengePacket:(NSData *)payload;
 
 @end

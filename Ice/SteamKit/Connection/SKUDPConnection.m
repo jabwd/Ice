@@ -99,13 +99,26 @@
 - (void)sendData:(NSData *)data
 {
 	[super sendData:nil];
-	NSLog(@"attempting to send data %@", data);
 	[_UDPSocket sendData:data withTimeout:-1 tag:0];
 }
 
 - (void)sendPacket:(SKPacket *)packet
 {
 	NSLog(@"S: %@", packet);
+	
+	// We need to up the sequence number of the packets we're sending
+	// this seems to be sufficient for now.
+	// if the packet has a predefined sequence number
+	// the template probably requires it to be that way, ignore it
+	if( packet.sequenceNumber == 0 )
+	{
+		_sequence++;
+		packet.sequenceNumber = _sequence;
+	}
+	else
+	{
+		// Do nothing.
+	}
 	NSData *d = [packet generate];
 	[self sendData:d];
 }
@@ -117,9 +130,44 @@
 		SKPacket *packet = [[SKPacket alloc] initWithData:_buffer];
 		if( packet )
 		{
+			_recvSeq++; // this needs to be done in a better way somehow
+						// but as of right now I do not know enough about the protocol yet.
 			
+			switch(packet.type)
+			{
+				case SKPacketTypeConnectChallenge:
+				{
+					NSLog(@"Received a connect challenge with payload: %@", packet.data);
+					SKPacket *responsePacket = [[SKPacket connectChallengePacket:packet.data] retain];
+					[self sendPacket:responsePacket];
+					[responsePacket release];
+				}
+					break;
+					
+				case SKPacketTypeClientDestination:
+				{
+					NSLog(@"Received future destination packet: %@", packet);
+					_destination = packet.source;
+					NSLog(@"=> Now using %u as future destination", _destination);
+					
+				}
+					break;
+					
+				case SKPackettypeClient28ByteStream:
+				{
+					NSLog(@"Received byte stream packet: %@", packet);
+					if( packet.sequenceNumber != _recvSeq )
+					{
+						NSLog(@"Error: recvSeq of the byte stream packet != %u", _recvSeq);
+					}
+				}
+					
+				default:
+					NSLog(@"Unhandled packet: %@", packet);
+					break;
+			}
+			NSLog(@"Recv sequence number: %u", _recvSeq);
 		}
-		NSLog(@"R: %@", packet);
 		[packet release];
 	}
 }
@@ -139,6 +187,8 @@
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didConnectToAddress:(NSData *)address
 {
+	_recvSeq	= 0;
+	_sequence	= 1;
 	SKPacket *p = [[SKPacket connectPacket] retain];
 	[self sendPacket:p];
 	[p release];

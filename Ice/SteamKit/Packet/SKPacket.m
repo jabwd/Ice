@@ -70,7 +70,7 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	return NO;
 }
 
-- (void)scan
+- (BOOL)scan:(NSError *)error
 {
 	NSMutableData *buff = [[NSMutableData alloc] initWithData:_data];
 	
@@ -78,10 +78,21 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	{
 		NSLog(@"Not enough data available to scan packet header");
 		[buff release];
-		return;
+		return NO;
+	}
+	UInt32 steamPacket = 0;
+	[buff getBytes:&steamPacket length:sizeof(UInt32)];
+	if( steamPacket != 0x31305356 )
+	{
+		//[buff release];
+		NSLog(@"Received a nonsteam packet! ( Magicheader NOT found )");
+		//return NO;
+	}
+	if( steamPacket == 0x56533031 )
+	{
+		NSLog(@"Lol dunno");
 	}
 	
-	// ignore the magic header
 	[buff getBytes:&_len			range:NSMakeRange(0x04, 0x2)];
 	[buff getBytes:&_type			range:NSMakeRange(0x06, 0x2)];
 	[buff getBytes:&_source			range:NSMakeRange(0x08, 0x4)];
@@ -96,6 +107,7 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	_data = [[buff subdataWithRange:NSMakeRange(0x24, _len)] retain];
 	
 	[buff release];
+	return YES;
 }
 
 - (NSData *)generate
@@ -134,7 +146,7 @@ NSInteger const SKPacketMinimumDataLength = 24;
 {
 	SKPacket *packet = [[SKPacket alloc] init];
 	
-	packet.type				= 1;
+	packet.type				= SKPacketTypeConnectBegin;
 	packet.source			= 1024;
 	packet.destination		= 0;
 	packet.sequenceNumber	= 1;
@@ -153,15 +165,15 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	NSData *sub = [payload subdataWithRange:NSMakeRange(0x0, 0x4)];
 	[[self class] transform:sub];
 	
-	packet.type				= 0x0403;
-	packet.sequenceNumber	= 1;
-	packet.destination		= 0x000000400;
-	packet.source			= 0x0;
-	packet.splitCount		= 1;
-	packet.lastReceivedSeqNumber = 0;
-	packet.firstSeqNumber	= 0;
-	packet.dataLength		= 0;
-	packet.data				= sub;
+	packet.type						= SKPacketTypeConnectChallengeResponse;
+	packet.sequenceNumber			= 1;
+	packet.destination				= 1024;
+	packet.source					= 0;
+	packet.splitCount				= 1;
+	packet.lastReceivedSeqNumber	= 0;
+	packet.firstSeqNumber			= 0;
+	packet.dataLength				= 0;
+	packet.data						= sub;
 	
 	return [packet autorelease];
 }

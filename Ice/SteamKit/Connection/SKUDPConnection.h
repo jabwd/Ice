@@ -15,10 +15,15 @@
 	
 	NSString	*_host;
 	UInt16		_port;
+	UInt32		_destination;	// something we receive from the steam server
+								// during the login sequence
+	UInt32		_sequence;		// Internal send sequence
+	UInt32		_recvSeq;		// Internal received sequence
 }
 
 @property (readonly) NSString *host;
 @property (readonly) UInt16 port;
+@property (readonly) UInt32 destination;
 
 /**
  * Returns a known server list
