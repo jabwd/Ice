@@ -15,6 +15,14 @@
 
 @property (readonly) UInt32 destination;
 
+/** 
+ * Generates a sessionKey for use in the steam server communication
+ *
+ * @return NSData	containing a 32 byte randomly generated
+ *					data stream
+ */
++ (NSData *)generateSessionKey;
+
 - (id)initWithDestination:(UInt32)destination;
 
 @end
