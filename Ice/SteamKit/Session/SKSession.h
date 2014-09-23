@@ -9,5 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface SKSession : NSObject
+{
+	UInt32 _destination;
+}
+
+@property (readonly) UInt32 destination;
+
+- (id)initWithDestination:(UInt32)destination;
 
 @end
