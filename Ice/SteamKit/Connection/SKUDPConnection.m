@@ -9,6 +9,8 @@
 #import "SKUDPConnection.h"
 #import "SKPacket.h"
 #import <netinet/in.h>
+#import <arpa/inet.h>
+#import "NSData_XfireAdditions.h"
 
 @implementation SKUDPConnection
 
@@ -104,7 +106,7 @@
 
 - (void)sendPacket:(SKPacket *)packet
 {
-	NSLog(@"S: %@", packet);
+	NSLog(@"Sending %@", packet);
 	
 	// We need to up the sequence number of the packets we're sending
 	// this seems to be sufficient for now.
@@ -130,6 +132,10 @@
 		SKPacket *packet = [[SKPacket alloc] initWithData:_buffer];
 		if( packet )
 		{
+			// Properly empty the buffer
+			NSUInteger packetSize = SKPacketMinimumDataLength+[packet.data length];
+			[_buffer replaceBytesInRange:NSMakeRange(0, packetSize) withBytes:NULL length:0];
+			
 			_recvSeq++; // this needs to be done in a better way somehow
 						// but as of right now I do not know enough about the protocol yet.
 			
@@ -137,7 +143,17 @@
 			{
 				case SKPacketTypeConnectChallenge:
 				{
-					NSLog(@"Received a connect challenge with payload: %@", packet.data);
+					static BOOL once = false;
+					if( once == false )
+					{
+						once = true;
+					}
+					else
+					{
+						NSLog(@"=> Ignoring connect challenge packet %@", packet.data);
+						break;
+					}
+					NSLog(@"Received a connect challenge with payload: %@", packet);
 					SKPacket *responsePacket = [[SKPacket connectChallengePacket:packet.data] retain];
 					[self sendPacket:responsePacket];
 					[responsePacket release];
@@ -153,7 +169,7 @@
 				}
 					break;
 					
-				case SKPackettypeClient28ByteStream:
+				case SKPacketTypeClient28ByteStream:
 				{
 					NSLog(@"Received byte stream packet: %@", packet);
 					if( packet.sequenceNumber != _recvSeq )
@@ -183,6 +199,14 @@
 {
 	[_buffer appendData:data];
 	[self checkForPacket];
+	
+	/*
+	struct sockaddr_storage addr;
+	socklen_t len = sizeof(addr);
+	[address getBytes:&addr length:len];
+	NSLog(@"Data received from %s:%d", inet_ntoa(((struct sockaddr_in*)&addr)->sin_addr),
+          htons(((struct sockaddr_in*)&addr)->sin_port));
+	*/
 }
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didConnectToAddress:(NSData *)address

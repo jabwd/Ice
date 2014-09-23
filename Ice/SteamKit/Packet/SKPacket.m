@@ -11,8 +11,9 @@
 #define MAGIC_HEADER        0x31305456 // VS01
 #define MAGIC_XOR			0xA426DF2B
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
+#define PACKET_MAX_SIZE		65507
 
-NSInteger const SKPacketMinimumDataLength = 24;
+NSInteger const SKPacketMinimumDataLength = 36;
 
 @implementation SKPacket
 
@@ -31,7 +32,7 @@ NSInteger const SKPacketMinimumDataLength = 24;
 		}
 		_data = [buffer retain];
 		[buffer release];
-		[self scan];
+		[self scan:nil];
 	}
 	return self;
 }
@@ -41,7 +42,7 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	if( (self = [super init]) )
 	{
 		_data = [data retain];
-		[self scan];
+		[self scan:nil];
 	}
 	return self;
 }
@@ -84,13 +85,9 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	[buff getBytes:&steamPacket length:sizeof(UInt32)];
 	if( steamPacket != 0x31305356 )
 	{
-		//[buff release];
-		NSLog(@"Received a nonsteam packet! ( Magicheader NOT found )");
-		//return NO;
-	}
-	if( steamPacket == 0x56533031 )
-	{
-		NSLog(@"Lol dunno");
+		[buff release];
+		NSLog(@"Received a nonsteam packet! ( Magicheader NOT found ) %@", _data);
+		return NO;
 	}
 	
 	[buff getBytes:&_len			range:NSMakeRange(0x04, 0x2)];
@@ -113,7 +110,10 @@ NSInteger const SKPacketMinimumDataLength = 24;
 - (NSData *)generate
 {
 	// The length included in the header should be of the data
-	// that comes AFTER the header ( should be obv. )
+	// that comes AFTER the header but haven't actually confirmed this yet
+	// Update: Either dataLength or Length is the leng on the entire series
+	// and the other one on just the data in the current packet, which is which
+	// seems obvious but should be researched regardless.
 	NSMutableData *finalBuffer	= [[NSMutableData alloc] init];
 	_len = (UInt16)[_data length];
 	UInt32 magicHeader			= 0x31305356;
@@ -147,7 +147,7 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	SKPacket *packet = [[SKPacket alloc] init];
 	
 	packet.type				= SKPacketTypeConnectBegin;
-	packet.source			= 1024;
+	packet.source			= 1;
 	packet.destination		= 0;
 	packet.sequenceNumber	= 1;
 	packet.lastReceivedSeqNumber	= 0;
@@ -167,12 +167,12 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	
 	packet.type						= SKPacketTypeConnectChallengeResponse;
 	packet.sequenceNumber			= 1;
-	packet.destination				= 1024;
-	packet.source					= 0;
+	packet.destination				= 0;
+	packet.source					= 1024;
 	packet.splitCount				= 1;
-	packet.lastReceivedSeqNumber	= 0;
-	packet.firstSeqNumber			= 0;
-	packet.dataLength				= 0;
+	packet.lastReceivedSeqNumber	= 1;
+	packet.firstSeqNumber			= 1;
+	packet.dataLength				= 4;
 	packet.data						= sub;
 	
 	return [packet autorelease];
@@ -185,14 +185,23 @@ NSInteger const SKPacketMinimumDataLength = 24;
 	NSMutableString *str = [[NSMutableString alloc] init];
 	[str appendFormat:@"[SKPacket type=%u ", _type];
 	[str appendFormat:@"seq=%u ", _sequenceNumber];
-	[str appendFormat:@"len=%u src=%u dst=%u payload=%@]", _len, _source, _destination, _data];
+	[str appendFormat:@"len=%u src=%u dst=%u payload=%@", _len, _source, _destination, _data];
+	[str appendFormat:@" recv=%u split=%u dLen=%u first=%u]", _lastReceivedSeqNumber, _splitCount, _dataLength, _firstSeqNumber];
 	return [str autorelease];
 }
 
 + (void)transform:(NSData *)input
 {
-	char keyBytes[4] = {
+	// Potential key: f2c30bfa
+	// Other keys:
+	// A426DF2B | SteamFriends WIKIPage
+	// -- Further protocol examning shows I had to turn the bytes around
+	// Its what I did below:
+	/*char keyBytes[4] = {
 		0xA4, 0x26, 0xDF, 0x2B
+	};*/
+	char keyBytes[4] = {
+		0x2B, 0xDF, 0x26, 0xA4
 	};
 	char *inputBytes = (char*)[input bytes];
 	for(NSInteger i=0;i<4;i++)
