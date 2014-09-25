@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "SKAESEncryption.h"
 
 @interface IceTests : XCTestCase
 
@@ -26,9 +27,25 @@
     [super tearDown];
 }
 
+- (void)testEncryption
+{
+	NSData *key = [SKAESEncryption generateRandomData:32];
+	NSData *iv = [key subdataWithRange:NSMakeRange(0, 16)];
+	
+	XCTAssert(([iv length] == 16), @"IV is not of length 16");
+	XCTAssert(([key length] == 32), @"Key is not of length 32");
+	
+	NSString *bla = @"Hello World!";
+	NSData *encrypted = [SKAESEncryption encryptData:[bla dataUsingEncoding:NSUTF8StringEncoding] withKey:key iv:iv];
+	NSData *decrypted = [SKAESEncryption decryptData:encrypted withKey:key iv:iv];
+	NSString *str = [[NSString alloc] initWithData:[decrypted subdataWithRange:NSMakeRange(0, [bla length])] encoding:NSUTF8StringEncoding];
+	
+	XCTAssert(([bla isEqualToString:str]), @"Decrypted string is not the same as the original");
+}
+
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+	
 }
 
 @end
