@@ -31,9 +31,13 @@
 	// Determine how big our buffer needs to be to support the data we want to encrypt
 	if( [data length] > 128 )
 	{
-		NSInteger rest = [data length] % 2;
-		rest++;
-		bytesSize = 128*rest;
+		NSInteger rest = [data length] % 16;
+		NSInteger multiple = (NSInteger)[data length] / 16;
+		if( rest > 0 )
+		{
+			multiple++;
+		}
+		bytesSize = 16*multiple;
 		DLog(@"=> Using %lu as buffer size for AES encryption", bytesSize);
 	}
 	
