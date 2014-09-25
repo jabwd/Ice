@@ -64,7 +64,6 @@
 			[self release];
 			return nil;
 		}
-		NSLog(@"Setup complete");
 	}
 	return self;
 }
@@ -136,24 +135,11 @@
 			NSUInteger packetSize = SKPacketMinimumDataLength+[packet.data length];
 			[_buffer replaceBytesInRange:NSMakeRange(0, packetSize) withBytes:NULL length:0];
 			
-			_recvSeq++; // this needs to be done in a better way somehow
-						// but as of right now I do not know enough about the protocol yet.
-			
 			switch(packet.type)
 			{
 				case SKPacketTypeConnectChallenge:
 				{
-					static BOOL once = false;
-					if( once == false )
-					{
-						once = true;
-					}
-					else
-					{
-						NSLog(@"=> Ignoring connect challenge packet %@", packet.data);
-						break;
-					}
-					NSLog(@"Received a connect challenge with payload: %@", packet);
+					DLog(@"=> Received connect challenge packet, responding");
 					SKPacket *responsePacket = [[SKPacket connectChallengePacket:packet.data] retain];
 					[self sendPacket:responsePacket];
 					[responsePacket release];
@@ -162,21 +148,23 @@
 					
 				case SKPacketTypeClientDestination:
 				{
-					NSLog(@"Received future destination packet: %@", packet);
 					_destination = packet.source;
-					NSLog(@"=> Now using %u as future destination", _destination);
-					
+					DLog(@"=> Received destination: %u", _destination);
 				}
 					break;
 					
 				case SKPacketTypeClient28ByteStream:
 				{
-					NSLog(@"Received byte stream packet: %@", packet);
+					NSLog(@"Received byte stream packet");
 					if( packet.sequenceNumber != _recvSeq )
 					{
 						NSLog(@"Error: recvSeq of the byte stream packet != %u", _recvSeq);
 					}
+					// we don't really need this packet, we don't really care it seems.
+					// you are probably supposed to use this as some knid of salt in the sessionID
+					// but I don't really know how much it actually matters.
 				}
+					break;
 					
 				default:
 					NSLog(@"Unhandled packet: %@", packet);
@@ -211,7 +199,7 @@
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didConnectToAddress:(NSData *)address
 {
-	_recvSeq	= 0;
+	_recvSeq	= 1;
 	_sequence	= 1;
 	SKPacket *p = [[SKPacket connectPacket] retain];
 	[self sendPacket:p];

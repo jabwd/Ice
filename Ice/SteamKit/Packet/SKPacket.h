@@ -56,6 +56,7 @@ extern NSInteger const SKPacketMinimumDataLength;
 
 - (BOOL)isValid;
 - (NSData *)generate;
+- (NSData *)iv;
 
 //----------------------------------------------------------------------------------------------+
 // Packet templates

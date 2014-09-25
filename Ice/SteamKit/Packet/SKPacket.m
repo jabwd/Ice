@@ -180,6 +180,12 @@ NSInteger const SKPacketMinimumDataLength = 36;
 
 #pragma mark - Some handy stuff
 
+- (NSData *)iv
+{
+	NSData *packetData = [self generate];
+	return [packetData subdataWithRange:NSMakeRange(0, 16)];
+}
+
 - (NSString *)description
 {
 	NSMutableString *str = [[NSMutableString alloc] init];

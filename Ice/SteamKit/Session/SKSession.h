@@ -10,9 +10,12 @@
 
 @interface SKSession : NSObject
 {
+	NSData *_sessionKey;
+	
 	UInt32 _destination;
 }
 
+@property (readonly) NSData *sessionKey;
 @property (readonly) UInt32 destination;
 
 /** 
