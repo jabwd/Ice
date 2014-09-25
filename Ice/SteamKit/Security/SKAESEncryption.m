@@ -7,7 +7,6 @@
 //
 
 #import "SKAESEncryption.h"
-#import <Security/Security.h>
 #import <CommonCrypto/CommonCrypto.h>
 #import <stdlib.h>
 

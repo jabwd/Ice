@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
+		369715A619D461EF001D8653 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 369715A519D461EF001D8653 /* libcrypto.dylib */; };
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
 		36B714BF19D17BB0006F08B3 /* NSData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714BC19D17BB0006F08B3 /* NSData_XfireAdditions.m */; };
 		36B714C019D17BB0006F08B3 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714BE19D17BB0006F08B3 /* NSMutableData_XfireAdditions.m */; };
@@ -42,6 +44,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
+		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
+		369715A519D461EF001D8653 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		36B714B719D07A4F006F08B3 /* SKSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSession.h; path = SteamKit/Session/SKSession.h; sourceTree = "<group>"; };
 		36B714B819D07A4F006F08B3 /* SKSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSession.m; path = SteamKit/Session/SKSession.m; sourceTree = "<group>"; };
 		36B714BB19D17BB0006F08B3 /* NSData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSData_XfireAdditions.h; sourceTree = "<group>"; };
@@ -90,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				369715A619D461EF001D8653 /* libcrypto.dylib in Frameworks */,
 				36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */,
 				36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */,
 			);
@@ -161,6 +167,8 @@
 			children = (
 				36B714C719D2F36F006F08B3 /* SKAESEncryption.h */,
 				36B714C819D2F36F006F08B3 /* SKAESEncryption.m */,
+				369715A219D4387A001D8653 /* SKRSAEncryption.h */,
+				369715A319D4387A001D8653 /* SKRSAEncryption.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -188,6 +196,7 @@
 		36E766DB19C6D54000D9C761 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				369715A519D461EF001D8653 /* libcrypto.dylib */,
 				36B714CA19D2FB69006F08B3 /* Security.framework */,
 				36B714C419D2F345006F08B3 /* libcommonCrypto.dylib */,
 				36E766DC19C6D54000D9C761 /* Cocoa.framework */,
@@ -391,6 +400,7 @@
 				36B714BF19D17BB0006F08B3 /* NSData_XfireAdditions.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
+				369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
 				36B714C019D17BB0006F08B3 /* NSMutableData_XfireAdditions.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,
