@@ -7,6 +7,7 @@
 //
 
 #import "SKAESEncryption.h"
+#import <Security/Security.h>
 #import <CommonCrypto/CommonCrypto.h>
 #import <stdlib.h>
 
@@ -25,9 +26,41 @@
 
 + (NSData *)encryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
 {
-	size_t bufferSize	= [data length] + kCCBlockSizeAES128;
+	NSUInteger bytesSize = 128;
+	
+	// Determine how big our buffer needs to be to support the data we want to encrypt
+	if( [data length] > 128 )
+	{
+		NSInteger rest = [data length] % 2;
+		rest++;
+		bytesSize = 128*rest;
+		DLog(@"=> Using %lu as buffer size for AES encryption", bytesSize);
+	}
+	
+	size_t bufferSize	= bytesSize + kCCBlockSizeAES128;
 	size_t numBytesEncrypted;
     void *buffer		= malloc(bufferSize);
+	
+	// make sure the data buffer is of hte right size
+	// append with 0's if needed.
+	NSMutableData *finalData = [[NSMutableData alloc] initWithCapacity:bytesSize];
+	if( [data length] < bytesSize )
+	{
+		NSUInteger missingBytes = bytesSize-[data length];
+		[finalData appendData:data];
+		char *bytes = (char*)malloc(sizeof(char)*missingBytes);
+		memset(bytes, 0, missingBytes);
+		[finalData appendBytes:bytes length:missingBytes];
+		free(bytes);
+		if( [finalData length] != bytesSize )
+		{
+			NSLog(@"Final data buffer not created properly!");
+			[finalData release];
+			free(buffer);
+			return nil;
+		}
+	}
+	
 	CCCryptorStatus status = CCCrypt(
 		kCCEncrypt,
 		kCCAlgorithmAES128,
@@ -35,11 +68,12 @@
 		[key bytes],
 		kCCKeySizeAES256,
 		[iv bytes],
-		[data bytes],
-		[data length],
+		[finalData bytes],
+		[finalData length],
 		buffer, bufferSize,
 		&numBytesEncrypted
 	);
+	[finalData release];
 	
 	if( status == kCCSuccess )
 	{

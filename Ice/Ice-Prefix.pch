@@ -8,6 +8,7 @@
     #import <Cocoa/Cocoa.h>
 #endif
 
+#define DEBUG_ENABLE 1
 #ifdef DEBUG_ENABLE
 #    define DLog(...) NSLog(__VA_ARGS__)
 #else
