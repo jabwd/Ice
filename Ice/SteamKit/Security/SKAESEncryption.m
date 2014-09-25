@@ -54,7 +54,7 @@
 		free(bytes);
 		if( [finalData length] != bytesSize )
 		{
-			NSLog(@"Final data buffer not created properly!");
+			DLog(@"Finaldata buffer not equal size to the requested size, something went wrong with the padding.");
 			[finalData release];
 			free(buffer);
 			return nil;
