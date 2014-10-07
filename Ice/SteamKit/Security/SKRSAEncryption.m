@@ -8,8 +8,11 @@
 
 #import "SKRSAEncryption.h"
 #import <Security/Security.h>
-#import <openssl/crypto.h>
-#import <openssl/ossl_typ.h>
+#import "crypto.h"
+#import "rsa.h"
+#import "pem.h"
+#import "NSData_XfireAdditions.h"
+
 /*
  30 81 9D 30 0D 06 09 2A 86 48 86 F7 0D 01 01 01
  05 00 03 81 8B 00 30 81 87 02 81 81 00
@@ -44,7 +47,7 @@
  02 01 11
  */
 
-static const unsigned char steamPublicKey[] = {
+/*static const unsigned char steamPublicKey[] = {
 	0xDF, 0xEC, 0x1A, 0xD6, 0x2C, 0x10, 0x66, 0x2C,
 	0x17, 0x35, 0x3A, 0x14, 0xB0, 0x7C, 0x59, 0x11,
 	0x7F, 0x9D, 0xD3, 0xD8, 0x2B, 0x7A, 0xE3, 0xE0,
@@ -62,6 +65,19 @@ static const unsigned char steamPublicKey[] = {
 	0x9E, 0xC4, 0x3A, 0xE9, 0x63, 0xA2, 0xBB, 0x88,
 	0x19, 0x28, 0xE0, 0xE7, 0x14, 0xC0, 0x42, 0x89
 };
+
+static const unsigned char steamPublicKey2014[] = {
+		0x30, 0x81, 0x9D, 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01,
+		0x05, 0x00, 0x03, 0x81, 0x8B, 0x00, 0x30, 0x81, 0x87, 0x02, 0x81, 0x81, 0x00, 0xDF, 0xEC, 0x1A,
+		0xD6, 0x2C, 0x10, 0x66, 0x2C, 0x17, 0x35, 0x3A, 0x14, 0xB0, 0x7C, 0x59, 0x11, 0x7F, 0x9D, 0xD3,
+		0xD8, 0x2B, 0x7A, 0xE3, 0xE0, 0x15, 0xCD, 0x19, 0x1E, 0x46, 0xE8, 0x7B, 0x87, 0x74, 0xA2, 0x18,
+		0x46, 0x31, 0xA9, 0x03, 0x14, 0x79, 0x82, 0x8E, 0xE9, 0x45, 0xA2, 0x49, 0x12, 0xA9, 0x23, 0x68,
+		0x73, 0x89, 0xCF, 0x69, 0xA1, 0xB1, 0x61, 0x46, 0xBD, 0xC1, 0xBE, 0xBF, 0xD6, 0x01, 0x1B, 0xD8,
+		0x81, 0xD4, 0xDC, 0x90, 0xFB, 0xFE, 0x4F, 0x52, 0x73, 0x66, 0xCB, 0x95, 0x70, 0xD7, 0xC5, 0x8E,
+		0xBA, 0x1C, 0x7A, 0x33, 0x75, 0xA1, 0x62, 0x34, 0x46, 0xBB, 0x60, 0xB7, 0x80, 0x68, 0xFA, 0x13,
+		0xA7, 0x7A, 0x8A, 0x37, 0x4B, 0x9E, 0xC6, 0xF4, 0x5D, 0x5F, 0x3A, 0x99, 0xF9, 0x9E, 0xC4, 0x3A,
+		0xE9, 0x63, 0xA2, 0xBB, 0x88, 0x19, 0x28, 0xE0, 0xE7, 0x14, 0xC0, 0x42, 0x89, 0x02, 0x01, 0x11,
+};*/
 
 @implementation SKRSAEncryption
 
@@ -83,70 +99,43 @@ static const unsigned char steamPublicKey[] = {
 
 - (NSData *)encryptData:(NSData *)data
 {
+	[data retain];
 	if( data == nil )
 	{
 		// print an error here.
 		return nil;
 	}
 	
-	EVP_CIPHER_CTX *rsaCtx = (EVP_CIPHER_CTX*)malloc(sizeof(EVP_CIPHER_CTX));
+	RSA *publicKey = RSA_new();
 	
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"steamPublic" ofType:@"pem"];
+	FILE *keyFile = fopen([filePath UTF8String], "r");
+	PEM_read_RSA_PUBKEY(keyFile, &publicKey, NULL, NULL);
 	
-	return nil;
-	/*NSData *publicKeyData	= [[NSData alloc] initWithBytes:&steamPublicKey length:128];
-	NSDictionary *params	= @{(NSString *)kSecAttrKeyType: (NSString *)kSecAttrKeyTypeRSA};
-	CFErrorRef error		= NULL;
-	SecKeyRef publicKey		= SecKeyCreateFromData((CFDictionaryRef)params, (CFDataRef)publicKeyData, &error);
+	unsigned char *to = (unsigned char *)malloc([data length]);
+	RSA_public_encrypt((int)[data length], [data bytes], to, publicKey, RSA_PKCS1_PADDING);
+	NSData *result = [[NSData alloc] initWithBytes:to length:[data length]];
+	free(to);
 	
-	if( error )
-	{
-		DLog(@"=> Unable to create KeyRef");
-		[publicKeyData release];
-		if( publicKey )
-		{
-			CFRelease(publicKey);
-		}
-		return nil;
-	}
-	
-	SecTransformRef encryptor = SecEncryptTransformCreate(publicKey, &error);
-	
-	if( error )
-	{
-		DLog(@"=> Unable to create encryptor for RSA encryption");
-		[publicKeyData release];
-		CFRelease(publicKey);
-		if( encryptor )
-		{
-			CFRelease(encryptor);
-		}
-		return nil;
-	}
-	
-	SecTransformSetAttribute(encryptor, kSecTransformInputAttributeName, (CFDataRef)data, &error);
-	NSData *result = (NSData *)SecTransformExecute(encryptor, &error);
-	
-	if( error )
-	{
-		CFShow(error);
-		DLog(@"=> Something went wrong!");
-		[publicKeyData release];
-		CFRelease(publicKey);
-		CFRelease(encryptor);
-		[result release];
-		return nil;
-	}
-	
-	// Cleanup
-	[publicKeyData release];
-	CFRelease(publicKey);
-	return [result autorelease];*/
+	[data release];
+	return [result autorelease];
 }
 
 - (NSData *)decryptData:(NSData *)data privateKey:(NSData *)privateKey
 {
 	NSLog(@"method not implemented yet");
 	return nil;
+}
+
+- (void)generatePemFromKey
+{
+	NSData *key = [[NSData alloc] initWithBytes:NULL length:0];
+	NSString *str = [key base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+	[key release];
+	NSString *pemHeader = @"-----BEGIN PUBLIC KEY-----\n";
+	NSString *pemFooter = @"\n-----END PUBLIC KEY-----";
+	NSString *final = [NSString stringWithFormat:@"%@%@%@", pemHeader, str, pemFooter];
+	[final writeToFile:@"/Users/jabwd/Desktop/steamPublic.pem" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
 @end

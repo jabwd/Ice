@@ -16,6 +16,7 @@ typedef NS_ENUM(UInt16, SKPacketType)
 	SKPacketTypeConnectChallengeResponse	= 1027, // 0x0403
 	SKPacketTypeClientDestination			= 1028, // 0x0404
 	SKPacketTypeClient28ByteStream			= 1030, // 0x0406
+	SKPacketTypeEncryptionResponse			= 1030, // 0x0406
 };
 
 extern NSInteger const SKPacketMinimumDataLength;
@@ -63,5 +64,6 @@ extern NSInteger const SKPacketMinimumDataLength;
 
 + (SKPacket *)connectPacket;
 + (SKPacket *)connectChallengePacket:(NSData *)payload;
++ (SKPacket *)encryptionResponsePacket:(NSData *)encryptedKey;
 
 @end

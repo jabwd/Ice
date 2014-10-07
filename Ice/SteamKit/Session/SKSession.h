@@ -8,15 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+
+
 @interface SKSession : NSObject
 {
 	NSData *_sessionKey;
-	
-	UInt32 _destination;
 }
 
 @property (readonly) NSData *sessionKey;
-@property (readonly) UInt32 destination;
 
 /** 
  * Generates a sessionKey for use in the steam server communication
@@ -25,7 +24,5 @@
  *					data stream
  */
 + (NSData *)generateSessionKey;
-
-- (id)initWithDestination:(UInt32)destination;
 
 @end

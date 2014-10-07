@@ -178,6 +178,20 @@ NSInteger const SKPacketMinimumDataLength = 36;
 	return [packet autorelease];
 }
 
++ (SKPacket *)encryptionResponsePacket:(NSData *)encryptedKey
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.type = SKPacketTypeEncryptionResponse;
+	packet.sequenceNumber = 1;
+	
+	NSMutableData *payload = [[NSMutableData alloc] init];
+	[encryptedKey crc32];
+	
+	
+	return [packet autorelease];
+}
+
 #pragma mark - Some handy stuff
 
 - (NSData *)iv

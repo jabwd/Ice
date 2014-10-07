@@ -163,6 +163,10 @@
 					// we don't really need this packet, we don't really care it seems.
 					// you are probably supposed to use this as some knid of salt in the sessionID
 					// but I don't really know how much it actually matters.
+					
+					SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:nil] retain];
+					[self sendPacket:encryptionResponse];
+					[encryptionResponse release];
 				}
 					break;
 					
