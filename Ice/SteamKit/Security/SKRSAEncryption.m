@@ -7,11 +7,8 @@
 //
 
 #import "SKRSAEncryption.h"
-#import <Security/Security.h>
-#import "crypto.h"
-#import "rsa.h"
-#import "pem.h"
 #import "NSData_XfireAdditions.h"
+#import <Security/Security.h>
 
 /*
  30 81 9D 30 0D 06 09 2A 86 48 86 F7 0D 01 01 01
@@ -99,35 +96,87 @@ static const unsigned char steamPublicKey2014[] = {
 
 - (NSData *)encryptData:(NSData *)data
 {
-	[data retain];
-	if( data == nil )
-	{
-		// print an error here.
-		return nil;
-	}
+	SecItemImportExportKeyParameters params;
+	params.version			= SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
+	params.flags			= 0; // See SecKeyImportExportFlags for details.
+	params.passphrase		= NULL;
+	params.alertTitle		= NULL;
+	params.alertPrompt		= NULL;
+	params.accessRef		= NULL;
+	params.keyUsage			= NULL;
+	params.keyAttributes	= NULL;
 	
-	RSA *publicKey = RSA_new();
+	NSString *filePath	= [[NSBundle mainBundle] pathForResource:@"public" ofType:@"pem"];
+	NSData *keyData		= [[NSData alloc] initWithContentsOfFile:filePath];
 	
-	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"steamPublic" ofType:@"pem"];
-	FILE *keyFile = fopen([filePath UTF8String], "r");
-	PEM_read_RSA_PUBKEY(keyFile, &publicKey, NULL, NULL);
-	
-	unsigned char *to = (unsigned char *)malloc([data length]);
-	RSA_public_encrypt((int)[data length], [data bytes], to, publicKey, RSA_PKCS1_PADDING);
-	NSData *result = [[NSData alloc] initWithBytes:to length:[data length]];
-	free(to);
-	
-	[data release];
+	CFArrayRef tempArray;
+	SecExternalItemType itemType	= kSecItemTypePublicKey;
+	SecExternalFormat format		= kSecFormatPEMSequence;
+	SecItemImport((CFDataRef)keyData, NULL, &format, &itemType, 0, &params, NULL, &tempArray);
+	SecKeyRef publicKey		= (SecKeyRef)CFArrayGetValueAtIndex(tempArray, 0);
+	[keyData release];
+	SecTransformRef encrypt = NULL;
+	CFErrorRef error = NULL;
+	encrypt = SecEncryptTransformCreate(publicKey, &error);
+	SecTransformSetAttribute(encrypt, kSecTransformInputAttributeName, (CFDataRef)data, &error);
+	NSData *result = (NSData *)SecTransformExecute(encrypt, &error);
+	CFRelease(encrypt);
 	return [result autorelease];
 }
 
-- (NSData *)decryptData:(NSData *)data privateKey:(NSData *)privateKey
+- (NSData *)decryptData:(NSData *)data
 {
-	NSLog(@"method not implemented yet");
-	return nil;
+	SecItemImportExportKeyParameters params;
+	params.version			= SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
+	params.flags			= 0; // See SecKeyImportExportFlags for details.
+	params.passphrase		= NULL;
+	params.alertTitle		= NULL;
+	params.alertPrompt		= NULL;
+	params.accessRef		= NULL;
+	params.keyUsage			= NULL;
+	params.keyAttributes	= NULL;
+	
+	NSString *filePath	= [[NSBundle mainBundle] pathForResource:@"private" ofType:@"pem"];
+	NSData *keyData		= [[NSData alloc] initWithContentsOfFile:filePath];
+	
+	// Create the SecKeyRef from the private key data
+	CFArrayRef			tempArray;
+	SecExternalItemType itemType	= kSecItemTypePrivateKey;
+	SecExternalFormat	format		= kSecFormatPEMSequence;
+	SecItemImport((CFDataRef)keyData, NULL, &format, &itemType, 0, &params, NULL, &tempArray);
+	SecKeyRef privateKey = (SecKeyRef)CFArrayGetValueAtIndex(tempArray, 0);
+	[keyData release];
+	
+	// Create the transform
+	SecTransformRef decrypt = NULL;
+	CFErrorRef error		= NULL;
+	decrypt = SecDecryptTransformCreate(privateKey, &error);
+	if( error )
+	{
+		DLog(@"[Error %@", (NSError *)error);
+		CFRelease(decrypt);
+		return nil;
+	}
+	
+	// Set its attributes and execute
+	SecTransformSetAttribute(decrypt, kSecTransformInputAttributeName, (CFDataRef)data, &error);
+	NSData *result = (NSData *)SecTransformExecute(decrypt, &error);
+	if( error )
+	{
+		DLog(@"[Error] %@", (NSError *)error);
+		CFRelease(decrypt);
+		[result release];
+		return nil;
+	}
+	
+	// Cleanup
+	CFRelease(decrypt);
+	
+	return [result autorelease];
 }
 
-- (void)generatePemFromKey
+
+/*- (void)generatePemFromKey
 {
 	NSData *key = [[NSData alloc] initWithBytes:NULL length:0];
 	NSString *str = [key base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
@@ -136,6 +185,6 @@ static const unsigned char steamPublicKey2014[] = {
 	NSString *pemFooter = @"\n-----END PUBLIC KEY-----";
 	NSString *final = [NSString stringWithFormat:@"%@%@%@", pemHeader, str, pemFooter];
 	[final writeToFile:@"/Users/jabwd/Desktop/steamPublic.pem" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-}
+}*/
 
 @end

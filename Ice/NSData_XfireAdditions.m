@@ -206,7 +206,7 @@
 	for (index = 0; index < length; index++) {
 		[stringRepresentation appendFormat:@"%02x", (unsigned char)bytes[index]];
 	}
-	return [stringRepresentation copy];
+	return [[stringRepresentation copy] autorelease];
 }
 
 @end

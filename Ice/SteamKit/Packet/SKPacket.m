@@ -185,8 +185,6 @@ NSInteger const SKPacketMinimumDataLength = 36;
 	packet.type = SKPacketTypeEncryptionResponse;
 	packet.sequenceNumber = 1;
 	
-	NSMutableData *payload = [[NSMutableData alloc] init];
-	[encryptedKey crc32];
 	
 	
 	return [packet autorelease];

@@ -24,10 +24,8 @@
  * Decrypts the given data with the given private key
  *
  * @param NSData	the RSA encrypted data
- * @param NSData	the private key of the key pair
  *
  * @return NSData	the decrypted data or nil
  */
-- (NSData *)decryptData:(NSData *)data privateKey:(NSData *)privateKey;
-
+- (NSData *)decryptData:(NSData *)data;
 @end
