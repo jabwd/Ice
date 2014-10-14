@@ -7,10 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SKSession.h"
 
-@class SKSession;
-
-@interface EXAppDelegate : NSObject <NSApplicationDelegate>
+@interface EXAppDelegate : NSObject <NSApplicationDelegate, SKSessionDelegate>
 {
 	SKSession *_session;
 }

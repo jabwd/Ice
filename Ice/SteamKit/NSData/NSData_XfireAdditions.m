@@ -21,6 +21,24 @@
 
 @implementation NSData (XfireAdditions)
 
++ (NSData *)dataFromByteString:(NSString *)byteString
+{
+	// Cleanup the string to actual bytes we can use
+	// Just in case we get the string from different kind of sources
+	NSString *dataString = [byteString stringByReplacingOccurrencesOfString:@" " withString:@""];
+	dataString = [dataString stringByReplacingOccurrencesOfString:@"0x" withString:@""];
+	
+	NSInteger bytes = (NSInteger)([dataString length]/2);
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	for(NSUInteger i = 0;i<bytes;i++)
+	{
+		NSString *byte = [dataString substringWithRange:NSMakeRange(i*2, 2)];
+		char actualByte = (char)strtol([byte UTF8String], NULL, 16);
+		[buffer appendBytes:&actualByte length:1];
+	}
+	return [buffer autorelease];
+}
+
 - (unsigned int)crc32 {
 	unsigned int crc32 = 0;
 	

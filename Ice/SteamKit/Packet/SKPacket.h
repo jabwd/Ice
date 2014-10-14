@@ -55,12 +55,9 @@ extern NSInteger const SKPacketMinimumDataLength;
 @property (assign) UInt32 dataLength;
 @property (assign) BOOL isTCP;
 
-+ (NSData *)dataFromByteString:(NSString *)byteString;
-
 - (id)initWithDataString:(NSString *)dataString;
 - (id)initWithData:(NSData *)data;
 
-- (BOOL)isValid;
 - (NSData *)generate;
 - (NSData *)iv;
 

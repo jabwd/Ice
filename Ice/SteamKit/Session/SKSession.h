@@ -14,6 +14,7 @@ typedef NS_ENUM(UInt32, SKSessionStatus)
 	SKSessionStatusLoggingIn		= 1,
 	SKSessionStatusConnected		= 2,
 	SKSessionStatusDisconnecting	= 3,
+	SKSessionStatusConnecting		= 4,
 	SKSessionStatusUnknown			= -1
 };
 

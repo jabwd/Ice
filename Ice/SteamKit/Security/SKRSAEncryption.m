@@ -43,7 +43,7 @@ static const unsigned char steamInternalKey2014[] = {
 
 + (NSData *)encryptData:(NSData *)data
 {
-	return [SKPacket dataFromByteString:@"4e9c9ccd66da213855dbc235 8c87f51e7cc38720bdd44366cdb2242b1690aa4650dc8c4e4d09402cd08775a43b8fb1f464784928 b2b64e540b529336034f2c0b4df9f2686867c51972824989c63b74cb3d9a660ffe6242db33e93cac fdcd6ee12cb845928ca208c1ad12233d9b8a55edc732599fb9801f702e5989b1e164412d"];
+	return [NSData dataFromByteString:@"4e9c9ccd66da213855dbc235 8c87f51e7cc38720bdd44366cdb2242b1690aa4650dc8c4e4d09402cd08775a43b8fb1f464784928 b2b64e540b529336034f2c0b4df9f2686867c51972824989c63b74cb3d9a660ffe6242db33e93cac fdcd6ee12cb845928ca208c1ad12233d9b8a55edc732599fb9801f702e5989b1e164412d"];
 	SecItemImportExportKeyParameters params;
 	params.version			= SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
 	params.flags			= 0; // See SecKeyImportExportFlags for details.

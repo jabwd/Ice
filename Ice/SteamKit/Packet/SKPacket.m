@@ -9,6 +9,7 @@
 #import "SKPacket.h"
 #import <zlib.h>
 #import "SKRSAEncryption.h"
+#import "NSData_XfireAdditions.h"
 
 #define UDP_HEADER			0x31305356 // VS01
 #define TCP_HEADER			0x31305456 // VT01
@@ -21,29 +22,11 @@ NSInteger const SKPacketMinimumDataLength = 8;
 
 @implementation SKPacket
 
-+ (NSData *)dataFromByteString:(NSString *)byteString
-{
-	// Cleanup the string to actual bytes we can use
-	// Just in case we get the string from different kind of sources
-	NSString *dataString = [byteString stringByReplacingOccurrencesOfString:@" " withString:@""];
-	dataString = [dataString stringByReplacingOccurrencesOfString:@"0x" withString:@""];
-	
-	NSInteger bytes = (NSInteger)([dataString length]/2);
-	NSMutableData *buffer = [[NSMutableData alloc] init];
-	for(NSUInteger i = 0;i<bytes;i++)
-	{
-		NSString *byte = [dataString substringWithRange:NSMakeRange(i*2, 2)];
-		char actualByte = (char)strtol([byte UTF8String], NULL, 16);
-		[buffer appendBytes:&actualByte length:1];
-	}
-	return [buffer autorelease];
-}
-
 - (id)initWithDataString:(NSString *)dataString
 {
 	if( (self = [super init]) )
 	{
-		_data = [[[self class] dataFromByteString:dataString] retain];
+		_data = [[NSData dataFromByteString:dataString] retain];
 		[self scan:nil];
 	}
 	return self;
@@ -78,11 +61,6 @@ NSInteger const SKPacketMinimumDataLength = 8;
 
 #pragma mark -
 
-- (BOOL)isValid
-{
-	return NO;
-}
-
 - (BOOL)scan:(NSError *)error
 {
 	NSMutableData *buff = [[NSMutableData alloc] initWithData:_data];
@@ -114,7 +92,7 @@ NSInteger const SKPacketMinimumDataLength = 8;
 		DLog(@"Found a TCP packet");
 		[_data release];
 		_data = [[buff subdataWithRange:NSMakeRange(0x08, packetStart)] retain];
-		NSData *dataString = [[self class] dataFromByteString:@"17050000 ffffffff ffffffff ffffffff ffffffff 01000000 01000000"];
+		NSData *dataString = [NSData dataFromByteString:@"17050000 ffffffff ffffffff ffffffff ffffffff 01000000 01000000"];
 		if( [_data isEqualToData:dataString] )
 		{
 			_type = SKPacketTypeEncryptionRequest;
@@ -222,7 +200,7 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	
 	NSString *randomPadding = @"18 05 00 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff 01 00 00 00 80 00 00 00";
 	NSMutableData *payLoad = [[NSMutableData alloc] init];
-	[payLoad appendData:[SKPacket dataFromByteString:randomPadding]];
+	[payLoad appendData:[NSData dataFromByteString:randomPadding]];
 	NSData *encryptedKey = [SKRSAEncryption encryptData:sessionKey];
 	[payLoad appendData:encryptedKey];
 	UInt32 crc = (UInt32)crc32(0, [encryptedKey bytes], (unsigned int)[encryptedKey length]);

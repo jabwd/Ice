@@ -55,6 +55,8 @@ static const unsigned int crc32table[] = {
 
 @interface NSData (XfireAdditions)
 
++ (NSData *)dataFromByteString:(NSString *)byteString;
+
 //+ (NSData *)newUUID;
 - (unsigned int)crc32;
 /*- (NSString *)sha1HexHash;
