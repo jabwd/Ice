@@ -7,31 +7,43 @@
 //
 
 #import "SKPacket.h"
+#import <zlib.h>
+#import "SKRSAEncryption.h"
 
-#define MAGIC_HEADER        0x31305456 // VS01
+#define UDP_HEADER			0x31305356 // VS01
+#define TCP_HEADER			0x31305456 // VT01
 #define MAGIC_XOR			0xA426DF2B
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
 #define PACKET_MAX_SIZE		65507
 
-NSInteger const SKPacketMinimumDataLength = 36;
+//NSInteger const SKPacketMinimumDataLength = 36;
+NSInteger const SKPacketMinimumDataLength = 8;
 
 @implementation SKPacket
 
++ (NSData *)dataFromByteString:(NSString *)byteString
+{
+	// Cleanup the string to actual bytes we can use
+	// Just in case we get the string from different kind of sources
+	NSString *dataString = [byteString stringByReplacingOccurrencesOfString:@" " withString:@""];
+	dataString = [dataString stringByReplacingOccurrencesOfString:@"0x" withString:@""];
+	
+	NSInteger bytes = (NSInteger)([dataString length]/2);
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	for(NSUInteger i = 0;i<bytes;i++)
+	{
+		NSString *byte = [dataString substringWithRange:NSMakeRange(i*2, 2)];
+		char actualByte = (char)strtol([byte UTF8String], NULL, 16);
+		[buffer appendBytes:&actualByte length:1];
+	}
+	return [buffer autorelease];
+}
+
 - (id)initWithDataString:(NSString *)dataString
 {
-	dataString = [dataString stringByReplacingOccurrencesOfString:@" " withString:@""];
 	if( (self = [super init]) )
 	{
-		NSInteger bytes = (NSInteger)([dataString length]/2);
-		NSMutableData *buffer = [[NSMutableData alloc] init];
-		for(NSUInteger i = 0;i<bytes;i++)
-		{
-			NSString *byte = [dataString substringWithRange:NSMakeRange(i*2, 2)];
-			char actualByte = (char)strtol([byte UTF8String], NULL, 16);
-			[buffer appendBytes:&actualByte length:1];
-		}
-		_data = [buffer retain];
-		[buffer release];
+		_data = [[[self class] dataFromByteString:dataString] retain];
 		[self scan:nil];
 	}
 	return self;
@@ -75,33 +87,39 @@ NSInteger const SKPacketMinimumDataLength = 36;
 {
 	NSMutableData *buff = [[NSMutableData alloc] initWithData:_data];
 	
-	if( [buff length] < 0x24 )
-	{
-		NSLog(@"Not enough data available to scan packet header");
-		[buff release];
-		return NO;
-	}
-	UInt32 steamPacket = 0;
-	[buff getBytes:&steamPacket length:sizeof(UInt32)];
-	if( steamPacket != 0x31305356 )
-	{
-		[buff release];
-		NSLog(@"Received a nonsteam packet! ( Magicheader NOT found ) %@", _data);
-		return NO;
-	}
+	UInt32 packetStart = 0;
+	UInt32 secondStart = 0;
+	[buff getBytes:&packetStart length:sizeof(UInt32)];
+	[buff getBytes:&secondStart range:NSMakeRange(0x04, sizeof(UInt32))];
 	
-	[buff getBytes:&_len			range:NSMakeRange(0x04, 0x2)];
-	[buff getBytes:&_type			range:NSMakeRange(0x06, 0x2)];
-	[buff getBytes:&_source			range:NSMakeRange(0x08, 0x4)];
-	[buff getBytes:&_destination	range:NSMakeRange(0x0C, 0x4)];
-	[buff getBytes:&_sequenceNumber range:NSMakeRange(0x10, 0x4)];
-	[buff getBytes:&_lastReceivedSeqNumber range:NSMakeRange(0x14, 0x4)];
-	[buff getBytes:&_splitCount		range:NSMakeRange(0x18, 0x4)];
-	[buff getBytes:&_firstSeqNumber range:NSMakeRange(0x1C, 0x4)];
-	[buff getBytes:&_dataLength		range:NSMakeRange(0x20, 0x04)];
-	
-	[_data release];
-	_data = [[buff subdataWithRange:NSMakeRange(0x24, _len)] retain];
+	if( packetStart == UDP_HEADER )
+	{
+		//[buff getBytes:&_len			range:NSMakeRange(0x04, 0x2)];
+		_len = (UInt16)secondStart;
+		[buff getBytes:&_type			range:NSMakeRange(0x06, 0x2)];
+		[buff getBytes:&_source			range:NSMakeRange(0x08, 0x4)];
+		[buff getBytes:&_destination	range:NSMakeRange(0x0C, 0x4)];
+		[buff getBytes:&_sequenceNumber range:NSMakeRange(0x10, 0x4)];
+		[buff getBytes:&_lastReceivedSeqNumber range:NSMakeRange(0x14, 0x4)];
+		[buff getBytes:&_splitCount		range:NSMakeRange(0x18, 0x4)];
+		[buff getBytes:&_firstSeqNumber range:NSMakeRange(0x1C, 0x4)];
+		[buff getBytes:&_dataLength		range:NSMakeRange(0x20, 0x04)];
+		
+		[_data release];
+		_data = [[buff subdataWithRange:NSMakeRange(0x24, _len)] retain];
+	}
+	else if( secondStart == TCP_HEADER )
+	{
+		// Should be a TCP packet, verify:
+		DLog(@"Found a TCP packet");
+		[_data release];
+		_data = [[buff subdataWithRange:NSMakeRange(0x08, packetStart)] retain];
+		NSData *dataString = [[self class] dataFromByteString:@"17050000 ffffffff ffffffff ffffffff ffffffff 01000000 01000000"];
+		if( [_data isEqualToData:dataString] )
+		{
+			_type = SKPacketTypeEncryptionRequest;
+		}
+	}
 	
 	[buff release];
 	return YES;
@@ -116,26 +134,36 @@ NSInteger const SKPacketMinimumDataLength = 36;
 	// seems obvious but should be researched regardless.
 	NSMutableData *finalBuffer	= [[NSMutableData alloc] init];
 	_len = (UInt16)[_data length];
-	UInt32 magicHeader			= 0x31305356;
-	
-	// Generate the packet header
-	[finalBuffer appendBytes:&magicHeader	length:sizeof(UInt32)];
-	[finalBuffer appendBytes:&_len			length:sizeof(UInt16)];
-	[finalBuffer appendBytes:&_type			length:sizeof(UInt16)];
-	[finalBuffer appendBytes:&_source		length:sizeof(UInt32)];
-	[finalBuffer appendBytes:&_destination	length:sizeof(UInt32)];
-	[finalBuffer appendBytes:&_sequenceNumber			length:sizeof(UInt32)];
-	[finalBuffer appendBytes:&_lastReceivedSeqNumber	length:sizeof(UInt32)];
-	[finalBuffer appendBytes:&_splitCount		length:sizeof(UInt32)];
-	[finalBuffer appendBytes:&_firstSeqNumber	length:sizeof(UInt32)];
-	[finalBuffer appendBytes:&_dataLength		length:sizeof(UInt32)];
-	
-	// Finally append the payload
-	if( [_data length] > 0 )
+	if( !_isTCP )
 	{
+		UInt32 magicHeader			= 0x31305356;
+		
+		// Generate the packet header
+		[finalBuffer appendBytes:&magicHeader	length:sizeof(UInt32)];
+		[finalBuffer appendBytes:&_len			length:sizeof(UInt16)];
+		[finalBuffer appendBytes:&_type			length:sizeof(UInt16)];
+		[finalBuffer appendBytes:&_source		length:sizeof(UInt32)];
+		[finalBuffer appendBytes:&_destination	length:sizeof(UInt32)];
+		[finalBuffer appendBytes:&_sequenceNumber			length:sizeof(UInt32)];
+		[finalBuffer appendBytes:&_lastReceivedSeqNumber	length:sizeof(UInt32)];
+		[finalBuffer appendBytes:&_splitCount		length:sizeof(UInt32)];
+		[finalBuffer appendBytes:&_firstSeqNumber	length:sizeof(UInt32)];
+		[finalBuffer appendBytes:&_dataLength		length:sizeof(UInt32)];
+		
+		// Finally append the payload
+		if( [_data length] > 0 )
+		{
+			[finalBuffer appendData:_data];
+		}
+	}
+	else
+	{
+		UInt32 header = TCP_HEADER;
+		UInt32 len = (UInt32)[_data length];
+		[finalBuffer appendBytes:&len length:4];
+		[finalBuffer appendBytes:&header length:4];
 		[finalBuffer appendData:_data];
 	}
-	
 	
 	return [finalBuffer autorelease];
 }
@@ -168,7 +196,7 @@ NSInteger const SKPacketMinimumDataLength = 36;
 	packet.type						= SKPacketTypeConnectChallengeResponse;
 	packet.sequenceNumber			= 1;
 	packet.destination				= 0;
-	packet.source					= 1024;
+	packet.source					= 1;
 	packet.splitCount				= 1;
 	packet.lastReceivedSeqNumber	= 1;
 	packet.firstSeqNumber			= 1;
@@ -178,15 +206,35 @@ NSInteger const SKPacketMinimumDataLength = 36;
 	return [packet autorelease];
 }
 
-+ (SKPacket *)encryptionResponsePacket:(NSData *)encryptedKey
++ (SKPacket *)encryptionResponsePacket:(NSData *)sessionKey tcp:(BOOL)isTCP
 {
 	SKPacket *packet = [[SKPacket alloc] init];
 	
-	packet.type = SKPacketTypeEncryptionResponse;
-	packet.sequenceNumber = 1;
+	if( isTCP )
+	{
+		packet.isTCP = true;
+	}
 	
+	packet.type						= SKPacketTypeEncryptionResponse;
+	packet.sequenceNumber			= 2;
+	packet.lastReceivedSeqNumber	= 3;
+	packet.source					= 1;
 	
-	
+	NSString *randomPadding = @"18 05 00 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff 01 00 00 00 80 00 00 00";
+	NSMutableData *payLoad = [[NSMutableData alloc] init];
+	[payLoad appendData:[SKPacket dataFromByteString:randomPadding]];
+	NSData *encryptedKey = [SKRSAEncryption encryptData:sessionKey];
+	[payLoad appendData:encryptedKey];
+	UInt32 crc = (UInt32)crc32(0, [encryptedKey bytes], (unsigned int)[encryptedKey length]);
+	[payLoad appendBytes:&crc length:4];
+	UInt32 len = 0;
+	[payLoad appendBytes:&len length:4];
+	packet.data = payLoad;
+	packet.dataLength = (UInt32)[payLoad length];
+	packet.splitCount = 1;
+	packet.firstSeqNumber = packet.sequenceNumber;
+	//packet.data = [[self class] dataFromByteString:@"18050000ffffffffffffffffffffffffffffffff0100000080000000721dcde4940716133b592b5cfee6eca9a6fd0224ead19218ce0ad17cae633f45eda0629b9216fc65385a233c327ae46f4d351dd547a93821847264c32a7b8002442695f92070302bf89a224a74cb8ace92a73f34e7023104773de7c0bea0a3380b7cdd29cce790a1360ccb45ee165a88593287bbb380a8d3735f23b0dc804ca3717e84f2 00000000"];
+	[payLoad release];
 	return [packet autorelease];
 }
 

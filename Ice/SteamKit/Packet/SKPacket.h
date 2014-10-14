@@ -13,10 +13,12 @@ typedef NS_ENUM(UInt16, SKPacketType)
 	SKPacketTypeUnknown						= -1,
 	SKPacketTypeConnectBegin				= 1,
 	SKPacketTypeConnectChallenge			= 2,
+	SKPacketTypeEncryptionRequest			= 1705,
 	SKPacketTypeConnectChallengeResponse	= 1027, // 0x0403
 	SKPacketTypeClientDestination			= 1028, // 0x0404
 	SKPacketTypeClient28ByteStream			= 1030, // 0x0406
 	SKPacketTypeEncryptionResponse			= 1030, // 0x0406
+	SKPacketTypeCorruptedPacketSent			= 1031, // 0x0407 // This is what I think it means, don't actually know.
 };
 
 extern NSInteger const SKPacketMinimumDataLength;
@@ -37,7 +39,7 @@ extern NSInteger const SKPacketMinimumDataLength;
 	UInt32			_firstSeqNumber;			// Sequence number of the first packet in the series
 	UInt32			_dataLength;				// Of the total message, so spans over more packets
 												// If split count > 1
-	
+	BOOL _isTCP;
 	BOOL _newPacket;				// Determines whether this is one we should scan or generate
 }
 
@@ -51,6 +53,9 @@ extern NSInteger const SKPacketMinimumDataLength;
 @property (assign) UInt32 splitCount;
 @property (assign) UInt32 firstSeqNumber;
 @property (assign) UInt32 dataLength;
+@property (assign) BOOL isTCP;
+
++ (NSData *)dataFromByteString:(NSString *)byteString;
 
 - (id)initWithDataString:(NSString *)dataString;
 - (id)initWithData:(NSData *)data;
@@ -64,6 +69,6 @@ extern NSInteger const SKPacketMinimumDataLength;
 
 + (SKPacket *)connectPacket;
 + (SKPacket *)connectChallengePacket:(NSData *)payload;
-+ (SKPacket *)encryptionResponsePacket:(NSData *)encryptedKey;
++ (SKPacket *)encryptionResponsePacket:(NSData *)sessionKey tcp:(BOOL)isTCP;
 
 @end

@@ -14,6 +14,4 @@
 	GCDAsyncSocket *_socket;
 }
 
-- (id)initWithAddress:(NSString *)address;
-
 @end

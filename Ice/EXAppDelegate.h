@@ -8,11 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class SKSession;
+
 @interface EXAppDelegate : NSObject <NSApplicationDelegate>
+{
+	SKSession *_session;
+}
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSTextField *packetDataField;
 
 - (IBAction)scanPacketData:(id)sender;
+
+- (IBAction)connect:(id)sender;
+- (IBAction)disconnect:(id)sender;
 
 @end

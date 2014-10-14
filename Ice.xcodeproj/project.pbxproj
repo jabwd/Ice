@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		360609B019EBC1C30003EA2D /* private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 360609AF19EBC1C30003EA2D /* private.pem */; };
 		360609B219EBC1CB0003EA2D /* public.pem in Resources */ = {isa = PBXBuildFile; fileRef = 360609B119EBC1CB0003EA2D /* public.pem */; };
+		360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 360609B319EBE12B0003EA2D /* libz.dylib */; };
+		360609B619EBF39A0003EA2D /* steamInternal.pem in Resources */ = {isa = PBXBuildFile; fileRef = 360609B519EBF39A0003EA2D /* steamInternal.pem */; };
+		3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613523D19ECB1060038A3A1 /* SKPacketScanner.m */; };
+		3613524319ECB12F0038A3A1 /* NSData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */; };
+		3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */; };
 		3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3671B6CB19E2E4A4000A02EF /* steamPublic.pem */; };
 		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
-		36B714BF19D17BB0006F08B3 /* NSData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714BC19D17BB0006F08B3 /* NSData_XfireAdditions.m */; };
-		36B714C019D17BB0006F08B3 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714BE19D17BB0006F08B3 /* NSMutableData_XfireAdditions.m */; };
 		36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714C819D2F36F006F08B3 /* SKAESEncryption.m */; };
 		36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B714CA19D2FB69006F08B3 /* Security.framework */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
@@ -48,15 +51,19 @@
 /* Begin PBXFileReference section */
 		360609AF19EBC1C30003EA2D /* private.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = private.pem; sourceTree = "<group>"; };
 		360609B119EBC1CB0003EA2D /* public.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public.pem; sourceTree = "<group>"; };
+		360609B319EBE12B0003EA2D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		360609B519EBF39A0003EA2D /* steamInternal.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamInternal.pem; sourceTree = "<group>"; };
+		3613523C19ECB1060038A3A1 /* SKPacketScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPacketScanner.h; path = SteamKit/Packet/SKPacketScanner.h; sourceTree = "<group>"; };
+		3613523D19ECB1060038A3A1 /* SKPacketScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPacketScanner.m; path = SteamKit/Packet/SKPacketScanner.m; sourceTree = "<group>"; };
+		3613523F19ECB12F0038A3A1 /* NSData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSData_XfireAdditions.h; path = SteamKit/NSData/NSData_XfireAdditions.h; sourceTree = "<group>"; };
+		3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSData_XfireAdditions.m; path = SteamKit/NSData/NSData_XfireAdditions.m; sourceTree = "<group>"; };
+		3613524119ECB12F0038A3A1 /* NSMutableData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableData_XfireAdditions.h; path = SteamKit/NSData/NSMutableData_XfireAdditions.h; sourceTree = "<group>"; };
+		3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableData_XfireAdditions.m; path = SteamKit/NSData/NSMutableData_XfireAdditions.m; sourceTree = "<group>"; };
 		3671B6CB19E2E4A4000A02EF /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamPublic.pem; sourceTree = "<group>"; };
 		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
 		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
 		36B714B719D07A4F006F08B3 /* SKSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSession.h; path = SteamKit/Session/SKSession.h; sourceTree = "<group>"; };
 		36B714B819D07A4F006F08B3 /* SKSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSession.m; path = SteamKit/Session/SKSession.m; sourceTree = "<group>"; };
-		36B714BB19D17BB0006F08B3 /* NSData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSData_XfireAdditions.h; sourceTree = "<group>"; };
-		36B714BC19D17BB0006F08B3 /* NSData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSData_XfireAdditions.m; sourceTree = "<group>"; };
-		36B714BD19D17BB0006F08B3 /* NSMutableData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableData_XfireAdditions.h; sourceTree = "<group>"; };
-		36B714BE19D17BB0006F08B3 /* NSMutableData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableData_XfireAdditions.m; sourceTree = "<group>"; };
 		36B714C719D2F36F006F08B3 /* SKAESEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKAESEncryption.h; path = SteamKit/Security/SKAESEncryption.h; sourceTree = "<group>"; };
 		36B714C819D2F36F006F08B3 /* SKAESEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKAESEncryption.m; path = SteamKit/Security/SKAESEncryption.m; sourceTree = "<group>"; };
 		36B714CA19D2FB69006F08B3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -98,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */,
 				36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */,
 				36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */,
 			);
@@ -127,10 +135,10 @@
 		36B714BA19D17BA4006F08B3 /* NSData */ = {
 			isa = PBXGroup;
 			children = (
-				36B714BB19D17BB0006F08B3 /* NSData_XfireAdditions.h */,
-				36B714BC19D17BB0006F08B3 /* NSData_XfireAdditions.m */,
-				36B714BD19D17BB0006F08B3 /* NSMutableData_XfireAdditions.h */,
-				36B714BE19D17BB0006F08B3 /* NSMutableData_XfireAdditions.m */,
+				3613523F19ECB12F0038A3A1 /* NSData_XfireAdditions.h */,
+				3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */,
+				3613524119ECB12F0038A3A1 /* NSMutableData_XfireAdditions.h */,
+				3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */,
 			);
 			name = NSData;
 			sourceTree = "<group>";
@@ -198,6 +206,7 @@
 		36E766DB19C6D54000D9C761 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				360609B319EBE12B0003EA2D /* libz.dylib */,
 				36B714CA19D2FB69006F08B3 /* Security.framework */,
 				36E766DC19C6D54000D9C761 /* Cocoa.framework */,
 				36E766FB19C6D54000D9C761 /* XCTest.framework */,
@@ -232,6 +241,7 @@
 		36E766E319C6D54000D9C761 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				360609B519EBF39A0003EA2D /* steamInternal.pem */,
 				360609B119EBC1CB0003EA2D /* public.pem */,
 				360609AF19EBC1C30003EA2D /* private.pem */,
 				3671B6CB19E2E4A4000A02EF /* steamPublic.pem */,
@@ -291,6 +301,8 @@
 			children = (
 				36E7671C19C707D900D9C761 /* SKPacket.h */,
 				36E7671D19C707D900D9C761 /* SKPacket.m */,
+				3613523C19ECB1060038A3A1 /* SKPacketScanner.h */,
+				3613523D19ECB1060038A3A1 /* SKPacketScanner.m */,
 			);
 			name = Packet;
 			sourceTree = "<group>";
@@ -372,6 +384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				360609B619EBF39A0003EA2D /* steamInternal.pem in Resources */,
 				36E766E719C6D54000D9C761 /* InfoPlist.strings in Resources */,
 				3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */,
 				36E766F519C6D54000D9C761 /* Images.xcassets in Resources */,
@@ -399,16 +412,17 @@
 			files = (
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */,
+				3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */,
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
 				36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */,
-				36B714BF19D17BB0006F08B3 /* NSData_XfireAdditions.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
 				369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */,
+				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
-				36B714C019D17BB0006F08B3 /* NSMutableData_XfireAdditions.m in Sources */,
+				3613524319ECB12F0038A3A1 /* NSData_XfireAdditions.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,7 +564,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
-					"$(PROJECT_DIR)/openssl-1.0.1i",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -570,7 +583,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
-					"$(PROJECT_DIR)/openssl-1.0.1i",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

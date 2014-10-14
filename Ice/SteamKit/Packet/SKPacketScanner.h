@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class SKConnection;
+
 @interface SKPacketScanner : NSObject
+{
+	SKConnection *_connection;
+}
+
+- (id)initWithConnection:(SKConnection *)connection;
+
+- (void)checkForPacket;
 
 @end

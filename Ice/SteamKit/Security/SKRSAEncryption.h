@@ -18,7 +18,7 @@
  *
  * @return NSData	the encrypted data
  */
-- (NSData *)encryptData:(NSData *)data;
++ (NSData *)encryptData:(NSData *)data;
 
 /**
  * Decrypts the given data with the given private key
@@ -27,5 +27,5 @@
  *
  * @return NSData	the decrypted data or nil
  */
-- (NSData *)decryptData:(NSData *)data;
++ (NSData *)decryptData:(NSData *)data;
 @end

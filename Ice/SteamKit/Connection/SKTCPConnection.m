@@ -8,37 +8,9 @@
 
 #import "SKTCPConnection.h"
 #import "SKPacket.h"
+#import "SKPacketScanner.h"
 
 @implementation SKTCPConnection
-
-- (id)initWithAddress:(NSString *)address
-{
-	if( (self = [super init]) )
-	{
-		// Parse the server address into a host
-		// and a port
-		NSArray *comp = [address componentsSeparatedByString:@":"];
-		if( [comp count] != 2 )
-		{
-			NSLog(@"Incorrect server address given! %@", address);
-			[self release];
-			return nil;
-		}
-		NSString *_host = [comp objectAtIndex:0];
-		UInt16 _port = (UInt16)[[comp objectAtIndex:1] integerValue];
-		
-		_socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-		
-		NSError *socketError = nil;
-		if( ![_socket connectToHost:_host onPort:_port error:&socketError] )
-		{
-			NSLog(@"Error on connecting %@", socketError);
-			[self release];
-			return nil;
-		}
-	}
-	return self;
-}
 
 - (void)dealloc
 {
@@ -52,14 +24,32 @@
 - (void)connect
 {
 	[super connect];
-	SKPacket *packet = [[SKPacket connectPacket] retain];
-	[self sendData:[packet generate]];
-	[packet release];
+	[_socket release];
+	_socket = nil;
+	_socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+	
+	NSError *socketError = nil;
+	if( ![_socket connectToHost:_host onPort:_port error:&socketError] )
+	{
+		NSLog(@"Error on connecting %@", socketError);
+		[self disconnect];
+	}
+}
+
+- (void)disconnect
+{
+	[super disconnect];
+	[_socket disconnect];
+	[_socket release];
+	_socket = nil;
 }
 
 - (void)sendData:(NSData *)data
 {
+	// Performs some checks that might be handy
 	[super sendData:nil];
+	
+	// Send the data over the socket
 	[_socket writeData:data withTimeout:20 tag:0];
 }
 
@@ -68,30 +58,23 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-	NSLog(@"Connected to host: %@", host);
+	DLog(@"Connected to host: %@:%u", host, port);
+	
+	_status = SKConnectionStatusOnline;
 	[_socket readDataWithTimeout:-1 tag:0];
-	[self connect];
-	/*NSMutableData *data = [[NSMutableData alloc] init];
-	UInt16 len = 0x00;
-	UInt32 magic = 0x31305456;
-	[data appendBytes:&len length:2];
-	[data appendBytes:&magic length:4];
-	[_socket writeData:data withTimeout:-1 tag:0];
-	[data release];*/
 }
 
-- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err{
-	NSLog(@"Socket did disconnect");
-}
-
-- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-	NSLog(@"Sent some data");
+	DLog(@"TCP Socket disconnected");
+	
+	_status = SKConnectionStatusOffline;
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-	NSLog(@"Got data: %@", data);
+	[_buffer appendData:data];
+	[_scanner checkForPacket];
 	[_socket readDataWithTimeout:-1 tag:0];
 }
 

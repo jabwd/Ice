@@ -7,6 +7,8 @@
 //
 
 #import "SKConnection.h"
+#import "SKPacket.h"
+#import "SKPacketScanner.h"
 
 @implementation SKConnection
 
@@ -28,20 +30,39 @@
     return nil;
 }
 
-- (id)init
+- (id)initWithAddress:(NSString *)address
 {
-    if( (self = [super init]) )
-    {
+	if( (self = [super init]) )
+	{
+		// Parse the server address into a host
+		// and a port
+		NSArray *comp = [address componentsSeparatedByString:@":"];
+		if( [comp count] != 2 )
+		{
+			NSLog(@"Incorrect server address given! %@", address);
+			[self release];
+			return nil;
+		}
+		_host = [[comp objectAtIndex:0] retain];
+		_port = (UInt16)[[comp objectAtIndex:1] integerValue];
+		
+		_scanner	= [[SKPacketScanner alloc] initWithConnection:self];
 		_status		= SKConnectionStatusOffline;
 		_buffer		= [[NSMutableData alloc] init];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)dealloc
 {
+	[_session release];
+	_session = nil;
+	[_host release];
+	_host = nil;
 	[_buffer release];
 	_buffer = nil;
+	[_scanner release];
+	_scanner = nil;
     [super dealloc];
 }
 
@@ -60,6 +81,7 @@
               [SKConnection connectionStatusToString:[self status]]);
         return;
     }
+	_status = SKConnectionStatusConnecting;
 }
 
 - (void)disconnect
@@ -71,6 +93,7 @@
               [SKConnection connectionStatusToString:[self status]]);
         return;
     }
+	_status = SKConnectionStatusDisconnecting;
 }
 
 - (void)sendData:(NSData *)data
@@ -81,57 +104,23 @@
     }
 }
 
-/*- (void)checkForPacket
+- (void)sendPacket:(SKPacket *)packet
 {
-	BOOL shouldContinue		= NO;
-	UInt32 packetLen			= 0;
-	[_buffer getBytes:&packetLen length:sizeof(UInt32)];
-	NSLog(@"Found a packet of length %u", (unsigned int)packetLen);
-	
-	// Check to see if we have enough data to scan this packet and create it
-	if( [_buffer length] >= packetLen )
+	// We need to up the sequence number of the packets we're sending
+	// this seems to be sufficient for now.
+	// if the packet has a predefined sequence number
+	// the template probably requires it to be that way, ignore it
+	if( packet.sequenceNumber == 0 )
 	{
-		UInt32 doubleSize = sizeof(UInt32)*2;
-		NSData *packetData = [_buffer subdataWithRange:NSMakeRange(doubleSize, packetLen)];
-		[_buffer replaceBytesInRange:NSMakeRange(0, packetLen+doubleSize) withBytes:NULL length:0];
-		SKPacket *packet = [[SKPacket alloc] initWithData:packetData];
-		if( [packet isValid] )
-		{
-			shouldContinue = YES;
-		}
-		[self handlePacket:packet];
-		[packet release];
+		//_sequence++;
+		//packet.sequenceNumber = _sequence;
 	}
-	
-	// Make sure the buffer is empty of all available packets
-	// that could be scanned
-	if( [_buffer length] > 3 && shouldContinue )
+	else
 	{
-		[self checkForPacket];
+		// Do nothing.
 	}
-}*/
-
-#pragma mark - GCDAsyncSocketDelegate
-
-/*- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
-{
-    NSLog(@"Connected to steam server %@:%u", host, port);
-	[sock readDataWithTimeout:-1 tag:0];
+	NSData *d = [packet generate];
+	[self sendData:d];
 }
-
-- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
-{
-	NSLog(@"Received data: %@", data);
-	
-	[_buffer appendData:data];
-	[self checkForPacket];
-	
-	[sock readDataWithTimeout:-1 tag:0];
-}
-
-- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
-{
-    NSLog(@"Wrote some data with tag %lu", tag);
-}*/
 
 @end
