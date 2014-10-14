@@ -35,6 +35,6 @@
  *
  * @return void
  */
-- (void)checkForPacket;
+- (void)checkForPacket:(NSData *)buffer;
 
 @end

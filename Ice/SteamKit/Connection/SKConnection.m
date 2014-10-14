@@ -123,4 +123,9 @@
 	[self sendData:d];
 }
 
+- (void)removeBytesOfLength:(NSUInteger)length
+{
+	[_buffer replaceBytesInRange:NSMakeRange(0, length) withBytes:NULL length:0];
+}
+
 @end

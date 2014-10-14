@@ -10,6 +10,7 @@
 #import "SKConnection.h"
 #import "SKPacket.h"
 #import "SKSession.h"
+#import "SKAESEncryption.h"
 
 @implementation SKPacketScanner
 
@@ -31,19 +32,32 @@
 
 #pragma mark - Implementation
 
-- (void)checkForPacket
+- (void)checkForPacket:(NSData *)buffer
 {
-	NSMutableData *buffer = _connection.buffer;
 	if( [buffer length] > SKPacketMinimumDataLength )
 	{
-		SKPacket *packet = [[SKPacket alloc] initWithData:buffer];
+		SKPacket *packet	= nil;
+		UInt32 first		= 0;
+		UInt32 second		= 0;
+		
+		// Scan the packet header
+		[buffer getBytes:&first length:4];
+		[buffer getBytes:&second range:NSMakeRange(0x04, 4)];
+		
+		if( second == SKPacketTCPMagicHeader )
+		{
+			packet = [SKPacket packetByDecodingTCPBuffer:[buffer subdataWithRange:NSMakeRange(0x08, first)]
+											  sessionKey:_connection.session.sessionKey
+												   error:nil];
+			[_connection removeBytesOfLength:(first+8)];
+		}
+		else if( first == SKPacketUDPMagicHeader )
+		{
+			//packet = [SKPacket packetByDecodingUDPBuffer:buffer error:nil];
+		}
+		
 		if( packet )
-		{			
-			// Properly empty the buffer
-			NSUInteger packetSize = SKPacketMinimumDataLength+[packet.data length];
-			[buffer replaceBytesInRange:NSMakeRange(0, packetSize) withBytes:NULL length:0];
-			
-			
+		{
 			switch(packet.type)
 			{
 				case SKPacketTypeConnectChallenge:
@@ -69,6 +83,13 @@
 				}
 					break;
 					
+				case SKPacketTypeEncryptionAccepted:
+				{
+					DLog(@"Encryption challenge accepted, starting login sequence");
+					[_connection.session logIn];
+				}
+					break;
+					
 				case SKPacketTypeClient28ByteStream:
 				{
 					// we don't really need this packet, we don't really care it seems.
@@ -91,7 +112,6 @@
 					break;
 			}
 		}
-		[packet release];
 	}
 }
 

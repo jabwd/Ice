@@ -96,7 +96,7 @@
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
 {
 	[_buffer appendData:data];
-	[_scanner checkForPacket];
+	[_scanner checkForPacket:_buffer];
 }
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didConnectToAddress:(NSData *)address

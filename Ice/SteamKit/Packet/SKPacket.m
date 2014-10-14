@@ -9,17 +9,58 @@
 #import "SKPacket.h"
 #import <zlib.h>
 #import "SKRSAEncryption.h"
+#import "SKAESEncryption.h"
 #import "NSData_XfireAdditions.h"
+#import "SKSession.h"
+#import "SteamConstants.h"
 
-#define UDP_HEADER			0x31305356 // VS01
-#define TCP_HEADER			0x31305456 // VT01
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
 #define PACKET_MAX_SIZE		65507
 
-//NSInteger const SKPacketMinimumDataLength = 36;
-NSInteger const SKPacketMinimumDataLength = 8;
+NSInteger const SKPacketMinimumDataLength = 8; // was 36 before, but lets leave it at this for now.
+NSInteger const SKPacketTCPMagicHeader = 0x31305456;
+NSInteger const SKPacketUDPMagicHeader = 0x31305356;
+
+UInt32 const SKlocalIPObfuscationMask	= 0xBAADF00D;
+UInt32 const SKProtocolVersion			= 65579;
+UInt32 const SKProtocolVersionMajorMask = 0xFFFF0000;
+UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 
 @implementation SKPacket
+
++ (SKPacket *)packetByDecodingTCPBuffer:(NSData *)buffer sessionKey:(NSData *)sessionKey error:(NSError **)error
+{
+	NSMutableData *buff = [[NSMutableData alloc] initWithData:buffer];
+	SKPacket *packet = [[SKPacket alloc] init];
+	// Detect what the packet type is
+	NSData *dataString		= [NSData dataFromByteString:@"17050000 ffffffff ffffffff ffffffff ffffffff 01000000 01000000"];
+	NSData *acceptedData	= [NSData dataFromByteString:@"19050000 ffffffff ffffffff ffffffff ffffffff 01000000"];
+	if( [buff isEqualToData:dataString] )
+	{
+		packet.type = SKPacketTypeEncryptionRequest;
+		packet.data = buff;
+	}
+	else if( [buff isEqualToData:acceptedData] )
+	{
+		packet.type = SKPacketTypeEncryptionAccepted;
+		packet.data = buff;
+	}
+	else
+	{
+		// idk what else.
+		// buff is encrypted data, we need to decrypt it.
+		packet.data = [SKAESEncryption decryptPacketData:buff key:sessionKey];
+	}
+	
+	
+	[buff release];
+	return [packet autorelease];
+}
+
++ (SKPacket *)packetByDecodingUDPBuffer:(NSData *)buffer error:(NSError **)error
+{
+	return nil;
+}
 
 - (id)initWithDataString:(NSString *)dataString
 {
@@ -27,25 +68,6 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	{
 		_data = [[NSData dataFromByteString:dataString] retain];
 		[self scan:nil];
-	}
-	return self;
-}
-
-- (id)initWithData:(NSData *)data
-{
-	if( (self = [super init]) )
-	{
-		_data = [data retain];
-		[self scan:nil];
-	}
-	return self;
-}
-
-- (id)init
-{
-	if( (self = [super init]) )
-	{
-		_data		= nil;
 	}
 	return self;
 }
@@ -68,9 +90,8 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	[buff getBytes:&packetStart length:sizeof(UInt32)];
 	[buff getBytes:&secondStart range:NSMakeRange(0x04, sizeof(UInt32))];
 	
-	if( packetStart == UDP_HEADER )
+	if( packetStart == SKPacketUDPMagicHeader )
 	{
-		//[buff getBytes:&_len			range:NSMakeRange(0x04, 0x2)];
 		_len = (UInt16)secondStart;
 		[buff getBytes:&_type			range:NSMakeRange(0x06, 0x2)];
 		[buff getBytes:&_source			range:NSMakeRange(0x08, 0x4)];
@@ -84,9 +105,8 @@ NSInteger const SKPacketMinimumDataLength = 8;
 		[_data release];
 		_data = [[buff subdataWithRange:NSMakeRange(0x24, _len)] retain];
 	}
-	else if( secondStart == TCP_HEADER )
+	else if( secondStart == SKPacketTCPMagicHeader )
 	{
-		// Should be a TCP packet, verify:
 		DLog(@"Found a TCP packet");
 		[_data release];
 		_data = [[buff subdataWithRange:NSMakeRange(0x08, packetStart)] retain];
@@ -134,7 +154,7 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	}
 	else
 	{
-		UInt32 header = TCP_HEADER;
+		UInt32 header = SKPacketTCPMagicHeader;
 		UInt32 len = (UInt32)[_data length];
 		[finalBuffer appendBytes:&len length:4];
 		[finalBuffer appendBytes:&header length:4];
@@ -188,7 +208,7 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	
 	if( isTCP )
 	{
-		packet.isTCP = true;
+		packet.isTCP = YES;
 	}
 	
 	packet.type						= SKPacketTypeEncryptionResponse;
@@ -210,6 +230,15 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	packet.splitCount = 1;
 	packet.firstSeqNumber = packet.sequenceNumber;
 	[payLoad release];
+	return [packet autorelease];
+}
+
++ (SKPacket *)logOnPacket:(NSString *)username password:(NSString *)password
+				 language:(NSString *)language
+{
+	SKPacket *packet	= [[SKPacket alloc] init];
+	packet.isTCP		= YES;
+	
 	return [packet autorelease];
 }
 

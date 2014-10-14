@@ -14,6 +14,7 @@
 		3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613523D19ECB1060038A3A1 /* SKPacketScanner.m */; };
 		3613524319ECB12F0038A3A1 /* NSData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */; };
 		3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */; };
+		3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524619ED2B1F0038A3A1 /* SKSentryFile.m */; };
 		3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3671B6CB19E2E4A4000A02EF /* steamPublic.pem */; };
 		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
@@ -59,6 +60,9 @@
 		3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSData_XfireAdditions.m; path = SteamKit/NSData/NSData_XfireAdditions.m; sourceTree = "<group>"; };
 		3613524119ECB12F0038A3A1 /* NSMutableData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableData_XfireAdditions.h; path = SteamKit/NSData/NSMutableData_XfireAdditions.h; sourceTree = "<group>"; };
 		3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableData_XfireAdditions.m; path = SteamKit/NSData/NSMutableData_XfireAdditions.m; sourceTree = "<group>"; };
+		3613524519ED2B1F0038A3A1 /* SKSentryFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSentryFile.h; path = SteamKit/Security/SKSentryFile.h; sourceTree = "<group>"; };
+		3613524619ED2B1F0038A3A1 /* SKSentryFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSentryFile.m; path = SteamKit/Security/SKSentryFile.m; sourceTree = "<group>"; };
+		3613524919ED78DA0038A3A1 /* SteamConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteamConstants.h; path = SteamKit/SteamConstants.h; sourceTree = "<group>"; };
 		3671B6CB19E2E4A4000A02EF /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamPublic.pem; sourceTree = "<group>"; };
 		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
 		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				36B714C819D2F36F006F08B3 /* SKAESEncryption.m */,
 				369715A219D4387A001D8653 /* SKRSAEncryption.h */,
 				369715A319D4387A001D8653 /* SKRSAEncryption.m */,
+				3613524519ED2B1F0038A3A1 /* SKSentryFile.h */,
+				3613524619ED2B1F0038A3A1 /* SKSentryFile.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -275,6 +281,7 @@
 		36E7671019C6D8BB00D9C761 /* SteamKit */ = {
 			isa = PBXGroup;
 			children = (
+				3613524919ED78DA0038A3A1 /* SteamConstants.h */,
 				36B714C619D2F350006F08B3 /* Security */,
 				36B714BA19D17BA4006F08B3 /* NSData */,
 				36B714B619D07A3A006F08B3 /* Session */,
@@ -412,6 +419,7 @@
 			files = (
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */,
+				3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */,
 				3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */,
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,

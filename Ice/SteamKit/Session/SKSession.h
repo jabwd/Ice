@@ -24,6 +24,8 @@ extern NSString *SKSessionStatusChangedNotificationName;
 
 @protocol SKSessionDelegate <NSObject>
 - (void)sessionChangedStatus:(SKSession *)session;
+- (NSString *)username;
+- (NSString *)password;
 @end
 
 @interface SKSession : NSObject
@@ -40,6 +42,8 @@ extern NSString *SKSessionStatusChangedNotificationName;
 @property (nonatomic, assign) id <SKSessionDelegate> delegate;
 @property (readonly) NSData *sessionKey;
 @property (readonly) SKSessionStatus status;
+
++ (id)sharedSession;
 
 /** 
  * Generates a sessionKey for use in the steam server communication
@@ -65,5 +69,16 @@ extern NSString *SKSessionStatusChangedNotificationName;
  * @return void
  */
 - (void)disconnect;
+
+/**
+ * Is called by the packetScanner when the Encryption challeng was accepted
+ * and we should start the login sequence.
+ *
+ * @return void
+ */
+- (void)logIn;
+
+- (NSString *)username;
+- (NSString *)password;
 
 @end

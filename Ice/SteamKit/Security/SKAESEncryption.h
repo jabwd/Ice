@@ -44,4 +44,7 @@
  */
 + (NSData *)decryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
 
++ (NSData *)encryptPacketData:(NSData *)packetData key:(NSData *)key;
++ (NSData *)decryptPacketData:(NSData *)packetData key:(NSData *)key;
+
 @end

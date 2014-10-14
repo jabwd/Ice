@@ -49,4 +49,6 @@ typedef enum {
 - (void)sendData:(NSData *)data;
 - (void)sendPacket:(SKPacket *)packet;
 
+- (void)removeBytesOfLength:(NSUInteger)length;
+
 @end

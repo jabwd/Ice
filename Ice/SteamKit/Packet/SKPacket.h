@@ -13,7 +13,10 @@ typedef NS_ENUM(UInt16, SKPacketType)
 	SKPacketTypeUnknown						= -1,
 	SKPacketTypeConnectBegin				= 1,
 	SKPacketTypeConnectChallenge			= 2,
-	SKPacketTypeEncryptionRequest			= 1705,
+	
+	SKPacketTypeEncryptionRequest			= 100,
+	SKPacketTypeEncryptionAccepted			= 101,
+	
 	SKPacketTypeConnectChallengeResponse	= 1027, // 0x0403
 	SKPacketTypeClientDestination			= 1028, // 0x0404
 	SKPacketTypeClient28ByteStream			= 1030, // 0x0406
@@ -22,6 +25,13 @@ typedef NS_ENUM(UInt16, SKPacketType)
 };
 
 extern NSInteger const SKPacketMinimumDataLength;
+extern NSInteger const SKPacketTCPMagicHeader;
+extern NSInteger const SKPacketUDPMagicHeader;
+
+extern UInt32 const		SKLocalIPObfuscationMask;
+extern UInt32 const		SKProtocolVersion;
+extern UInt32 const		SKProtocolVersionMajorMask;
+extern UInt32 const		SKProtocolVersionMinorMask;
 
 
 
@@ -54,8 +64,10 @@ extern NSInteger const SKPacketMinimumDataLength;
 @property (assign) UInt32 dataLength;
 @property (assign) BOOL isTCP;
 
++ (SKPacket *)packetByDecodingTCPBuffer:(NSData *)buffer sessionKey:(NSData *)sessionKey error:(NSError **)error;
++ (SKPacket *)packetByDecodingUDPBuffer:(NSData *)buffer error:(NSError **)error;
+
 - (id)initWithDataString:(NSString *)dataString;
-- (id)initWithData:(NSData *)data;
 
 - (NSData *)generate;
 - (NSData *)iv;
@@ -66,5 +78,7 @@ extern NSInteger const SKPacketMinimumDataLength;
 + (SKPacket *)connectPacket;
 + (SKPacket *)connectChallengePacket:(NSData *)payload;
 + (SKPacket *)encryptionResponsePacket:(NSData *)sessionKey tcp:(BOOL)isTCP;
++ (SKPacket *)logOnPacket:(NSString *)username password:(NSString *)password
+				 language:(NSString *)language;
 
 @end
