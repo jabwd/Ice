@@ -40,7 +40,6 @@ extern NSInteger const SKPacketMinimumDataLength;
 	UInt32			_dataLength;				// Of the total message, so spans over more packets
 												// If split count > 1
 	BOOL _isTCP;
-	BOOL _newPacket;				// Determines whether this is one we should scan or generate
 }
 
 @property (atomic, retain) NSData *data;

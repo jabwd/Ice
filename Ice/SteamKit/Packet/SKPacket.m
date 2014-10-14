@@ -13,7 +13,6 @@
 
 #define UDP_HEADER			0x31305356 // VS01
 #define TCP_HEADER			0x31305456 // VT01
-#define MAGIC_XOR			0xA426DF2B
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
 #define PACKET_MAX_SIZE		65507
 
@@ -47,7 +46,6 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	if( (self = [super init]) )
 	{
 		_data		= nil;
-		_newPacket	= true;
 	}
 	return self;
 }
@@ -198,7 +196,7 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	packet.lastReceivedSeqNumber	= 3;
 	packet.source					= 1;
 	
-	NSString *randomPadding = @"18 05 00 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff 01 00 00 00 80 00 00 00";
+	NSString *randomPadding = @"18050000 ffffffffffffffffffffffffffffffff 01000000 80000000";
 	NSMutableData *payLoad = [[NSMutableData alloc] init];
 	[payLoad appendData:[NSData dataFromByteString:randomPadding]];
 	NSData *encryptedKey = [SKRSAEncryption encryptData:sessionKey];
@@ -211,7 +209,6 @@ NSInteger const SKPacketMinimumDataLength = 8;
 	packet.dataLength = (UInt32)[payLoad length];
 	packet.splitCount = 1;
 	packet.firstSeqNumber = packet.sequenceNumber;
-	//packet.data = [[self class] dataFromByteString:@"18050000ffffffffffffffffffffffffffffffff0100000080000000721dcde4940716133b592b5cfee6eca9a6fd0224ead19218ce0ad17cae633f45eda0629b9216fc65385a233c327ae46f4d351dd547a93821847264c32a7b8002442695f92070302bf89a224a74cb8ace92a73f34e7023104773de7c0bea0a3380b7cdd29cce790a1360ccb45ee165a88593287bbb380a8d3735f23b0dc804ca3717e84f2 00000000"];
 	[payLoad release];
 	return [packet autorelease];
 }
@@ -236,14 +233,6 @@ NSInteger const SKPacketMinimumDataLength = 8;
 
 + (void)transform:(NSData *)input
 {
-	// Potential key: f2c30bfa
-	// Other keys:
-	// A426DF2B | SteamFriends WIKIPage
-	// -- Further protocol examning shows I had to turn the bytes around
-	// Its what I did below:
-	/*char keyBytes[4] = {
-		0xA4, 0x26, 0xDF, 0x2B
-	};*/
 	char keyBytes[4] = {
 		0x2B, 0xDF, 0x26, 0xA4
 	};
