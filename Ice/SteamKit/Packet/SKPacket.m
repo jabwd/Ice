@@ -239,6 +239,13 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	SKPacket *packet	= [[SKPacket alloc] init];
 	packet.isTCP		= YES;
 	
+	NSMutableData *data = [[NSMutableData alloc] init];
+	[data appendBytes:&SKProtocolVersion length:4];
+	SKOSType type = SKOSTypeMacOSX;
+	[data appendBytes:&type length:sizeof(SKOSType)];
+	[data appendData:[@"english" dataUsingEncoding:NSUTF8StringEncoding]];
+	[data release];
+	
 	return [packet autorelease];
 }
 
