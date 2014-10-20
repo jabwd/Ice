@@ -48,7 +48,7 @@
 {
 	// Performs some checks that might be handy
 	[super sendData:nil];
-	DLog(@"%@", data);
+	
 	// Send the data over the socket
 	[_socket writeData:data withTimeout:20 tag:0];
 }

@@ -119,10 +119,10 @@
 + (NSData *)encryptPacketData:(NSData *)packetData key:(NSData *)key
 {
 	NSData *iv = [self generateRandomData:16];
-	NSData *encryptedIV = nil;
-	SecKeyRef cryptoKey = NULL;
+	NSData *encryptedIV		= nil;
+	SecKeyRef cryptoKey		= NULL;
 	SecTransformRef encrypt = NULL;
-	CFErrorRef error = NULL;
+	CFErrorRef error		= NULL;
 	
 	DLog(@"Chosen IV: %@", iv);
 	
@@ -149,7 +149,8 @@
 	}
 	CFRelease(encrypt);
 	encrypt = SecEncryptTransformCreate(cryptoKey, &error);
-	
+	[encryptedIV autorelease];
+	encryptedIV = [[encryptedIV subdataWithRange:NSMakeRange(0, 16)] retain];
 	SecTransformSetAttribute(encrypt, kSecTransformInputAttributeName, (CFDataRef)packetData, &error);
 	SecTransformSetAttribute(encrypt, kSecPaddingKey, kSecPaddingPKCS7Key, &error);
 	SecTransformSetAttribute(encrypt, kSecEncryptionMode, kSecModeCBCKey, &error);
@@ -159,8 +160,6 @@
 	NSMutableData *final = [[NSMutableData alloc] initWithData:encryptedIV];
 	[final appendData:result];
 	[result release];
-	
-	NSLog(@"%lu", [packetData length]);
 	
 	// Cleanup
 	[encryptedIV release];

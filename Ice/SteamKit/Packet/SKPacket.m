@@ -240,10 +240,18 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	packet.isTCP		= YES;
 	
 	NSMutableData *data = [[NSMutableData alloc] init];
-	[data appendBytes:&SKProtocolVersion length:4];
-	SKOSType type = SKOSTypeMacOSX;
-	[data appendBytes:&type length:sizeof(SKOSType)];
-	[data appendData:[@"english" dataUsingEncoding:NSUTF8StringEncoding]];
+	//[data appendBytes:&SKProtocolVersion length:4];
+	//SKOSType type = SKOSTypeMacOSX;
+	//[data appendBytes:&type length:sizeof(SKOSType)];
+	//[data appendData:[@"english" dataUsingEncoding:NSUTF8StringEncoding]];
+	NSData *unknownData = [NSData dataFromByteString:@"8a 15 00 80 09 00 00 00 09 00 00 00 00 01 00 1001 08 ab 80 04 10 8e e4 97 d0 07 28 eb 0d 32 0765 6e 67 6c 69 73 68 38 b5 fe ff ff 0f 92 03 08"];
+	[data appendData:unknownData];
+	[data appendData:[username dataUsingEncoding:NSUTF8StringEncoding]];
+	NSData *sep = [NSData dataFromByteString:@"9a 03 09"];
+	[data appendData:sep];
+	[data appendData:[password dataUsingEncoding:NSUTF8StringEncoding]];
+	[data appendData:[NSData dataFromByteString:@"90 05 09"]];
+	packet.data = data;
 	[data release];
 	
 	return [packet autorelease];
