@@ -16,8 +16,12 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSTextField *packetDataField;
+@property (assign) IBOutlet NSTextField *sessionKeyField;
+@property (assign) IBOutlet NSTextField *dataField;
 
 - (IBAction)scanPacketData:(id)sender;
+- (IBAction)decryptData:(id)sender;
+- (IBAction)encryptData:(id)sender;
 
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
