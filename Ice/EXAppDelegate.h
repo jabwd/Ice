@@ -18,6 +18,8 @@
 @property (assign) IBOutlet NSTextField *packetDataField;
 @property (assign) IBOutlet NSTextField *sessionKeyField;
 @property (assign) IBOutlet NSTextField *dataField;
+@property (assign) IBOutlet NSTextField *usernameField;
+@property (assign) IBOutlet NSTextField *passwordField;
 
 - (IBAction)scanPacketData:(id)sender;
 - (IBAction)decryptData:(id)sender;
