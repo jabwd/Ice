@@ -58,52 +58,20 @@
 		
 		if( packet )
 		{
-			switch(packet.type)
+			switch(packet.msgType)
 			{
-				case SKPacketTypeConnectChallenge:
+				case SKMsgTypeChannelEncryptRequest:
 				{
-					SKPacket *responsePacket = [[SKPacket connectChallengePacket:packet.data] retain];
-					[_connection sendPacket:responsePacket];
-					[responsePacket release];
-				}
-					break;
-					
-				case SKPacketTypeClientDestination:
-				{
-					_connection.destination = packet.source;
-					DLog(@"=> Received destination: %u", _connection.destination);
-				}
-					break;
-					
-				case SKPacketTypeEncryptionRequest:
-				{
-					SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:_connection.session.sessionKey tcp:true] retain];
+					SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:_connection.session.sessionKey] retain];
 					[_connection sendPacket:encryptionResponse];
 					[encryptionResponse release];
 				}
 					break;
 					
-				case SKPacketTypeEncryptionAccepted:
+				case SKMsgTypeChannelEncryptResult:
 				{
 					DLog(@"Encryption challenge accepted, starting login sequence");
 					[_connection.session logIn];
-				}
-					break;
-					
-				case SKPacketTypeClient28ByteStream:
-				{
-					// we don't really need this packet, we don't really care it seems.
-					// you are probably supposed to use this as some knid of salt in the sessionID
-					// but I don't really know how much it actually matters.
-					static BOOL first = true;
-					if( first )
-					{
-						SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:_connection.session.sessionKey tcp:false] retain];
-						encryptionResponse.destination = _connection.destination;
-						[_connection sendPacket:encryptionResponse];
-						[encryptionResponse release];
-						first = true;
-					}
 				}
 					break;
 					

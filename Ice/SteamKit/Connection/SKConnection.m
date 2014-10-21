@@ -106,21 +106,7 @@
 
 - (void)sendPacket:(SKPacket *)packet
 {
-	// We need to up the sequence number of the packets we're sending
-	// this seems to be sufficient for now.
-	// if the packet has a predefined sequence number
-	// the template probably requires it to be that way, ignore it
-	if( packet.sequenceNumber == 0 )
-	{
-		//_sequence++;
-		//packet.sequenceNumber = _sequence;
-	}
-	else
-	{
-		// Do nothing.
-	}
-	NSData *d = [packet generate];
-	[self sendData:d];
+	[self sendData:packet.raw];
 }
 
 - (void)removeBytesOfLength:(NSUInteger)length

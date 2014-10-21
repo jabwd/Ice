@@ -48,7 +48,7 @@
 {
 	// Performs some checks that might be handy
 	[super sendData:nil];
-	
+	DLog(@"Send data: %@", data);
 	// Send the data over the socket
 	[_socket writeData:data withTimeout:20 tag:0];
 }
@@ -73,7 +73,7 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-	DLog(@"%@", data);
+	DLog(@"Received data: %@", data);
 	[_buffer appendData:data];
 	[_scanner checkForPacket:_buffer];
 	[_socket readDataWithTimeout:-1 tag:0];

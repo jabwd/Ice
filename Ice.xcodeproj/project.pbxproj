@@ -63,6 +63,7 @@
 		3613524519ED2B1F0038A3A1 /* SKSentryFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSentryFile.h; path = SteamKit/Security/SKSentryFile.h; sourceTree = "<group>"; };
 		3613524619ED2B1F0038A3A1 /* SKSentryFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSentryFile.m; path = SteamKit/Security/SKSentryFile.m; sourceTree = "<group>"; };
 		3613524919ED78DA0038A3A1 /* SteamConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteamConstants.h; path = SteamKit/SteamConstants.h; sourceTree = "<group>"; };
+		363C842919F65AC500DC3CCD /* MsgType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MsgType.h; path = SteamKit/MsgType.h; sourceTree = "<group>"; };
 		3671B6CB19E2E4A4000A02EF /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamPublic.pem; sourceTree = "<group>"; };
 		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
 		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
@@ -281,6 +282,7 @@
 		36E7671019C6D8BB00D9C761 /* SteamKit */ = {
 			isa = PBXGroup;
 			children = (
+				363C842919F65AC500DC3CCD /* MsgType.h */,
 				3613524919ED78DA0038A3A1 /* SteamConstants.h */,
 				36B714C619D2F350006F08B3 /* Security */,
 				36B714BA19D17BA4006F08B3 /* NSData */,

@@ -1,3 +1,5 @@
+#import "MsgType.h"
+
 typedef NS_ENUM(UInt32, SKOSType)
 {
 	SKOSTypeUnknown = -1,

@@ -103,9 +103,9 @@
 {
 	_recvSeq	= 1;
 	_sequence	= 1;
-	SKPacket *p = [[SKPacket connectPacket] retain];
+	/*SKPacket *p = [[SKPacket connectPacket] retain];
 	[self sendPacket:p];
-	[p release];
+	[p release];*/
 }
 
 @end

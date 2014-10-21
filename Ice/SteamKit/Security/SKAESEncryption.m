@@ -124,8 +124,6 @@
 	SecTransformRef encrypt = NULL;
 	CFErrorRef error		= NULL;
 	
-	DLog(@"Chosen IV: %@", iv);
-	
 	CFMutableDictionaryRef params = CFDictionaryCreateMutable(
 															  kCFAllocatorDefault,
 															  0,
@@ -174,7 +172,6 @@
 	// Parse the packet data in the 2 parts we want
 	NSData *encryptedIV			= [packetData subdataWithRange:NSMakeRange(0, 16)];
 	NSData *encryptedMessage	= [packetData subdataWithRange:NSMakeRange(16, [packetData length]-16)];
-	NSLog(@"%lu", [encryptedMessage length]);
 	
 	CFErrorRef error = nil;
 	CFMutableDictionaryRef params = CFDictionaryCreateMutable(
@@ -206,7 +203,6 @@
 	}
 	
 	NSData *decryptedIV = (NSData *)SecTransformExecute(decrypt, &error);
-	DLog(@"Decrypted IV: %@", decryptedIV);
 	CFRelease(decrypt);
 	decrypt = SecDecryptTransformCreate(cryptoKey, &error);
 	
