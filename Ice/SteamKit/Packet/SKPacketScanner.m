@@ -49,11 +49,13 @@
 			packet = [SKPacket packetByDecodingTCPBuffer:[buffer subdataWithRange:NSMakeRange(0x08, first)]
 											  sessionKey:_connection.session.sessionKey
 												   error:nil];
+			
+			// Removes the packetdata from the connection's buffer.
 			[_connection removeBytesOfLength:(first+8)];
 		}
 		else if( first == SKPacketUDPMagicHeader )
 		{
-			//packet = [SKPacket packetByDecodingUDPBuffer:buffer error:nil];
+			DLog(@"UDP Packets are not supported right now");
 		}
 		
 		if( packet )
@@ -70,8 +72,13 @@
 					
 				case SKMsgTypeChannelEncryptResult:
 				{
-					DLog(@"Encryption challenge accepted, starting login sequence");
 					[_connection.session logIn];
+				}
+					break;
+					
+				case SKMsgTypeClientLogOnResponse:
+				{
+					
 				}
 					break;
 					

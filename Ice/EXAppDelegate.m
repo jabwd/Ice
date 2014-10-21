@@ -11,11 +11,13 @@
 #import "SKSession.h"
 #import "NSData_XfireAdditions.h"
 #import "SKAESEncryption.h"
+#import "SKSentryFile.h"
 
 @implementation EXAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{	
+{
+	self.window.titlebarAppearsTransparent=YES;
 	/*
 	 cf5ba375723a8fac4ad0a267009159f92d106e84e1c5efc2e93413f2ac42f3af
 	 91ef00e2a8a4cd95172844dae9b0ea46af60904b5f885e466cd6114989773822d6bc6b812906cbfd2ede52d667caf9c2510b5082f3aba152f976baffa8f7a052e3b44ff42f09fcfc490aab82128a5a8af70bcc668cd45849b476dc25eee06b75
