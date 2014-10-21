@@ -25,100 +25,9 @@
 	return [buffer autorelease];
 }
 
-+ (NSData *)encryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
-{
-	NSUInteger bytesSize = 128;
-	
-	// Determine how big our buffer needs to be to support the data we want to encrypt
-	if( [data length] > 128 )
-	{
-		NSInteger rest = [data length] % 16;
-		NSInteger multiple = (NSInteger)[data length] / 16;
-		if( rest > 0 )
-		{
-			multiple++;
-		}
-		bytesSize = 16*multiple;
-		DLog(@"=> Using %lu as buffer size for AES encryption", bytesSize);
-	}
-	
-	size_t bufferSize	= bytesSize + kCCBlockSizeAES128;
-	size_t numBytesEncrypted;
-    void *buffer		= malloc(bufferSize);
-	
-	// make sure the data buffer is of hte right size
-	// append with 0's if needed.
-	NSMutableData *finalData = [[NSMutableData alloc] initWithCapacity:bytesSize];
-	if( [data length] < bytesSize )
-	{
-		NSUInteger missingBytes = bytesSize-[data length];
-		[finalData appendData:data];
-		char *bytes = (char*)malloc(sizeof(char)*missingBytes);
-		memset(bytes, 0, missingBytes);
-		[finalData appendBytes:bytes length:missingBytes];
-		free(bytes);
-		if( [finalData length] != bytesSize )
-		{
-			DLog(@"Finaldata buffer not equal size to the requested size, something went wrong with the padding.");
-			[finalData release];
-			free(buffer);
-			return nil;
-		}
-	}
-	
-	CCCryptorStatus status = CCCrypt(
-		kCCEncrypt,
-		kCCAlgorithmAES128,
-		kCCOptionPKCS7Padding,
-		[key bytes],
-		kCCKeySizeAES256,
-		[iv bytes],
-		[finalData bytes],
-		[finalData length],
-		buffer, bufferSize,
-		&numBytesEncrypted
-	);
-	[finalData release];
-	
-	if( status == kCCSuccess )
-	{
-		NSData *result = [[NSData alloc] initWithBytesNoCopy:buffer length:bufferSize];
-		return [result autorelease];
-	}
-	free(buffer);
-	return nil;
-}
-
-+ (NSData *)decryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
-{
-	size_t bufferSize	= [data length] + kCCBlockSizeAES128;
-	size_t numBytesEncrypted;
-    void *buffer		= malloc(bufferSize);
-	CCCryptorStatus status = CCCrypt(
-									 kCCDecrypt,
-									 kCCAlgorithmAES128,
-									 kCCOptionPKCS7Padding,
-									 [key bytes],
-									 kCCKeySizeAES256,
-									 [iv bytes],
-									 [data bytes],
-									 [data length],
-									 buffer, bufferSize,
-									 &numBytesEncrypted
-									 );
-	
-	if( status == kCCSuccess )
-	{
-		NSData *result = [[NSData alloc] initWithBytesNoCopy:buffer length:bufferSize];
-		return [result autorelease];
-	}
-	free(buffer);
-	return nil;
-}
-
 + (NSData *)encryptPacketData:(NSData *)packetData key:(NSData *)key
 {
-	NSData *iv = [self generateRandomData:16];
+	NSData *iv				= [self generateRandomData:16];
 	NSData *encryptedIV		= nil;
 	SecKeyRef cryptoKey		= NULL;
 	SecTransformRef encrypt = NULL;
@@ -131,6 +40,7 @@
 															  &kCFTypeDictionaryValueCallBacks
 															  );
 	
+	// Create the SecKeyRef and the cryptor for the IV
 	CFDictionarySetValue(params, kSecAttrKeyType, kSecAttrKeyTypeAES);
 	cryptoKey	= SecKeyCreateFromData(params, (CFDataRef)key, &error);
 	encrypt		= SecEncryptTransformCreate(cryptoKey, &error);
@@ -140,22 +50,31 @@
 	SecTransformSetAttribute(encrypt, kSecEncryptionMode, kSecModeECBKey, &error);
 	SecTransformSetAttribute(encrypt, kSecIVKey, NULL, &error);
 	
+	// Encrypt the IV for appeding to the front of the packet data
 	encryptedIV = (NSData *)SecTransformExecute(encrypt, &error);
 	if( error )
 	{
 		DLog(@"Encryption error: %@", (NSError *)error);
 	}
 	CFRelease(encrypt);
+	
+	// Create the cryptor for the packet data
 	encrypt = SecEncryptTransformCreate(cryptoKey, &error);
-	[encryptedIV autorelease];
-	encryptedIV = [[encryptedIV subdataWithRange:NSMakeRange(0, 16)] retain];
 	SecTransformSetAttribute(encrypt, kSecTransformInputAttributeName, (CFDataRef)packetData, &error);
 	SecTransformSetAttribute(encrypt, kSecPaddingKey, kSecPaddingPKCS7Key, &error);
 	SecTransformSetAttribute(encrypt, kSecEncryptionMode, kSecModeCBCKey, &error);
 	SecTransformSetAttribute(encrypt, kSecIVKey, (CFDataRef)iv, &error);
 	
+	// Encrypt the packet data itselllf using the non-encrypted IV and AES/CBC/PKCS7
 	NSData *result = (NSData *)SecTransformExecute(encrypt, &error);
-	NSMutableData *final = [[NSMutableData alloc] initWithData:encryptedIV];
+	if( error )
+	{
+		DLog(@"Encryption error: %@", (NSError *)error);
+	}
+	
+	// Generate the final data by appending the 16 byte encrypted IV to the front
+	// of the encrypted packet data
+	NSMutableData *final = [[NSMutableData alloc] initWithData:[encryptedIV subdataWithRange:NSMakeRange(0, 16)]];
 	[final appendData:result];
 	[result release];
 	
