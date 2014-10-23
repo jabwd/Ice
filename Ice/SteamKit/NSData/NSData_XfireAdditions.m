@@ -17,7 +17,6 @@
 *******************************************************************/
 
 #import "NSData_XfireAdditions.h"
-//#include <openssl/sha.h>
 
 @implementation NSData (XfireAdditions)
 
@@ -58,35 +57,6 @@
 	}
 	return crc32;
 }
-
-/*- (NSData *)sha1Hash
-{
-	SHA_CTX			ctx;
-	unsigned char	hash[SHA_DIGEST_LENGTH];
-	
-	SHA1_Init(&ctx);
-	SHA1_Update(&ctx,[self bytes],[self length]);
-	SHA1_Final(hash,&ctx);
-	
-	return [NSData dataWithBytes:hash length:SHA_DIGEST_LENGTH];
-}
-
-- (NSString *)sha1HexHash {
-	unsigned char digest[SHA_DIGEST_LENGTH];
-	char hashString[(2 * SHA_DIGEST_LENGTH) + 1];
-	
-	SHA1([self bytes], [self length], digest);
-	
-	NSInteger currentIndex = 0;
-	
-	for (currentIndex = 0; currentIndex < SHA_DIGEST_LENGTH; currentIndex++) {
-		
-		sprintf(hashString+currentIndex*2, "%02x", digest[currentIndex]);
-	}
-	hashString[currentIndex * 2] = 0;
-	
-	return [NSString stringWithUTF8String:(const char *)hashString];
-}*/
 
 // prints raw hex + ascii
 - (NSString *)enhancedDescription
@@ -164,24 +134,6 @@
 	return YES;
 }
 
-/*+ (NSData *)newUUID
-{
-	CFUUIDRef uuid;
-	NSData    *dat = nil;
-	
-	uuid = CFUUIDCreate(nil);
-	if( uuid != nil )
-	{
-		CFUUIDBytes bytes;
-		
-		bytes = CFUUIDGetUUIDBytes(uuid);
-		dat = [NSData dataWithBytes:&bytes length:16];
-		
-		CFRelease(uuid);
-	}
-	return dat;
-}*/
-
 - (NSData *)dataByTruncatingZeroedData {
 	NSMutableData *data = [NSMutableData data];
 	NSUInteger length = [self length];
@@ -225,6 +177,22 @@
 		[stringRepresentation appendFormat:@"%02x", (unsigned char)bytes[index]];
 	}
 	return [[stringRepresentation copy] autorelease];
+}
+
+#pragma mark - SteamKit extras
+
+- (UInt32)getUInt32
+{
+	UInt32 value = 0;
+	[self getBytes:&value length:sizeof(UInt32)];
+	return value;
+}
+
+- (UInt16)getUInt16
+{
+	UInt16 value = 0;
+	[self getBytes:&value length:sizeof(UInt16)];
+	return value;
 }
 
 @end
