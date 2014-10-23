@@ -42,6 +42,8 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 		// idk what else.
 		// buff is encrypted data, we need to decrypt it.
 		packet.data = [SKAESEncryption decryptPacketData:buff key:sessionKey];
+		[packet.data getBytes:&type length:4];
+		packet.msgType = (type ^ 0x80000000);
 	}
 	else
 	{
@@ -93,6 +95,15 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	[finalBuffer appendData:_data];
 	
 	return [finalBuffer autorelease];
+}
+
+- (BOOL)isProtobufPacket
+{
+	if( (self.msgType & 0x80000000) > 0 )
+	{
+		return YES;
+	}
+	return NO;
 }
 
 #pragma mark - Packet templates

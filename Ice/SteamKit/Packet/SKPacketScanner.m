@@ -62,6 +62,12 @@
 		{
 			switch(packet.msgType)
 			{
+				case SKMsgTypeMulti:
+				{
+					NSLog(@"Received a multi packet");
+				}
+					break;
+					
 				case SKMsgTypeChannelEncryptRequest:
 				{
 					SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:_connection.session.sessionKey] retain];

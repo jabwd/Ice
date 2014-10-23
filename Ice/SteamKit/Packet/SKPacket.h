@@ -37,6 +37,8 @@ extern UInt32 const		SKProtocolVersionMinorMask;
 
 - (NSData *)generate;
 
+- (BOOL)isProtobufPacket;
+
 //----------------------------------------------------------------------------------------------+
 // Packet templates
 
