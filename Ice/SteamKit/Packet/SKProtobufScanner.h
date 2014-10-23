@@ -31,6 +31,8 @@ extern NSUInteger const ProtoMask; // AND for isProto, XOR for STRIP
 
 #pragma mark - Accessing the data stream
 
++ (UInt32)readVarint:(NSData *)data;
+
 /**
  * Loads the given Mapping file from the disk
  * by looking in the appBundle

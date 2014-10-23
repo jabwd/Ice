@@ -7,6 +7,7 @@
 //
 
 #import "SKProtobufScanner.h"
+#import "NSData_XfireAdditions.h"
 
 NSUInteger const ProtoMask = 0x80000000;
 
@@ -36,12 +37,45 @@ NSUInteger const ProtoMask = 0x80000000;
 	[super dealloc];
 }
 
-#pragma mark - Implementation
+#pragma mark - Implementation Scanner
+
++ (void)swapBytes:(UInt8 *)bytes
+{
+	UInt8 buff = 0;
+	
+	buff = bytes[0];
+	bytes[0] = bytes[3];
+	bytes[3] = buff;
+	buff = bytes[1];
+	bytes[1] = bytes[2];
+	bytes[2] = buff;
+}
 
 - (void)performScan
 {
 	
 }
+
++ (UInt32)readVarint:(NSData *)data
+{
+	UInt8 *bytes = (UInt8*)[data bytes];
+	
+	UInt32 value = 0;
+	NSUInteger i= 0;
+	for(;i<4;i++)
+	{
+		UInt8 b = bytes[i];
+		value |= (b & 0x7F) << (7*i);
+		
+		if( (b & 0x80) == 0 )
+		{
+			break; // End found.
+		}
+	}
+	return value;
+}
+
+#pragma mark - Public class methods
 
 - (void)loadMap:(NSString *)mapName
 {

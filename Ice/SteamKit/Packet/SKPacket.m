@@ -41,7 +41,14 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	{
 		// idk what else.
 		// buff is encrypted data, we need to decrypt it.
-		packet.data = [SKAESEncryption decryptPacketData:buff key:sessionKey];
+		if( sessionKey )
+		{
+			packet.data = [SKAESEncryption decryptPacketData:buff key:sessionKey];
+		}
+		else
+		{
+			packet.data = buff;
+		}
 		[packet.data getBytes:&type length:4];
 		packet.msgType = (type ^ 0x80000000);
 	}

@@ -31,6 +31,9 @@
 	NSLog(@"%@", [[NSData dataFromByteString:@"01000080 00000000 12b88080 80003400 0000ef02 00800d00 000009ae 63320a01 00100110 edcf2e08 3f420967 6d61696c 2e636f6d 503fa101 ae63320a 01001001 c00100c8 0100"] enhancedDescription]);
 	
 	[self connect:nil];*/
+	
+	NSData *data = [NSData dataFromByteString:@"01000080 00000000 12b88080 80003400 0000ef02 00800d00 000009ae 63320a01 00100110 cfe90308 3f420967 6d61696c 2e636f6d 503fa101 ae63320a 01001001 c00100c8 0100"];
+	[data writeToFile:@"/Users/jabwd/Desktop/RawBuff.bin" atomically:NO];
 }
 
 - (IBAction)scanPacketData:(id)sender
