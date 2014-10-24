@@ -83,6 +83,19 @@
 - (void)sessionChangedStatus:(SKSession *)session
 {
 	DLog(@"Session changed: %u", session.status);
+	switch((SKSessionStatus)session.status)
+	{
+		case SKSessionStatusOffline:
+		{
+			_session.delegate = nil;
+			[_session release];
+			_session = nil;
+		}
+			break;
+			
+		default:
+			break;
+	}
 }
 
 - (NSString *)username

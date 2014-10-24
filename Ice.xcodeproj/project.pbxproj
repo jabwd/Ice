@@ -20,6 +20,7 @@
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
 		36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714C819D2F36F006F08B3 /* SKAESEncryption.m */; };
 		36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B714CA19D2FB69006F08B3 /* Security.framework */; };
+		36CB760819F8A58700F0B691 /* EXProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB760719F8A58700F0B691 /* EXProtobufScanner.m */; };
 		36D8F5B519F6A2F600C3D4BE /* SteamGuard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36D8F5B419F6A2F600C3D4BE /* SteamGuard.xib */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
@@ -73,6 +74,8 @@
 		36B714C719D2F36F006F08B3 /* SKAESEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKAESEncryption.h; path = SteamKit/Security/SKAESEncryption.h; sourceTree = "<group>"; };
 		36B714C819D2F36F006F08B3 /* SKAESEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKAESEncryption.m; path = SteamKit/Security/SKAESEncryption.m; sourceTree = "<group>"; };
 		36B714CA19D2FB69006F08B3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		36CB760619F8A58700F0B691 /* EXProtobufScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXProtobufScanner.h; path = SteamKit/Packet/EXProtobufScanner.h; sourceTree = "<group>"; };
+		36CB760719F8A58700F0B691 /* EXProtobufScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXProtobufScanner.m; path = SteamKit/Packet/EXProtobufScanner.m; sourceTree = "<group>"; };
 		36D8F5B419F6A2F600C3D4BE /* SteamGuard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SteamGuard.xib; path = "User Interface/SteamGuard.xib"; sourceTree = "<group>"; };
 		36DAFB5519CAD81600A65E6F /* SKUDPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKUDPConnection.h; path = SteamKit/Connection/SKUDPConnection.h; sourceTree = "<group>"; };
 		36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKUDPConnection.m; path = SteamKit/Connection/SKUDPConnection.m; sourceTree = "<group>"; };
@@ -323,6 +326,8 @@
 				36E7671D19C707D900D9C761 /* SKPacket.m */,
 				3613523C19ECB1060038A3A1 /* SKPacketScanner.h */,
 				3613523D19ECB1060038A3A1 /* SKPacketScanner.m */,
+				36CB760619F8A58700F0B691 /* EXProtobufScanner.h */,
+				36CB760719F8A58700F0B691 /* EXProtobufScanner.m */,
 			);
 			name = Packet;
 			sourceTree = "<group>";
@@ -437,6 +442,7 @@
 				3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */,
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
+				36CB760819F8A58700F0B691 /* EXProtobufScanner.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
 				36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
