@@ -22,8 +22,6 @@
 
 - (void)appendByte:(unsigned char)b;
 
-// Remove bytes in a given range, causing bytes after the specified range
-// to be moved up right after the bytes at the beginning of the range
-- (void)removeBytesInRange:(NSRange)rng;
+- (void)removeBytes:(NSUInteger)length;
 
 @end

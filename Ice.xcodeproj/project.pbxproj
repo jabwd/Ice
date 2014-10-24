@@ -15,6 +15,7 @@
 		3613524319ECB12F0038A3A1 /* NSData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */; };
 		3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */; };
 		3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524619ED2B1F0038A3A1 /* SKSentryFile.m */; };
+		363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */; };
 		3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3671B6CB19E2E4A4000A02EF /* steamPublic.pem */; };
 		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
@@ -65,6 +66,8 @@
 		3613524619ED2B1F0038A3A1 /* SKSentryFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSentryFile.m; path = SteamKit/Security/SKSentryFile.m; sourceTree = "<group>"; };
 		3613524919ED78DA0038A3A1 /* SteamConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteamConstants.h; path = SteamKit/SteamConstants.h; sourceTree = "<group>"; };
 		363C842919F65AC500DC3CCD /* MsgType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MsgType.h; path = SteamKit/MsgType.h; sourceTree = "<group>"; };
+		363CBDD119F8F2E30012AD78 /* SKProtobufScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufScanner.h; path = SteamKit/Packet/SKProtobufScanner.h; sourceTree = "<group>"; };
+		363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufScanner.m; path = SteamKit/Packet/SKProtobufScanner.m; sourceTree = "<group>"; };
 		3671B6CB19E2E4A4000A02EF /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamPublic.pem; sourceTree = "<group>"; };
 		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
 		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
@@ -323,6 +326,8 @@
 				36E7671D19C707D900D9C761 /* SKPacket.m */,
 				3613523C19ECB1060038A3A1 /* SKPacketScanner.h */,
 				3613523D19ECB1060038A3A1 /* SKPacketScanner.m */,
+				363CBDD119F8F2E30012AD78 /* SKProtobufScanner.h */,
+				363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */,
 			);
 			name = Packet;
 			sourceTree = "<group>";
@@ -438,6 +443,7 @@
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
+				363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */,
 				36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,

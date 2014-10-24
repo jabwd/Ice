@@ -57,10 +57,7 @@ static const unsigned int crc32table[] = {
 
 + (NSData *)dataFromByteString:(NSString *)byteString;
 
-//+ (NSData *)newUUID;
 - (unsigned int)crc32;
-/*- (NSString *)sha1HexHash;
-- (NSData*)sha1Hash;*/
 - (NSString*)stringRepresentation;
 
 - (unsigned char)byteAtIndex:(unsigned int)index;
@@ -70,5 +67,10 @@ static const unsigned int crc32table[] = {
 // tests for all zeros
 - (BOOL)isClear;
 - (NSData *)dataByTruncatingZeroedData;
+
+#pragma mark - SteamKit extras
+
+- (UInt32)getUInt32;
+- (UInt16)getUInt16;
 
 @end
