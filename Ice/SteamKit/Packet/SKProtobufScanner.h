@@ -25,6 +25,7 @@ extern NSUInteger const ProtoMask; // AND for isProto, XOR for STRIP
 	NSData				*_data;
 	NSMutableArray		*_values;
 	NSMutableDictionary	*_map;
+	NSMutableDictionary *_header;
 }
 
 - (id)initWithData:(NSData *)packetData;

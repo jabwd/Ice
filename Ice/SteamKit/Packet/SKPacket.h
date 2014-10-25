@@ -18,12 +18,13 @@ extern UInt32 const		SKProtocolVersion;
 extern UInt32 const		SKProtocolVersionMajorMask;
 extern UInt32 const		SKProtocolVersionMinorMask;
 
-
+@class SKProtobufScanner;
 
 @interface SKPacket : NSObject
 {
-	NSData *_data;
-	NSData *_raw;
+	NSData				*_data;
+	NSData				*_raw;
+	SKProtobufScanner	*_protobufScanner;
 	
 	SKMsgType		_msgType;
 }
@@ -38,6 +39,9 @@ extern UInt32 const		SKProtocolVersionMinorMask;
 - (NSData *)generate;
 
 - (BOOL)isProtobufPacket;
+
+- (id)valueForKey:(NSString *)key;
+- (id)valueForFieldNumber:(NSUInteger)fieldNumber;
 
 //----------------------------------------------------------------------------------------------+
 // Packet templates

@@ -21,5 +21,6 @@
 - (id)initWithType:(WireType)wireType fieldNumber:(UInt8)number;
 
 - (NSData *)encode;
+- (NSString *)valueKey;
 
 @end

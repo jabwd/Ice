@@ -30,6 +30,11 @@
 
 - (void)removeBytes:(NSUInteger)length
 {
+	if( [self length] < length )
+	{
+		[self replaceBytesInRange:NSMakeRange(0, [self length]) withBytes:NULL length:0];
+		return;
+	}
 	[self replaceBytesInRange:NSMakeRange(0, length) withBytes:NULL length:0];
 }
 

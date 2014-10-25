@@ -15,7 +15,7 @@
 	if( (self = [super init]) )
 	{
 		_type			= (*byte & 0x07);
-		_fieldNumber	= (*byte >> 3);
+		_fieldNumber	= ((*byte & 0xF8) >> 3);
 	}
 	return self;
 }
@@ -35,6 +35,11 @@
 	UInt8 byte = _type;
 	byte |= (_fieldNumber << 3);
 	return [NSData dataWithBytes:&byte length:1];
+}
+
+- (NSString *)valueKey
+{
+	return [NSString stringWithFormat:@"Proto.%u", _fieldNumber];
 }
 
 - (NSString *)description

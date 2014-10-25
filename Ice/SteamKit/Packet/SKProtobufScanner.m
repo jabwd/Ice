@@ -21,6 +21,7 @@ NSUInteger const ProtoMask = 0x80000000;
 	{
 		_data	= [[NSData alloc] initWithData:packetData];
 		_map	= [[NSMutableDictionary alloc] init];
+		_header = [[NSMutableDictionary alloc] init];
 		
 		if( [_data length] > 0 )
 		{
@@ -36,6 +37,8 @@ NSUInteger const ProtoMask = 0x80000000;
 	_data = nil;
 	[_map release];
 	_map = nil;
+	[_header release];
+	_header = nil;
 	[super dealloc];
 }
 
@@ -83,33 +86,40 @@ NSUInteger const ProtoMask = 0x80000000;
 
 - (void)scanHeader:(NSMutableData *)header
 {
-	NSLog(@"Proto header: %@", header);
+	while( [header length] > 0 )
+	{
+		const char byte = (const char)[header getByte];
+		[header removeBytes:1];
+		SKProtobufKey *key = [[SKProtobufKey alloc] initWithByte:&byte];
+		[self scanValue:key data:header isHeader:YES];
+		[key release];
+	}
+	
+	NSLog(@"Final: %@", _header);
 }
 
 - (void)scanBody:(NSMutableData *)body
 {
-	NSLog(@"%@", body);
-	NSUInteger count = 0;
 	while( [body length] > 0 )
 	{
 		const char byte = (const char)[body getByte];
 		[body removeBytes:1];
 		SKProtobufKey *key = [[SKProtobufKey alloc] initWithByte:&byte];
-		[self scanValue:key data:body];
+		[self scanValue:key data:body isHeader:NO];
 		[key release];
-		
-		if( count > 100 )
-		{
-			DLog(@"Useless loop stopped for now.");
-			break;
-		}
 	}
 	
 	NSLog(@"Final: %@", _map);
 }
 
-- (void)scanValue:(SKProtobufKey *)key data:(NSMutableData *)data
+- (void)scanValue:(SKProtobufKey *)key data:(NSMutableData *)data isHeader:(BOOL)header
 {
+	NSMutableDictionary *storage = _map;
+	if( header )
+	{
+		storage = _header;
+	}
+	
 	switch(key.type)
 	{
 		case WireTypeVarint:
@@ -118,10 +128,30 @@ NSUInteger const ProtoMask = 0x80000000;
 			UInt32 val = [self readVarint:data length:&len];
 			if( len > 0 )
 			{
-				[_map setObject:[NSNumber numberWithInt:val]
-						 forKey:[NSString stringWithFormat:@"Proto.%u", key.fieldNumber]];
+				[storage setObject:[NSNumber numberWithInt:val]
+						 forKey:key.valueKey];
 				[data removeBytes:len];
 			}
+		}
+			break;
+			
+		case WireTypeFixed:
+		{
+			UInt64 value = 0;
+			[data getBytes:&value length:8];
+			[storage setObject:[NSNumber numberWithLong:value]
+					 forKey:key.valueKey];
+			[data removeBytes:8];
+		}
+			break;
+			
+		case WireTypeFloat:
+		{
+			UInt32 value = 0;
+			[data getBytes:&value length:4];
+			[storage setObject:[NSNumber numberWithInt:value]
+					 forKey:key.valueKey];
+			[data removeBytes:4];
 		}
 			break;
 			
@@ -132,10 +162,11 @@ NSUInteger const ProtoMask = 0x80000000;
 			if( length > 0 && [data length] >= length )
 			{
 				NSData *packetData = [data subdataWithRange:NSMakeRange(0, length)];
+				[data removeBytes:length];
 				NSString *str = [[NSString alloc] initWithData:packetData encoding:NSUTF8StringEncoding];
 				if( str )
 				{
-					[_map setObject:str forKey:[NSString stringWithFormat:@"Proto.%u", key.fieldNumber]];
+					[storage setObject:str forKey:key.valueKey];
 				}
 				else
 				{
@@ -146,7 +177,8 @@ NSUInteger const ProtoMask = 0x80000000;
 			break;
 			
 		default:
-			DLog(@"Found unhandled value! %@ %@", key, data);
+			//DLog(@"Found unhandled value! %@ %@", key, data);
+			//DLog(@"Unhandled key: %@", key);
 			break;
 	}
 }
@@ -180,14 +212,15 @@ NSUInteger const ProtoMask = 0x80000000;
 	if( map )
 	{
 		[_map release];
-		_map = [map retain];
+		_map = [[NSMutableDictionary alloc] initWithDictionary:map];
 	}
 	[map release];
 }
 
 - (WireType)typeAtFieldNumber:(NSUInteger)fieldNumber
 {
-	return WireTypeVarint;
+	DLog(@"-this method should be removed");
+	return -1;
 }
 
 - (id)valueForKey:(NSString *)key
