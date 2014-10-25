@@ -7,7 +7,9 @@
 //
 
 #import "SKProtobufScanner.h"
-#import "NSData_XfireAdditions.h"
+#import "SKProtobufKey.h"
+#import "NSData_SteamKitAdditions.h"
+#import "NSMutableData_XfireAdditions.h"
 
 NSUInteger const ProtoMask = 0x80000000;
 
@@ -17,8 +19,8 @@ NSUInteger const ProtoMask = 0x80000000;
 {
 	if( (self = [super init]) )
 	{
-		_data	= [[NSMutableData alloc] initWithData:packetData];
-		_map	= nil;
+		_data	= [[NSData alloc] initWithData:packetData];
+		_map	= [[NSMutableDictionary alloc] init];
 		
 		if( [_data length] > 0 )
 		{
@@ -53,20 +55,114 @@ NSUInteger const ProtoMask = 0x80000000;
 
 - (void)performScan
 {
+	NSMutableData *scanBuffer = [[NSMutableData alloc] initWithData:_data];
+	[scanBuffer removeBytes:4]; // remove the MsgType
+	UInt32 headerLength = [scanBuffer getUInt32];
+	[scanBuffer removeBytes:4];
 	
+	// If there is a header present we will strip the data from scanBuffer
+	// and attempt to scan the protobuf header
+	if( headerLength > 0 && headerLength <= [scanBuffer length] )
+	{
+		NSMutableData *protoHeader = [[NSMutableData alloc]
+							   initWithData:[scanBuffer subdataWithRange:NSMakeRange(0, headerLength)]];
+		[scanBuffer removeBytes:headerLength];
+		[self scanHeader:protoHeader];
+		[protoHeader release];
+	}
+	else
+	{
+		DLog(@"No Protobuf header detected in scanned packet");
+	}
+	
+	// The rest of the data should be the protobuf packet body.
+	[self scanBody:scanBuffer];
+	
+	[scanBuffer release];
 }
 
-+ (UInt32)readVarint:(NSData *)data
+- (void)scanHeader:(NSMutableData *)header
+{
+	NSLog(@"Proto header: %@", header);
+}
+
+- (void)scanBody:(NSMutableData *)body
+{
+	NSLog(@"%@", body);
+	NSUInteger count = 0;
+	while( [body length] > 0 )
+	{
+		const char byte = (const char)[body getByte];
+		[body removeBytes:1];
+		SKProtobufKey *key = [[SKProtobufKey alloc] initWithByte:&byte];
+		[self scanValue:key data:body];
+		[key release];
+		
+		if( count > 100 )
+		{
+			DLog(@"Useless loop stopped for now.");
+			break;
+		}
+	}
+	
+	NSLog(@"Final: %@", _map);
+}
+
+- (void)scanValue:(SKProtobufKey *)key data:(NSMutableData *)data
+{
+	switch(key.type)
+	{
+		case WireTypeVarint:
+		{
+			NSUInteger len = 0;
+			UInt32 val = [self readVarint:data length:&len];
+			if( len > 0 )
+			{
+				[_map setObject:[NSNumber numberWithInt:val]
+						 forKey:[NSString stringWithFormat:@"Proto.%u", key.fieldNumber]];
+				[data removeBytes:len];
+			}
+		}
+			break;
+			
+		case WireTypePacked:
+		{
+			UInt32 length = (UInt32)[data getByte];
+			[data removeBytes:1];
+			if( length > 0 && [data length] >= length )
+			{
+				NSData *packetData = [data subdataWithRange:NSMakeRange(0, length)];
+				NSString *str = [[NSString alloc] initWithData:packetData encoding:NSUTF8StringEncoding];
+				if( str )
+				{
+					[_map setObject:str forKey:[NSString stringWithFormat:@"Proto.%u", key.fieldNumber]];
+				}
+				else
+				{
+					DLog(@"Unable to decode Protobuf packed string");
+				}
+			}
+		}
+			break;
+			
+		default:
+			DLog(@"Found unhandled value! %@ %@", key, data);
+			break;
+	}
+}
+
+- (UInt32)readVarint:(NSData *)data length:(NSUInteger *)length
 {
 	UInt8 *bytes = (UInt8*)[data bytes];
 	
 	UInt32 value = 0;
 	NSUInteger i= 0;
-	for(;i<4;i++)
+	for(;i<[data length];i++)
 	{
 		UInt8 b = bytes[i];
 		value |= (b & 0x7F) << (7*i);
 		
+		*length = *length + 1;
 		if( (b & 0x80) == 0 )
 		{
 			break; // End found.

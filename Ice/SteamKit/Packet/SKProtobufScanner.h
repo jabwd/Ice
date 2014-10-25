@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(UInt32, WireType)
+typedef NS_ENUM(UInt8, WireType)
 {
 	WireTypeVarint		= 0,
 	WireTypeFixed		= 1,
@@ -22,9 +22,9 @@ extern NSUInteger const ProtoMask; // AND for isProto, XOR for STRIP
 
 @interface SKProtobufScanner : NSObject
 {
-	NSMutableData *_data;
-	NSMutableArray *_values;
-	NSDictionary	*_map;
+	NSData				*_data;
+	NSMutableArray		*_values;
+	NSMutableDictionary	*_map;
 }
 
 - (id)initWithData:(NSData *)packetData;
