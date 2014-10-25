@@ -12,7 +12,7 @@
 #import "SKSession.h"
 #import "SKAESEncryption.h"
 #import "SKProtobufScanner.h"
-#import "NSData_XfireAdditions.h"
+#import "NSData_SteamKitAdditions.h"
 #import "NSMutableData_XfireAdditions.h"
 
 @implementation SKPacketScanner

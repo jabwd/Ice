@@ -16,9 +16,9 @@
 		2007 10 14  Created.
 *******************************************************************/
 
-#import "NSData_XfireAdditions.h"
+#import "NSData_SteamKitAdditions.h"
 
-@implementation NSData (XfireAdditions)
+@implementation NSData (SteamKitAdditions)
 
 + (NSData *)dataFromByteString:(NSString *)byteString
 {
@@ -192,6 +192,18 @@
 {
 	UInt16 value = 0;
 	[self getBytes:&value length:sizeof(UInt16)];
+	return value;
+}
+
+- (UInt8)getUInt8
+{
+	return [self getByte];
+}
+
+- (UInt8)getByte
+{
+	UInt8 value = 0;
+	[self getBytes:&value length:1];
 	return value;
 }
 

@@ -12,10 +12,11 @@
 		360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 360609B319EBE12B0003EA2D /* libz.dylib */; };
 		360609B619EBF39A0003EA2D /* steamInternal.pem in Resources */ = {isa = PBXBuildFile; fileRef = 360609B519EBF39A0003EA2D /* steamInternal.pem */; };
 		3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613523D19ECB1060038A3A1 /* SKPacketScanner.m */; };
-		3613524319ECB12F0038A3A1 /* NSData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */; };
+		3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_SteamKitAdditions.m */; };
 		3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */; };
 		3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524619ED2B1F0038A3A1 /* SKSentryFile.m */; };
 		363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */; };
+		3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3646FE3119FAA9D900143668 /* SKProtobufKey.m */; };
 		3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3671B6CB19E2E4A4000A02EF /* steamPublic.pem */; };
 		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
@@ -58,8 +59,8 @@
 		360609B519EBF39A0003EA2D /* steamInternal.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamInternal.pem; sourceTree = "<group>"; };
 		3613523C19ECB1060038A3A1 /* SKPacketScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPacketScanner.h; path = SteamKit/Packet/SKPacketScanner.h; sourceTree = "<group>"; };
 		3613523D19ECB1060038A3A1 /* SKPacketScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPacketScanner.m; path = SteamKit/Packet/SKPacketScanner.m; sourceTree = "<group>"; };
-		3613523F19ECB12F0038A3A1 /* NSData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSData_XfireAdditions.h; path = SteamKit/NSData/NSData_XfireAdditions.h; sourceTree = "<group>"; };
-		3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSData_XfireAdditions.m; path = SteamKit/NSData/NSData_XfireAdditions.m; sourceTree = "<group>"; };
+		3613523F19ECB12F0038A3A1 /* NSData_SteamKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSData_SteamKitAdditions.h; path = SteamKit/NSData/NSData_SteamKitAdditions.h; sourceTree = "<group>"; };
+		3613524019ECB12F0038A3A1 /* NSData_SteamKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSData_SteamKitAdditions.m; path = SteamKit/NSData/NSData_SteamKitAdditions.m; sourceTree = "<group>"; };
 		3613524119ECB12F0038A3A1 /* NSMutableData_XfireAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableData_XfireAdditions.h; path = SteamKit/NSData/NSMutableData_XfireAdditions.h; sourceTree = "<group>"; };
 		3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableData_XfireAdditions.m; path = SteamKit/NSData/NSMutableData_XfireAdditions.m; sourceTree = "<group>"; };
 		3613524519ED2B1F0038A3A1 /* SKSentryFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSentryFile.h; path = SteamKit/Security/SKSentryFile.h; sourceTree = "<group>"; };
@@ -68,6 +69,8 @@
 		363C842919F65AC500DC3CCD /* MsgType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MsgType.h; path = SteamKit/MsgType.h; sourceTree = "<group>"; };
 		363CBDD119F8F2E30012AD78 /* SKProtobufScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufScanner.h; path = SteamKit/Packet/SKProtobufScanner.h; sourceTree = "<group>"; };
 		363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufScanner.m; path = SteamKit/Packet/SKProtobufScanner.m; sourceTree = "<group>"; };
+		3646FE3019FAA9D900143668 /* SKProtobufKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufKey.h; path = SteamKit/Packet/Protobuf/SKProtobufKey.h; sourceTree = "<group>"; };
+		3646FE3119FAA9D900143668 /* SKProtobufKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufKey.m; path = SteamKit/Packet/Protobuf/SKProtobufKey.m; sourceTree = "<group>"; };
 		3671B6CB19E2E4A4000A02EF /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamPublic.pem; sourceTree = "<group>"; };
 		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
 		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
@@ -133,6 +136,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3646FE2F19FAA9BB00143668 /* Protobuf */ = {
+			isa = PBXGroup;
+			children = (
+				363CBDD119F8F2E30012AD78 /* SKProtobufScanner.h */,
+				363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */,
+				3646FE3019FAA9D900143668 /* SKProtobufKey.h */,
+				3646FE3119FAA9D900143668 /* SKProtobufKey.m */,
+			);
+			name = Protobuf;
+			sourceTree = "<group>";
+		};
 		36B714B619D07A3A006F08B3 /* Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,8 +159,8 @@
 		36B714BA19D17BA4006F08B3 /* NSData */ = {
 			isa = PBXGroup;
 			children = (
-				3613523F19ECB12F0038A3A1 /* NSData_XfireAdditions.h */,
-				3613524019ECB12F0038A3A1 /* NSData_XfireAdditions.m */,
+				3613523F19ECB12F0038A3A1 /* NSData_SteamKitAdditions.h */,
+				3613524019ECB12F0038A3A1 /* NSData_SteamKitAdditions.m */,
 				3613524119ECB12F0038A3A1 /* NSMutableData_XfireAdditions.h */,
 				3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */,
 			);
@@ -322,12 +336,11 @@
 		36E7671819C6DAC300D9C761 /* Packet */ = {
 			isa = PBXGroup;
 			children = (
+				3646FE2F19FAA9BB00143668 /* Protobuf */,
 				36E7671C19C707D900D9C761 /* SKPacket.h */,
 				36E7671D19C707D900D9C761 /* SKPacket.m */,
 				3613523C19ECB1060038A3A1 /* SKPacketScanner.h */,
 				3613523D19ECB1060038A3A1 /* SKPacketScanner.m */,
-				363CBDD119F8F2E30012AD78 /* SKProtobufScanner.h */,
-				363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */,
 			);
 			name = Packet;
 			sourceTree = "<group>";
@@ -444,13 +457,14 @@
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
 				363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */,
+				3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */,
 				36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
 				369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */,
 				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
-				3613524319ECB12F0038A3A1 /* NSData_XfireAdditions.m in Sources */,
+				3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

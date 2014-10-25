@@ -7,7 +7,7 @@
 //
 
 #import "SKRSAEncryption.h"
-#import "NSData_XfireAdditions.h"
+#import "NSData_SteamKitAdditions.h"
 #import <Security/Security.h>
 #import "SKPacket.h"
 

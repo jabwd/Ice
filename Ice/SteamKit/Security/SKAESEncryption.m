@@ -10,7 +10,7 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import <stdlib.h>
 #import <Security/Security.h>
-#import "NSData_XfireAdditions.h"
+#import "NSData_SteamKitAdditions.h"
 
 @implementation SKAESEncryption
 

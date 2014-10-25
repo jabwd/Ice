@@ -10,7 +10,7 @@
 #import <zlib.h>
 #import "SKRSAEncryption.h"
 #import "SKAESEncryption.h"
-#import "NSData_XfireAdditions.h"
+#import "NSData_SteamKitAdditions.h"
 #import "SKSession.h"
 #import "SteamConstants.h"
 

@@ -11,7 +11,7 @@
 #import "SKUDPConnection.h"
 #import "SKTCPConnection.h"
 #import "SKPacket.h"
-#import "NSData_XfireAdditions.h"
+#import "NSData_SteamKitAdditions.h"
 
 NSString *SKSessionStatusChangedNotificationName = @"SKSessionStatusChangedNotificationName";
 static const SKSession *_sharedSession = nil;
