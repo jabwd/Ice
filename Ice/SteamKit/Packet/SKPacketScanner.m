@@ -37,6 +37,7 @@
 
 - (void)checkForPacket:(NSData *)buffer
 {
+	DLog(@"Checking for packet %@", buffer);
 	if( [buffer length] > SKPacketMinimumDataLength )
 	{
 		SKPacket *packet	= nil;
@@ -125,11 +126,8 @@
 			
 		case SKMsgTypeClientLogOnResponse:
 		{
-			NSLog(@"LogOn Response: %@", packet);
+			NSLog(@"LogOn Response: %@", [packet valueForFieldNumber:8]);
 			
-			SKProtobufScanner *scanner = [[SKProtobufScanner alloc] initWithData:packet.data];
-			
-			[scanner release];
 		}
 			break;
 			

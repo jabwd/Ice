@@ -217,35 +217,15 @@ NSUInteger const ProtoMask = 0x80000000;
 	[map release];
 }
 
-- (WireType)typeAtFieldNumber:(NSUInteger)fieldNumber
-{
-	DLog(@"-this method should be removed");
-	return -1;
-}
-
 - (id)valueForKey:(NSString *)key
 {
-	if( !_map )
-	{
-		NSLog(@"Error: cannot get valueForKey with protoscanner without loading a protobuf map");
-		return nil;
-	}
-	NSString *fieldNumber		= _map[key];
-	NSUInteger actualNumber		= [fieldNumber integerValue];
-	if( actualNumber > 0 )
-	{
-		return [self valueForFieldNumber:actualNumber];
-	}
-	return nil;
+	return _map[key];
 }
 
 - (id)valueForFieldNumber:(NSUInteger)fieldNumber
 {
-	if( fieldNumber >= [_values count] )
-	{
-		return nil;
-	}
-	return _values[fieldNumber];
+	NSString *key = [NSString stringWithFormat:@"Proto.%lu", fieldNumber];
+	return [self valueForKey:key];
 }
 
 @end

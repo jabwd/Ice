@@ -32,6 +32,7 @@ extern UInt32 const		SKProtocolVersionMinorMask;
 @property (atomic, retain) NSData *data;
 @property (readonly, getter = getRaw) NSData *raw;
 @property (assign) SKMsgType msgType;
+@property (retain) SKProtobufScanner *scanner;
 
 + (SKPacket *)packetByDecodingTCPBuffer:(NSData *)buffer sessionKey:(NSData *)sessionKey error:(NSError **)error;
 + (SKPacket *)packetByDecodingUDPBuffer:(NSData *)buffer error:(NSError **)error;

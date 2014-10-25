@@ -12,6 +12,7 @@
 #import "SKAESEncryption.h"
 #import "NSData_SteamKitAdditions.h"
 #import "SKSession.h"
+#import "SKProtobufScanner.h"
 #import "SteamConstants.h"
 
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
@@ -57,6 +58,12 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 		packet.data = buff;
 	}
 	
+	// If it is a protobuf packet we need to scan
+	// the special protobuf packet layout and store it
+	if( [packet isProtobufPacket] )
+	{
+		packet.scanner = [[SKProtobufScanner alloc] initWithData:packet.data];
+	}
 	
 	[buff release];
 	return [packet autorelease];
@@ -73,6 +80,8 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	_data = nil;
 	[_raw release];
 	_raw = nil;
+	[_scanner release];
+	_scanner = nil;
 	[super dealloc];
 }
 
@@ -111,6 +120,16 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 		return YES;
 	}
 	return NO;
+}
+
+- (id)valueForKey:(NSString *)key
+{
+	return [_scanner valueForKey:key];
+}
+
+- (id)valueForFieldNumber:(NSUInteger)fieldNumber
+{
+	return [_scanner valueForFieldNumber:fieldNumber];
 }
 
 #pragma mark - Packet templates

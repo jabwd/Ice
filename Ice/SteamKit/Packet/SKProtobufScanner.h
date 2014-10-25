@@ -65,13 +65,4 @@ extern NSUInteger const ProtoMask; // AND for isProto, XOR for STRIP
  */
 - (id)valueForFieldNumber:(NSUInteger)fieldNumber;
 
-/**
- * Used for determining what type a certain fieldNumber has
- *
- * @param NSUInteger	fieldNumber
- *
- * @return WireType		the protobuf WireType
- */
-- (WireType)typeAtFieldNumber:(NSUInteger)fieldNumber;
-
 @end
