@@ -13,7 +13,9 @@
 #import "SKPacket.h"
 #import "NSData_SteamKitAdditions.h"
 
-NSString *SKSessionStatusChangedNotificationName = @"SKSessionStatusChangedNotificationName";
+NSString *SKSessionStatusChangedNotificationName	= @"SKSessionStatusChanged";
+NSString *SKLoginFailedSteamGuardNotificationName	= @"SKLoginFailedSteamGuard";
+
 static const SKSession *_sharedSession = nil;
 
 @implementation SKSession
@@ -59,6 +61,10 @@ static const SKSession *_sharedSession = nil;
 {
 	_status = status;
 	[[NSNotificationCenter defaultCenter] postNotificationName:SKSessionStatusChangedNotificationName object:self];
+	if( [_delegate respondsToSelector:@selector(sessionChangedStatus:)] )
+	{
+		[_delegate sessionChangedStatus:self];
+	}
 }
 
 #pragma mark - Connection Handling

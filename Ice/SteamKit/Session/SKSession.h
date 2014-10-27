@@ -19,6 +19,7 @@ typedef NS_ENUM(UInt32, SKSessionStatus)
 };
 
 extern NSString *SKSessionStatusChangedNotificationName;
+extern NSString *SKLoginFailedSteamGuardNotificationName;
 
 @class SKUDPConnection, SKTCPConnection, SKSession;
 

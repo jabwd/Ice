@@ -67,7 +67,6 @@
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
 	DLog(@"TCP Socket disconnected");
-	_status = SKConnectionStatusOffline;
 	[_session disconnect];
 }
 
