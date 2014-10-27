@@ -60,9 +60,9 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	
 	// If it is a protobuf packet we need to scan
 	// the special protobuf packet layout and store it
-	if( [packet isProtobufPacket] )
+	if( (type & 0x80000000) > 0 && packet.msgType != SKMsgTypeMulti )
 	{
-		packet.scanner = [[SKProtobufScanner alloc] initWithData:packet.data];
+		packet.scanner = [[[SKProtobufScanner alloc] initWithData:packet.data] autorelease];
 	}
 	
 	[buff release];
@@ -156,9 +156,12 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 				 language:(NSString *)language
 {
 	SKPacket *packet	= [[SKPacket alloc] init];
+	SKMsgType type = 0x80000000 + SKMsgTypeClientLogon;
+	packet.msgType = type;
 	
 	NSMutableData *data = [[NSMutableData alloc] init];
-	NSData *unknownData = [NSData dataFromByteString:@"8a 15 00 80 09 00 00 00 09 00 00 00 00 01 00 1001 08 ab 80 04 10 8e e4 97 d0 07 28 eb 0d 32 0765 6e 67 6c 69 73 68 38 b5 fe ff ff 0f 92 03 08"];
+	[data appendBytes:&type length:4];
+	NSData *unknownData = [NSData dataFromByteString:@"09 00 00 00 09 00 00 00 00 01 00 1001 08 ab 80 04 10 8e e4 97 d0 07 28 eb 0d 32 0765 6e 67 6c 69 73 68 38 b5 fe ff ff 0f 92 03 08"];
 	[data appendData:unknownData];
 	[data appendData:[username dataUsingEncoding:NSUTF8StringEncoding]];
 	NSData *sep = [NSData dataFromByteString:@"9a 03 09"];

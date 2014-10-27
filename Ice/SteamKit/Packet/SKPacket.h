@@ -29,7 +29,7 @@ extern UInt32 const		SKProtocolVersionMinorMask;
 	SKMsgType		_msgType;
 }
 
-@property (atomic, retain) NSData *data;
+@property (retain) NSData *data;
 @property (readonly, getter = getRaw) NSData *raw;
 @property (assign) SKMsgType msgType;
 @property (retain) SKProtobufScanner *scanner;
