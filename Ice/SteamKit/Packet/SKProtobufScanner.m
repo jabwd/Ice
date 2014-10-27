@@ -8,6 +8,7 @@
 
 #import "SKProtobufScanner.h"
 #import "SKProtobufKey.h"
+#import "SKProtobufValue.h"
 #import "NSData_SteamKitAdditions.h"
 #import "NSMutableData_XfireAdditions.h"
 
@@ -43,18 +44,6 @@ NSUInteger const ProtoMask = 0x80000000;
 }
 
 #pragma mark - Implementation Scanner
-
-+ (void)swapBytes:(UInt8 *)bytes
-{
-	UInt8 buff = 0;
-	
-	buff = bytes[0];
-	bytes[0] = bytes[3];
-	bytes[3] = buff;
-	buff = bytes[1];
-	bytes[1] = bytes[2];
-	bytes[2] = buff;
-}
 
 - (void)performScan
 {
@@ -135,68 +124,10 @@ NSUInteger const ProtoMask = 0x80000000;
 		storage = _header;
 	}
 	
-	switch(key.type)
-	{
-		case WireTypeVarint:
-		{
-			NSUInteger len = 0;
-			UInt32 val = [self readVarint:data length:&len];
-			if( len > 0 )
-			{
-				[storage setObject:[NSNumber numberWithInt:val]
-						 forKey:key.valueKey];
-				[data removeBytes:len];
-			}
-		}
-			break;
-			
-		case WireTypeFixed64:
-		{
-			UInt64 value = 0;
-			[data getBytes:&value length:8];
-			[storage setObject:[NSNumber numberWithLong:value]
-					 forKey:key.valueKey];
-			[data removeBytes:8];
-		}
-			break;
-			
-		case WireTypeFixed32:
-		{
-			UInt32 value = 0;
-			[data getBytes:&value length:4];
-			[storage setObject:[NSNumber numberWithInt:value]
-					 forKey:key.valueKey];
-			[data removeBytes:4];
-		}
-			break;
-			
-		case WireTypePacked:
-		{
-			UInt32 length = (UInt32)[data getByte];
-			[data removeBytes:1];
-			if( length > 0 && [data length] >= length )
-			{
-				NSData *packetData = [data subdataWithRange:NSMakeRange(0, length)];
-				[data removeBytes:length];
-				NSString *str = [[NSString alloc] initWithData:packetData encoding:NSUTF8StringEncoding];
-				if( str )
-				{
-					[storage setObject:str forKey:key.valueKey];
-				}
-				else
-				{
-					DLog(@"Unable to decode Protobuf packed string");
-				}
-				[str release];
-			}
-		}
-			break;
-			
-		default:
-			DLog(@"Found unhandled value! %@ %@", key, data);
-			//DLog(@"Unhandled key: %@", key);
-			break;
-	}
+	SKProtobufValue *value = [[SKProtobufValue alloc] initWithData:data type:key.type];
+	[storage setObject:value.value forKey:key.valueKey];
+	[data removeBytes:value.length];
+	[value release];
 }
 
 - (UInt32)readVarint:(NSData *)data length:(NSUInteger *)length

@@ -7,6 +7,7 @@
 //
 
 #import "SKProtobufValue.h"
+#import "SKProtobufKey.h"
 #import "NSData_SteamKitAdditions.h"
 
 @implementation SKProtobufValue
@@ -15,7 +16,64 @@
 {
 	if( (self = [super init]) )
 	{
-		
+		_type = type;
+		DLog(@"Scanning %u", type);
+		switch( type )
+		{
+			case WireTypeVarint:
+			{
+				NSUInteger len = 0;
+				UInt64 val = [self readVarint:data length:&len];
+				_value = [[NSNumber alloc] initWithInteger:val];
+				_data = [[data subdataWithRange:NSMakeRange(0, len)] retain];
+			}
+				break;
+				
+			case WireTypeFixed64:
+			{
+				UInt64 value = 0;
+				[data getBytes:&value length:8];
+				_value	= [[NSNumber alloc] initWithInteger:value];
+				_data	= [[data subdataWithRange:NSMakeRange(0, 8)] retain];
+			}
+				break;
+				
+			case WireTypeFixed32:
+			{
+				UInt32 value = 0;
+				[data getBytes:&value length:4];
+				_value	= [[NSNumber alloc] initWithInteger:value];
+				_data	= [[data subdataWithRange:NSMakeRange(0, 4)] retain];
+			}
+				break;
+				
+			case WireTypePacked:
+			{
+				UInt32 length = (UInt32)[data getByte];
+				if( length > 0 && [data length] >= length )
+				{
+					NSData *packetData = [data subdataWithRange:NSMakeRange(1, length)];
+					NSString *str = [[NSString alloc] initWithData:packetData encoding:NSUTF8StringEncoding];
+					if( str )
+					{
+						_value	= [str retain];
+						_data	= [[data subdataWithRange:NSMakeRange(0, length+1)] retain];
+					}
+					else
+					{
+						DLog(@"Unable to decode Protobuf packed string");
+					}
+					[str release];
+				}
+			}
+				break;
+				
+			default:
+				DLog(@"Found unhandled value! %u %@", type, data);
+				_value	= nil;
+				_data	= [data retain];
+				break;
+		}
 	}
 	return self;
 }
@@ -99,10 +157,38 @@
 
 - (void)dealloc
 {
+	[_value release];
+	_value = nil;
 	[_data release];
 	_data = nil;
 	[super dealloc];
 }
 
+#pragma mark - Implementation
+
+- (NSUInteger)length
+{
+	return [_data length];
+}
+
+- (UInt64)readVarint:(NSData *)data length:(NSUInteger *)length
+{
+	UInt8 *bytes = (UInt8*)[data bytes];
+	
+	UInt64 value	= 0;
+	NSUInteger i	= 0;
+	for(;i<[data length];i++)
+	{
+		UInt8 b = bytes[i];
+		value |= (b & 0x7F) << (7*i);
+		
+		*length = *length + 1;
+		if( (b & 0x80) == 0 )
+		{
+			break; // End found.
+		}
+	}
+	return value;
+}
 
 @end
