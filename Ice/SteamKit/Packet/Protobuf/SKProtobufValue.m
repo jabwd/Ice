@@ -7,6 +7,7 @@
 //
 
 #import "SKProtobufValue.h"
+#import "NSData_SteamKitAdditions.h"
 
 @implementation SKProtobufValue
 
@@ -25,35 +26,62 @@
 	{
 		_type = WireTypeVarint;
 		
-		/*UInt8 *bytes = (UInt8 *)malloc(8);
+		NSMutableData *buff		= [[NSMutableData alloc] init];
+		NSData *numberData		= [[NSData dataWithBytes:&varint length:8] dataByTruncatingUselessData];
+		const char *bytes		= [numberData bytes];
+		char bitBuffer			= 0;
 		
-		bytes[0] = (varint & 0xFF00000000000000);
-		bytes[1] = (varint & 0x00FF00000000000000);
-		bytes[2] = (varint & 0x00FF00000000000000);
-		bytes[3] = (varint & 0x00FF00000000000000);
-		bytes[4] = (varint & 0x00FF00000000000000);
-		bytes[5] = (varint & 0x00FF00000000000000);
-		bytes[6] = (varint & 0x00FF00000000000000);
-		bytes[7] = (varint & 0x00FF00000000000000);
+		NSLog(@"%@", numberData);
 		
-		// Cleanup
-		free(bytes);
-		
-		UInt8 *bytes = (UInt8*)[data bytes];
-		
-		UInt32 value	= 0;
-		NSUInteger i	= 0;
-		for(;i<[data length];i++)
+		char bits[64];
+		char final[8];
+		char bitIdx			= 0;
+		char finalIdx		= 0;
+		for(UInt8 i = 0;i<[numberData length];i++)
 		{
-			UInt8 b = bytes[i];
-			value |= (b & 0x7F) << (7*i);
-			
-			*length = *length + 1;
-			if( (b & 0x80) == 0 )
+			// Create a bit stream
+			char b = bytes[i];
+			for(UInt8 r = 0;r<8;r++)
 			{
-				break; // End found.
+				char bit = ((b >> (7-r)) & 0x1);
+				bits[bitIdx] = bit;
+				bitIdx++;
+			}
+		}
+		
+		/*for(UInt8 r = 0;r<bitIdx;r++)
+		{
+			char bit = bits[r];
+			
+			if( (finalIdx == 0) && (bitIdx-r) > 7 )
+			{
+				final[0] = 1;
+				finalIdx++;
+				DLog(@"Inserting msb at %u", r);
+			}
+			final[finalIdx] = bit;
+			finalIdx++;
+			
+			if( finalIdx == 7 )
+			{
+				char byte = 0;
+				byte |= (final[0] << 7);
+				byte |= (final[1] << 6);
+				byte |= (final[2] << 5);
+				byte |= (final[3] << 4);
+				byte |= (final[4] << 3);
+				byte |= (final[5] << 2);
+				byte |= (final[6] << 1);
+				byte |= (final[7] << 0);
+				[buff appendBytes:&byte length:1];
+				finalIdx = 0;
 			}
 		}*/
+		
+		_data = [buff retain];
+		
+		// Cleanup
+		[buff release];
 	}
 	return self;
 }

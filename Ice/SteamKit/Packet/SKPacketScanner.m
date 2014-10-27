@@ -128,6 +128,13 @@
 		{
 			NSLog(@"LogOn Response: %@", [packet valueForFieldNumber:8]);
 			
+			if( [[packet valueForFieldNumber:1] integerValue] == SKResultCodeAccountLogonDenied )
+			{
+				[[NSNotificationCenter defaultCenter]
+				 postNotificationName:SKLoginFailedSteamGuardNotificationName
+				 object:nil
+				 userInfo:@{@"email": [packet valueForFieldNumber:8]}];
+			}
 		}
 			break;
 			

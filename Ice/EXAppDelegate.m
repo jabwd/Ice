@@ -13,6 +13,7 @@
 #import "SKAESEncryption.h"
 #import "SKSentryFile.h"
 #import "SKProtobufScanner.h"
+#import "SKProtobufValue.h"
 
 @implementation EXAppDelegate
 
@@ -38,6 +39,10 @@
 	SKProtobufScanner *scanner = [[SKProtobufScanner alloc] initWithData:[NSData dataFromByteString:@"8a1500800900000009000000000100100108ab80041088e2b7850b28eb0d3207656e676c69736838b5feffff0f9203086e756d626572355f9a0309787439414253357664900509a205053132333435"]];
 	NSLog(@"%@ %@", scanner.header, scanner.body);
 	[scanner release];
+	
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithVarint:1771];
+	NSLog(@"%@", v.data);
+	[v release];
 }
 
 - (IBAction)scanPacketData:(id)sender

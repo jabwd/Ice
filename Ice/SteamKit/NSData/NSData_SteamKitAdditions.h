@@ -67,6 +67,7 @@ static const unsigned int crc32table[] = {
 // tests for all zeros
 - (BOOL)isClear;
 - (NSData *)dataByTruncatingZeroedData;
+- (NSData *)dataByTruncatingUselessData;
 
 #pragma mark - SteamKit extras
 

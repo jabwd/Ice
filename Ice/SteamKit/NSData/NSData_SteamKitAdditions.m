@@ -134,6 +134,42 @@
 	return YES;
 }
 
+- (NSData *)dataByTruncatingUselessData
+{
+	NSMutableData *final	= [[NSMutableData alloc] init];
+	NSUInteger len			= [self length];
+	NSUInteger i			= 0;
+	NSUInteger r			= 0;
+	const char *bytes		= [self bytes];
+	
+	for(i=0;i<len;i++)
+	{
+		unsigned char byte = bytes[i];
+		if( byte == 0x00 )
+		{
+			BOOL found = false;
+			for(r=i;r<len;r++)
+			{
+				if( bytes[r] != 0x00 )
+				{
+					found = true;
+				}
+			}
+			
+			if( found )
+			{
+				[final appendBytes:&byte length:1];
+			}
+		}
+		else
+		{
+			[final appendBytes:&byte length:1];
+		}
+	}
+	
+	return [final autorelease];
+}
+
 - (NSData *)dataByTruncatingZeroedData {
 	NSMutableData *data = [NSMutableData data];
 	NSUInteger length = [self length];
