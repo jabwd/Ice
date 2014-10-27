@@ -20,7 +20,7 @@ NSUInteger const ProtoMask = 0x80000000;
 	if( (self = [super init]) )
 	{
 		_data	= [[NSData alloc] initWithData:packetData];
-		_map	= [[NSMutableDictionary alloc] init];
+		_body	= [[NSMutableDictionary alloc] init];
 		_header = [[NSMutableDictionary alloc] init];
 		
 		if( [_data length] > 0 )
@@ -35,8 +35,8 @@ NSUInteger const ProtoMask = 0x80000000;
 {
 	[_data release];
 	_data = nil;
-	[_map release];
-	_map = nil;
+	[_body release];
+	_body = nil;
 	[_header release];
 	_header = nil;
 	[super dealloc];
@@ -86,35 +86,50 @@ NSUInteger const ProtoMask = 0x80000000;
 
 - (void)scanHeader:(NSMutableData *)header
 {
+	NSUInteger length	= 0;
+	UInt32 value		= 0;
 	while( [header length] > 0 )
 	{
-		const char byte = (const char)[header getByte];
-		[header removeBytes:1];
-		SKProtobufKey *key = [[SKProtobufKey alloc] initWithByte:&byte];
+		// Read the SKProtobufKey which can be more
+		// than just one byte.
+		length	= 0;
+		value	= 0;
+		value	= [self readVarint:header length:&length];
+		[header removeBytes:length];
+		
+		// Scan the value, it will be automatically added to our header
+		// content
+		SKProtobufKey *key = [[SKProtobufKey alloc] initWithVarint:value];
 		[self scanValue:key data:header isHeader:YES];
 		[key release];
 	}
-	
-	NSLog(@"Final: %@", _header);
 }
 
 - (void)scanBody:(NSMutableData *)body
 {
+	NSUInteger length	= 0;
+	UInt32 value		= 0;
 	while( [body length] > 0 )
 	{
-		const char byte = (const char)[body getByte];
-		[body removeBytes:1];
-		SKProtobufKey *key = [[SKProtobufKey alloc] initWithByte:&byte];
+		// Read the SKProtobufKey
+		value	= 0;
+		length	= 0;
+		value	= [self readVarint:body length:&length];
+		[body removeBytes:length];
+		
+		// Scan the value, it will be automatically added to our body
+		// content
+		SKProtobufKey *key = [[SKProtobufKey alloc] initWithVarint:value];
 		[self scanValue:key data:body isHeader:NO];
 		[key release];
 	}
-	
-	NSLog(@"Final: %@", _map);
 }
 
 - (void)scanValue:(SKProtobufKey *)key data:(NSMutableData *)data isHeader:(BOOL)header
 {
-	NSMutableDictionary *storage = _map;
+	// This is a quick way of deciding in what part
+	// of the packet we will keep our data.
+	NSMutableDictionary *storage = _body;
 	if( header )
 	{
 		storage = _header;
@@ -172,12 +187,13 @@ NSUInteger const ProtoMask = 0x80000000;
 				{
 					DLog(@"Unable to decode Protobuf packed string");
 				}
+				[str release];
 			}
 		}
 			break;
 			
 		default:
-			//DLog(@"Found unhandled value! %@ %@", key, data);
+			DLog(@"Found unhandled value! %@ %@", key, data);
 			//DLog(@"Unhandled key: %@", key);
 			break;
 	}
@@ -187,8 +203,8 @@ NSUInteger const ProtoMask = 0x80000000;
 {
 	UInt8 *bytes = (UInt8*)[data bytes];
 	
-	UInt32 value = 0;
-	NSUInteger i= 0;
+	UInt32 value	= 0;
+	NSUInteger i	= 0;
 	for(;i<[data length];i++)
 	{
 		UInt8 b = bytes[i];
@@ -201,31 +217,6 @@ NSUInteger const ProtoMask = 0x80000000;
 		}
 	}
 	return value;
-}
-
-#pragma mark - Public class methods
-
-- (void)loadMap:(NSString *)mapName
-{
-	NSString *path		= [[NSBundle mainBundle] pathForResource:mapName ofType:@"plist" inDirectory:@"Protobuf"];
-	NSDictionary *map	= [[NSDictionary alloc] initWithContentsOfFile:path];
-	if( map )
-	{
-		[_map release];
-		_map = [[NSMutableDictionary alloc] initWithDictionary:map];
-	}
-	[map release];
-}
-
-- (id)valueForKey:(NSString *)key
-{
-	return _map[key];
-}
-
-- (id)valueForFieldNumber:(NSUInteger)fieldNumber
-{
-	NSString *key = [NSString stringWithFormat:@"Proto.%lu", fieldNumber];
-	return [self valueForKey:key];
 }
 
 @end
