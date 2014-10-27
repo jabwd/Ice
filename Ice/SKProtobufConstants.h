@@ -5,6 +5,15 @@
 //  Created by Antwan van Houdt on 25/10/14.
 //  Copyright (c) 2014 Exurion. All rights reserved.
 //
+//	https://developers.google.com/protocol-buffers/docs/encoding
+//
 
-extern UInt8 const SKFieldNumberEmailAddress	= 8;
-extern UInt8 const SKFieldNumberResultCode		= 1;
+typedef NS_ENUM(UInt8, WireType)
+{
+	WireTypeVarint		= 0,
+	WireTypeFixed32		= 5, // yes... this is actually true
+	WireTypeFixed64		= 1,
+	WireTypePacked		= 2,
+	WireTypeDeprecated1 = 3,
+	WireTypeDeprecated2 = 4,
+};
