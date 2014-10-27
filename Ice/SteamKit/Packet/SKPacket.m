@@ -10,10 +10,13 @@
 #import <zlib.h>
 #import "SKRSAEncryption.h"
 #import "SKAESEncryption.h"
-#import "NSData_SteamKitAdditions.h"
 #import "SKSession.h"
 #import "SKProtobufScanner.h"
 #import "SteamConstants.h"
+#import "SKProtobufCompiler.h"
+#import "SKProtobufKey.h"
+#import "SKProtobufValue.h"
+#import "NSData_SteamKitAdditions.h"
 
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
 #define PACKET_MAX_SIZE		65507
@@ -161,13 +164,52 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	
 	NSMutableData *data = [[NSMutableData alloc] init];
 	[data appendBytes:&type length:4];
-	NSData *unknownData = [NSData dataFromByteString:@"09 00 00 00 09 00 00 00 00 01 00 1001 08 ab 80 04 10 8e e4 97 d0 07 28 eb 0d 32 0765 6e 67 6c 69 73 68 38 b5 fe ff ff 0f 92 03 08"];
-	[data appendData:unknownData];
-	[data appendData:[username dataUsingEncoding:NSUTF8StringEncoding]];
-	NSData *sep = [NSData dataFromByteString:@"9a 03 09"];
-	[data appendData:sep];
-	[data appendData:[password dataUsingEncoding:NSUTF8StringEncoding]];
-	[data appendData:[NSData dataFromByteString:@"90 05 09"]];
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:76561197960265728];
+	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithVarint:65579];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:1];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithVarint:2047209998];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:2];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithVarint:1771];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:5];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithString:@"english"];
+	[compiler addValue:v forType:WireTypePacked fieldNumber:6];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithVarint:SKOSTypeMacOS109];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:7];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithString:username];
+	[compiler addValue:v forType:WireTypePacked fieldNumber:50];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithString:password];
+	[compiler addValue:v forType:WireTypePacked fieldNumber:51];
+	[v release];
+	
+	v	= [[SKProtobufValue alloc] initWithVarint:SKResultCodeFileNotFound];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:82];
+	[v release];
+	
+	[data appendData:[compiler generate]];
+	
+	/*v	= [[SKProtobufValue alloc] initWithString:@"STEAMGUARD"];
+	key = [[SKProtobufKey alloc] initWithType:WireTypePacked fieldNumber:84];
+	[compiler addValue:v forKey:key];
+	*/
+	
 	packet.data = data;
 	[data release];
 	
