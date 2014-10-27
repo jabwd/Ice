@@ -129,7 +129,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 
 - (id)valueForFieldNumber:(NSUInteger)fieldNumber
 {
-	return [_scanner valueForFieldNumber:fieldNumber];
+	return nil;
 }
 
 #pragma mark - Packet templates

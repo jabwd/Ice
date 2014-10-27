@@ -27,56 +27,18 @@
 		_type = WireTypeVarint;
 		
 		NSMutableData *buff		= [[NSMutableData alloc] init];
-		NSData *numberData		= [[NSData dataWithBytes:&varint length:8] dataByTruncatingUselessData];
-		const char *bytes		= [numberData bytes];
-		char bitBuffer			= 0;
 		
-		NSLog(@"%@", numberData);
-		
-		char bits[64];
-		char final[8];
-		char bitIdx			= 0;
-		char finalIdx		= 0;
-		for(UInt8 i = 0;i<[numberData length];i++)
-		{
-			// Create a bit stream
-			char b = bytes[i];
-			for(UInt8 r = 0;r<8;r++)
+		UInt64 n = varint;
+		do {
+			UInt8 tmp		= (UInt8)(n % 0x80);
+			UInt64 next		= (UInt64)floor(n/0x80);
+			if( next != 0 )
 			{
-				char bit = ((b >> (7-r)) & 0x1);
-				bits[bitIdx] = bit;
-				bitIdx++;
+				tmp = tmp + 0x80;
 			}
-		}
-		
-		/*for(UInt8 r = 0;r<bitIdx;r++)
-		{
-			char bit = bits[r];
-			
-			if( (finalIdx == 0) && (bitIdx-r) > 7 )
-			{
-				final[0] = 1;
-				finalIdx++;
-				DLog(@"Inserting msb at %u", r);
-			}
-			final[finalIdx] = bit;
-			finalIdx++;
-			
-			if( finalIdx == 7 )
-			{
-				char byte = 0;
-				byte |= (final[0] << 7);
-				byte |= (final[1] << 6);
-				byte |= (final[2] << 5);
-				byte |= (final[3] << 4);
-				byte |= (final[4] << 3);
-				byte |= (final[5] << 2);
-				byte |= (final[6] << 1);
-				byte |= (final[7] << 0);
-				[buff appendBytes:&byte length:1];
-				finalIdx = 0;
-			}
-		}*/
+			[buff appendBytes:&tmp length:1];
+			n = next;
+		} while( n != 0 );
 		
 		_data = [buff retain];
 		
