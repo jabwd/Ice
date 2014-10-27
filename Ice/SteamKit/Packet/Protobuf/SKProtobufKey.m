@@ -10,17 +10,17 @@
 
 @implementation SKProtobufKey
 
-- (id)initWithByte:(const char *)byte
+- (id)initWithVarint:(UInt32)varint
 {
 	if( (self = [super init]) )
 	{
-		_type			= (*byte & 0x07);
-		_fieldNumber	= ((*byte & 0xF8) >> 3);
+		_type			= (varint & 0x00000007);
+		_fieldNumber	= ((varint ^ 0x00000007) >> 3);
 	}
 	return self;
 }
 
-- (id)initWithType:(WireType)wireType fieldNumber:(UInt8)number
+- (id)initWithType:(WireType)wireType fieldNumber:(UInt32)number
 {
 	if( (self = [super init]) )
 	{
@@ -32,14 +32,14 @@
 
 - (NSData *)encode
 {
-	UInt8 byte = _type;
+	UInt32 byte = _type;
 	byte |= (_fieldNumber << 3);
 	return [NSData dataWithBytes:&byte length:1];
 }
 
 - (NSString *)valueKey
 {
-	return [NSString stringWithFormat:@"Proto.%u", _fieldNumber];
+	return [NSString stringWithFormat:@"%u", _fieldNumber];
 }
 
 - (NSString *)description

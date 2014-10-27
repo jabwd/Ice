@@ -10,15 +10,15 @@
 
 @interface SKProtobufKey : NSObject
 {
-	UInt8		_fieldNumber;
+	UInt32		_fieldNumber;
 	WireType	_type;
 }
 
-@property (assign) UInt8 fieldNumber;
+@property (assign) UInt32 fieldNumber;
 @property (assign) WireType type;
 
-- (id)initWithByte:(const char *)byte;
-- (id)initWithType:(WireType)wireType fieldNumber:(UInt8)number;
+- (id)initWithVarint:(UInt32)varint;
+- (id)initWithType:(WireType)wireType fieldNumber:(UInt32)number;
 
 - (NSData *)encode;
 - (NSString *)valueKey;
