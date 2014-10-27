@@ -21,6 +21,7 @@
 
 - (id)initWithData:(NSData *)data type:(WireType)type;
 
+- (id)initWithSignedVarint:(SInt32)signedInt;
 - (id)initWithVarint:(UInt64)varint;
 - (id)initWithFixed64:(UInt64)fixed64;
 - (id)initWithFixed32:(UInt32)fixed32;

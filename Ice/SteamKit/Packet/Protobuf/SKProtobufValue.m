@@ -17,14 +17,14 @@
 	if( (self = [super init]) )
 	{
 		_type = type;
-		DLog(@"Scanning %u", type);
+		
 		switch( type )
 		{
 			case WireTypeVarint:
 			{
 				NSUInteger len = 0;
 				UInt64 val = [self readVarint:data length:&len];
-				_value = [[NSNumber alloc] initWithInteger:val];
+				_value = [[NSNumber alloc] initWithUnsignedInteger:val];
 				_data = [[data subdataWithRange:NSMakeRange(0, len)] retain];
 			}
 				break;
@@ -33,7 +33,7 @@
 			{
 				UInt64 value = 0;
 				[data getBytes:&value length:8];
-				_value	= [[NSNumber alloc] initWithInteger:value];
+				_value	= [[NSNumber alloc] initWithUnsignedInteger:value];
 				_data	= [[data subdataWithRange:NSMakeRange(0, 8)] retain];
 			}
 				break;
@@ -42,7 +42,7 @@
 			{
 				UInt32 value = 0;
 				[data getBytes:&value length:4];
-				_value	= [[NSNumber alloc] initWithInteger:value];
+				_value	= [[NSNumber alloc] initWithUnsignedInteger:value];
 				_data	= [[data subdataWithRange:NSMakeRange(0, 4)] retain];
 			}
 				break;
@@ -76,6 +76,13 @@
 		}
 	}
 	return self;
+}
+
+- (id)initWithSignedVarint:(int)signedInt
+{
+	signedInt = signedInt<0?(abs(signedInt)*2-1):signedInt*2;
+	
+	return [self initWithVarint:signedInt];
 }
 
 - (id)initWithVarint:(UInt64)varint
@@ -175,20 +182,20 @@
 {
 	UInt8 *bytes = (UInt8*)[data bytes];
 	
-	UInt64 value	= 0;
 	NSUInteger i	= 0;
+	UInt64 n		= 0;
 	for(;i<[data length];i++)
 	{
-		UInt8 b = bytes[i];
-		value |= (b & 0x7F) << (7*i);
-		
-		*length = *length + 1;
-		if( (b & 0x80) == 0 )
+		UInt32 m = bytes[i];
+		n = n + ((m & 0x7f) * pow(2,(7*i)));
+		*length = *length +1;
+		if( m < 128 )
 		{
-			break; // End found.
+			break;
 		}
 	}
-	return value;
+	
+	return n;
 }
 
 @end
