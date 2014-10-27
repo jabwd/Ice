@@ -17,7 +17,7 @@
 @property (assign) UInt32 fieldNumber;
 @property (assign) WireType type;
 
-- (id)initWithVarint:(UInt32)varint;
+- (id)initWithVarint:(UInt64)varint;
 - (id)initWithType:(WireType)wireType fieldNumber:(UInt32)number;
 
 - (NSData *)encode;

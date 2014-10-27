@@ -7,15 +7,17 @@
 //
 
 #import "SKProtobufKey.h"
+#import "SKProtobufValue.h"
 
 @implementation SKProtobufKey
 
-- (id)initWithVarint:(UInt32)varint
+- (id)initWithVarint:(UInt64)varint
 {
 	if( (self = [super init]) )
 	{
+		UInt32 fNumber	= (UInt32)varint;
 		_type			= (varint & 0x00000007);
-		_fieldNumber	= ((varint ^ 0x00000007) >> 3);
+		_fieldNumber	= ((fNumber ^ 0x00000007) >> 3);
 	}
 	return self;
 }
@@ -34,12 +36,13 @@
 {
 	UInt32 byte = _type;
 	byte |= (_fieldNumber << 3);
-	return [NSData dataWithBytes:&byte length:1];
+	SKProtobufValue *value = [[SKProtobufValue alloc] initWithVarint:byte];
+	return value.data;
 }
 
 - (NSString *)valueKey
 {
-	return [NSString stringWithFormat:@"%u", _fieldNumber];
+	return [NSString stringWithFormat:@"%u.%u", _fieldNumber, _type];
 }
 
 - (NSString *)description
