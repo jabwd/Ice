@@ -12,6 +12,7 @@
 #import "NSData_SteamKitAdditions.h"
 #import "SKAESEncryption.h"
 #import "SKSentryFile.h"
+#import "SKProtobufScanner.h"
 
 @implementation EXAppDelegate
 
@@ -31,6 +32,12 @@
 	NSLog(@"%@", [[NSData dataFromByteString:@"01000080 00000000 12b88080 80003400 0000ef02 00800d00 000009ae 63320a01 00100110 edcf2e08 3f420967 6d61696c 2e636f6d 503fa101 ae63320a 01001001 c00100c8 0100"] enhancedDescription]);
 	
 	[self connect:nil];*/
+	
+	
+	NSLog(@"%@", [[NSData dataFromByteString:@"8a1500800900000009000000000100100108ab80041088e2b7850b28eb0d3207656e676c69736838b5feffff0f9203086e756d626572355f9a0309787439414253357664900509a205053132333435"] enhancedDescription]);
+	SKProtobufScanner *scanner = [[SKProtobufScanner alloc] initWithData:[NSData dataFromByteString:@"8a1500800900000009000000000100100108ab80041088e2b7850b28eb0d3207656e676c69736838b5feffff0f9203086e756d626572355f9a0309787439414253357664900509a205053132333435"]];
+	NSLog(@"%@ %@", scanner.header, scanner.body);
+	[scanner release];
 }
 
 - (IBAction)scanPacketData:(id)sender

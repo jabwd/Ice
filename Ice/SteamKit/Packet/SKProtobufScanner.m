@@ -150,7 +150,7 @@ NSUInteger const ProtoMask = 0x80000000;
 		}
 			break;
 			
-		case WireTypeFixed:
+		case WireTypeFixed64:
 		{
 			UInt64 value = 0;
 			[data getBytes:&value length:8];
@@ -160,7 +160,7 @@ NSUInteger const ProtoMask = 0x80000000;
 		}
 			break;
 			
-		case WireTypeFloat:
+		case WireTypeFixed32:
 		{
 			UInt32 value = 0;
 			[data getBytes:&value length:4];

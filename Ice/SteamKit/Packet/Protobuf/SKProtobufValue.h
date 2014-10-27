@@ -9,10 +9,19 @@
 #import "SKProtobufConstants.h"
 
 @interface SKProtobufValue : NSObject
+{
+	NSData		*_data;
+	
+	WireType	_type;
+}
+@property (retain) NSData *data;
+@property (assign) WireType type;
 
 - (id)initWithData:(NSData *)data type:(WireType)type;
+
 - (id)initWithVarint:(UInt64)varint;
-- (id)initWithFixed:(UInt64)fixed64;
+- (id)initWithFixed64:(UInt64)fixed64;
+- (id)initWithFixed32:(UInt32)fixed32;
 - (id)initWithString:(NSString *)string;
 
 @end
