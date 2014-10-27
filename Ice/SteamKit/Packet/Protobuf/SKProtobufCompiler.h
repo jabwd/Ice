@@ -6,8 +6,22 @@
 //  Copyright (c) 2014 Exurion. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "SKProtobufConstants.h"
+
+@class SKProtobufKey;
+@class SKProtobufValue;
 
 @interface SKProtobufCompiler : NSObject
+{
+	NSMutableDictionary *_headerValues;
+	NSMutableDictionary *_bodyValues;
+	NSMutableData		*_data;
+	NSMutableData		*_headerData;
+}
+
+- (void)addHeaderValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber;
+- (void)addValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber;
+
+- (NSData *)generate;
 
 @end

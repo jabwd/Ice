@@ -76,7 +76,7 @@ NSUInteger const ProtoMask = 0x80000000;
 - (void)scanHeader:(NSMutableData *)header
 {
 	NSUInteger length	= 0;
-	UInt32 value		= 0;
+	UInt64 value		= 0;
 	while( [header length] > 0 )
 	{
 		// Read the SKProtobufKey which can be more
@@ -97,7 +97,7 @@ NSUInteger const ProtoMask = 0x80000000;
 - (void)scanBody:(NSMutableData *)body
 {
 	NSUInteger length	= 0;
-	UInt32 value		= 0;
+	UInt64 value		= 0;
 	while( [body length] > 0 )
 	{
 		// Read the SKProtobufKey
@@ -125,16 +125,20 @@ NSUInteger const ProtoMask = 0x80000000;
 	}
 	
 	SKProtobufValue *value = [[SKProtobufValue alloc] initWithData:data type:key.type];
+	if( value.value == nil )
+	{
+		DLog(@"Unable to scan value for %@", key);
+	}
 	[storage setObject:value.value forKey:key.valueKey];
 	[data removeBytes:value.length];
 	[value release];
 }
 
-- (UInt32)readVarint:(NSData *)data length:(NSUInteger *)length
+- (UInt64)readVarint:(NSData *)data length:(NSUInteger *)length
 {
 	UInt8 *bytes = (UInt8*)[data bytes];
 	
-	UInt32 value	= 0;
+	UInt64 value	= 0;
 	NSUInteger i	= 0;
 	for(;i<[data length];i++)
 	{
