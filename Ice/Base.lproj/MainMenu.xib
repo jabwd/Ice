@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
     </dependencies>
     <objects>
@@ -15,6 +14,7 @@
         <customObject id="Voe-Tx-rLC" customClass="EXAppDelegate">
             <connections>
                 <outlet property="dataField" destination="m6D-YT-6Wr" id="GLS-QW-0M7"/>
+                <outlet property="packetDataField" destination="SNP-Rg-AJ7" id="NOu-pG-5hf"/>
                 <outlet property="passwordField" destination="XDc-ZR-S1I" id="VUB-hQ-fVN"/>
                 <outlet property="sessionKeyField" destination="Roc-me-cMy" id="24N-1m-kfs"/>
                 <outlet property="usernameField" destination="ExG-0x-APG" id="ePH-5F-2to"/>
@@ -759,6 +759,26 @@ DQ
                                     <action selector="connect:" target="Voe-Tx-rLC" id="reB-Zp-K85"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" id="dx3-xb-XUZ">
+                                <rect key="frame" x="14" y="50" width="178" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Parse protobuf packet" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jJ1-MK-yzD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="scanPacketData:" target="Voe-Tx-rLC" id="yvx-7z-UUV"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" id="SNP-Rg-AJ7">
+                                <rect key="frame" x="20" y="86" width="441" height="92"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="mBE-g8-cHA">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </visualEffectView>
                 </subviews>

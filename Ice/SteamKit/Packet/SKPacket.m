@@ -127,12 +127,13 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 
 - (id)valueForKey:(NSString *)key
 {
-	return [_scanner valueForKey:key];
+	return _scanner.body[key];
 }
 
 - (id)valueForFieldNumber:(NSUInteger)fieldNumber
 {
-	return nil;
+	NSString *key = [[[NSString alloc] initWithFormat:@"%lu", fieldNumber] autorelease];
+	return _scanner.body[key];
 }
 
 #pragma mark - Packet templates
@@ -157,6 +158,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 
 + (SKPacket *)logOnPacket:(NSString *)username password:(NSString *)password
 				 language:(NSString *)language
+			   steamGuard:(NSString *)guardCode
 {
 	SKPacket *packet	= [[SKPacket alloc] init];
 	SKMsgType type = 0x80000000 + SKMsgTypeClientLogon;
@@ -203,15 +205,20 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	[compiler addValue:v forType:WireTypeVarint fieldNumber:82];
 	[v release];
 	
+	if( guardCode && [guardCode length] > 3 )
+	{
+		v	= [[SKProtobufValue alloc] initWithString:guardCode];
+		[compiler addValue:v forType:WireTypePacked fieldNumber:84];
+	}
+	
 	[data appendData:[compiler generate]];
 	
-	/*v	= [[SKProtobufValue alloc] initWithString:@"STEAMGUARD"];
-	key = [[SKProtobufKey alloc] initWithType:WireTypePacked fieldNumber:84];
-	[compiler addValue:v forKey:key];
+	/*
 	*/
 	
 	packet.data = data;
 	[data release];
+	NSLog(@"packet.data%@",packet.data);
 	
 	return [packet autorelease];
 }

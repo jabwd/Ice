@@ -98,9 +98,8 @@ static const SKSession *_sharedSession = nil;
 
 - (void)logIn
 {
-	DLog(@"Logging in with %@:%@", [self username], [self password]);
-	SKPacket *packet = [SKPacket logOnPacket:[self username] password:[self password] language:@"english"];
-	NSLog(@"%@ %@", packet.data, _sessionKey);
+	DLog(@"Logging in with %@:%@ and steamguard: %@", [self username], [self password], [self steamGuard]);
+	SKPacket *packet = [SKPacket logOnPacket:[self username] password:[self password] language:@"english" steamGuard:[self steamGuard]];
 	NSData *final = [SKAESEncryption encryptPacketData:packet.data key:_sessionKey];
 	packet.data = final;
 	[_TCPConnection sendPacket:packet];
@@ -125,6 +124,16 @@ static const SKSession *_sharedSession = nil;
 		return [_delegate password];
 	}
 	DLog(@"[Error] SKSession delegate does not implement -password, therefore logging in will not be possible!");
+	return nil;
+}
+
+- (NSString *)steamGuard
+{
+	if( [_delegate respondsToSelector:@selector(steamGuard)] )
+	{
+		return [_delegate steamGuard];
+	}
+	DLog(@"[Error] SKSession delegate does not implement -steamGuard, therefore logging in will not be possible");
 	return nil;
 }
 

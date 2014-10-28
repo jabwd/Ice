@@ -38,34 +38,35 @@
 - (void)checkForPacket:(NSData *)buffer
 {
 	DLog(@"Checking for packet %@", buffer);
-	if( [buffer length] > SKPacketMinimumDataLength )
+	SKPacket *packet	= nil;
+	UInt32 first		= 0;
+	UInt32 second		= 0;
+	
+	// Scan the packet header
+	[buffer getBytes:&first length:4];
+	[buffer getBytes:&second range:NSMakeRange(0x04, 4)];
+	
+	if( second == SKPacketTCPMagicHeader && first <= [buffer length] )
 	{
-		SKPacket *packet	= nil;
-		UInt32 first		= 0;
-		UInt32 second		= 0;
+		packet = [SKPacket packetByDecodingTCPBuffer:[buffer subdataWithRange:NSMakeRange(0x08, first)]
+										  sessionKey:_connection.session.sessionKey
+											   error:nil];
 		
-		// Scan the packet header
-		[buffer getBytes:&first length:4];
-		[buffer getBytes:&second range:NSMakeRange(0x04, 4)];
-		
-		if( second == SKPacketTCPMagicHeader )
-		{
-			packet = [SKPacket packetByDecodingTCPBuffer:[buffer subdataWithRange:NSMakeRange(0x08, first)]
-											  sessionKey:_connection.session.sessionKey
-												   error:nil];
-			
-			// Removes the packetdata from the connection's buffer.
-			[_connection removeBytesOfLength:(first+8)];
-		}
-		else if( first == SKPacketUDPMagicHeader )
-		{
-			DLog(@"UDP Packets are not supported right now");
-		}
-		
-		if( packet )
-		{
-			[self handlePacket:packet];
-		}
+		// Removes the packetdata from the connection's buffer.
+		[_connection removeBytesOfLength:(first+8)];
+	}
+	else if( first == SKPacketUDPMagicHeader )
+	{
+		DLog(@"UDP Packets are not supported right now");
+	}
+	else
+	{
+		NSLog(@"Packet size %u exceeds buffer size", first);
+	}
+	
+	if( packet )
+	{
+		[self handlePacket:packet];
 	}
 }
 
@@ -86,6 +87,7 @@
 			else
 			{
 				NSMutableData *buffer = [[NSMutableData alloc] initWithData:packet.data];
+				NSLog(@"14 removed: %@", buffer);
 				[buffer removeBytes:14];
 				while( [buffer length] > 0 )
 				{
@@ -126,7 +128,7 @@
 			
 		case SKMsgTypeClientLogOnResponse:
 		{
-			NSLog(@"LogOn Response: %@", [packet valueForFieldNumber:8]);
+			NSLog(@"LogOn Response: %@", packet.scanner.body);
 			
 			if( [[packet valueForFieldNumber:1] integerValue] == SKResultCodeAccountLogonDenied )
 			{

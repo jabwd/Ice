@@ -9,6 +9,7 @@
 #import "SKTCPConnection.h"
 #import "SKPacket.h"
 #import "SKPacketScanner.h"
+#import "NSData_SteamKitAdditions.h"
 
 @implementation SKTCPConnection
 
@@ -72,8 +73,15 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
+	NSLog(@"Appending %lu bytes", [data length]);
 	[_buffer appendData:data];
-	[_scanner checkForPacket:_buffer];
+	UInt32 length = [_buffer getUInt32];
+	
+	// Wait till we have enough data to scan the packet we received
+	if( length <= [_buffer length] )
+	{
+		[_scanner checkForPacket:_buffer];
+	}
 	[_socket readDataWithTimeout:-1 tag:0];
 }
 

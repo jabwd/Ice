@@ -22,7 +22,8 @@
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
 		36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714C819D2F36F006F08B3 /* SKAESEncryption.m */; };
 		36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B714CA19D2FB69006F08B3 /* Security.framework */; };
-		36D8F5B519F6A2F600C3D4BE /* SteamGuard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36D8F5B419F6A2F600C3D4BE /* SteamGuard.xib */; };
+		36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */; };
+		36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
 		36E5DA9319FDE4EB00AD2A4D /* SKProtobufCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E5DA9219FDE4EB00AD2A4D /* SKProtobufCompiler.m */; };
@@ -82,7 +83,9 @@
 		36B714C819D2F36F006F08B3 /* SKAESEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKAESEncryption.m; path = SteamKit/Security/SKAESEncryption.m; sourceTree = "<group>"; };
 		36B714CA19D2FB69006F08B3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		36C92ED219FBE6B7009FD8E2 /* SKProtobufConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKProtobufConstants.h; sourceTree = "<group>"; };
-		36D8F5B419F6A2F600C3D4BE /* SteamGuard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SteamGuard.xib; path = "User Interface/SteamGuard.xib"; sourceTree = "<group>"; };
+		36CB626E19FF347000F2E996 /* EXSteamGuardWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXSteamGuardWindowController.h; path = "Classes/Steam Guard/EXSteamGuardWindowController.h"; sourceTree = "<group>"; };
+		36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXSteamGuardWindowController.m; path = "Classes/Steam Guard/EXSteamGuardWindowController.m"; sourceTree = "<group>"; };
+		36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXSteamGuardWindowController.xib; path = "Classes/Steam Guard/EXSteamGuardWindowController.xib"; sourceTree = "<group>"; };
 		36DAFB5519CAD81600A65E6F /* SKUDPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKUDPConnection.h; path = SteamKit/Connection/SKUDPConnection.h; sourceTree = "<group>"; };
 		36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKUDPConnection.m; path = SteamKit/Connection/SKUDPConnection.m; sourceTree = "<group>"; };
 		36DAFB5819CB30DF00A65E6F /* SKTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKTCPConnection.h; path = SteamKit/Connection/SKTCPConnection.h; sourceTree = "<group>"; };
@@ -221,11 +224,28 @@
 			name = Security;
 			sourceTree = "<group>";
 		};
+		36CB626C19FF343A00F2E996 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				36CB626D19FF344100F2E996 /* Steam Guard */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		36CB626D19FF344100F2E996 /* Steam Guard */ = {
+			isa = PBXGroup;
+			children = (
+				36CB626E19FF347000F2E996 /* EXSteamGuardWindowController.h */,
+				36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */,
+			);
+			name = "Steam Guard";
+			sourceTree = "<group>";
+		};
 		36D8F5B319F6A2CE00C3D4BE /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */,
 				36E766F119C6D54000D9C761 /* MainMenu.xib */,
-				36D8F5B419F6A2F600C3D4BE /* SteamGuard.xib */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -275,6 +295,7 @@
 		36E766E219C6D54000D9C761 /* Ice */ = {
 			isa = PBXGroup;
 			children = (
+				36CB626C19FF343A00F2E996 /* Classes */,
 				36D8F5B319F6A2CE00C3D4BE /* User Interface */,
 				36E7671019C6D8BB00D9C761 /* SteamKit */,
 				36E766EE19C6D54000D9C761 /* EXAppDelegate.h */,
@@ -438,11 +459,11 @@
 				36E766E719C6D54000D9C761 /* InfoPlist.strings in Resources */,
 				3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */,
 				36E766F519C6D54000D9C761 /* Images.xcassets in Resources */,
+				36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */,
 				36E766ED19C6D54000D9C761 /* Credits.rtf in Resources */,
 				360609B219EBC1CB0003EA2D /* public.pem in Resources */,
 				360609B019EBC1C30003EA2D /* private.pem in Resources */,
 				36E766F319C6D54000D9C761 /* MainMenu.xib in Resources */,
-				36D8F5B519F6A2F600C3D4BE /* SteamGuard.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +493,7 @@
 				363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */,
 				3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */,
 				36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */,
+				36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
 				36E5DA9619FDEBF300AD2A4D /* SKProtobufValue.m in Sources */,

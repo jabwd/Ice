@@ -64,7 +64,7 @@ NSUInteger const ProtoMask = 0x80000000;
 	}
 	else
 	{
-		DLog(@"No Protobuf header detected in scanned packet");
+		DLog(@"No Protobuf header detected in scanned packet %@", [scanBuffer enhancedDescription]);
 	}
 	
 	// The rest of the data should be the protobuf packet body.
@@ -105,6 +105,7 @@ NSUInteger const ProtoMask = 0x80000000;
 		length	= 0;
 		value	= [self readVarint:body length:&length];
 		[body removeBytes:length];
+		NSLog(@"%@", body);
 		
 		// Scan the value, it will be automatically added to our body
 		// content
@@ -125,11 +126,14 @@ NSUInteger const ProtoMask = 0x80000000;
 	}
 	
 	SKProtobufValue *value = [[SKProtobufValue alloc] initWithData:data type:key.type];
-	if( value.value == nil )
+	if( value.value != nil )
+	{
+		[storage setObject:value.value forKey:key.valueKey];
+	}
+	else
 	{
 		DLog(@"Unable to scan value for %@", key);
 	}
-	[storage setObject:value.value forKey:key.valueKey];
 	[data removeBytes:value.length];
 	[value release];
 }
@@ -138,20 +142,20 @@ NSUInteger const ProtoMask = 0x80000000;
 {
 	UInt8 *bytes = (UInt8*)[data bytes];
 	
-	UInt64 value	= 0;
 	NSUInteger i	= 0;
+	UInt64 n		= 0;
 	for(;i<[data length];i++)
 	{
-		UInt8 b = bytes[i];
-		value |= (b & 0x7F) << (7*i);
-		
-		*length = *length + 1;
-		if( (b & 0x80) == 0 )
+		UInt32 m = bytes[i];
+		n = n + ((m & 0x7f) * pow(2,(7*i)));
+		*length = *length +1;
+		if( m < 128 )
 		{
-			break; // End found.
+			break;
 		}
 	}
-	return value;
+	
+	return n;
 }
 
 @end

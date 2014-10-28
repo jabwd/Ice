@@ -27,6 +27,7 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 - (void)sessionChangedStatus:(SKSession *)session;
 - (NSString *)username;
 - (NSString *)password;
+- (NSString *)steamGuard;
 @end
 
 @interface SKSession : NSObject
@@ -81,5 +82,6 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 
 - (NSString *)username;
 - (NSString *)password;
+- (NSString *)steamGuard;
 
 @end

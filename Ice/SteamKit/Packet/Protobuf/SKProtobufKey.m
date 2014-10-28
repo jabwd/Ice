@@ -42,7 +42,7 @@
 
 - (NSString *)valueKey
 {
-	return [NSString stringWithFormat:@"%u.%u", _fieldNumber, _type];
+	return [NSString stringWithFormat:@"%u", _fieldNumber];
 }
 
 - (NSString *)description

@@ -49,6 +49,7 @@ extern UInt32 const		SKProtocolVersionMinorMask;
 
 + (SKPacket *)encryptionResponsePacket:(NSData *)sessionKey;
 + (SKPacket *)logOnPacket:(NSString *)username password:(NSString *)password
-				 language:(NSString *)language;
+				 language:(NSString *)language
+			   steamGuard:(NSString *)guardCode;
 
 @end

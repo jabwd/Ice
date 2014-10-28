@@ -8,10 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SKSession.h"
+#import "EXSteamGuardWindowController.h"
 
-@interface EXAppDelegate : NSObject <NSApplicationDelegate, SKSessionDelegate>
+@interface EXAppDelegate : NSObject <NSApplicationDelegate,
+									SKSessionDelegate, NSAlertDelegate,
+									EXSteamGuardWindowControllerDelegate>
 {
 	SKSession *_session;
+	NSString *_authcode;
 }
 
 @property (assign) IBOutlet NSWindow *window;
