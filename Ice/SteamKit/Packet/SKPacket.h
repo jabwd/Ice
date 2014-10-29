@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "SteamConstants.h"
 
-extern NSInteger const SKPacketMinimumDataLength;
 extern NSInteger const SKPacketTCPMagicHeader;
 extern NSInteger const SKPacketUDPMagicHeader;
 
@@ -17,6 +16,7 @@ extern UInt32 const		SKLocalIPObfuscationMask;
 extern UInt32 const		SKProtocolVersion;
 extern UInt32 const		SKProtocolVersionMajorMask;
 extern UInt32 const		SKProtocolVersionMinorMask;
+extern UInt32 const		SKProtocolProtobufMask;
 
 @class SKProtobufScanner;
 
@@ -51,5 +51,8 @@ extern UInt32 const		SKProtocolVersionMinorMask;
 + (SKPacket *)logOnPacket:(NSString *)username password:(NSString *)password
 				 language:(NSString *)language
 			   steamGuard:(NSString *)guardCode;
+
++ (SKPacket *)machineAuthResponsePacket:(UInt32)length
+								  jobID:(UInt32)targetID;
 
 @end

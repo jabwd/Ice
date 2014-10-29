@@ -19,10 +19,6 @@
 #import "NSData_SteamKitAdditions.h"
 #import "SKSentryFile.h"
 
-#define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
-#define PACKET_MAX_SIZE		65507
-
-NSInteger const SKPacketMinimumDataLength = 8; // was 36 before, but lets leave it at this for now.
 NSInteger const SKPacketTCPMagicHeader = 0x31305456;
 NSInteger const SKPacketUDPMagicHeader = 0x31305356;
 
@@ -30,6 +26,7 @@ UInt32 const SKlocalIPObfuscationMask	= 0xBAADF00D;
 UInt32 const SKProtocolVersion			= 65579;
 UInt32 const SKProtocolVersionMajorMask = 0xFFFF0000;
 UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
+UInt32 const SKProtocolProtobufMask		= 0x80000000;
 
 @implementation SKPacket
 
@@ -55,7 +52,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 			packet.data = buff;
 		}
 		[packet.data getBytes:&type length:4];
-		packet.msgType = (type ^ 0x80000000);
+		packet.msgType = (type & 0x7FFFFFFF);
 	}
 	else
 	{
@@ -119,7 +116,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 
 - (BOOL)isProtobufPacket
 {
-	if( (self.msgType & 0x80000000) > 0 )
+	if( (self.msgType & SKProtocolProtobufMask) > 0 )
 	{
 		return YES;
 	}
@@ -133,8 +130,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 
 - (id)valueForFieldNumber:(NSUInteger)fieldNumber
 {
-	NSString *key = [[[NSString alloc] initWithFormat:@"%lu", fieldNumber] autorelease];
-	return _scanner.body[key];
+	return _scanner.body[[NSString stringWithFormat:@"%lu", fieldNumber]];
 }
 
 #pragma mark - Packet templates
@@ -162,7 +158,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 			   steamGuard:(NSString *)guardCode
 {
 	SKPacket *packet	= [[SKPacket alloc] init];
-	SKMsgType type = 0x80000000 + SKMsgTypeClientLogon;
+	SKMsgType type = SKProtocolProtobufMask + SKMsgTypeClientLogon;
 	packet.msgType = type;
 	
 	NSMutableData *data = [[NSMutableData alloc] init];
@@ -174,7 +170,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
 	[v release];
 	
-	v	= [[SKProtobufValue alloc] initWithVarint:65579];
+	v	= [[SKProtobufValue alloc] initWithVarint:SKProtocolVersion];
 	[compiler addValue:v forType:WireTypeVarint fieldNumber:1];
 	[v release];
 	
@@ -202,9 +198,19 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	[compiler addValue:v forType:WireTypePacked fieldNumber:51];
 	[v release];
 	
-	v	= [[SKProtobufValue alloc] initWithVarint:SKResultCodeFileNotFound];
+	SKSentryFile *file = [[SKSentryFile alloc] init];
+	NSData *hash = [file sha1Hash];
+	SKResultCode sentryResult = SKResultCodeFileNotFound;
+	if( [hash length] > 0 )
+	{
+		//sentryResult = SKResultCodeOK;
+	}
+	
+	v	= [[SKProtobufValue alloc] initWithVarint:sentryResult];
 	[compiler addValue:v forType:WireTypeVarint fieldNumber:82];
 	[v release];
+	
+	[file release];
 	
 	if( guardCode && [guardCode length] > 3 )
 	{
@@ -220,12 +226,60 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	return [packet autorelease];
 }
 
-+ (SKPacket *)machineAuthResponsePacket:(SKSentryFile *)sentryFile
++ (SKPacket *)machineAuthResponsePacket:(UInt32)length
+								  jobID:(UInt32)targetID
 {
 	SKPacket *packet = [[SKPacket alloc] init];
-	SKSentryFile *file = [[SKSentryFile alloc] init];
-	NSData *hash = [file sha1Hash];
-	[file release];
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientUpdateMachineAuthResponse;
+	
+	NSMutableData *buffer			= [[NSMutableData alloc] init];
+	SKProtobufCompiler *compiler	= [[SKProtobufCompiler alloc] init];
+	SKSentryFile *sentryFile		= [[SKSentryFile alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:76561197960265728];
+	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
+	[v release];
+	
+	// + Generate the body + //
+	v = [[SKProtobufValue alloc] initWithString:[sentryFile fileName]];
+	[compiler addValue:v forType:WireTypePacked fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:SKResultCodeOK];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:2];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:length];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:3];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithPackedData:[sentryFile sha1Hash]];
+	[compiler addValue:v forType:WireTypePacked fieldNumber:4];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:0];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:5];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:0];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:6];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:length];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:7];
+	[v release];
+	
+	SKMsgType type = packet.msgType;
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	
+	// Cleanup
+	[compiler		release];
+	[buffer			release];
+	[sentryFile		release];
 	
 	return [packet autorelease];
 }
@@ -235,7 +289,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 - (NSString *)description
 {
 	NSMutableString *str = [[NSMutableString alloc] init];
-	[str appendFormat:@"[SKPacket Msg=%u ", _msgType];
+	[str appendFormat:@"[SKPacket Msg=%u ", (_msgType & 0x7FFFFFFF)];
 	[str appendFormat:@"data=%@", _data];
 	[str appendFormat:@" length=%lu]", [_data length]];
 	return [str autorelease];

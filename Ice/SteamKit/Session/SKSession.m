@@ -11,6 +11,7 @@
 #import "SKUDPConnection.h"
 #import "SKTCPConnection.h"
 #import "SKPacket.h"
+#import "SKFriend.h"
 #import "NSData_SteamKitAdditions.h"
 
 NSString *SKSessionStatusChangedNotificationName	= @"SKSessionStatusChanged";
@@ -38,6 +39,7 @@ static const SKSession *_sharedSession = nil;
 		_status				= SKSessionStatusOffline;
 		_delegate			= nil;
 		_sharedSession		= self;
+		_currentUser		= [[SKFriend alloc] init];
 	}
 	return self;
 }
@@ -51,6 +53,10 @@ static const SKSession *_sharedSession = nil;
 	_UDPConnection = nil;
 	[_TCPConnection release];
 	_TCPConnection = nil;
+	[_currentUser release];
+	_currentUser = nil;
+	[_loginKey release];
+	_loginKey = nil;
 	_delegate = nil;
 	[super dealloc];
 }
@@ -60,6 +66,12 @@ static const SKSession *_sharedSession = nil;
 - (void)setStatus:(SKSessionStatus)status
 {
 	_status = status;
+	
+	if( status == SKSessionStatusConnected )
+	{
+		
+	}
+	
 	[[NSNotificationCenter defaultCenter] postNotificationName:SKSessionStatusChangedNotificationName object:self];
 	if( [_delegate respondsToSelector:@selector(sessionChangedStatus:)] )
 	{
@@ -98,8 +110,10 @@ static const SKSession *_sharedSession = nil;
 
 - (void)logIn
 {
-	DLog(@"Logging in with %@:%@ and steamguard: %@", [self username], [self password], [self steamGuard]);
-	SKPacket *packet = [SKPacket logOnPacket:[self username] password:[self password] language:@"english" steamGuard:[self steamGuard]];
+	SKPacket *packet = [SKPacket logOnPacket:[self username]
+									password:[self password]
+									language:@"english"
+								  steamGuard:[self steamGuard]];
 	NSData *final = [SKAESEncryption encryptPacketData:packet.data key:_sessionKey];
 	packet.data = final;
 	[_TCPConnection sendPacket:packet];

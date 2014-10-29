@@ -168,6 +168,25 @@
 	return self;
 }
 
+- (id)initWithPackedData:(NSData *)data
+{
+	if( (self = [super init]) )
+	{
+		_type = WireTypePacked;
+		
+		NSMutableData *buffer = [[NSMutableData alloc] init];
+		
+		UInt8 length = (UInt8)[buffer length];
+		[buffer appendBytes:&length length:1];
+		[buffer appendData:data];
+		
+		_data = [buffer retain];
+		
+		[buffer release];
+	}
+	return self;
+}
+
 - (void)dealloc
 {
 	[_value release];

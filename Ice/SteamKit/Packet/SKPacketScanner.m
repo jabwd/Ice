@@ -10,7 +10,7 @@
 #import "SKConnection.h"
 #import "SKPacket.h"
 #import "SKSession.h"
-#import "SKAESEncryption.h"
+#import "SKFriend.h"
 #import "SKProtobufScanner.h"
 #import "NSData_SteamKitAdditions.h"
 #import "NSMutableData_XfireAdditions.h"
@@ -72,6 +72,8 @@
 
 - (void)handlePacket:(SKPacket *)packet
 {
+	SKSession *session = _connection.session;
+	
 	switch(packet.msgType)
 	{
 		case SKMsgTypeMulti:
@@ -117,7 +119,7 @@
 			
 		case SKMsgTypeChannelEncryptRequest:
 		{
-			SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:_connection.session.sessionKey] retain];
+			SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:session.sessionKey] retain];
 			[_connection sendPacket:encryptionResponse];
 			[encryptionResponse release];
 		}
@@ -153,18 +155,68 @@
 			
 		case SKMsgTypeClientUpdateMachineAuth:
 		{
-			NSLog(@"Received sentryfile");
+			//NSLog(@"Received sentryfile %@ %@", packet.scanner.header, packet.scanner.body);
 			
 			NSDictionary *body	= packet.scanner.body;
 			NSString *fileName	= body[@"1"];
+			//NSNumber *offset	= body[@"2"];
+			NSNumber *length	= body[@"3"];
 			NSData *data		= body[@"4"];
+			NSNumber *sourceID	= packet.scanner.header[@"10"];
 			
 			[_connection.session updateSentryFile:fileName data:data];
+			
+			SKPacket *packet = [SKPacket machineAuthResponsePacket:(UInt32)length.unsignedIntegerValue
+															 jobID:(UInt32)sourceID.unsignedIntegerValue];
+			[_connection sendPacket:packet];
+			NSLog(@"Sending machineauth response: %@", packet);
 		}
 			break;
 			
+		case SKMsgTypeClientNewLoginKey:
+		{
+			UInt32 uniqueId		= (UInt32)[packet.scanner.body[@"1"] unsignedIntegerValue];
+			NSString *loginKey	= packet.scanner.body[@"2"];
+			session.loginKey = loginKey;
+			session.uniqueID = uniqueId;
+			
+			[session setStatus:SKSessionStatusConnected];
+			NSLog(@"Received a new login key: %@", packet.scanner.body[@"2"]);
+		}
+			break;
+			
+		case SKMsgTypeClientVACBanStatus:
+		{
+			NSLog(@"VAC Ban status: %u %@", packet.isProtobufPacket, packet.data);
+		}
+			break;
+			
+		case SKMsgTypeClientServersAvailable:
+			break;
+			
+		case SKMsgTypeClientAccountInfo:
+		{
+			session.currentUser.displayName = packet.scanner.body[@"1"];
+			session.currentUser.countryCode = packet.scanner.body[@"2"];
+		}
+			break;
+			
+		case SKMsgTypeClientEmailAddrInfo:
+		{
+			session.currentUser.email = packet.scanner.body[@"1"];
+			
+			NSLog(@"Current user: %@", session.currentUser);
+		}
+			break;
+			
+		case SKMsgTypeClientRequestedClientStats:
+			break;
+			
+		case SKMsgTypeClientServerList:
+			break;
+			
 		default:
-			NSLog(@"Unhandled packet: %@", packet);
+			NSLog(@"Unhandled packet: Type=%u Body=%@", packet.msgType, packet.scanner.body);
 			break;
 	}
 }

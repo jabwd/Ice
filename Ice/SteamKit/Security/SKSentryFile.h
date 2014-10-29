@@ -29,6 +29,8 @@
  */
 - (NSString *)sentryPath:(NSString *)fileName;
 
+- (NSString *)fileName;
+
 /**
  * Returns the hashed content of the sentry file
  * for use in the login sequence

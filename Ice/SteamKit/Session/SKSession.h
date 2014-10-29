@@ -22,6 +22,7 @@ extern NSString *SKSessionStatusChangedNotificationName;
 extern NSString *SKLoginFailedSteamGuardNotificationName;
 
 @class SKUDPConnection, SKTCPConnection, SKSession;
+@class SKFriend;
 
 @protocol SKSessionDelegate <NSObject>
 - (void)sessionChangedStatus:(SKSession *)session;
@@ -39,13 +40,22 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 	SKUDPConnection *_UDPConnection;
 	SKTCPConnection *_TCPConnection;
 	
+	SKFriend *_currentUser;
+	NSString *_loginKey;
+	
 	id <SKSessionDelegate>	_delegate;
 	SKSessionStatus			_status;
+	
+	UInt32 _uniqueID;
 }
 
 @property (nonatomic, assign) id <SKSessionDelegate> delegate;
 @property (readonly) NSData *sessionKey;
 @property (readonly) SKSessionStatus status;
+@property (readonly) SKFriend *currentUser;
+
+@property (retain) NSString *loginKey;
+@property (assign) UInt32 uniqueID;
 
 + (id)sharedSession;
 

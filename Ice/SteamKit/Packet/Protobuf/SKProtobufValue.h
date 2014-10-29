@@ -27,6 +27,8 @@
 - (id)initWithFixed32:(UInt32)fixed32;
 - (id)initWithString:(NSString *)string;
 
+- (id)initWithPackedData:(NSData *)data;
+
 #pragma mark - Methods
 
 /**

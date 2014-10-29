@@ -68,9 +68,14 @@
 	return [appSupport stringByAppendingPathComponent:fileName];
 }
 
+- (NSString *)fileName
+{
+	return [[NSUserDefaults standardUserDefaults] objectForKey:@"SentryFileName"];
+}
+
 - (NSString *)currentSentryFilePath
 {
-	NSString *fileName = [[NSUserDefaults standardUserDefaults] objectForKey:@"SentryFileName"];
+	NSString *fileName = [self fileName];
 	if( !fileName )
 	{
 		return nil;
