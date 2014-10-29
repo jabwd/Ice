@@ -51,7 +51,7 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 
 @property (nonatomic, assign) id <SKSessionDelegate> delegate;
 @property (readonly) NSData *sessionKey;
-@property (readonly) SKSessionStatus status;
+@property (assign) SKSessionStatus status;
 @property (readonly) SKFriend *currentUser;
 
 @property (retain) NSString *loginKey;
