@@ -49,15 +49,21 @@
 				
 			case WireTypePacked:
 			{
-				UInt32 length = (UInt32)[data getByte];
+				NSUInteger varintSize = 0;
+				UInt64 length = [self readVarint:data length:&varintSize];
 				if( length > 0 && [data length] >= length )
 				{
-					NSData *packetData = [data subdataWithRange:NSMakeRange(1, length)];
+					NSData *packetData = [data subdataWithRange:NSMakeRange(varintSize, length)];
 					NSString *str = [[NSString alloc] initWithData:packetData encoding:NSUTF8StringEncoding];
 					if( str )
 					{
 						_value	= [str retain];
-						_data	= [[data subdataWithRange:NSMakeRange(0, length+1)] retain];
+						_data	= [[data subdataWithRange:NSMakeRange(0, varintSize+length)] retain];
+					}
+					else if( [packetData length] > 0 )
+					{
+						_data	= [[data subdataWithRange:NSMakeRange(0, varintSize+length)] retain];
+						_value	= [packetData retain];
 					}
 					else
 					{

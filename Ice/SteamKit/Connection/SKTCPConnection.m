@@ -73,7 +73,6 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-	NSLog(@"Appending %lu bytes", [data length]);
 	[_buffer appendData:data];
 	UInt32 length = [_buffer getUInt32];
 	

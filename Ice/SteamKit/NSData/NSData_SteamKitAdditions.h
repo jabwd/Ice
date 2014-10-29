@@ -64,6 +64,8 @@ static const unsigned int crc32table[] = {
 
 - (NSString *)enhancedDescription;
 
+- (NSData *)uncompressedDataWithSize:(UInt64)size;
+
 // tests for all zeros
 - (BOOL)isClear;
 - (NSData *)dataByTruncatingZeroedData;

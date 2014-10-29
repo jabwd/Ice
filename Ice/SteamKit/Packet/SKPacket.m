@@ -63,7 +63,7 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	
 	// If it is a protobuf packet we need to scan
 	// the special protobuf packet layout and store it
-	if( (type & 0x80000000) > 0 && packet.msgType != SKMsgTypeMulti )
+	if( (type & 0x80000000) > 0 )
 	{
 		packet.scanner = [[[SKProtobufScanner alloc] initWithData:packet.data] autorelease];
 	}
@@ -213,12 +213,8 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	
 	[data appendData:[compiler generate]];
 	
-	/*
-	*/
-	
 	packet.data = data;
 	[data release];
-	NSLog(@"packet.data%@",packet.data);
 	
 	return [packet autorelease];
 }

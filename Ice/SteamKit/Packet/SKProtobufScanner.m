@@ -62,10 +62,6 @@ NSUInteger const ProtoMask = 0x80000000;
 		[self scanHeader:protoHeader];
 		[protoHeader release];
 	}
-	else
-	{
-		DLog(@"No Protobuf header detected in scanned packet %@", [scanBuffer enhancedDescription]);
-	}
 	
 	// The rest of the data should be the protobuf packet body.
 	[self scanBody:scanBuffer];
@@ -105,7 +101,6 @@ NSUInteger const ProtoMask = 0x80000000;
 		length	= 0;
 		value	= [self readVarint:body length:&length];
 		[body removeBytes:length];
-		NSLog(@"%@", body);
 		
 		// Scan the value, it will be automatically added to our body
 		// content

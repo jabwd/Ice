@@ -14,6 +14,7 @@
 #import "SKProtobufScanner.h"
 #import "NSData_SteamKitAdditions.h"
 #import "NSMutableData_XfireAdditions.h"
+#import "SKProtobufValue.h"
 
 @implementation SKPacketScanner
 
@@ -37,7 +38,6 @@
 
 - (void)checkForPacket:(NSData *)buffer
 {
-	DLog(@"Checking for packet %@", buffer);
 	SKPacket *packet	= nil;
 	UInt32 first		= 0;
 	UInt32 second		= 0;
@@ -76,39 +76,42 @@
 	{
 		case SKMsgTypeMulti:
 		{
-			NSLog(@"Received a multi packet %@", packet.data);
-			//NSLog(@"First varint: %u", (unsigned int)[SKProtobufScanner readVarint:packet.data]);
-			UInt32 sizeUnzipped = 0;
-			[packet.data getBytes:&sizeUnzipped range:NSMakeRange(0x04, 0x04)];
-			if( sizeUnzipped > 0 )
+			// Handle the multipacket
+			SKProtobufScanner *scanner	= packet.scanner;
+			NSNumber *sizeUnzipped		= scanner.body[@"1"];
+			NSData *data				= scanner.body[@"2"];
+			
+			if( sizeUnzipped.unsignedIntegerValue > 0 )
 			{
-				DLog(@"Compressed packet detected, no way of handling this yet!!!");
-			}
-			else
-			{
-				NSMutableData *buffer = [[NSMutableData alloc] initWithData:packet.data];
-				NSLog(@"14 removed: %@", buffer);
-				[buffer removeBytes:14];
-				while( [buffer length] > 0 )
+				DLog(@"Packet is compressed, decompressing");
+				NSData *uncompressed = [data uncompressedDataWithSize:sizeUnzipped.intValue];
+				if( [uncompressed length] != sizeUnzipped.unsignedIntegerValue )
 				{
-					UInt32 blockSize = [buffer getUInt32];
-					if( blockSize > [buffer length] )
-					{
-						NSLog(@"Error in scanning multi packet, blockSize %u exceeds buffer size", blockSize);
-						[buffer release];
-						return;
-					}
-					NSData *subData = [[buffer subdataWithRange:NSMakeRange(4, blockSize)] retain];
-					[buffer removeBytes:(blockSize+4)];
-					
-					// Create a new packet with the new subdata:
-					SKPacket *packet = [SKPacket packetByDecodingTCPBuffer:subData sessionKey:nil error:nil];
-					DLog(@"Found a packet in multi: %@", packet);
-					[self handlePacket:packet];
-					[subData release];
+					DLog(@"Compressed data of different length than what was told %@ %@", uncompressed, sizeUnzipped);
 				}
-				[buffer release];
+				data = uncompressed;
 			}
+			
+			// Scan the actual packets
+			NSMutableData *buffer = [[NSMutableData alloc] initWithData:data];
+			while( [buffer length] > 0 )
+			{
+				UInt32 blockSize = [buffer getUInt32];
+				if( blockSize > [buffer length] )
+				{
+					NSLog(@"Error in scanning multi packet, blockSize %u exceeds buffer size", blockSize);
+					[buffer release];
+					return;
+				}
+				NSData *subData = [[buffer subdataWithRange:NSMakeRange(4, blockSize)] retain];
+				[buffer removeBytes:(blockSize+4)];
+				
+				// Create a new packet with the new subdata:
+				SKPacket *packet = [SKPacket packetByDecodingTCPBuffer:subData sessionKey:nil error:nil];
+				[self handlePacket:packet];
+				[subData release];
+			}
+			[buffer release];
 		}
 			break;
 			
@@ -128,8 +131,6 @@
 			
 		case SKMsgTypeClientLogOnResponse:
 		{
-			NSLog(@"LogOn Response: %@", packet.scanner.body);
-			
 			if( [[packet valueForFieldNumber:1] integerValue] == SKResultCodeAccountLogonDenied )
 			{
 				[[NSNotificationCenter defaultCenter]
@@ -137,6 +138,16 @@
 				 object:nil
 				 userInfo:@{@"email": [packet valueForFieldNumber:8]}];
 			}
+			else
+			{
+				NSLog(@"Unhandled logon response: %@", packet.scanner.body);
+			}
+		}
+			break;
+			
+		case SKMsgTypeClientFriendsList:
+		{
+			NSLog(@"Received a friends list %@", packet.scanner.body);
 		}
 			break;
 			

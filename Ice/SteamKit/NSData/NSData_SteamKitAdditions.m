@@ -17,6 +17,7 @@
 *******************************************************************/
 
 #import "NSData_SteamKitAdditions.h"
+#import <zlib.h>
 
 @implementation NSData (SteamKitAdditions)
 
@@ -38,7 +39,8 @@
 	return [buffer autorelease];
 }
 
-- (unsigned int)crc32 {
+- (unsigned int)crc32
+{
 	unsigned int crc32 = 0;
 	
 	if( [self length] ) 
@@ -170,7 +172,8 @@
 	return [final autorelease];
 }
 
-- (NSData *)dataByTruncatingZeroedData {
+- (NSData *)dataByTruncatingZeroedData
+{
 	NSMutableData *data = [NSMutableData data];
 	NSUInteger length = [self length];
 	NSUInteger i = 0;
@@ -186,23 +189,8 @@
 	return [NSData dataWithData:data];
 }
 
-#if 0
-+ (id)stringWithNewUUID
+- (NSString *)stringRepresentation
 {
-	CFUUIDRef		uuid;
-	CFStringRef		cfstr;
-	NSString		*nstr;
-	
-	uuid = CFUUIDCreate(nil);
-	cfstr = CFUUIDCreateString(nil, uuid);
-	nstr = (NSString *)cfstr;
-	CFRelease(uuid);
-	
-	return nstr;
-}
-#endif
-
-- (NSString *)stringRepresentation {
 	const char *bytes = [self bytes];
 	NSUInteger length = [self length];
 	NSUInteger index;
@@ -213,6 +201,69 @@
 		[stringRepresentation appendFormat:@"%02x", (unsigned char)bytes[index]];
 	}
 	return [[stringRepresentation copy] autorelease];
+}
+
+- (NSData *)uncompressedDataWithSize:(UInt64)size
+{
+	z_stream stream;
+	stream.zalloc		= Z_NULL;
+	stream.zfree		= Z_NULL;
+	stream.opaque		= Z_NULL;
+	stream.total_out	= 0;
+	stream.next_in		= (Bytef *)[self bytes];
+	stream.avail_in		= (UInt32)[self length];
+	
+	if( inflateInit2(&stream, 16+MAX_WBITS) == Z_OK )
+	{
+		NSMutableData *buffer = [[NSMutableData alloc] initWithLength:size];
+		int deflateStatus = 0;
+		do {
+			stream.next_out		= (Bytef *)[buffer bytes] + stream.total_out;
+			stream.avail_out	= (UInt32)([buffer length] - stream.total_out);
+			DLog(@"inflating");
+			deflateStatus = inflate(&stream, Z_FINISH);
+		} while( deflateStatus == Z_OK );
+		
+		if( deflateStatus != Z_STREAM_END )
+		{
+			NSString *errorMsg = nil;
+			switch (deflateStatus)
+			{
+				case Z_ERRNO:
+					errorMsg = @"Error occured while reading file.";
+					break;
+				case Z_STREAM_ERROR:
+					errorMsg = @"The stream state was inconsistent (e.g., next_in or next_out was NULL).";
+					break;
+				case Z_DATA_ERROR:
+					errorMsg = @"The deflate data was invalid or incomplete.";
+					break;
+				case Z_MEM_ERROR:
+					errorMsg = @"Memory could not be allocated for processing.";
+					break;
+				case Z_BUF_ERROR:
+					errorMsg = @"Ran out of output buffer for writing compressed bytes.";
+					break;
+				case Z_VERSION_ERROR:
+					errorMsg = @"The version of zlib.h and the version of the library linked do not match.";
+					break;
+				default:
+					errorMsg = @"Unknown error code.";
+					break;
+			}
+			NSLog(@"%s: zlib error while attempting uncompression: \"%@\" Message: \"%s\"", __func__, errorMsg, stream.msg);
+			[errorMsg release];
+		}
+		inflateEnd(&stream);
+		return [buffer autorelease];
+	}
+	else
+	{
+		DLog(@"Unable to start inflate");
+		return nil;
+	}
+	
+	return nil;
 }
 
 #pragma mark - SteamKit extras
