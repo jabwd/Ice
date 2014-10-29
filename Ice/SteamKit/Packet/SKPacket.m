@@ -17,6 +17,7 @@
 #import "SKProtobufKey.h"
 #import "SKProtobufValue.h"
 #import "NSData_SteamKitAdditions.h"
+#import "SKSentryFile.h"
 
 #define HEADER_LENGTH		(4+2+4+4+4+4+4+4+4)
 #define PACKET_MAX_SIZE		65507
@@ -215,6 +216,16 @@ UInt32 const SKProtocolVersionMinorMask = 0xFFFF;
 	
 	packet.data = data;
 	[data release];
+	
+	return [packet autorelease];
+}
+
++ (SKPacket *)machineAuthResponsePacket:(SKSentryFile *)sentryFile
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	SKSentryFile *file = [[SKSentryFile alloc] init];
+	NSData *hash = [file sha1Hash];
+	[file release];
 	
 	return [packet autorelease];
 }

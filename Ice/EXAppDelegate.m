@@ -38,6 +38,9 @@
 	 addObserver:self
 	 selector:@selector(notificationReceived:)
 	 name:SKLoginFailedSteamGuardNotificationName object:nil];
+	
+	SKSentryFile *file = [[SKSentryFile alloc] init];
+	NSLog(@"%@", [file sha1Hash]);
 }
 
 - (void)notificationReceived:(NSNotification *)notification
@@ -124,6 +127,14 @@
 		default:
 			break;
 	}
+}
+
+- (void)updateSentryFile:(NSString *)fileName data:(NSData *)data
+{
+	NSLog(@"Writing sentry file %@", fileName);
+	SKSentryFile *file = [[SKSentryFile alloc] init];
+	[file createWithData:data fileName:fileName];
+	[file release];
 }
 
 - (NSString *)username

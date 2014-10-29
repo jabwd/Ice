@@ -44,17 +44,44 @@
 	return finalPath;
 }
 
+- (id)init
+{
+	if( (self = [super init]) )
+	{
+		//_data = [[NSData alloc] initWithContentsOfFile:[self currentSentryFilePath]];
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+	[_data release];
+	_data = nil;
+	[super dealloc];
+}
+
 #pragma mark - Implementation
 
-- (NSString *)sentryPath
+- (NSString *)sentryPath:(NSString *)fileName
 {
 	NSString *appSupport = [SKSentryFile appSupportDirectory];
-	return [appSupport stringByAppendingPathComponent:@"SteamGuard.dat"];
+	return [appSupport stringByAppendingPathComponent:fileName];
+}
+
+- (NSString *)currentSentryFilePath
+{
+	NSString *fileName = [[NSUserDefaults standardUserDefaults] objectForKey:@"SentryFileName"];
+	if( !fileName )
+	{
+		return nil;
+	}
+	return [self sentryPath:fileName];
 }
 
 - (NSData *)sha1Hash
 {
-	NSString *path = [self sentryPath];
+	
+	NSString *path = [self currentSentryFilePath];
 	NSFileManager *manager = [NSFileManager defaultManager];
 	if( ![manager fileExistsAtPath:path] )
 	{
@@ -96,11 +123,12 @@
 	return YES;
 }
 
-- (void)createWithData:(NSData *)bytes
+- (void)createWithData:(NSData *)bytes fileName:(NSString *)fileName
 {
 	if( [bytes length] > 1 )
 	{
-		NSString *path = [self sentryPath];
+		NSString *path = [self sentryPath:fileName];
+		[[NSUserDefaults standardUserDefaults] setObject:fileName forKey:@"SentryFileName"];
 		[bytes writeToFile:path atomically:NO];
 	}
 	else

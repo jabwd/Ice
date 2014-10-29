@@ -151,6 +151,18 @@
 		}
 			break;
 			
+		case SKMsgTypeClientUpdateMachineAuth:
+		{
+			NSLog(@"Received sentryfile");
+			
+			NSDictionary *body	= packet.scanner.body;
+			NSString *fileName	= body[@"1"];
+			NSData *data		= body[@"4"];
+			
+			[_connection.session updateSentryFile:fileName data:data];
+		}
+			break;
+			
 		default:
 			NSLog(@"Unhandled packet: %@", packet);
 			break;

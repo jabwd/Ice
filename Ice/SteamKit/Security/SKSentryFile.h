@@ -10,8 +10,9 @@
 
 @interface SKSentryFile : NSObject
 {
-	
+	NSData *_data;
 }
+@property (retain) NSData *data;
 
 /**
  * Finds or creates the AppSupport directory for the current app
@@ -26,7 +27,7 @@
  *
  * @return NSString		path to the sentry file
  */
-- (NSString *)sentryPath;
+- (NSString *)sentryPath:(NSString *)fileName;
 
 /**
  * Returns the hashed content of the sentry file
@@ -52,6 +53,6 @@
  *
  * @return void
  */
-- (void)createWithData:(NSData *)bytes;
+- (void)createWithData:(NSData *)bytes fileName:(NSString *)fileName;
 
 @end

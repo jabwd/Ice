@@ -105,6 +105,14 @@ static const SKSession *_sharedSession = nil;
 	[_TCPConnection sendPacket:packet];
 }
 
+- (void)updateSentryFile:(NSString *)fileName data:(NSData *)data
+{
+	if( [_delegate respondsToSelector:@selector(updateSentryFile:data:)] )
+	{
+		[_delegate updateSentryFile:fileName data:data];
+	}
+}
+
 #pragma mark - Delegate stuff
 
 - (NSString *)username

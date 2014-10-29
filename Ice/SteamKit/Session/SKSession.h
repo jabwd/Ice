@@ -28,6 +28,8 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 - (NSString *)username;
 - (NSString *)password;
 - (NSString *)steamGuard;
+
+- (void)updateSentryFile:(NSString *)fileName data:(NSData *)data;
 @end
 
 @interface SKSession : NSObject
@@ -79,6 +81,8 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
  * @return void
  */
 - (void)logIn;
+
+- (void)updateSentryFile:(NSString *)fileName data:(NSData *)data;
 
 - (NSString *)username;
 - (NSString *)password;
