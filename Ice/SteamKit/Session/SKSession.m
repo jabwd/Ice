@@ -63,13 +63,33 @@ static const SKSession *_sharedSession = nil;
 
 #pragma mark - Implementation
 
+- (SKSessionStatus)status
+{
+	return _status;
+}
+
 - (void)setStatus:(SKSessionStatus)status
 {
 	_status = status;
 	
 	if( status == SKSessionStatusConnected )
 	{
-		
+		if( _keepAliveTimerSeconds == 0 )
+		{
+			_keepAliveTimerSeconds = 10; // This seems to be a decent default
+		}
+		if( [_keepAliveTimer isValid] )
+		{
+			[_keepAliveTimer invalidate];
+		}
+		[_keepAliveTimer release];
+		_keepAliveTimer = [NSTimer
+						   timerWithTimeInterval:_keepAliveTimerSeconds
+						   target:self
+						   selector:@selector(keepAlive:)
+						   userInfo:nil
+						   repeats:YES];
+		DLog(@"Starting keepalive timer with %u seconds", _keepAliveTimerSeconds);
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:SKSessionStatusChangedNotificationName object:self];
@@ -77,6 +97,11 @@ static const SKSession *_sharedSession = nil;
 	{
 		[_delegate sessionChangedStatus:self];
 	}
+}
+
+- (void)keepAlive:(NSNotification *)notification
+{
+	SKPacket *heartBeat = [SKPacket heartBeat]
 }
 
 #pragma mark - Connection Handling

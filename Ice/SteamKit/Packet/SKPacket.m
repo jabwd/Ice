@@ -284,6 +284,20 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	return [packet autorelease];
 }
 
++ (SKPacket *)heartBeatPacket
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientHeartBeat;
+	SKMsgType type = packet.msgType;
+	
+	NSData *data = [[NSData alloc] initWithBytes:&type length:4];
+	packet.data = data;
+	[data release];
+	
+	return [packet autorelease];
+}
+
 #pragma mark - Some handy stuff
 
 - (NSString *)description
