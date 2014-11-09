@@ -18,7 +18,7 @@
         <window title="Steam Guard" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" id="g6w-1c-JzS">
             <windowStyleMask key="styleMask" titled="YES"/>
             <rect key="contentRect" x="196" y="240" width="356" height="161"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
             <value key="minSize" type="size" width="356" height="161"/>
             <value key="maxSize" type="size" width="356" height="161"/>
             <view key="contentView" id="xcs-mz-SxD">
