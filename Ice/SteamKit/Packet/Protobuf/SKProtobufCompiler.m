@@ -39,7 +39,7 @@
 
 #pragma mark - Implementation
 
-- (void)addHeaderValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber
+- (void)addHeaderValue:(SKProtobufValue *)value fieldNumber:(UInt32)fieldNumber
 {
 	SKProtobufKey *key = [[SKProtobufKey alloc] initWithType:value.type fieldNumber:fieldNumber];
 	[_headerData appendData:[key encode]];
@@ -47,12 +47,22 @@
 	[key release];
 }
 
-- (void)addValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber
+- (void)addValue:(SKProtobufValue *)value fieldNumber:(UInt32)fieldNumber
 {
 	SKProtobufKey *key = [[SKProtobufKey alloc] initWithType:value.type fieldNumber:fieldNumber];
 	[_data appendData:[key encode]];
 	[_data appendData:value.data];
 	[key release];
+}
+
+- (void)addHeaderValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber
+{
+	[self addHeaderValue:value fieldNumber:fieldNumber];
+}
+
+- (void)addValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber
+{
+	[self addValue:value fieldNumber:fieldNumber];
 }
 
 - (NSData *)generate

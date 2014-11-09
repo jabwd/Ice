@@ -63,6 +63,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	// the special protobuf packet layout and store it
 	if( (type & 0x80000000) > 0 )
 	{
+		DLog(@"Scanning: %u", packet.msgType);
 		packet.scanner = [[[SKProtobufScanner alloc] initWithData:packet.data] autorelease];
 	}
 	
@@ -209,7 +210,6 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 		v = [[SKProtobufValue alloc] initWithPackedData:hash];
 		[compiler addValue:v forType:WireTypePacked fieldNumber:83];
 		[v release];
-		NSLog(@"Have a sentry file, sending it! %@", hash);
 	}
 	
 	v	= [[SKProtobufValue alloc] initWithVarint:sentryResult];
@@ -347,6 +347,46 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	
 	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
 	[compiler addHeaderValue:v forType:WireTypeVarint fieldNumber:2];
+	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
+	
+	return [packet autorelease];
+}
+
++ (SKPacket *)changeUserStatusPacket:(SKSession *)session
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientChangeStatus;
+	SKMsgType type = packet.msgType;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v fieldNumber:2];
+	[v release];
+	
+	// New status
+	v = [[SKProtobufValue alloc] initWithVarint:session.userStatus];
+	[compiler addValue:v fieldNumber:1];
+	[v release];
+	
+	// User set
+	v = [[SKProtobufValue alloc] initWithVarint:1];
+	[compiler addValue:v fieldNumber:5];
 	[v release];
 	
 	[buffer appendBytes:&type length:4];

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SteamConstants.h"
 
 typedef NS_ENUM(UInt32, SKSessionStatus)
 {
@@ -46,6 +47,7 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 	
 	id <SKSessionDelegate>	_delegate;
 	SKSessionStatus			_status;
+	SKPersonaState			_userStatus;
 	
 	UInt32 _uniqueID;
 	UInt32 _sessionID;
@@ -100,6 +102,9 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
  * @return void
  */
 - (void)logIn;
+
+- (void)setUserStatus:(SKPersonaState)status;
+- (SKPersonaState)userStatus;
 
 - (void)updateSentryFile:(NSString *)fileName data:(NSData *)data;
 

@@ -132,7 +132,6 @@
 			
 		case SKMsgTypeClientLogOnResponse:
 		{
-			DLog(@"Updating SteamID: %@", packet.scanner.header[@"1"]);
 			session.rawSteamID = [packet.scanner.header[@"1"] unsignedIntegerValue];
 			SKResultCode result = (SKResultCode)[[packet valueForFieldNumber:1] integerValue];
 			switch(result)
@@ -192,7 +191,6 @@
 			SKPacket *packet = [SKPacket machineAuthResponsePacket:(UInt32)length.unsignedIntegerValue
 														   session:session];
 			[_connection sendPacket:packet];
-			NSLog(@"Sending machineauth response: %@", packet);
 		}
 			break;
 			
@@ -200,6 +198,13 @@
 		{
 			UInt32 uniqueId		= (UInt32)[packet.scanner.body[@"1"] unsignedIntegerValue];
 			NSString *loginKey	= packet.scanner.body[@"2"];
+			
+			NSNumber *sourceID	= packet.scanner.header[@"10"];
+			if( sourceID )
+			{
+				DLog(@"Successfully set the sourceID: %@", sourceID);
+				session.targetID	= [sourceID unsignedIntegerValue];
+			}
 			
 			session.loginKey = loginKey;
 			session.uniqueID = uniqueId;
@@ -249,6 +254,18 @@
 		case SKMsgTypeClientPlayerNicknameList:
 		{
 			//DLog(@"Nicknamelist: %@ %@", packet.scanner.body, packet.scanner.header);
+		}
+			break;
+			
+		case SKMsgTypeClientFriendMsgIncoming:
+		{
+			NSString *message	= [packet valueForFieldNumber:4];
+			SInt32 chatType		= [[packet valueForFieldNumber:2] intValue];
+			UInt32 timestamp	= [[packet valueForFieldNumber:5] unsignedIntValue];
+			UInt64 remoteID		= [[packet valueForFieldNumber:1] unsignedIntegerValue];
+			NSDate *date		= [NSDate dateWithTimeIntervalSince1970:timestamp];
+			
+			NSLog(@"Received a chat message: %llu %@ %@:%d", remoteID, message, date, chatType);
 		}
 			break;
 			

@@ -66,5 +66,6 @@ extern UInt32 const		SKProtocolProtobufMask;
 
 + (SKPacket *)loginKeyAccepted:(SKSession *)session;
 + (SKPacket *)heartBeatPacket:(SKSession *)session;
++ (SKPacket *)changeUserStatusPacket:(SKSession *)session;
 
 @end

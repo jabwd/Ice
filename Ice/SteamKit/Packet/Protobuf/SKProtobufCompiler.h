@@ -22,6 +22,9 @@
 - (void)addHeaderValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber;
 - (void)addValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber;
 
+- (void)addHeaderValue:(SKProtobufValue *)value fieldNumber:(UInt32)fieldNumber;
+- (void)addValue:(SKProtobufValue *)value fieldNumber:(UInt32)fieldNumber;
+
 - (NSData *)generate;
 
 @end

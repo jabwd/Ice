@@ -89,7 +89,6 @@ static const SKSession *_sharedSession = nil;
 														 selector:@selector(keepAlive:)
 														 userInfo:nil
 														  repeats:YES];
-		DLog(@"Should start the keepalive timer onw");
 	}
 	else if( status == SKSessionStatusDisconnecting )
 	{
@@ -155,6 +154,21 @@ static const SKSession *_sharedSession = nil;
 	{
 		[_delegate updateSentryFile:fileName data:data];
 	}
+}
+
+#pragma mark - User interaction
+
+- (void)setUserStatus:(SKPersonaState)status
+{
+	_userStatus = status;
+	
+	SKPacket *changeStatusPacket = [SKPacket changeUserStatusPacket:self];
+	[_TCPConnection sendPacket:changeStatusPacket];
+}
+
+- (SKPersonaState)userStatus
+{
+	return _userStatus;
 }
 
 #pragma mark - Delegate stuff

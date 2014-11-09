@@ -121,6 +121,12 @@
 		}
 			break;
 			
+		case SKSessionStatusConnected:
+		{
+			[_session setUserStatus:SKPersonaStateBusy];
+		}
+			break;
+			
 		default:
 			break;
 	}
