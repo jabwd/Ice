@@ -17,24 +17,36 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Steam Guard" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" id="g6w-1c-JzS">
             <windowStyleMask key="styleMask" titled="YES"/>
-            <rect key="contentRect" x="196" y="240" width="356" height="161"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
+            <rect key="contentRect" x="196" y="240" width="372" height="161"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <value key="minSize" type="size" width="356" height="161"/>
             <value key="maxSize" type="size" width="356" height="161"/>
             <view key="contentView" id="xcs-mz-SxD">
-                <rect key="frame" x="0.0" y="0.0" width="356" height="161"/>
+                <rect key="frame" x="0.0" y="0.0" width="372" height="161"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNY-Ic-ThS">
-                        <rect key="frame" x="74" y="129" width="232" height="19"/>
+                        <rect key="frame" x="90" y="129" width="232" height="19"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Steam Guard" id="ks6-fA-FfI">
                             <font key="font" size="16" name=".HelveticaNeueDeskInterface-Regular"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ydy-lc-PHK">
+                        <rect key="frame" x="90" y="94" width="264" height="34"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="An email with your steam guard code has been sent to %@" id="0cI-0s-1X6">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cz3-uG-qdi">
+                        <rect key="frame" x="20" y="84" width="64" height="64"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="SteamGuard" id="a0j-re-Q9y"/>
+                    </imageView>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0aE-RE-kSJ">
-                        <rect key="frame" x="252" y="49" width="84" height="34"/>
+                        <rect key="frame" x="268" y="49" width="84" height="34"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="XXXXX" drawsBackground="YES" id="R8b-5N-Zo5">
                             <font key="font" metaFont="system" size="24"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -44,16 +56,8 @@
                             <outlet property="delegate" destination="-2" id="Lz4-BB-hqa"/>
                         </connections>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ydy-lc-PHK">
-                        <rect key="frame" x="74" y="94" width="264" height="34"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="An email with your steam guard code has been sent to %@" id="0cI-0s-1X6">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SnP-mn-n2X">
-                        <rect key="frame" x="246" y="13" width="96" height="32"/>
+                        <rect key="frame" x="262" y="13" width="96" height="32"/>
                         <buttonCell key="cell" type="push" title="Continue" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bQ0-Jt-WqO">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -66,7 +70,7 @@ DQ
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IaO-Kt-loN">
-                        <rect key="frame" x="164" y="13" width="83" height="32"/>
+                        <rect key="frame" x="180" y="13" width="83" height="32"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vG9-fc-EVP">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -78,16 +82,12 @@ Gw
                             <action selector="cancelAction:" target="-2" id="iZw-1D-el7"/>
                         </connections>
                     </button>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cz3-uG-qdi">
-                        <rect key="frame" x="20" y="100" width="48" height="48"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSLockLockedTemplate" id="a0j-re-Q9y"/>
-                    </imageView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="347" y="268.5"/>
+            <point key="canvasLocation" x="355" y="268.5"/>
         </window>
     </objects>
     <resources>
-        <image name="NSLockLockedTemplate" width="10" height="14"/>
+        <image name="SteamGuard" width="72" height="72"/>
     </resources>
 </document>
