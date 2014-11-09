@@ -110,6 +110,53 @@ NSUInteger const ProtoMask = 0x80000000;
 	}
 }
 
+- (NSArray *)scanRepeated:(NSData *)repeated
+{
+	NSMutableData *body		= [[NSMutableData alloc] initWithData:repeated];
+	NSMutableArray *list	= [[NSMutableArray alloc] init];
+	
+	NSUInteger length	= 0;
+	UInt64 value		= 0;
+	NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
+	while( [body length] > 0 )
+	{
+		// Read the SKProtobufKey
+		value	= 0;
+		length	= 0;
+		value	= [self readVarint:body length:&length];
+		[body removeBytes:length];
+		
+		// Scan the value, it will be automatically added to our body
+		// content
+		SKProtobufKey *key = [[SKProtobufKey alloc] initWithVarint:value];
+		SKProtobufValue *value = [[SKProtobufValue alloc] initWithData:body type:key.type];
+		[body removeBytes:value.length];
+		
+		// Check if this key already exists, if it does
+		// we most likely started on a new row!
+		if( [entry objectForKey:key.valueKey] )
+		{
+			[list addObject:entry];
+			[entry release];
+			entry = [[NSMutableDictionary alloc] init];
+		}
+		entry[key.valueKey] = value.value;
+		
+		[value release];
+		[key release];
+	}
+	[list addObject:entry];
+	[entry release];
+	
+	
+	// Cleanup
+	NSArray *result = [[NSArray alloc] initWithArray:list];
+	[list release];
+	[body release];
+	
+	return [result autorelease];
+}
+
 - (void)scanValue:(SKProtobufKey *)key data:(NSMutableData *)data isHeader:(BOOL)header
 {
 	// This is a quick way of deciding in what part
@@ -127,7 +174,7 @@ NSUInteger const ProtoMask = 0x80000000;
 	}
 	else
 	{
-		DLog(@"Unable to scan value for %@", key);
+		DLog(@"Unable to scan value for %@ %@ %@", key, self.body, self.header);
 	}
 	[data removeBytes:value.length];
 	[value release];

@@ -25,4 +25,12 @@ extern NSUInteger const ProtoMask; // AND for isProto, XOR for STRIP
 
 - (id)initWithData:(NSData *)packetData;
 
+- (void)scanBody:(NSMutableData *)body;
+
+/**
+ * Scans a repeated field into an NSArray ( if applicable )
+ *
+ * @return NSArray repeated entries ( if available )
+ */
+- (NSArray *)scanRepeated:(NSData *)repeated;
 @end
