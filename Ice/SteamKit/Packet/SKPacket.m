@@ -360,6 +360,40 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	return [packet autorelease];
 }
 
++ (SKPacket *)requestUserProfilePacket:(SKSession *)session rawSteamID:(UInt64)steamID
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientFriendProfileInfo;
+	SKMsgType type = packet.msgType;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v fieldNumber:2];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithFixed64:steamID];
+	[compiler addValue:v fieldNumber:1];
+	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
+	
+	return [packet autorelease];
+}
+
 + (SKPacket *)changeUserStatusPacket:(SKSession *)session
 {
 	SKPacket *packet = [[SKPacket alloc] init];
