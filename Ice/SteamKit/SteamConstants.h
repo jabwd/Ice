@@ -1,5 +1,23 @@
 #import "MsgType.h"
 
+typedef NS_ENUM(UInt32, SKPersonaState)
+{
+	SKPersonaStateOffline	= 0,
+	SKPersonaStateOnline	= 1,
+	SKPersonaStateBusy		= 2,
+	SKPersonaStateAway		= 3,
+	SKPersonaStateSnooze	= 4,
+	SKPersonaStateLookingToTrade	= 5,
+	SKPersonaStateLookingToPlay		= 6,
+	SKPersonaStateMax				= 7
+};
+
+typedef NS_ENUM(SInt32, SKChatEntryType)
+{
+	SKChatEntryTypeMessage	= 1,
+	SKChatEntryTypeTyping	= 2,
+};
+
 typedef NS_ENUM(UInt32, SKOSType)
 {
 	SKOSTypeUnknown = -1,
