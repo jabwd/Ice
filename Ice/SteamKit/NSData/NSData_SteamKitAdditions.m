@@ -220,7 +220,7 @@
 		do {
 			stream.next_out		= (Bytef *)[buffer bytes] + stream.total_out;
 			stream.avail_out	= (UInt32)([buffer length] - stream.total_out);
-			DLog(@"inflating");
+			
 			deflateStatus = inflate(&stream, Z_FINISH);
 		} while( deflateStatus == Z_OK );
 		

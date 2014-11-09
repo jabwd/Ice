@@ -38,10 +38,6 @@
 	 addObserver:self
 	 selector:@selector(notificationReceived:)
 	 name:SKLoginFailedSteamGuardNotificationName object:nil];
-	
-	SKSentryFile *file = [[SKSentryFile alloc] init];
-	NSData *data = [file sha1Hash];
-	NSLog(@"%@ %lu %lu", data, [data length], [@"211b97732dbe9930dc743a53cb8025c6c1878ec4" length]);
 }
 
 - (void)notificationReceived:(NSNotification *)notification
