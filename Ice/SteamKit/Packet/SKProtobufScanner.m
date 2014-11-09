@@ -136,16 +136,26 @@ NSUInteger const ProtoMask = 0x80000000;
 		// we most likely started on a new row!
 		if( [entry objectForKey:key.valueKey] )
 		{
-			[list addObject:entry];
+			if( [entry count] > 0 )
+			{
+				[list addObject:entry];
+			}
 			[entry release];
 			entry = [[NSMutableDictionary alloc] init];
 		}
-		entry[key.valueKey] = value.value;
+		
+		if( value.value && ![key.valueKey isEqualToString:@"0"] )
+		{
+			entry[key.valueKey] = value.value;
+		}
 		
 		[value release];
 		[key release];
 	}
-	[list addObject:entry];
+	if( [entry count] > 0 )
+	{
+		[list addObject:entry];
+	}
 	[entry release];
 	
 	

@@ -269,6 +269,16 @@
 		}
 			break;
 			
+		case SKMsgTypeClientPersonaState:
+		{
+			NSData *partial = [packet valueForFieldNumber:2];
+			if( [partial length] > 0 )
+			{
+				NSLog(@"Persona states: %@", [packet.scanner scanRepeated:partial]);
+			}
+		}
+			break;
+			
 		case SKMsgTypeClientLicenseList:
 		{
 			/*NSData *repeatedFields = [packet valueForFieldNumber:2];

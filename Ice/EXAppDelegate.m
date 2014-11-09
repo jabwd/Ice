@@ -123,7 +123,7 @@
 			
 		case SKSessionStatusConnected:
 		{
-			[_session setUserStatus:SKPersonaStateBusy];
+			[_session setUserStatus:SKPersonaStateOnline];
 		}
 			break;
 			
