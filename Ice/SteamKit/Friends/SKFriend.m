@@ -23,6 +23,25 @@
 	[super dealloc];
 }
 
+- (NSString *)displayName
+{
+	if( [_displayName length] > 0 )
+	{
+		return _displayName;
+	}
+	else if( [_username length] > 0 )
+	{
+		return _username;
+	}
+	return @"Uknown user";
+}
+
+- (void)setDisplayName:(NSString *)displayName
+{
+	[_displayName release];
+	_displayName = [displayName retain];
+}
+
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"[SKFriend displayName=%@ Country=%@ Email=%@]", _displayName, _countryCode, _email];
