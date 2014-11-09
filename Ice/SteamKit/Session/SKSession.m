@@ -12,6 +12,7 @@
 #import "SKTCPConnection.h"
 #import "SKPacket.h"
 #import "SKFriend.h"
+#import "SKSteamID.h"
 #import "NSData_SteamKitAdditions.h"
 
 NSString *SKSessionStatusChangedNotificationName	= @"SKSessionStatusChanged";
@@ -41,6 +42,7 @@ static const SKSession *_sharedSession = nil;
 		_sharedSession		= self;
 		_rawSteamID			= 76561197960265728;
 		_currentUser		= [[SKFriend alloc] init];
+		_friendsList		= [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -58,6 +60,8 @@ static const SKSession *_sharedSession = nil;
 	_currentUser = nil;
 	[_loginKey release];
 	_loginKey = nil;
+	[_friendsList release];
+	_friendsList = nil;
 	_delegate = nil;
 	[super dealloc];
 }
@@ -106,10 +110,7 @@ static const SKSession *_sharedSession = nil;
 
 - (void)keepAlive:(NSTimer *)timer
 {
-	SKPacket *beat = [SKPacket heartBeatPacket:self];
-	NSLog(@"=> Sending heartbeat");
-	
-	[_TCPConnection sendPacket:beat];
+	[_TCPConnection sendPacket:[SKPacket heartBeatPacket:self]];
 }
 
 #pragma mark - Connection Handling
@@ -137,6 +138,10 @@ static const SKSession *_sharedSession = nil;
 	[_TCPConnection disconnect];
 	[_TCPConnection release];
 	_TCPConnection = nil;
+	[_friendsList release];
+	_friendsList = [[NSMutableArray alloc] init];
+	[_currentUser release];
+	_currentUser = nil;
 	
 	[self setStatus:SKSessionStatusOffline];
 }
@@ -169,6 +174,38 @@ static const SKSession *_sharedSession = nil;
 - (SKPersonaState)userStatus
 {
 	return _userStatus;
+}
+
+#pragma mark - Setting up basic information
+
+- (void)connectionAddFriend:(SKFriend *)remoteFriend
+{
+	SKFriend *oldFriend = [self friendForSteamID:remoteFriend.steamID];
+	if( oldFriend == nil )
+	{
+		[_friendsList addObject:remoteFriend];
+	}
+	else
+	{
+		// For updating friend information when it changes
+		[_friendsList removeObject:oldFriend];
+		[_friendsList addObject:remoteFriend];
+		DLog(@"=> Updated information for %@", remoteFriend);
+	}
+	
+	NSLog(@"List: %@", _friendsList);
+}
+
+- (SKFriend *)friendForSteamID:(SKSteamID *)steamID
+{
+	for(SKFriend *remoteFriend in _friendsList)
+	{
+		if( remoteFriend.steamID.rawSteamID == steamID.rawSteamID )
+		{
+			return remoteFriend;
+		}
+	}
+	return nil;
 }
 
 #pragma mark - Delegate stuff

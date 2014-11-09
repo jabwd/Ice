@@ -18,7 +18,7 @@ extern UInt32 const		SKProtocolVersionMajorMask;
 extern UInt32 const		SKProtocolVersionMinorMask;
 extern UInt32 const		SKProtocolProtobufMask;
 
-@class SKProtobufScanner, SKSession;
+@class SKProtobufScanner, SKSession, SKFriend;
 
 @interface SKPacket : NSObject
 {
@@ -67,5 +67,10 @@ extern UInt32 const		SKProtocolProtobufMask;
 + (SKPacket *)loginKeyAccepted:(SKSession *)session;
 + (SKPacket *)heartBeatPacket:(SKSession *)session;
 + (SKPacket *)changeUserStatusPacket:(SKSession *)session;
+
++ (SKPacket *)sendMessagePacket:(NSString *)message
+						 friend:(SKFriend *)remoteFriend
+						session:(SKSession *)session
+						   type:(SKChatEntryType)entryType;
 
 @end

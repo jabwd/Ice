@@ -18,6 +18,8 @@
 #import "SKProtobufValue.h"
 #import "NSData_SteamKitAdditions.h"
 #import "SKSentryFile.h"
+#import "SKSteamID.h"
+#import "SKFriend.h"
 
 NSInteger const SKPacketTCPMagicHeader = 0x31305456;
 NSInteger const SKPacketUDPMagicHeader = 0x31305356;
@@ -421,6 +423,59 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	// User set
 	v = [[SKProtobufValue alloc] initWithVarint:1];
 	[compiler addValue:v fieldNumber:5];
+	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
+	
+	return [packet autorelease];
+}
+
++ (SKPacket *)sendMessagePacket:(NSString *)message
+						 friend:(SKFriend *)remoteFriend
+						session:(SKSession *)session
+						   type:(SKChatEntryType)entryType
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientFriendMsg;
+	SKMsgType type = packet.msgType;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v fieldNumber:2];
+	[v release];
+	
+	// Remote ID
+	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
+	[compiler addValue:v fieldNumber:1];
+	[v release];
+	
+	// Entry type
+	v = [[SKProtobufValue alloc] initWithVarint:entryType];
+	[compiler addValue:v fieldNumber:2];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithString:message];
+	[compiler addValue:v fieldNumber:3];
+	[v release];
+	
+	NSDate *date = [NSDate date];
+	
+	v = [[SKProtobufValue alloc] initWithFixed32:(UInt32)[date timeIntervalSince1970]];
+	[compiler addValue:v fieldNumber:4];
 	[v release];
 	
 	[buffer appendBytes:&type length:4];

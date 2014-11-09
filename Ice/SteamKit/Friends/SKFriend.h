@@ -16,15 +16,19 @@
 	NSString *_username;
 	NSString *_password;
 	NSString *_email;
+	NSString *_gameName;
 	
 	NSString *_countryCode;
 	
-	SKSteamID *steamID;
+	SKSteamID *_steamID;
+	
+	NSData *_avatarHash;
 	
 	UInt32 _lastLogon;
 	UInt32 _lastLogoff;
 	UInt32 _onlineInstances;
 	UInt32 _currentInstance;
+	UInt32 _appID;
 }
 
 @property (retain) NSString *displayName;
@@ -32,6 +36,8 @@
 @property (retain) NSString *password;
 @property (retain) NSString *email;
 @property (retain) NSString *countryCode;
+@property (retain) NSString *gameName;
+@property (retain) NSData *avatarHash;
 
 @property (retain) SKSteamID *steamID;
 
@@ -39,6 +45,9 @@
 @property (assign) UInt32 lastLogoff;
 @property (assign) UInt32 onlineInstances;
 @property (assign) UInt32 currentInstance;
+@property (assign) UInt32 appID;
+
+- (id)initWithBody:(NSDictionary *)body;
 
 - (NSString *)displayName;
 

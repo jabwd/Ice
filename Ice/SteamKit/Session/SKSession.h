@@ -23,7 +23,7 @@ extern NSString *SKSessionStatusChangedNotificationName;
 extern NSString *SKLoginFailedSteamGuardNotificationName;
 
 @class SKUDPConnection, SKTCPConnection, SKSession;
-@class SKFriend;
+@class SKFriend, SKSteamID;
 
 @protocol SKSessionDelegate <NSObject>
 - (void)sessionChangedStatus:(SKSession *)session;
@@ -41,9 +41,10 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 	SKUDPConnection *_UDPConnection;
 	SKTCPConnection *_TCPConnection;
 	
-	SKFriend	*_currentUser;
-	NSString	*_loginKey;
-	NSTimer		*_keepAliveTimer;
+	SKFriend		*_currentUser;
+	NSString		*_loginKey;
+	NSTimer			*_keepAliveTimer;
+	NSMutableArray	*_friendsList;
 	
 	id <SKSessionDelegate>	_delegate;
 	SKSessionStatus			_status;
@@ -103,9 +104,36 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
  */
 - (void)logIn;
 
+#pragma mark - Setting up basic information
+
+/**
+ * Adds a reference SKFriend to the friends list to be 
+ * populated with information later on
+ * Don't confuse this method with adding / sending
+ * a friend request, thats not what it does.
+ *
+ * @param SKFriend remoteFriend | the friend to add to the list
+ *
+ * @return void
+ */
+- (void)connectionAddFriend:(SKFriend *)remoteFriend;
+
+- (SKFriend *)friendForSteamID:(SKSteamID *)steamID;
+
+
 - (void)setUserStatus:(SKPersonaState)status;
 - (SKPersonaState)userStatus;
 
+/**
+ * Updates the current SKSentryFile with the new fileName and data
+ * Updates the userDefaults and marks the new fileName as the current
+ * sentryFile for the next connect
+ *
+ * @param NSString fileName | the file name requested by steam
+ * @param NSData	data	| the data of the file ( 2048 bytes usually )
+ *
+ * @return void
+ */
 - (void)updateSentryFile:(NSString *)fileName data:(NSData *)data;
 
 - (NSString *)username;

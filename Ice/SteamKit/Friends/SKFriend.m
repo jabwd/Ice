@@ -7,11 +7,31 @@
 //
 
 #import "SKFriend.h"
+#import "SKSteamID.h"
 
 @implementation SKFriend
 
+- (id)initWithBody:(NSDictionary *)body
+{
+	if( (self = [super init]) )
+	{
+		_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
+		_displayName	= [body[@"15"] retain];
+		_lastLogoff		= [body[@"45"] unsignedIntValue];
+		_lastLogon		= [body[@"46"] unsignedIntValue];
+		_avatarHash		= [body[@"31"] retain];
+		_gameName		= [body[@"55"] retain];
+		_appID			= [body[@"3"] unsignedIntValue];
+	}
+	return self;
+}
+
 - (void)dealloc
 {
+	[_gameName release];
+	_gameName = nil;
+	[_avatarHash release];
+	_avatarHash = nil;
 	[_displayName release];
 	_displayName = nil;
 	[_username release];
@@ -20,6 +40,8 @@
 	_password = nil;
 	[_countryCode release];
 	_countryCode = nil;
+	[_steamID release];
+	_steamID = nil;
 	[super dealloc];
 }
 
@@ -44,7 +66,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"[SKFriend displayName=%@ Country=%@ Email=%@]", _displayName, _countryCode, _email];
+	return [NSString stringWithFormat:@"[SKFriend displayName=%@ steamID=%@]", _displayName, _steamID];
 }
 
 @end

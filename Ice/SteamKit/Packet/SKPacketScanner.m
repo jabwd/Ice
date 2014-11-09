@@ -15,6 +15,8 @@
 #import "NSData_SteamKitAdditions.h"
 #import "NSMutableData_XfireAdditions.h"
 #import "SKProtobufValue.h"
+#import "SKFriend.h"
+#import "SKSteamID.h"
 
 @implementation SKPacketScanner
 
@@ -266,6 +268,14 @@
 			NSDate *date		= [NSDate dateWithTimeIntervalSince1970:timestamp];
 			
 			NSLog(@"Received a chat message: %llu %@ %@:%d", remoteID, message, date, chatType);
+			
+			SKSteamID *steamID = [[SKSteamID alloc] initWithRawSteamID:remoteID];
+			SKFriend *remoteFriend = [session friendForSteamID:steamID];
+			SKPacket *response = [SKPacket sendMessagePacket:@"No u"
+													  friend:remoteFriend
+													 session:session
+														type:SKChatEntryTypeMessage];
+			[_connection sendPacket:response];
 		}
 			break;
 			
@@ -274,7 +284,14 @@
 			NSData *partial = [packet valueForFieldNumber:2];
 			if( [partial length] > 0 )
 			{
-				NSLog(@"Persona states: %@", [packet.scanner scanRepeated:partial]);
+				NSArray *friends = [packet.scanner scanRepeated:partial];
+				for(NSDictionary *rawFriend in friends)
+				{
+					SKFriend *friend = [[SKFriend alloc] initWithBody:rawFriend];
+					[session connectionAddFriend:friend]; // Will update the information
+					// if it is an existing friend, or should at least.
+					[friend release];
+				}
 			}
 		}
 			break;
