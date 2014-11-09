@@ -22,10 +22,12 @@
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
 		36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714C819D2F36F006F08B3 /* SKAESEncryption.m */; };
 		36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B714CA19D2FB69006F08B3 /* Security.framework */; };
+		36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */; };
 		36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */; };
 		36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */; };
 		36CE8D011A01542C0010E42B /* SKHeartbeatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CE8D001A01542C0010E42B /* SKHeartbeatManager.m */; };
 		36CF7DD61A01199D00973C8B /* SKFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF7DD51A01199D00973C8B /* SKFriend.m */; };
+		36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */; };
 		36D4F8821A00EE570028CE96 /* SKOneTimePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
@@ -85,6 +87,8 @@
 		36B714C719D2F36F006F08B3 /* SKAESEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKAESEncryption.h; path = SteamKit/Security/SKAESEncryption.h; sourceTree = "<group>"; };
 		36B714C819D2F36F006F08B3 /* SKAESEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKAESEncryption.m; path = SteamKit/Security/SKAESEncryption.m; sourceTree = "<group>"; };
 		36B714CA19D2FB69006F08B3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		36C5CFFC1A0F8CE9006CE1BD /* SKProtobufEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufEncoder.h; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.h; sourceTree = "<group>"; };
+		36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufEncoder.m; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.m; sourceTree = "<group>"; };
 		36C92ED219FBE6B7009FD8E2 /* SKProtobufConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKProtobufConstants.h; sourceTree = "<group>"; };
 		36CB626E19FF347000F2E996 /* EXSteamGuardWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXSteamGuardWindowController.h; path = "Classes/Steam Guard/EXSteamGuardWindowController.h"; sourceTree = "<group>"; };
 		36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXSteamGuardWindowController.m; path = "Classes/Steam Guard/EXSteamGuardWindowController.m"; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 		36CE8D001A01542C0010E42B /* SKHeartbeatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKHeartbeatManager.m; path = SteamKit/Session/SKHeartbeatManager.m; sourceTree = "<group>"; };
 		36CF7DD41A01199D00973C8B /* SKFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKFriend.h; path = SteamKit/Friends/SKFriend.h; sourceTree = "<group>"; };
 		36CF7DD51A01199D00973C8B /* SKFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKFriend.m; path = SteamKit/Friends/SKFriend.m; sourceTree = "<group>"; };
+		36CF849A1A0F19A000C7A087 /* SKProtobufHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufHeader.h; path = SteamKit/Packet/Protobuf/SKProtobufHeader.h; sourceTree = "<group>"; };
+		36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufHeader.m; path = SteamKit/Packet/Protobuf/SKProtobufHeader.m; sourceTree = "<group>"; };
 		36D4F8801A00EE570028CE96 /* SKOneTimePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKOneTimePassword.h; path = SteamKit/Security/SKOneTimePassword.h; sourceTree = "<group>"; };
 		36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKOneTimePassword.m; path = SteamKit/Security/SKOneTimePassword.m; sourceTree = "<group>"; };
 		36DAFB5519CAD81600A65E6F /* SKUDPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKUDPConnection.h; path = SteamKit/Connection/SKUDPConnection.h; sourceTree = "<group>"; };
@@ -167,6 +173,10 @@
 				36E5DA9219FDE4EB00AD2A4D /* SKProtobufCompiler.m */,
 				36E5DA9419FDEBF300AD2A4D /* SKProtobufValue.h */,
 				36E5DA9519FDEBF300AD2A4D /* SKProtobufValue.m */,
+				36CF849A1A0F19A000C7A087 /* SKProtobufHeader.h */,
+				36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */,
+				36C5CFFC1A0F8CE9006CE1BD /* SKProtobufEncoder.h */,
+				36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */,
 			);
 			name = Protobuf;
 			sourceTree = "<group>";
@@ -526,7 +536,9 @@
 				369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */,
 				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
+				36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */,
 				3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */,
+				36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

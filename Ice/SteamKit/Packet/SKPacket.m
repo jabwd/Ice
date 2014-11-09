@@ -153,10 +153,11 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	return [packet autorelease];
 }
 
-+ (SKPacket *)logOnPacket:(NSString *)username password:(NSString *)password
++ (SKPacket *)logOnPacket:(SKSession *)session
 				 language:(NSString *)language
-			   steamGuard:(NSString *)guardCode
 {
+	NSString *guardCode = [session steamGuard];
+	
 	SKPacket *packet	= [[SKPacket alloc] init];
 	SKMsgType type = SKProtocolProtobufMask + SKMsgTypeClientLogon;
 	packet.msgType = type;
@@ -166,7 +167,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	
 	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
 	
-	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:76561197960265728];
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
 	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
 	[v release];
 	
@@ -174,7 +175,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[compiler addValue:v forType:WireTypeVarint fieldNumber:1];
 	[v release];
 	
-	v	= [[SKProtobufValue alloc] initWithVarint:2047209998];
+	v	= [[SKProtobufValue alloc] initWithVarint:2964189448];
 	[compiler addValue:v forType:WireTypeVarint fieldNumber:2];
 	[v release];
 	
@@ -190,18 +191,18 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[compiler addValue:v forType:WireTypeVarint fieldNumber:7];
 	[v release];
 	
-	v	= [[SKProtobufValue alloc] initWithString:username];
+	v	= [[SKProtobufValue alloc] initWithString:[session username]];
 	[compiler addValue:v forType:WireTypePacked fieldNumber:50];
 	[v release];
 	
-	v	= [[SKProtobufValue alloc] initWithString:password];
+	v	= [[SKProtobufValue alloc] initWithString:[session password]];
 	[compiler addValue:v forType:WireTypePacked fieldNumber:51];
 	[v release];
 	
 	SKSentryFile *file = [[SKSentryFile alloc] init];
 	NSData *hash = [file sha1Hash];
 	SKResultCode sentryResult = SKResultCodeFileNotFound;
-	if( [hash length] > 0 )
+	if( [hash length] > 0 && [guardCode length] < 1 )
 	{
 		sentryResult = SKResultCodeOK;
 		
@@ -224,15 +225,54 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	}
 	
 	[data appendData:[compiler generate]];
-	DLog(@"Sending: %@ %@", packet, data);
 	packet.data = data;
+	[packet encryptWithSession:session];
 	[data release];
 	
 	return [packet autorelease];
 }
 
++ (SKPacket *)loginKeyAccepted:(SKSession *)session
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientNewLoginKeyAccepted;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// Generate the header
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithFixed64:session.targetID];
+	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:11];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v forType:WireTypeVarint fieldNumber:2];
+	[v release];
+	
+	// Generate the body
+	v = [[SKProtobufValue alloc] initWithVarint:session.uniqueID];
+	[compiler addValue:v forType:WireTypeVarint fieldNumber:1];
+	[v release];
+	
+	// Generate the packet itself ID + payload
+	SKMsgType type = packet.msgType;
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[buffer release];
+	[compiler release];
+	
+	return [packet autorelease];
+}
+
 + (SKPacket *)machineAuthResponsePacket:(UInt32)length
-								  jobID:(UInt32)targetID
+								session:(SKSession *)session
 {
 	SKPacket *packet = [[SKPacket alloc] init];
 	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientUpdateMachineAuthResponse;
@@ -242,8 +282,16 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	SKSentryFile *sentryFile		= [[SKSentryFile alloc] init];
 	
 	// + Create the header + //
-	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:76561197960265728];
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
 	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithFixed64:session.targetID];
+	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:11];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v forType:WireTypeVarint fieldNumber:2];
 	[v release];
 	
 	// + Generate the body + //
@@ -263,14 +311,6 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[compiler addValue:v forType:WireTypePacked fieldNumber:4];
 	[v release];
 	
-	v = [[SKProtobufValue alloc] initWithVarint:0];
-	[compiler addValue:v forType:WireTypeVarint fieldNumber:5];
-	[v release];
-	
-	v = [[SKProtobufValue alloc] initWithVarint:0];
-	[compiler addValue:v forType:WireTypeVarint fieldNumber:6];
-	[v release];
-	
 	v = [[SKProtobufValue alloc] initWithVarint:length];
 	[compiler addValue:v forType:WireTypeVarint fieldNumber:7];
 	[v release];
@@ -280,6 +320,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[buffer appendData:[compiler generate]];
 	
 	packet.data = buffer;
+	[packet encryptWithSession:session];
 	
 	// Cleanup
 	[compiler		release];
@@ -289,21 +330,43 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	return [packet autorelease];
 }
 
-+ (SKPacket *)heartBeatPacket
++ (SKPacket *)heartBeatPacket:(SKSession *)session
 {
 	SKPacket *packet = [[SKPacket alloc] init];
 	
 	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientHeartBeat;
 	SKMsgType type = packet.msgType;
 	
-	NSData *data = [[NSData alloc] initWithBytes:&type length:4];
-	packet.data = data;
-	[data release];
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v forType:WireTypeVarint fieldNumber:2];
+	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
 	
 	return [packet autorelease];
 }
 
 #pragma mark - Some handy stuff
+
+- (void)encryptWithSession:(SKSession *)session
+{
+	NSData *final = [SKAESEncryption encryptPacketData:self.data key:session.sessionKey];
+	self.data = final;
+}
 
 - (NSString *)description
 {

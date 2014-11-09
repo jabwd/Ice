@@ -18,7 +18,7 @@ extern UInt32 const		SKProtocolVersionMajorMask;
 extern UInt32 const		SKProtocolVersionMinorMask;
 extern UInt32 const		SKProtocolProtobufMask;
 
-@class SKProtobufScanner;
+@class SKProtobufScanner, SKSession;
 
 @interface SKPacket : NSObject
 {
@@ -44,15 +44,27 @@ extern UInt32 const		SKProtocolProtobufMask;
 - (id)valueForKey:(NSString *)key;
 - (id)valueForFieldNumber:(NSUInteger)fieldNumber;
 
+/**
+ * Encrypts the packet with the given session's sessionKey
+ * Using AES256 encryption
+ *
+ * @param SKSession session
+ *
+ * @return void
+ */
+- (void)encryptWithSession:(SKSession *)session;
+
 //----------------------------------------------------------------------------------------------+
 // Packet templates
 
 + (SKPacket *)encryptionResponsePacket:(NSData *)sessionKey;
-+ (SKPacket *)logOnPacket:(NSString *)username password:(NSString *)password
-				 language:(NSString *)language
-			   steamGuard:(NSString *)guardCode;
++ (SKPacket *)logOnPacket:(SKSession *)session
+				 language:(NSString *)language;
 
 + (SKPacket *)machineAuthResponsePacket:(UInt32)length
-								  jobID:(UInt32)targetID;
+								session:(SKSession *)session;
+
++ (SKPacket *)loginKeyAccepted:(SKSession *)session;
++ (SKPacket *)heartBeatPacket:(SKSession *)session;
 
 @end
