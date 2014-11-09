@@ -10,4 +10,19 @@
 
 @implementation SKHeartbeatManager
 
++ (SKHeartbeatManager *)defaultManager
+{
+	return nil;
+}
+
+- (void)addTimerForTime:(UInt32)seconds target:(id)target method:(SEL)method
+{
+	
+}
+
+- (void)removeTimersForTarget:(id)target
+{
+	
+}
+
 @end

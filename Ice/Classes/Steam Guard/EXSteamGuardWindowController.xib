@@ -19,8 +19,8 @@
             <windowStyleMask key="styleMask" titled="YES"/>
             <rect key="contentRect" x="196" y="240" width="372" height="161"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
-            <value key="minSize" type="size" width="356" height="161"/>
-            <value key="maxSize" type="size" width="356" height="161"/>
+            <value key="minSize" type="size" width="372" height="161"/>
+            <value key="maxSize" type="size" width="372" height="161"/>
             <view key="contentView" id="xcs-mz-SxD">
                 <rect key="frame" x="0.0" y="0.0" width="372" height="161"/>
                 <autoresizingMask key="autoresizingMask"/>

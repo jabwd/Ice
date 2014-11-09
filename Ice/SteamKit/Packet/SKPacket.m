@@ -203,7 +203,12 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	SKResultCode sentryResult = SKResultCodeFileNotFound;
 	if( [hash length] > 0 )
 	{
-		//sentryResult = SKResultCodeOK;
+		sentryResult = SKResultCodeOK;
+		
+		v = [[SKProtobufValue alloc] initWithPackedData:hash];
+		[compiler addValue:v forType:WireTypePacked fieldNumber:83];
+		[v release];
+		NSLog(@"Have a sentry file, sending it! %@", hash);
 	}
 	
 	v	= [[SKProtobufValue alloc] initWithVarint:sentryResult];
@@ -219,7 +224,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	}
 	
 	[data appendData:[compiler generate]];
-	
+	DLog(@"Sending: %@ %@", packet, data);
 	packet.data = data;
 	[data release];
 	

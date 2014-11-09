@@ -150,12 +150,9 @@
 		NSMutableData *buff = [[NSMutableData alloc] init];
 		
 		// Generate the length byte and append it
-		UInt8 length = (UInt8)[string length];
-		if( length == 0xFF )
-		{
-			DLog(@"String for protobuf compiler probably too long!");
-		}
-		[buff appendBytes:&length length:1];
+		SKProtobufValue *length = [[SKProtobufValue alloc] initWithVarint:[string length]];
+		[buff appendData:length.data];
+		[length release];
 		
 		// Append the string data
 		[buff appendData:[string dataUsingEncoding:NSUTF8StringEncoding]];
@@ -176,8 +173,9 @@
 		
 		NSMutableData *buffer = [[NSMutableData alloc] init];
 		
-		UInt8 length = (UInt8)[buffer length];
-		[buffer appendBytes:&length length:1];
+		SKProtobufValue *length = [[SKProtobufValue alloc] initWithVarint:[data length]];
+		[buffer appendData:length.data];
+		[length release];
 		[buffer appendData:data];
 		
 		_data = [buffer retain];

@@ -133,16 +133,29 @@
 			
 		case SKMsgTypeClientLogOnResponse:
 		{
-			if( [[packet valueForFieldNumber:1] integerValue] == SKResultCodeAccountLogonDenied )
+			SKResultCode result = (SKResultCode)[[packet valueForFieldNumber:1] integerValue];
+			switch(result)
 			{
-				[[NSNotificationCenter defaultCenter]
-				 postNotificationName:SKLoginFailedSteamGuardNotificationName
-				 object:nil
-				 userInfo:@{@"email": [packet valueForFieldNumber:8]}];
-			}
-			else
-			{
-				NSLog(@"Unhandled logon response: %@", packet.scanner.body);
+				case SKResultCodeAccountLogonDenied:
+				{
+					[[NSNotificationCenter defaultCenter]
+					 postNotificationName:SKLoginFailedSteamGuardNotificationName
+					 object:nil
+					 userInfo:@{@"email": [packet valueForFieldNumber:8]}];
+				}
+					break;
+					
+				case SKResultCodeOK:
+				{
+					DLog(@"Login success");
+					UInt32 keepAliveSeconds = [[packet valueForFieldNumber:2] intValue];
+					session.keepAliveTimerSeconds = keepAliveSeconds;
+				}
+					break;
+					
+				default:
+					DLog(@"Unhandled login response: %@", packet.scanner.body);
+					break;
 			}
 		}
 			break;

@@ -101,7 +101,7 @@ static const SKSession *_sharedSession = nil;
 
 - (void)keepAlive:(NSNotification *)notification
 {
-	SKPacket *heartBeat = [SKPacket heartBeat]
+	
 }
 
 #pragma mark - Connection Handling
