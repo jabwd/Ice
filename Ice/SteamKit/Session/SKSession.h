@@ -48,7 +48,10 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 	SKSessionStatus			_status;
 	
 	UInt32 _uniqueID;
+	UInt32 _sessionID;
 	UInt32 _keepAliveTimerSeconds;
+	UInt64 _targetID;
+	UInt64 _rawSteamID;
 }
 
 @property (nonatomic, assign) id <SKSessionDelegate> delegate;
@@ -58,7 +61,10 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 
 @property (retain) NSString *loginKey;
 @property (assign) UInt32 uniqueID;
+@property (assign) UInt32 sessionID;
 @property (assign) UInt32 keepAliveTimerSeconds;
+@property (assign) UInt64 targetID;
+@property (assign) UInt64 rawSteamID;
 
 + (id)sharedSession;
 

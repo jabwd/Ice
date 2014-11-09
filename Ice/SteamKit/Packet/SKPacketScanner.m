@@ -85,7 +85,6 @@
 			
 			if( sizeUnzipped.unsignedIntegerValue > 0 )
 			{
-				DLog(@"Packet is compressed, decompressing");
 				NSData *uncompressed = [data uncompressedDataWithSize:sizeUnzipped.intValue];
 				if( [uncompressed length] != sizeUnzipped.unsignedIntegerValue )
 				{
@@ -133,6 +132,8 @@
 			
 		case SKMsgTypeClientLogOnResponse:
 		{
+			DLog(@"Updating SteamID: %@", packet.scanner.header[@"1"]);
+			session.rawSteamID = [packet.scanner.header[@"1"] unsignedIntegerValue];
 			SKResultCode result = (SKResultCode)[[packet valueForFieldNumber:1] integerValue];
 			switch(result)
 			{
@@ -147,9 +148,12 @@
 					
 				case SKResultCodeOK:
 				{
-					DLog(@"Login success");
+					NSNumber *sessionID = [packet.scanner.header objectForKey:@"2"];
+					session.sessionID = [sessionID unsignedIntValue];
+					
 					UInt32 keepAliveSeconds = [[packet valueForFieldNumber:2] intValue];
 					session.keepAliveTimerSeconds = keepAliveSeconds;
+					[_connection sendPacket:[SKPacket heartBeatPacket:session]];
 				}
 					break;
 					
@@ -163,24 +167,30 @@
 		case SKMsgTypeClientFriendsList:
 		{
 			NSLog(@"Received a friends list %@", packet.scanner.body);
+			
+			NSData *repeated = [packet valueForFieldNumber:2];
+			if( [repeated length] > 0 )
+			{
+				NSLog(@"Result: %@", [packet.scanner scanRepeated:repeated]);
+			}
 		}
 			break;
 			
 		case SKMsgTypeClientUpdateMachineAuth:
 		{
-			//NSLog(@"Received sentryfile %@ %@", packet.scanner.header, packet.scanner.body);
-			
 			NSDictionary *body	= packet.scanner.body;
 			NSString *fileName	= body[@"1"];
 			//NSNumber *offset	= body[@"2"];
 			NSNumber *length	= body[@"3"];
 			NSData *data		= body[@"4"];
 			NSNumber *sourceID	= packet.scanner.header[@"10"];
+			//NSNumber *sessionID = packet.scanner.header[@"2"];
+			
+			session.targetID	= [sourceID unsignedIntegerValue];
 			
 			[_connection.session updateSentryFile:fileName data:data];
-			
 			SKPacket *packet = [SKPacket machineAuthResponsePacket:(UInt32)length.unsignedIntegerValue
-															 jobID:(UInt32)sourceID.unsignedIntegerValue];
+														   session:session];
 			[_connection sendPacket:packet];
 			NSLog(@"Sending machineauth response: %@", packet);
 		}
@@ -190,17 +200,18 @@
 		{
 			UInt32 uniqueId		= (UInt32)[packet.scanner.body[@"1"] unsignedIntegerValue];
 			NSString *loginKey	= packet.scanner.body[@"2"];
+			
 			session.loginKey = loginKey;
 			session.uniqueID = uniqueId;
 			
+			[_connection sendPacket:[SKPacket loginKeyAccepted:session]];
+			
 			[session setStatus:SKSessionStatusConnected];
-			NSLog(@"Received a new login key: %@", packet.scanner.body[@"2"]);
 		}
 			break;
 			
 		case SKMsgTypeClientVACBanStatus:
 		{
-			NSLog(@"VAC Ban status: %u %@", packet.isProtobufPacket, packet.data);
 		}
 			break;
 			
@@ -217,8 +228,6 @@
 		case SKMsgTypeClientEmailAddrInfo:
 		{
 			session.currentUser.email = packet.scanner.body[@"1"];
-			
-			NSLog(@"Current user: %@", session.currentUser);
 		}
 			break;
 			
@@ -226,6 +235,92 @@
 			break;
 			
 		case SKMsgTypeClientServerList:
+		{
+			//DLog(@"Received a server list %@ %@", packet.scanner.body, packet.scanner.header);
+		}
+			break;
+			
+		case SKMsgTypeClientFriendsGroupsList:
+		{
+			//DLog(@"Groups: %@ %@", packet.scanner.body, packet.scanner.header);
+		}
+			break;
+			
+		case SKMsgTypeClientPlayerNicknameList:
+		{
+			//DLog(@"Nicknamelist: %@ %@", packet.scanner.body, packet.scanner.header);
+		}
+			break;
+			
+		case SKMsgTypeClientLicenseList:
+		{
+			/*NSData *repeatedFields = [packet valueForFieldNumber:2];
+			if( [repeatedFields length] > 0 )
+			{
+				SKProtobufScanner *scanner	= [[SKProtobufScanner alloc] initWithData:nil];
+				NSMutableData *body			= [[NSMutableData alloc] initWithData:repeatedFields];
+				[scanner scanBody:body];
+				NSLog(@"Repeated result: %@", scanner.body);
+				[body release];
+				[scanner release];
+			}*/
+		}
+			break;
+			
+		case SKMsgTypeClientUpdateGuestPassesList:
+		{
+			// Unhandled for now
+		}
+			break;
+			
+		case SKMsgTypeClientWalletInfoUpdate:
+		{
+			//NSNumber *hasWallet = [packet valueForFieldNumber:1];
+			//NSNumber *balance	= [packet valueForFieldNumber:2];
+			//NSNumber *currency	= [packet valueForFieldNumber:3];
+		}
+			break;
+			
+		case SKMsgTypeClientSessionToken:
+		{
+			NSLog(@"=> Session Token received");
+			// Don't really know what  the use for this packet is at the moment
+			//DLog(@"Session token: %@ %@", packet.scanner.body, packet.scanner.header);
+		}
+			break;
+			
+		case SKMsgTypeClientIsLimitedAccount:
+		{
+			/*if( [[packet valueForFieldNumber:1] integerValue] == 1 )
+			{
+				DLog(@"Appears to be a limited account, do not know for what reason");
+			}
+			
+			if( [[packet valueForFieldNumber:4] integerValue] == 1 )
+			{
+				DLog(@"=> This account is allowed to add friends");
+			}*/
+		}
+			break;
+			
+		case SKMsgTypeClientGameConnectTokens:
+		{
+			// Unhandled for now
+		}
+			break;
+			
+		case SKMsgTypeClientCMList:
+		{
+			//UInt32 IP	= [packet.scanner.body[@"1"] unsignedIntValue];
+			//UInt32 port = [packet.scanner.body[@"2"] unsignedIntValue];
+			//DLog(@"Server List: %u.%u.%u.%u:%u", ((IP >> 24) & 0xFF), ((IP >> 16) & 0xFF), ((IP >> 8) & 0xFF), (IP & 0xFF), port);
+		}
+			break;
+			
+		case SKMsgTypeClientMarketingMessageUpdate2:
+		{
+			// Always ignored.
+		}
 			break;
 			
 		default:

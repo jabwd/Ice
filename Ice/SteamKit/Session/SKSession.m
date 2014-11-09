@@ -39,6 +39,7 @@ static const SKSession *_sharedSession = nil;
 		_status				= SKSessionStatusOffline;
 		_delegate			= nil;
 		_sharedSession		= self;
+		_rawSteamID			= 76561197960265728;
 		_currentUser		= [[SKFriend alloc] init];
 	}
 	return self;
@@ -83,13 +84,18 @@ static const SKSession *_sharedSession = nil;
 			[_keepAliveTimer invalidate];
 		}
 		[_keepAliveTimer release];
-		_keepAliveTimer = [NSTimer
-						   timerWithTimeInterval:_keepAliveTimerSeconds
-						   target:self
-						   selector:@selector(keepAlive:)
-						   userInfo:nil
-						   repeats:YES];
-		DLog(@"Starting keepalive timer with %u seconds", _keepAliveTimerSeconds);
+		_keepAliveTimer = [NSTimer scheduledTimerWithTimeInterval:_keepAliveTimerSeconds
+														   target:self
+														 selector:@selector(keepAlive:)
+														 userInfo:nil
+														  repeats:YES];
+		DLog(@"Should start the keepalive timer onw");
+	}
+	else if( status == SKSessionStatusDisconnecting )
+	{
+		[_keepAliveTimer invalidate];
+		_keepAliveTimer = nil;
+		DLog(@"Stopped heartbeating");
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:SKSessionStatusChangedNotificationName object:self];
@@ -99,9 +105,12 @@ static const SKSession *_sharedSession = nil;
 	}
 }
 
-- (void)keepAlive:(NSNotification *)notification
+- (void)keepAlive:(NSTimer *)timer
 {
+	SKPacket *beat = [SKPacket heartBeatPacket:self];
+	NSLog(@"=> Sending heartbeat");
 	
+	[_TCPConnection sendPacket:beat];
 }
 
 #pragma mark - Connection Handling
@@ -135,12 +144,8 @@ static const SKSession *_sharedSession = nil;
 
 - (void)logIn
 {
-	SKPacket *packet = [SKPacket logOnPacket:[self username]
-									password:[self password]
-									language:@"english"
-								  steamGuard:[self steamGuard]];
-	NSData *final = [SKAESEncryption encryptPacketData:packet.data key:_sessionKey];
-	packet.data = final;
+	SKPacket *packet = [SKPacket logOnPacket:self
+									language:@"english"];
 	[_TCPConnection sendPacket:packet];
 }
 
