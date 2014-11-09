@@ -41,7 +41,7 @@
 
 - (void)addHeaderValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber
 {
-	SKProtobufKey *key = [[SKProtobufKey alloc] initWithType:type fieldNumber:fieldNumber];
+	SKProtobufKey *key = [[SKProtobufKey alloc] initWithType:value.type fieldNumber:fieldNumber];
 	[_headerData appendData:[key encode]];
 	[_headerData appendData:value.data];
 	[key release];
@@ -49,7 +49,7 @@
 
 - (void)addValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber
 {
-	SKProtobufKey *key = [[SKProtobufKey alloc] initWithType:type fieldNumber:fieldNumber];
+	SKProtobufKey *key = [[SKProtobufKey alloc] initWithType:value.type fieldNumber:fieldNumber];
 	[_data appendData:[key encode]];
 	[_data appendData:value.data];
 	[key release];
