@@ -21,6 +21,7 @@ typedef NS_ENUM(UInt32, SKSessionStatus)
 
 extern NSString *SKSessionStatusChangedNotificationName;
 extern NSString *SKLoginFailedSteamGuardNotificationName;
+extern NSString *SKFriendsListChangedNotificationName;
 
 @class SKUDPConnection, SKTCPConnection, SKSession;
 @class SKFriend, SKSteamID;
@@ -61,6 +62,7 @@ extern NSString *SKLoginFailedSteamGuardNotificationName;
 @property (readonly) NSData *sessionKey;
 @property (assign) SKSessionStatus status;
 @property (readonly) SKFriend *currentUser;
+@property (readonly) NSMutableArray *friendsList;
 
 @property (retain) NSString *loginKey;
 @property (assign) UInt32 uniqueID;

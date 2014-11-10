@@ -10,6 +10,7 @@
 #import "SKSession.h"
 #import "SKSentryFile.h"
 #import "EXSteamDeveloperWindow.h"
+#import "EXFriendsListController.h"
 
 @implementation EXAppDelegate
 
@@ -22,6 +23,8 @@
 	_authcode = nil;
 	[_developerWindowController release];
 	_developerWindowController = nil;
+	[_friendsListController release];
+	_friendsListController = nil;
 	[super dealloc];
 }
 
@@ -88,6 +91,15 @@
 	}
 }
 
+- (void)switchMainView:(NSView *)view
+{
+	NSArray *subviews = [_contentView subviews];
+	[subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	
+	[view setFrameSize:_contentView.frame.size];
+	[_contentView addSubview:view];
+}
+
 #pragma mark - SKSession delegate
 
 - (void)sessionChangedStatus:(SKSession *)session
@@ -105,6 +117,12 @@
 		case SKSessionStatusConnected:
 		{
 			[_session setUserStatus:SKPersonaStateOnline];
+			
+			if( !_friendsListController )
+			{
+				_friendsListController = [[EXFriendsListController alloc] initWithSession:_session];
+			}
+			[self switchMainView:_friendsListController.view];
 		}
 			break;
 			

@@ -8,12 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SKSession;
+@class SKSession, EXFriendsListRowView;
 
 @interface EXFriendsListController : NSViewController <NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
 	SKSession *_session;
 }
+@property (assign) IBOutlet NSOutlineView *outlineView;
 
 - (id)initWithSession:(SKSession *)session;
 

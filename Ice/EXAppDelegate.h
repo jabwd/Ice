@@ -10,7 +10,7 @@
 #import "SKSession.h"
 #import "EXSteamGuardWindowController.h"
 
-@class EXSteamDeveloperWindow;
+@class EXSteamDeveloperWindow, EXFriendsListController;
 
 @interface EXAppDelegate : NSObject <NSApplicationDelegate,
 									SKSessionDelegate,
@@ -19,7 +19,8 @@
 	SKSession *_session;
 	NSString *_authcode;
 	
-	EXSteamDeveloperWindow *_developerWindowController;
+	EXSteamDeveloperWindow	*_developerWindowController;
+	EXFriendsListController *_friendsListController;
 }
 
 @property (assign) IBOutlet NSWindow *window;

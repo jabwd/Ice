@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EXFriendsListController">
             <connections>
+                <outlet property="outlineView" destination="hUX-hR-DfK" id="rvN-KY-770"/>
                 <outlet property="view" destination="P4E-Du-bdX" id="rPC-e1-cD5"/>
             </connections>
         </customObject>
@@ -13,7 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <scrollView focusRingType="none" autohidesScrollers="YES" horizontalLineScroll="38" horizontalPageScroll="10" verticalLineScroll="38" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="P4E-Du-bdX">
             <rect key="frame" x="0.0" y="0.0" width="240" height="135"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <clipView key="contentView" copiesOnScroll="NO" id="6FA-dJ-cmQ">
                 <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,17 +39,19 @@
                                 </textFieldCell>
                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                 <prototypeCellViews>
-                                    <tableCellView id="5pz-yP-0V9" customClass="EXFriendsListRowView">
+                                    <tableCellView identifier="FriendCell" id="5pz-yP-0V9" customClass="EXFriendsListRowView">
                                         <rect key="frame" x="1" y="1" width="235" height="36"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pdr-4Y-cu4">
-                                                <rect key="frame" x="7" y="2" width="32" height="32"/>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Pdr-4Y-cu4">
+                                                <rect key="frame" x="2" y="2" width="32" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="2rI-we-Oie"/>
                                             </imageView>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AvR-wA-2BI">
-                                                <rect key="frame" x="45" y="10" width="182" height="17"/>
-                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Displayname" id="tmi-cN-0CU">
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="AvR-wA-2BI">
+                                                <rect key="frame" x="40" y="10" width="182" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Display_name" id="tmi-cN-0CU">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -64,6 +67,10 @@
                                 </prototypeCellViews>
                             </tableColumn>
                         </tableColumns>
+                        <connections>
+                            <outlet property="dataSource" destination="-2" id="xSL-ry-vEZ"/>
+                            <outlet property="delegate" destination="-2" id="Ilq-ts-Fmw"/>
+                        </connections>
                     </outlineView>
                 </subviews>
                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

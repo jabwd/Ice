@@ -17,6 +17,7 @@
 
 NSString *SKSessionStatusChangedNotificationName	= @"SKSessionStatusChanged";
 NSString *SKLoginFailedSteamGuardNotificationName	= @"SKLoginFailedSteamGuard";
+NSString *SKFriendsListChangedNotificationName		= @"SKFriendsListChangedNotification";
 
 static const SKSession *_sharedSession = nil;
 
@@ -184,6 +185,8 @@ static const SKSession *_sharedSession = nil;
 	if( oldFriend == nil )
 	{
 		[_friendsList addObject:remoteFriend];
+		[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+															object:self];
 	}
 	else
 	{
