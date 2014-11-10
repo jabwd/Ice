@@ -14,6 +14,7 @@ typedef NS_ENUM(UInt32, SKPersonaState)
 
 typedef NS_ENUM(SInt32, SKChatEntryType)
 {
+	SKChatEntryTypeInvalid	= 0,
 	SKChatEntryTypeMessage	= 1,
 	SKChatEntryTypeTyping	= 2,
 };

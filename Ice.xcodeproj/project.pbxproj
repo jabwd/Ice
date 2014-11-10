@@ -17,6 +17,8 @@
 		3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524619ED2B1F0038A3A1 /* SKSentryFile.m */; };
 		363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */; };
 		3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3646FE3119FAA9D900143668 /* SKProtobufKey.m */; };
+		366863AB1A10553900EA08B6 /* EXChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366863A91A10553900EA08B6 /* EXChatWindowController.m */; };
+		366863AC1A10553900EA08B6 /* EXChatWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 366863AA1A10553900EA08B6 /* EXChatWindowController.xib */; };
 		3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3671B6CB19E2E4A4000A02EF /* steamPublic.pem */; };
 		367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 367EF2D31A103F060038548D /* EXSteamDeveloperWindow.m */; };
 		367EF2D61A103F060038548D /* EXSteamDeveloperWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 367EF2D41A103F060038548D /* EXSteamDeveloperWindow.xib */; };
@@ -85,6 +87,9 @@
 		363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufScanner.m; path = SteamKit/Packet/SKProtobufScanner.m; sourceTree = "<group>"; };
 		3646FE3019FAA9D900143668 /* SKProtobufKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufKey.h; path = SteamKit/Packet/Protobuf/SKProtobufKey.h; sourceTree = "<group>"; };
 		3646FE3119FAA9D900143668 /* SKProtobufKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufKey.m; path = SteamKit/Packet/Protobuf/SKProtobufKey.m; sourceTree = "<group>"; };
+		366863A81A10553900EA08B6 /* EXChatWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXChatWindowController.h; path = Classes/WindowControllers/EXChatWindowController.h; sourceTree = "<group>"; };
+		366863A91A10553900EA08B6 /* EXChatWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXChatWindowController.m; path = Classes/WindowControllers/EXChatWindowController.m; sourceTree = "<group>"; };
+		366863AA1A10553900EA08B6 /* EXChatWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXChatWindowController.xib; path = Classes/WindowControllers/EXChatWindowController.xib; sourceTree = "<group>"; };
 		3671B6CB19E2E4A4000A02EF /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamPublic.pem; sourceTree = "<group>"; };
 		367EF2D21A103F060038548D /* EXSteamDeveloperWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXSteamDeveloperWindow.h; path = Classes/Developer/EXSteamDeveloperWindow.h; sourceTree = "<group>"; };
 		367EF2D31A103F060038548D /* EXSteamDeveloperWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXSteamDeveloperWindow.m; path = Classes/Developer/EXSteamDeveloperWindow.m; sourceTree = "<group>"; };
@@ -197,6 +202,17 @@
 			name = Protobuf;
 			sourceTree = "<group>";
 		};
+		366863A71A10551C00EA08B6 /* WindowControllers */ = {
+			isa = PBXGroup;
+			children = (
+				367EF2D11A103ED50038548D /* Developer */,
+				36CB626D19FF344100F2E996 /* Steam Guard */,
+				366863A81A10553900EA08B6 /* EXChatWindowController.h */,
+				366863A91A10553900EA08B6 /* EXChatWindowController.m */,
+			);
+			name = WindowControllers;
+			sourceTree = "<group>";
+		};
 		367EF2D11A103ED50038548D /* Developer */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,9 +302,8 @@
 		36CB626C19FF343A00F2E996 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				366863A71A10551C00EA08B6 /* WindowControllers */,
 				367EF2D71A1045A50038548D /* ViewControllers */,
-				367EF2D11A103ED50038548D /* Developer */,
-				36CB626D19FF344100F2E996 /* Steam Guard */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -316,6 +331,7 @@
 		36D8F5B319F6A2CE00C3D4BE /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				366863AA1A10553900EA08B6 /* EXChatWindowController.xib */,
 				367EF2DA1A1045C00038548D /* EXFriendsListController.xib */,
 				367EF2D41A103F060038548D /* EXSteamDeveloperWindow.xib */,
 				36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */,
@@ -538,6 +554,7 @@
 				36E766F519C6D54000D9C761 /* Images.xcassets in Resources */,
 				36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */,
 				36E766ED19C6D54000D9C761 /* Credits.rtf in Resources */,
+				366863AC1A10553900EA08B6 /* EXChatWindowController.xib in Resources */,
 				360609B219EBC1CB0003EA2D /* public.pem in Resources */,
 				360609B019EBC1C30003EA2D /* private.pem in Resources */,
 				36E766F319C6D54000D9C761 /* MainMenu.xib in Resources */,
@@ -571,6 +588,7 @@
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
 				363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */,
+				366863AB1A10553900EA08B6 /* EXChatWindowController.m in Sources */,
 				3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */,
 				36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */,
 				36CF7DD61A01199D00973C8B /* SKFriend.m in Sources */,

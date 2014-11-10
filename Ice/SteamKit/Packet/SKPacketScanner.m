@@ -276,6 +276,7 @@
 													 session:session
 														type:SKChatEntryTypeMessage];
 			[_connection sendPacket:response];
+			[steamID release];
 		}
 			break;
 			

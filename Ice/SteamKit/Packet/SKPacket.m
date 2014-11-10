@@ -224,12 +224,14 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	{
 		v	= [[SKProtobufValue alloc] initWithString:guardCode];
 		[compiler addValue:v forType:WireTypePacked fieldNumber:84];
+		[v release];
 	}
 	
 	[data appendData:[compiler generate]];
 	packet.data = data;
 	[packet encryptWithSession:session];
 	[data release];
+	[compiler release];
 	
 	return [packet autorelease];
 }

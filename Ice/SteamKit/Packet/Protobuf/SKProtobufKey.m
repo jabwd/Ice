@@ -36,7 +36,7 @@
 {
 	UInt32 byte = _type;
 	byte |= (_fieldNumber << 3);
-	SKProtobufValue *value = [[SKProtobufValue alloc] initWithVarint:byte];
+	SKProtobufValue *value = [[[SKProtobufValue alloc] initWithVarint:byte] autorelease];
 	return value.data;
 }
 

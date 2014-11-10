@@ -7,8 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SteamConstants.h"
 
-@class SKSteamID;
+@class SKSteamID, SKSession;
+
+@protocol SKFriendChatDelegate <NSObject>
+- (void)friendDidReceiveMessage:(NSString *)message
+						   date:(NSDate *)date
+						   type:(SKChatEntryType)entryType;
+@end
 
 @interface SKFriend : NSObject
 {
@@ -21,8 +28,11 @@
 	NSString *_countryCode;
 	
 	SKSteamID *_steamID;
+	SKSession *_session;
 	
 	NSData *_avatarHash;
+	
+	id _delegate;
 	
 	UInt32 _lastLogon;
 	UInt32 _lastLogoff;
@@ -40,6 +50,8 @@
 @property (retain) NSData *avatarHash;
 
 @property (retain) SKSteamID *steamID;
+@property (retain) SKSession *session;
+@property (assign) id <SKFriendChatDelegate> delegate;
 
 @property (assign) UInt32 lastLogon;
 @property (assign) UInt32 lastLogoff;
@@ -50,5 +62,7 @@
 - (id)initWithBody:(NSDictionary *)body;
 
 - (NSString *)displayName;
+
+- (void)receivedChatMessageWithBody:(NSDictionary *)body;
 
 @end

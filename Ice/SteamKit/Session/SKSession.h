@@ -63,6 +63,7 @@ extern NSString *SKFriendsListChangedNotificationName;
 @property (assign) SKSessionStatus status;
 @property (readonly) SKFriend *currentUser;
 @property (readonly) NSMutableArray *friendsList;
+@property (readonly) SKTCPConnection *TCPConnection;
 
 @property (retain) NSString *loginKey;
 @property (assign) UInt32 uniqueID;

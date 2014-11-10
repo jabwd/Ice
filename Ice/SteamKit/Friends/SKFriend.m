@@ -8,6 +8,9 @@
 
 #import "SKFriend.h"
 #import "SKSteamID.h"
+#import "SKPacket.h"
+#import "SKSession.h"
+#import "SKTCPConnection.h"
 
 @implementation SKFriend
 
@@ -42,6 +45,9 @@
 	_countryCode = nil;
 	[_steamID release];
 	_steamID = nil;
+	[_session release];
+	_session = nil;
+	_delegate = nil;
 	[super dealloc];
 }
 
@@ -62,6 +68,28 @@
 {
 	[_displayName release];
 	_displayName = [displayName retain];
+}
+
+#pragma mark - Chatting
+
+- (void)receivedChatMessageWithBody:(NSDictionary *)body
+{
+	if( [_delegate respondsToSelector:@selector(friendDidReceiveMessage:date:type:)] )
+	{
+		SKChatEntryType entryType	= [body[@"2"] unsignedIntValue];
+		NSString *message			= body[@"4"];
+		NSDate *date				= [NSDate dateWithTimeIntervalSince1970:[body[@"5"] unsignedIntValue]];
+		[_delegate friendDidReceiveMessage:message date:date type:entryType];
+	}
+}
+
+- (void)sendMessage:(NSString *)message ofType:(SKChatEntryType)entryType
+{
+	SKPacket *chatPacket = [SKPacket sendMessagePacket:message
+												friend:self
+											   session:_session
+												  type:entryType];
+	[_session.TCPConnection sendPacket:chatPacket];
 }
 
 - (NSString *)description

@@ -184,6 +184,7 @@ static const SKSession *_sharedSession = nil;
 	SKFriend *oldFriend = [self friendForSteamID:remoteFriend.steamID];
 	if( oldFriend == nil )
 	{
+		remoteFriend.session = self;
 		[_friendsList addObject:remoteFriend];
 		[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
 															object:self];
@@ -191,6 +192,7 @@ static const SKSession *_sharedSession = nil;
 	else
 	{
 		// For updating friend information when it changes
+		oldFriend.session = nil;
 		[_friendsList removeObject:oldFriend];
 		[_friendsList addObject:remoteFriend];
 		DLog(@"=> Updated information for %@", remoteFriend);
