@@ -65,7 +65,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	// the special protobuf packet layout and store it
 	if( (type & 0x80000000) > 0 )
 	{
-		DLog(@"Scanning: %u", packet.msgType);
+		//DLog(@"Scanning: %u", packet.msgType);
 		packet.scanner = [[[SKProtobufScanner alloc] initWithData:packet.data] autorelease];
 	}
 	

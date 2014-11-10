@@ -41,7 +41,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	self.window.titlebarAppearsTransparent=YES;
+	self.window.titleVisibility = NSWindowTitleHidden;
 	
 	[[NSNotificationCenter defaultCenter]
 	 addObserver:self

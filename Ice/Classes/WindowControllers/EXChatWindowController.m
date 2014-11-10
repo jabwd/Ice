@@ -24,7 +24,6 @@ const CGFloat EXChatFontSize	= 12.0f;
 		_remoteFriend.delegate	= self;
 		
 		[self.window makeKeyAndOrderFront:nil];
-		self.window.styleMask |= NSFullSizeContentViewWindowMask;
 	}
 	return self;
 }
@@ -51,8 +50,10 @@ const CGFloat EXChatFontSize	= 12.0f;
 {
     [super windowDidLoad];
 	
-	[self.window setDelegate:self];
-	[self.window setTitle:[NSString stringWithFormat:@"Chat - %@", [_remoteFriend displayName]]];
+	self.window.titleVisibility = NSWindowTitleHidden;
+	self.window.delegate		= self;
+	self.window.title			= [NSString stringWithFormat:@"Chat - %@", _remoteFriend.displayName];
+	
 	[_messageField becomeFirstResponder];
 }
 
@@ -105,7 +106,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 	NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:finalMessage attributes:nil];
 	
 	[str addAttribute:NSFontAttributeName value:[NSFont fontWithName:(NSString *)EXChatFontName size:EXChatFontSize] range:NSMakeRange(0, [finalMessage length])];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0, [finalMessage length])];
+	[str addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(0, [finalMessage length])];
 	[str addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:NSMakeRange([dateString length]+3, [name length]+1)];
 	[str addAttribute:NSForegroundColorAttributeName value:[NSColor colorWithCalibratedWhite:0.3f alpha:1.0f] range:NSMakeRange(0, [dateString length])];
 	
@@ -131,7 +132,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 	NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:finalMessage attributes:nil];
 	
 	[str addAttribute:NSFontAttributeName value:[NSFont fontWithName:(NSString *)EXChatFontName size:EXChatFontSize] range:NSMakeRange(0, [finalMessage length])];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0, [finalMessage length])];
+	[str addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(0, [finalMessage length])];
 	[str addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor] range:NSMakeRange([dateString length]+3, [name length]+1)];
 	[str addAttribute:NSForegroundColorAttributeName value:[NSColor colorWithCalibratedWhite:0.3f alpha:1.0f] range:NSMakeRange(0, [dateString length])];
 	

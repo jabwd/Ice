@@ -741,10 +741,55 @@ DQ
                     </visualEffectView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="334" y="352"/>
+            <toolbar key="toolbar" implicitIdentifier="FD00AF31-DF09-457F-9DE4-B989CD512582" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="u4q-kK-ueb">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="ORH-YF-vd8"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="DFz-KX-sSW"/>
+                    <toolbarItem implicitItemIdentifier="91FC94E6-F881-4E20-A6E7-F22A89F7FAAE" label="Status dropdown" paletteLabel="Status dropdown" id="YvQ-Te-dow">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="100" height="19"/>
+                        <size key="maxSize" width="100" height="26"/>
+                        <popUpButton key="view" verticalHuggingPriority="750" id="6Re-Ix-jRH">
+                            <rect key="frame" x="0.0" y="21" width="100" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="recessed" title="Offline" bezelStyle="recessed" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="iQY-pI-VQy" id="xVy-yc-p1l">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                <font key="font" metaFont="systemBold" size="12"/>
+                                <menu key="menu" id="yRJ-hc-v46">
+                                    <items>
+                                        <menuItem title="Offline" state="on" hidden="YES" id="iQY-pI-VQy"/>
+                                        <menuItem title="Online" id="Y7X-Do-gzq"/>
+                                        <menuItem title="Away" id="SyW-FK-BJ0"/>
+                                        <menuItem title="Busy" id="r2y-hc-SgK"/>
+                                        <menuItem title="Looking to play" id="ltz-Ac-glR"/>
+                                        <menuItem title="Looking to trade" id="L67-mD-J74"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="F5568D4C-7865-4B62-B9FC-AF17DB686595" label="Avatar view" paletteLabel="Avatar view" image="avatar-default" id="rEg-OR-Coi">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="48" height="48"/>
+                        <size key="maxSize" width="48" height="48"/>
+                        <imageView key="view" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="03i-KL-58X">
+                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="avatar-default" id="Bsj-2a-4mE"/>
+                        </imageView>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="rEg-OR-Coi"/>
+                    <toolbarItem reference="YvQ-Te-dow"/>
+                    <toolbarItem reference="DFz-KX-sSW"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <point key="canvasLocation" x="398" y="411"/>
         </window>
     </objects>
     <resources>
         <image name="NSLockLockedTemplate" width="10" height="14"/>
+        <image name="avatar-default" width="100" height="100"/>
     </resources>
 </document>

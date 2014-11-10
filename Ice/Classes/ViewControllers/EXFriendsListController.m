@@ -145,13 +145,6 @@
 {
 	SKFriend *remoteFriend = (SKFriend *)item;
 	
-	/*if( [remoteFriend.displayName isEqualToString:@"! Excite.!"] )
-	{
-		NSLog(@"jabwd is here");
-		EXChatWindowController *controller = [[EXChatWindowController alloc] initWithFriend:remoteFriend];
-		[controller.window makeKeyAndOrderFront:self];
-	}*/
-	
 	if( item == nil )
 	{
 		return nil;
