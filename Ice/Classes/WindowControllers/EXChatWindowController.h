@@ -7,13 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SKFriend.h"
 
-@class SKFriend, SKSession;
+@class SKSession;
 
-@interface EXChatWindowController : NSWindowController
+@interface EXChatWindowController : NSWindowController <SKFriendChatDelegate>
 {
 	SKFriend *_remoteFriend;
 }
+@property (assign) IBOutlet NSTextView *textView;
+@property (assign) IBOutlet NSTextField *messageField;
 
 - (id)initWithFriend:(SKFriend *)remoteFriend;
 

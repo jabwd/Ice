@@ -10,6 +10,7 @@
 #import "SKSession.h"
 #import "EXFriendsListRowView.h"
 #import "SKFriend.h"
+#import "EXChatWindowController.h"
 
 @implementation EXFriendsListController
 
@@ -84,6 +85,13 @@
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
 	SKFriend *remoteFriend = (SKFriend *)item;
+	if( [remoteFriend.displayName isEqualToString:@"! Excite.!"] )
+	{
+		NSLog(@"jabwd is here");
+		EXChatWindowController *controller = [[EXChatWindowController alloc] initWithFriend:remoteFriend];
+		[controller.window makeKeyAndOrderFront:self];
+	}
+	
 	if( item == nil )
 	{
 		return nil;

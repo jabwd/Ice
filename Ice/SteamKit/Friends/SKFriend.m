@@ -79,6 +79,7 @@
 		SKChatEntryType entryType	= [body[@"2"] unsignedIntValue];
 		NSString *message			= body[@"4"];
 		NSDate *date				= [NSDate dateWithTimeIntervalSince1970:[body[@"5"] unsignedIntValue]];
+		
 		[_delegate friendDidReceiveMessage:message date:date type:entryType];
 	}
 }

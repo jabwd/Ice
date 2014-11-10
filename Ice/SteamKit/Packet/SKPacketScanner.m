@@ -261,22 +261,25 @@
 			
 		case SKMsgTypeClientFriendMsgIncoming:
 		{
-			NSString *message	= [packet valueForFieldNumber:4];
-			SInt32 chatType		= [[packet valueForFieldNumber:2] intValue];
-			UInt32 timestamp	= [[packet valueForFieldNumber:5] unsignedIntValue];
+			//NSString *message	= [packet valueForFieldNumber:4];
+			//SInt32 chatType		= [[packet valueForFieldNumber:2] intValue];
+			//UInt32 timestamp	= [[packet valueForFieldNumber:5] unsignedIntValue];
 			UInt64 remoteID		= [[packet valueForFieldNumber:1] unsignedIntegerValue];
-			NSDate *date		= [NSDate dateWithTimeIntervalSince1970:timestamp];
+			//NSDate *date		= [NSDate dateWithTimeIntervalSince1970:timestamp];
 			
-			NSLog(@"Received a chat message: %llu %@ %@:%d", remoteID, message, date, chatType);
+			//NSLog(@"Received a chat message: %llu %@ %@:%d", remoteID, message, date, chatType);
 			
 			SKSteamID *steamID = [[SKSteamID alloc] initWithRawSteamID:remoteID];
 			SKFriend *remoteFriend = [session friendForSteamID:steamID];
-			SKPacket *response = [SKPacket sendMessagePacket:@"No u"
+			[remoteFriend receivedChatMessageWithBody:packet.scanner.body];
+			[steamID release];
+			
+			/*SKPacket *response = [SKPacket sendMessagePacket:@"No u"
 													  friend:remoteFriend
 													 session:session
 														type:SKChatEntryTypeMessage];
 			[_connection sendPacket:response];
-			[steamID release];
+			[steamID release];*/
 		}
 			break;
 			

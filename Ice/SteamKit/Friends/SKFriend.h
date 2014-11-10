@@ -64,5 +64,6 @@
 - (NSString *)displayName;
 
 - (void)receivedChatMessageWithBody:(NSDictionary *)body;
+- (void)sendMessage:(NSString *)message ofType:(SKChatEntryType)entryType;
 
 @end

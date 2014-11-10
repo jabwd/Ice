@@ -6,6 +6,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EXChatWindowController">
             <connections>
+                <outlet property="messageField" destination="BoZ-ZS-7SE" id="gum-Ug-ckS"/>
+                <outlet property="textView" destination="rQL-43-R7a" id="sP9-bP-cKr"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -20,18 +22,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="273" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <tokenField verticalHuggingPriority="750" id="QVt-rv-SoU">
-                        <rect key="frame" x="20" y="9" width="233" height="22"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <tokenFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" allowsEditingTextAttributes="YES" id="sUT-Ta-AUl">
-                            <font key="font" metaFont="cellTitle"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </tokenFieldCell>
-                        <connections>
-                            <action selector="send:" target="-2" id="r2I-F1-stQ"/>
-                        </connections>
-                    </tokenField>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="dFU-C6-QaZ">
                         <rect key="frame" x="-1" y="39" width="275" height="232"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -39,7 +29,7 @@
                             <rect key="frame" x="1" y="1" width="223" height="133"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="rQL-43-R7a">
+                                <textView editable="NO" importsGraphics="NO" findStyle="panel" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="rQL-43-R7a">
                                     <rect key="frame" x="0.0" y="0.0" width="223" height="230"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -61,6 +51,18 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <textField verticalHuggingPriority="750" id="BoZ-ZS-7SE">
+                        <rect key="frame" x="20" y="9" width="233" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="eiO-Vp-ERz">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="send:" target="-2" id="uDS-9j-XqE"/>
+                        </connections>
+                    </textField>
                 </subviews>
             </view>
             <connections>

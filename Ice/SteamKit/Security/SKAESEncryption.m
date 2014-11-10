@@ -81,6 +81,7 @@
 	// Cleanup
 	[encryptedIV release];
 	CFRelease(encrypt);
+	CFRelease(params);
 	CFRelease(cryptoKey);
 	
 	return [final autorelease];
