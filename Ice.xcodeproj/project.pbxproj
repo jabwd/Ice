@@ -20,6 +20,9 @@
 		366863AB1A10553900EA08B6 /* EXChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366863A91A10553900EA08B6 /* EXChatWindowController.m */; };
 		366863AC1A10553900EA08B6 /* EXChatWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 366863AA1A10553900EA08B6 /* EXChatWindowController.xib */; };
 		3671B6CC19E2E4A4000A02EF /* steamPublic.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3671B6CB19E2E4A4000A02EF /* steamPublic.pem */; };
+		3672A7971A10EBC8003AF16D /* AHHyperlinkScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7921A10EBC8003AF16D /* AHHyperlinkScanner.m */; };
+		3672A7981A10EBC8003AF16D /* AHLinkLexer.yy.c in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7941A10EBC8003AF16D /* AHLinkLexer.yy.c */; };
+		3672A7991A10EBC8003AF16D /* AHMarkedHyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7961A10EBC8003AF16D /* AHMarkedHyperlink.m */; };
 		367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 367EF2D31A103F060038548D /* EXSteamDeveloperWindow.m */; };
 		367EF2D61A103F060038548D /* EXSteamDeveloperWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 367EF2D41A103F060038548D /* EXSteamDeveloperWindow.xib */; };
 		367EF2DB1A1045C00038548D /* EXFriendsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 367EF2D91A1045C00038548D /* EXFriendsListController.m */; };
@@ -91,6 +94,12 @@
 		366863A91A10553900EA08B6 /* EXChatWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXChatWindowController.m; path = Classes/WindowControllers/EXChatWindowController.m; sourceTree = "<group>"; };
 		366863AA1A10553900EA08B6 /* EXChatWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXChatWindowController.xib; path = Classes/WindowControllers/EXChatWindowController.xib; sourceTree = "<group>"; };
 		3671B6CB19E2E4A4000A02EF /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = steamPublic.pem; sourceTree = "<group>"; };
+		3672A7911A10EBC8003AF16D /* AHHyperlinkScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHHyperlinkScanner.h; sourceTree = "<group>"; };
+		3672A7921A10EBC8003AF16D /* AHHyperlinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHHyperlinkScanner.m; sourceTree = "<group>"; };
+		3672A7931A10EBC8003AF16D /* AHLinkLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHLinkLexer.h; sourceTree = "<group>"; };
+		3672A7941A10EBC8003AF16D /* AHLinkLexer.yy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AHLinkLexer.yy.c; sourceTree = "<group>"; };
+		3672A7951A10EBC8003AF16D /* AHMarkedHyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHMarkedHyperlink.h; sourceTree = "<group>"; };
+		3672A7961A10EBC8003AF16D /* AHMarkedHyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHMarkedHyperlink.m; sourceTree = "<group>"; };
 		367EF2D21A103F060038548D /* EXSteamDeveloperWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXSteamDeveloperWindow.h; path = Classes/Developer/EXSteamDeveloperWindow.h; sourceTree = "<group>"; };
 		367EF2D31A103F060038548D /* EXSteamDeveloperWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXSteamDeveloperWindow.m; path = Classes/Developer/EXSteamDeveloperWindow.m; sourceTree = "<group>"; };
 		367EF2D41A103F060038548D /* EXSteamDeveloperWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXSteamDeveloperWindow.xib; path = Classes/Developer/EXSteamDeveloperWindow.xib; sourceTree = "<group>"; };
@@ -213,6 +222,19 @@
 			name = WindowControllers;
 			sourceTree = "<group>";
 		};
+		3672A79A1A10EBCC003AF16D /* AHLinkScanner */ = {
+			isa = PBXGroup;
+			children = (
+				3672A7911A10EBC8003AF16D /* AHHyperlinkScanner.h */,
+				3672A7921A10EBC8003AF16D /* AHHyperlinkScanner.m */,
+				3672A7931A10EBC8003AF16D /* AHLinkLexer.h */,
+				3672A7941A10EBC8003AF16D /* AHLinkLexer.yy.c */,
+				3672A7951A10EBC8003AF16D /* AHMarkedHyperlink.h */,
+				3672A7961A10EBC8003AF16D /* AHMarkedHyperlink.m */,
+			);
+			name = AHLinkScanner;
+			sourceTree = "<group>";
+		};
 		367EF2D11A103ED50038548D /* Developer */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +324,7 @@
 		36CB626C19FF343A00F2E996 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3672A79A1A10EBCC003AF16D /* AHLinkScanner */,
 				366863A71A10551C00EA08B6 /* WindowControllers */,
 				367EF2D71A1045A50038548D /* ViewControllers */,
 			);
@@ -584,6 +607,7 @@
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
 				36CE8D011A01542C0010E42B /* SKHeartbeatManager.m in Sources */,
 				36E5DA9319FDE4EB00AD2A4D /* SKProtobufCompiler.m in Sources */,
+				3672A7991A10EBC8003AF16D /* AHMarkedHyperlink.m in Sources */,
 				36B303D31A0FF0DF009C2D0B /* SKSteamID.m in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
@@ -600,9 +624,11 @@
 				369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */,
 				367EF2DB1A1045C00038548D /* EXFriendsListController.m in Sources */,
 				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
+				3672A7981A10EBC8003AF16D /* AHLinkLexer.yy.c in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
 				36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */,
 				3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */,
+				3672A7971A10EBC8003AF16D /* AHHyperlinkScanner.m in Sources */,
 				367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */,
 				36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,

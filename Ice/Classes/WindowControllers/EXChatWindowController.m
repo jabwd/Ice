@@ -8,6 +8,7 @@
 
 #import "EXChatWindowController.h"
 #import "SKSession.h"
+#import "AHHyperlinkScanner.h"
 
 const NSString *EXChatFontName	= @"Helvetica Neue";
 const CGFloat EXChatFontSize	= 14.0f;
@@ -132,9 +133,13 @@ const CGFloat EXChatFontSize	= 14.0f;
 
 - (void)appendToTextView:(NSAttributedString *)str
 {
-	[[_textView textStorage] appendAttributedString:str];
-	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
+	AHHyperlinkScanner *scanner = [[AHHyperlinkScanner alloc] initWithAttributedString:str usingStrictChecking:NO];
+	
+	[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
+	//[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
+	[[_textView animator] scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
 	[_textView setNeedsDisplay:YES];
+	[scanner release];
 }
 
 @end
