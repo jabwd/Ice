@@ -23,6 +23,7 @@
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSView	*contentView;
 @property (assign) IBOutlet NSTextField *usernameField;
 @property (assign) IBOutlet NSTextField *passwordField;
 

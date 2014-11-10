@@ -115,7 +115,6 @@
 
 - (void)updateSentryFile:(NSString *)fileName data:(NSData *)data
 {
-	NSLog(@"Writing sentry file %@", fileName);
 	SKSentryFile *file = [[SKSentryFile alloc] init];
 	[file createWithData:data fileName:fileName];
 	[file release];
