@@ -72,13 +72,12 @@ NSUInteger const ProtoMask = 0x80000000;
 - (void)scanHeader:(NSMutableData *)header
 {
 	NSUInteger length	= 0;
-	UInt64 value		= 0;
 	while( [header length] > 0 )
 	{
 		// Read the SKProtobufKey which can be more
 		// than just one byte.
 		length	= 0;
-		value	= 0;
+		UInt64 value	= 0;
 		value	= [self readVarint:header length:&length];
 		[header removeBytes:length];
 		

@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EXChatWindowController">
             <connections>
+                <outlet property="effectView" destination="VXL-BX-geh" id="8Lf-bi-IzA"/>
                 <outlet property="messageField" destination="BoZ-ZS-7SE" id="gum-Ug-ckS"/>
                 <outlet property="textView" destination="rQL-43-R7a" id="sP9-bP-cKr"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -22,7 +23,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="275" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView appearanceType="vibrantLight" blendingMode="behindWindow" material="titlebar" state="followsWindowActiveState" id="VXL-BX-geh">
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="dark" state="followsWindowActiveState" id="VXL-BX-geh">
                         <rect key="frame" x="0.0" y="0.0" width="275" height="270"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

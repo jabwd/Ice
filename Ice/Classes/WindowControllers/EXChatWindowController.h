@@ -23,6 +23,7 @@
 }
 @property (assign) IBOutlet NSTextView *textView;
 @property (assign) IBOutlet NSTextField *messageField;
+@property (assign) IBOutlet NSVisualEffectView *effectView;
 
 @property (assign) id <EXChatWindowControllerDelegate> delegate;
 @property (readonly) SKFriend *remoteFriend;
