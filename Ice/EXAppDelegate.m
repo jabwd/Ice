@@ -11,8 +11,19 @@
 #import "SKSentryFile.h"
 #import "EXSteamDeveloperWindow.h"
 #import "EXFriendsListController.h"
+#import "BFNotificationCenter.h"
 
 @implementation EXAppDelegate
+
++ (void)initialize
+{
+	//NSNumber *n_YES	= [[NSNumber alloc] initWithBool:YES];
+	//NSNumber *n_NO	= [[NSNumber alloc] initWithBool:NO];
+	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
+						  @1.0f,BFSoundVolumeDefaultsKey,
+						  nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:dict];
+}
 
 - (void)dealloc
 {

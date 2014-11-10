@@ -9,6 +9,7 @@
 #import "EXChatWindowController.h"
 #import "SKSession.h"
 #import "AHHyperlinkScanner.h"
+#import "BFNotificationCenter.h"
 
 const NSString *EXChatFontName	= @"Helvetica Neue";
 const CGFloat EXChatFontSize	= 12.0f;
@@ -63,6 +64,8 @@ const CGFloat EXChatFontSize	= 12.0f;
 	
 	[self addSelfMessage:message date:[NSDate date]];
 	[message release];
+	
+	[[BFNotificationCenter defaultNotificationCenter] playSendSound];
 }
 
 #pragma mark - Chat delegate
@@ -73,7 +76,11 @@ const CGFloat EXChatFontSize	= 12.0f;
 	{
 		[self addFriendMessage:message date:date];
 		
-		NSBeep();
+		[[BFNotificationCenter defaultNotificationCenter] playReceivedSound];
+		if( ![self.window isKeyWindow] )
+		{
+			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:[_remoteFriend displayName] body:[NSString stringWithFormat:@"%@", message]];
+		}
 	}
 	else if( entryType == SKChatEntryTypeTyping )
 	{

@@ -248,7 +248,11 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 
 - (void)postNotificationWithTitle:(NSString *)notificationTitle body:(NSString *)body context:(id)context
 {
+	NSUserNotification *notification = [[NSUserNotification alloc] init];
+	notification.title = notificationTitle;
+	notification.informativeText = body;
 	
+	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
 
 #pragma mark - Badge count
