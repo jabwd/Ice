@@ -161,6 +161,7 @@
 	{
 		DLog(@"[Error] cannot make friends cell view");
 	}
+	[view.imageView setImage:[NSImage imageNamed:@"avatar-default"]];
 	[view.displayNameField setStringValue:[remoteFriend displayName]];
 	return view;
 }

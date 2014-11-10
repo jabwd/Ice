@@ -20,7 +20,7 @@
 	//NSNumber *n_YES	= [[NSNumber alloc] initWithBool:YES];
 	//NSNumber *n_NO	= [[NSNumber alloc] initWithBool:NO];
 	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-						  @1.0f,BFSoundVolumeDefaultsKey,
+						  @100.0f,BFSoundVolumeDefaultsKey,
 						  nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 }
