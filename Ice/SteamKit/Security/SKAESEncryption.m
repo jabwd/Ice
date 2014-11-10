@@ -27,6 +27,10 @@
 
 + (NSData *)encryptPacketData:(NSData *)packetData key:(NSData *)key
 {
+	if( !key )
+	{
+		return nil;
+	}
 	NSData *iv				= [self generateRandomData:16];
 	NSData *encryptedIV		= nil;
 	SecKeyRef cryptoKey		= NULL;
@@ -89,7 +93,7 @@
 
 + (NSData *)decryptPacketData:(NSData *)packetData key:(NSData *)key
 {
-	if( [packetData length] < 16 )
+	if( [packetData length] < 16 || !key)
 	{
 		return packetData;
 	}
