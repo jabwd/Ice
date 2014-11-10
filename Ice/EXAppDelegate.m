@@ -7,16 +7,9 @@
 //
 
 #import "EXAppDelegate.h"
-#import "SKPacket.h"
 #import "SKSession.h"
-#import "NSData_SteamKitAdditions.h"
-#import "SKAESEncryption.h"
 #import "SKSentryFile.h"
-#import "SKProtobufScanner.h"
-#import "SKProtobufValue.h"
-#import "SKProtobufCompiler.h"
-#import "SKProtobufConstants.h"
-#import "SKProtobufKey.h"
+#import "EXSteamDeveloperWindow.h"
 
 @implementation EXAppDelegate
 
@@ -27,6 +20,8 @@
 	_session = nil;
 	[_authcode release];
 	_authcode = nil;
+	[_developerWindowController release];
+	_developerWindowController = nil;
 	[super dealloc];
 }
 
@@ -61,31 +56,6 @@
 	[self connect:nil];
 }
 
-- (IBAction)scanPacketData:(id)sender
-{
-	SKProtobufScanner *scanner = [[SKProtobufScanner alloc] initWithData:[NSData dataFromByteString:[_packetDataField stringValue]]];
-	NSLog(@"%@ %@", scanner.header, scanner.body);
-	[scanner release];
-}
-
-- (IBAction)decryptData:(id)sender
-{
-	NSData *data		= [NSData dataFromByteString:[_sessionKeyField stringValue]];
-	NSData *packetData	= [NSData dataFromByteString:[_dataField stringValue]];
-	
-	NSData *decrypted = [SKAESEncryption decryptPacketData:packetData key:data];
-	NSLog(@"Decrypted: %@", decrypted);
-}
-
-- (IBAction)encryptData:(id)sender
-{
-	NSData *data			= [NSData dataFromByteString:[_sessionKeyField stringValue]];
-	NSData *dataToEncrypt	= [NSData dataFromByteString:[_dataField stringValue]];
-	
-	NSData *encrypted = [SKAESEncryption encryptPacketData:dataToEncrypt key:data];
-	NSLog(@"Encrypted: %@", encrypted);
-}
-
 - (IBAction)connect:(id)sender
 {
 	if( _session )
@@ -96,8 +66,6 @@
 	_session = [[SKSession alloc] init];
 	_session.delegate = self;
 	[_session connect];
-	
-	[_sessionKeyField setStringValue:[[_session.sessionKey description] substringWithRange:NSMakeRange(1, 32)]];
 }
 
 - (IBAction)disconnect:(id)sender
@@ -105,6 +73,19 @@
 	[_session disconnect];
 	[_session release];
 	_session = nil;
+}
+
+- (IBAction)openDeveloperWindow:(id)sender
+{
+	if( _developerWindowController )
+	{
+		[_developerWindowController.window makeKeyAndOrderFront:self];
+	}
+	else
+	{
+		_developerWindowController = [[EXSteamDeveloperWindow alloc] initWithSession:_session];
+		[self openDeveloperWindow:nil];
+	}
 }
 
 #pragma mark - SKSession delegate

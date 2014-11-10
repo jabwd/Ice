@@ -46,7 +46,7 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="SteamGuard" id="a0j-re-Q9y"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0aE-RE-kSJ">
-                        <rect key="frame" x="268" y="49" width="84" height="34"/>
+                        <rect key="frame" x="257" y="49" width="95" height="34"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="XXXXX" drawsBackground="YES" id="R8b-5N-Zo5">
                             <font key="font" metaFont="system" size="24"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
