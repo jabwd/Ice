@@ -25,6 +25,7 @@
 		_avatarHash		= [body[@"31"] retain];
 		_gameName		= [body[@"55"] retain];
 		_appID			= [body[@"3"] unsignedIntValue];
+		_status			= [body[@"2"] unsignedIntValue];
 	}
 	return self;
 }
@@ -47,6 +48,8 @@
 	_steamID = nil;
 	[_session release];
 	_session = nil;
+	[_storedMessages release];
+	_storedMessages = nil;
 	_delegate = nil;
 	[super dealloc];
 }
@@ -70,10 +73,42 @@
 	_displayName = [displayName retain];
 }
 
+- (void)setDelegate:(id<SKFriendChatDelegate>)delegate
+{
+	_delegate = delegate;
+	
+	if( _storedMessages )
+	{
+		for(NSDictionary *message in _storedMessages)
+		{
+			[self receivedChatMessageWithBody:message];
+		}
+		[_storedMessages release];
+		_storedMessages = nil;
+	}
+}
+
+- (id)delegate
+{
+	return _delegate;
+}
+
 #pragma mark - Chatting
 
 - (void)receivedChatMessageWithBody:(NSDictionary *)body
 {
+	if( !_delegate )
+	{
+		if( !_storedMessages )
+		{
+			[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendNeedsChatWindowNotificationName
+																object:self];
+			_storedMessages = [[NSMutableArray alloc] init];
+		}
+		[_storedMessages addObject:body];
+		return;
+	}
+	
 	if( [_delegate respondsToSelector:@selector(friendDidReceiveMessage:date:type:)] )
 	{
 		SKChatEntryType entryType	= [body[@"2"] unsignedIntValue];

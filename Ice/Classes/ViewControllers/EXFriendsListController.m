@@ -10,6 +10,7 @@
 #import "SKSession.h"
 #import "EXFriendsListRowView.h"
 #import "SKFriend.h"
+#import "SKSteamID.h"
 #import "EXChatWindowController.h"
 
 @implementation EXFriendsListController
@@ -18,12 +19,17 @@
 {
 	if( (self = [super initWithNibName:@"EXFriendsListController" bundle:[NSBundle mainBundle]]) )
 	{
-		_session = [session retain];
+		_session				= [session retain];
+		_chatWindowControllers	= [[NSMutableArray alloc] init];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(reloadData)
 													 name:SKFriendsListChangedNotificationName
 												   object:_session];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(openChat:)
+													 name:SKFriendNeedsChatWindowNotificationName
+												   object:nil];
 	}
 	return self;
 }
@@ -32,6 +38,8 @@
 {
 	[_session release];
 	_session = nil;
+	[_chatWindowControllers release];
+	_chatWindowControllers = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
 }
@@ -39,12 +47,68 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	[_outlineView setTarget:self];
+	[_outlineView setDoubleAction:@selector(doubleAction:)];
 }
 
 - (void)reloadData
 {
-	DLog(@"=> Updating friends list");
 	[_outlineView reloadData];
+}
+
+- (void)openChat:(NSNotification *)notification
+{
+	NSLog(@"Should open chat for: %@", notification.object);
+	
+	SKFriend *remoteFriend = (SKFriend *)notification.object;
+	if( [remoteFriend isKindOfClass:[SKFriend class]] )
+	{
+		[self openChatForFriend:remoteFriend];
+	}
+	else
+	{
+		DLog(@"[Error] got a chat request from non SKFriend object");
+	}
+}
+
+- (void)openChatForFriend:(SKFriend *)friend
+{
+	for(EXChatWindowController *existingController in _chatWindowControllers)
+	{
+		if( existingController.remoteFriend.steamID.rawSteamID == friend.steamID.rawSteamID )
+		{
+			DLog(@"Filtered");
+			[existingController.window makeKeyAndOrderFront:nil];
+			return;
+		}
+	}
+	
+	DLog(@"Opened a window");
+	EXChatWindowController *controller = [[EXChatWindowController alloc] initWithFriend:friend];
+	controller.delegate = self;
+	[_chatWindowControllers addObject:controller];
+	[controller release];
+}
+
+- (void)shouldCloseController:(EXChatWindowController *)controller
+{
+	DLog(@"Closed chat window");
+	controller.delegate = nil;
+	[_chatWindowControllers removeObject:controller];
+}
+
+- (IBAction)doubleAction:(id)sender
+{
+	NSInteger selectedRow = [_outlineView selectedRow];
+	if( selectedRow > -1 )
+	{
+		SKFriend *item = [_outlineView itemAtRow:selectedRow];
+		if( [item isKindOfClass:[SKFriend class]] )
+		{
+			[self openChatForFriend:item];
+		}
+	}
 }
 
 #pragma mark - Outlineview datasource
@@ -85,12 +149,13 @@
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
 	SKFriend *remoteFriend = (SKFriend *)item;
-	if( [remoteFriend.displayName isEqualToString:@"! Excite.!"] )
+	
+	/*if( [remoteFriend.displayName isEqualToString:@"! Excite.!"] )
 	{
 		NSLog(@"jabwd is here");
 		EXChatWindowController *controller = [[EXChatWindowController alloc] initWithFriend:remoteFriend];
 		[controller.window makeKeyAndOrderFront:self];
-	}
+	}*/
 	
 	if( item == nil )
 	{

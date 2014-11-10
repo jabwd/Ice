@@ -32,8 +32,11 @@
 	
 	NSData *_avatarHash;
 	
+	NSMutableArray *_storedMessages;
+	
 	id _delegate;
 	
+	SKPersonaState _status;
 	UInt32 _lastLogon;
 	UInt32 _lastLogoff;
 	UInt32 _onlineInstances;
@@ -53,6 +56,7 @@
 @property (retain) SKSession *session;
 @property (assign) id <SKFriendChatDelegate> delegate;
 
+@property (assign) SKPersonaState status;
 @property (assign) UInt32 lastLogon;
 @property (assign) UInt32 lastLogoff;
 @property (assign) UInt32 onlineInstances;

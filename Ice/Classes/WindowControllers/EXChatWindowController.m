@@ -15,23 +15,39 @@
 {
 	if( (self = [super initWithWindowNibName:@"EXChatWindowController" owner:self]) )
 	{
-		_remoteFriend = [remoteFriend retain];
-		_remoteFriend.delegate = self;
+		_remoteFriend			= [remoteFriend retain];
+		_remoteFriend.delegate	= self;
+		
+		[self.window makeKeyAndOrderFront:nil];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	_remoteFriend.delegate = nil;
 	[_remoteFriend release];
 	_remoteFriend = nil;
 	[super dealloc];
+}
+
+- (BOOL)windowShouldClose:(id)sender
+{
+	NSLog(@"Going to close");
+	_remoteFriend.delegate = nil;
+	if( [_delegate respondsToSelector:@selector(shouldCloseController:)] )
+	{
+		[_delegate shouldCloseController:self];
+	}
+	return YES;
 }
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
 	
+	NSLog(@"WindowDidLoad");
+	[self.window setDelegate:self];
 	[self.window setTitle:[NSString stringWithFormat:@"Chat - %@", [_remoteFriend displayName]]];
 	[_messageField becomeFirstResponder];
 }
@@ -43,7 +59,7 @@
 	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
 	
 	SKFriend *currentUser = _remoteFriend.session.currentUser;
-	[self appendToTextView:[NSString stringWithFormat:@"[%@]%@: %@\n",
+	[self appendToTextView:[NSString stringWithFormat:@"%@ - %@: %@\n",
 							[NSDateFormatter localizedStringFromDate:[NSDate date]
 														   dateStyle:NSDateFormatterNoStyle
 														   timeStyle:NSDateFormatterShortStyle],

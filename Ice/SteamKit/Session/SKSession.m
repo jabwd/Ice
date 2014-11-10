@@ -18,6 +18,7 @@
 NSString *SKSessionStatusChangedNotificationName	= @"SKSessionStatusChanged";
 NSString *SKLoginFailedSteamGuardNotificationName	= @"SKLoginFailedSteamGuard";
 NSString *SKFriendsListChangedNotificationName		= @"SKFriendsListChangedNotification";
+NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNotification";
 
 static const SKSession *_sharedSession = nil;
 
@@ -197,8 +198,6 @@ static const SKSession *_sharedSession = nil;
 		[_friendsList addObject:remoteFriend];
 		DLog(@"=> Updated information for %@", remoteFriend);
 	}
-	
-	NSLog(@"List: %@", _friendsList);
 }
 
 - (SKFriend *)friendForSteamID:(SKSteamID *)steamID

@@ -15,18 +15,17 @@
         <scrollView focusRingType="none" autohidesScrollers="YES" horizontalLineScroll="38" horizontalPageScroll="10" verticalLineScroll="38" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="P4E-Du-bdX">
             <rect key="frame" x="0.0" y="0.0" width="240" height="135"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <clipView key="contentView" copiesOnScroll="NO" id="6FA-dJ-cmQ">
+            <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="6FA-dJ-cmQ">
                 <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="wdG-oE-fx8" id="hUX-hR-DfK">
+                    <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="wdG-oE-fx8" id="hUX-hR-DfK">
                         <autoresizingMask key="autoresizingMask"/>
                         <size key="intercellSpacing" width="3" height="2"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                         <tableColumns>
-                            <tableColumn width="235" minWidth="40" maxWidth="1000" id="wdG-oE-fx8">
+                            <tableColumn editable="NO" width="235" minWidth="40" maxWidth="1000" id="wdG-oE-fx8">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
