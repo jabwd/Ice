@@ -59,8 +59,6 @@
 
 - (void)openChat:(NSNotification *)notification
 {
-	NSLog(@"Should open chat for: %@", notification.object);
-	
 	SKFriend *remoteFriend = (SKFriend *)notification.object;
 	if( [remoteFriend isKindOfClass:[SKFriend class]] )
 	{
@@ -78,13 +76,11 @@
 	{
 		if( existingController.remoteFriend.steamID.rawSteamID == friend.steamID.rawSteamID )
 		{
-			DLog(@"Filtered");
 			[existingController.window makeKeyAndOrderFront:nil];
 			return;
 		}
 	}
 	
-	DLog(@"Opened a window");
 	EXChatWindowController *controller = [[EXChatWindowController alloc] initWithFriend:friend];
 	controller.delegate = self;
 	[_chatWindowControllers addObject:controller];
@@ -93,7 +89,6 @@
 
 - (void)shouldCloseController:(EXChatWindowController *)controller
 {
-	DLog(@"Closed chat window");
 	controller.delegate = nil;
 	[_chatWindowControllers removeObject:controller];
 }

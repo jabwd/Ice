@@ -182,6 +182,12 @@ static const SKSession *_sharedSession = nil;
 
 - (void)connectionAddFriend:(SKFriend *)remoteFriend
 {
+	// Can't add self to the friends list
+	if( remoteFriend.steamID.rawSteamID == _rawSteamID )
+	{
+		return;
+	}
+	
 	SKFriend *oldFriend = [self friendForSteamID:remoteFriend.steamID];
 	if( oldFriend == nil )
 	{

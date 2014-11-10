@@ -9,6 +9,9 @@
 #import "EXChatWindowController.h"
 #import "SKSession.h"
 
+const NSString *EXChatFontName	= @"Helvetica Neue";
+const CGFloat EXChatFontSize	= 14.0f;
+
 @implementation EXChatWindowController
 
 - (id)initWithFriend:(SKFriend *)remoteFriend
@@ -19,6 +22,7 @@
 		_remoteFriend.delegate	= self;
 		
 		[self.window makeKeyAndOrderFront:nil];
+		self.window.styleMask |= NSFullSizeContentViewWindowMask;
 	}
 	return self;
 }
@@ -33,7 +37,6 @@
 
 - (BOOL)windowShouldClose:(id)sender
 {
-	NSLog(@"Going to close");
 	_remoteFriend.delegate = nil;
 	if( [_delegate respondsToSelector:@selector(shouldCloseController:)] )
 	{
@@ -46,7 +49,6 @@
 {
     [super windowDidLoad];
 	
-	NSLog(@"WindowDidLoad");
 	[self.window setDelegate:self];
 	[self.window setTitle:[NSString stringWithFormat:@"Chat - %@", [_remoteFriend displayName]]];
 	[_messageField becomeFirstResponder];
@@ -58,13 +60,7 @@
 	[_messageField setStringValue:@""];
 	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
 	
-	SKFriend *currentUser = _remoteFriend.session.currentUser;
-	[self appendToTextView:[NSString stringWithFormat:@"%@ - %@: %@\n",
-							[NSDateFormatter localizedStringFromDate:[NSDate date]
-														   dateStyle:NSDateFormatterNoStyle
-														   timeStyle:NSDateFormatterShortStyle],
-							[currentUser displayName],
-							message]];
+	[self addSelfMessage:message date:[NSDate date]];
 	[message release];
 }
 
@@ -74,12 +70,7 @@
 {
 	if( entryType == SKChatEntryTypeMessage && [message length] > 0 )
 	{
-		[self appendToTextView:[NSString stringWithFormat:@"[%@]%@: %@\n",
-								[NSDateFormatter localizedStringFromDate:date
-															   dateStyle:NSDateFormatterNoStyle
-															   timeStyle:NSDateFormatterShortStyle],
-								[_remoteFriend displayName],
-								message]];
+		[self addFriendMessage:message date:date];
 		
 		NSBeep();
 	}
@@ -89,12 +80,60 @@
 	}
 }
 
-- (void)appendToTextView:(NSString *)str
+- (void)addFriendMessage:(NSString *)message date:(NSDate *)date
 {
-	NSAttributedString *attr = [[NSAttributedString alloc] initWithString:str];
-	[[_textView textStorage] appendAttributedString:attr];
+	NSString *dateString	= [NSDateFormatter localizedStringFromDate:date
+														  dateStyle:NSDateFormatterNoStyle
+														  timeStyle:NSDateFormatterShortStyle];
+	NSString *name			= [_remoteFriend displayName];
+	
+	
+	NSString *finalMessage = [NSString stringWithFormat:
+							  @"%@ - %@: %@\n",
+							  dateString,
+							  name,
+							  message];
+	
+	NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:finalMessage attributes:nil];
+	
+	[str addAttribute:NSFontAttributeName value:[NSFont fontWithName:(NSString *)EXChatFontName size:EXChatFontSize] range:NSMakeRange(0, [finalMessage length])];
+	[str addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:NSMakeRange([dateString length]+3, [name length]+1)];
+	[str addAttribute:NSForegroundColorAttributeName value:[NSColor colorWithCalibratedWhite:0.3f alpha:1.0f] range:NSMakeRange(0, [dateString length])];
+	
+	[self appendToTextView:str];
+	
+	[str release];
+}
+
+- (void)addSelfMessage:(NSString *)message date:(NSDate *)date
+{
+	NSString *dateString	= [NSDateFormatter localizedStringFromDate:date
+														  dateStyle:NSDateFormatterNoStyle
+														  timeStyle:NSDateFormatterShortStyle];
+	NSString *name			= [_remoteFriend.session.currentUser displayName];
+	
+	
+	NSString *finalMessage = [NSString stringWithFormat:
+							  @"%@ - %@: %@\n",
+							  dateString,
+							  name,
+							  message];
+	
+	NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:finalMessage attributes:nil];
+	
+	[str addAttribute:NSFontAttributeName value:[NSFont fontWithName:(NSString *)EXChatFontName size:EXChatFontSize] range:NSMakeRange(0, [finalMessage length])];
+	[str addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor] range:NSMakeRange([dateString length]+3, [name length]+1)];
+	[str addAttribute:NSForegroundColorAttributeName value:[NSColor colorWithCalibratedWhite:0.3f alpha:1.0f] range:NSMakeRange(0, [dateString length])];
+	
+	[self appendToTextView:str];
+	
+	[str release];
+}
+
+- (void)appendToTextView:(NSAttributedString *)str
+{
+	[[_textView textStorage] appendAttributedString:str];
 	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
-	[attr release];
 	[_textView setNeedsDisplay:YES];
 }
 
