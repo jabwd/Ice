@@ -53,19 +53,12 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	NSImage *image;
-	if( [[self window] isMainWindow] ) {
-		image = [NSImage imageNamed:@"AW InactiveTabBG"];
-	} else {
-		image = [NSImage imageNamed:@"IW InactiveTabBG"];
-	}
-	
 	[NSGraphicsContext saveGraphicsState];
 	
 	[[NSGraphicsContext currentContext] setPatternPhase:NSMakePoint(0, [self frame].origin.y)];
 	
-	[[NSColor colorWithPatternImage:image] set];
-	NSRectFill([self bounds]);
+	//[[NSColor colorWithCalibratedWhite:0.8 alpha:1.0f] set];
+	//NSRectFill([self bounds]);
 	
 	
 	[NSGraphicsContext restoreGraphicsState];

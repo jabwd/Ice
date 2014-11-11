@@ -245,6 +245,17 @@
 			name = Protobuf;
 			sourceTree = "<group>";
 		};
+		364875D71A116E1D00F7FA97 /* SafariTabs */ = {
+			isa = PBXGroup;
+			children = (
+				3672A7B71A10F441003AF16D /* SFTabStripView.h */,
+				3672A7B81A10F441003AF16D /* SFTabStripView.m */,
+				3672A7B91A10F441003AF16D /* SFTabView.h */,
+				3672A7BA1A10F441003AF16D /* SFTabView.m */,
+			);
+			name = SafariTabs;
+			sourceTree = "<group>";
+		};
 		366863A71A10551C00EA08B6 /* WindowControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,16 +283,13 @@
 		3672A79B1A10F405003AF16D /* BlackFire */ = {
 			isa = PBXGroup;
 			children = (
+				364875D71A116E1D00F7FA97 /* SafariTabs */,
 				3672A7B11A10F441003AF16D /* BFNotificationCenter.h */,
 				3672A7B21A10F441003AF16D /* BFNotificationCenter.m */,
 				3672A7B31A10F441003AF16D /* BFSoundSet.h */,
 				3672A7B41A10F441003AF16D /* BFSoundSet.m */,
 				3672A7B51A10F441003AF16D /* BFWindow.h */,
 				3672A7B61A10F441003AF16D /* BFWindow.m */,
-				3672A7B71A10F441003AF16D /* SFTabStripView.h */,
-				3672A7B81A10F441003AF16D /* SFTabStripView.m */,
-				3672A7B91A10F441003AF16D /* SFTabView.h */,
-				3672A7BA1A10F441003AF16D /* SFTabView.m */,
 				3672A7BB1A10F441003AF16D /* XNBorderedScrollView.h */,
 				3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */,
 				3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */,

@@ -12,6 +12,19 @@ typedef NS_ENUM(UInt32, SKPersonaState)
 	SKPersonaStateMax				= 7
 };
 
+typedef NS_ENUM(UInt32, SKFriendRelationType)
+{
+	SKFriendRelationTypeNone = 0,
+	SKFriendRelationTypeBlocked = 1,
+	SKFriendRelationTypeRequestRecipient = 2,
+	SKFriendRelationTypeFriend = 3,
+	SKFriendRelationTypeRequestInitiator = 4,
+	SKFriendRelationTypeIgnored = 5,
+	SKFriendRelationTypeIgnoredFriend = 6,
+	SKFriendRelationTypeSuggestedFriend = 7,
+	SKFriendRelationTypeMax = 8,
+};
+
 typedef NS_ENUM(SInt32, SKChatEntryType)
 {
 	SKChatEntryTypeInvalid	= 0,
@@ -73,6 +86,21 @@ typedef NS_ENUM(UInt32, SKPlatformType)
 	SKPlatformTypePS3		= 5,
 	SKPlatformTypeMax		= 6,
 };
+
+typedef NS_ENUM(UInt32, SKCurrencyCode)
+{
+	SKCurrencyCodeInvalid = 0,
+	SKCurrencyCodeUSD = 1,
+	SKCurrencyCodeGBP = 2,
+	SKCurrencyCodeEUR = 3,
+	SKCurrencyCodeCHF = 4,
+	SKCurrencyCodeRUB = 5,
+	SKCurrencyCodePLN = 6,
+	SKCurrencyCodeBRL = 7,
+	SKCurrencyCodeNOK = 9,
+	SKCurrencyCodeMax = 10,
+};
+
 
 typedef NS_ENUM(UInt8, SKRegionCode)
 {

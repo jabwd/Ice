@@ -64,25 +64,14 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	NSRect dirtyRect = [self bounds];
 	
 	// the window key determines whether it is the key window or not
-	NSString *windowKey = @"AW";
+	NSColor *backgroundColor = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0f];
 	if( ![[self window] isMainWindow] ) {
-		windowKey = @"IW";
+		backgroundColor = [NSColor colorWithCalibratedWhite:0.9 alpha:1.0f];
 	}
-	
-	// the status prefix determines whether it is a selected tab or not
-	NSString *statusPrefix = @"Active";
-	if( !self.selected ) {
-		statusPrefix = @"Inactive";
-	}
-	
-	// get the tab part images
-	NSImage *left = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabLeftCap", windowKey, statusPrefix]];
-	NSImage *fill = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabFill", windowKey, statusPrefix]];
-	NSImage *right = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabRightCap", windowKey, statusPrefix]];
 	
 	// determine what close button image to use
-	NSImage *close = nil;
-	if( _mouseInsideClose ) {
+	//NSImage *close = nil;
+	/*if( _mouseInsideClose ) {
 		if( _mouseDownInsideClose ) {
 			close = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabClosePressed", windowKey, statusPrefix]];
 		} else {
@@ -90,35 +79,42 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 		}
 	} else {
 		close = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabClose", windowKey, statusPrefix]];
-	}
+	}*/
 	
 	// improves the way the tabs are drawn on the screen
 	if( _tabDragAction || self.selected )
 	{
-		[left drawInRect:NSMakeRect(0, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
-		[right drawInRect:NSMakeRect(dirtyRect.size.width-11, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+		//[left drawInRect:NSMakeRect(0, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+		//[right drawInRect:NSMakeRect(dirtyRect.size.width-11, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 	}
 	else
 	{
+		[[NSColor colorWithCalibratedWhite:0.66 alpha:1.0f] set];
 		if( _tabRightSide )
 		{
-			[right drawInRect:NSMakeRect(dirtyRect.size.width-11, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+			//[right drawInRect:NSMakeRect(dirtyRect.size.width-11, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+			NSRectFill(NSMakeRect(dirtyRect.size.width-1, 0, 1, 24));
 		}
 		else
 		{
-			[left drawInRect:NSMakeRect(0, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+			
+			NSRectFill(NSMakeRect(0, 0, 1, 24));
+			//[left drawInRect:NSMakeRect(0, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 		}
 	}
 	
 	
 	// optimizes the drawing. the tabstrip already has this fill.
-	if( self.selected )
+	if( _mouseInside )
 	{
-		[[NSGraphicsContext currentContext] saveGraphicsState];
-		[[NSGraphicsContext currentContext] setPatternPhase:NSMakePoint(0, [[self superview] frame].origin.y)];
-		[[NSColor colorWithPatternImage:fill] set];
-		NSRectFill(NSMakeRect(10, 0, dirtyRect.size.width-20, 24));
-		[[NSGraphicsContext currentContext] restoreGraphicsState];
+		//[[NSColor colorWithCalibratedWhite:0.72f alpha:1.0f] set];
+		//oNSRectFill(NSMakeRect(1, 0, dirtyRect.size.width-2, 24));
+		//[[NSGraphicsContext currentContext] restoreGraphicsState];
+	}
+	else if( !self.selected )
+	{
+		[backgroundColor set];
+		NSRectFill(NSMakeRect(1, 0, dirtyRect.size.width-2, 24));
 	}
 	
 	NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -137,7 +133,7 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 		textColor = [NSColor disabledControlTextColor];
 	}
 	
-	NSFont *font = [NSFont fontWithName:@"Lucida Grande" size:11.0f];
+	NSFont *font = [NSFont fontWithName:@"Helvetica Neue" size:11.0f];
 	font = [[NSFontManager sharedFontManager] convertWeight:YES ofFont:font];
 	
 	NSDictionary *attributes = @{
@@ -157,15 +153,21 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	
 	// here we create the vertically centered 'box' for the string to be drawn in
 	// with the Y coordinate we subtract 1 point in order to make it feel more centered
-	NSRect stringRect = NSMakeRect(dirtyRect.origin.x+26, (dirtyRect.size.height/2)-(stringSize.height/2)-1.0f, dirtyRect.size.width-52, stringSize.height);
+	//NSRect stringRect = NSMakeRect(dirtyRect.origin.x+26, (dirtyRect.size.height/2)-(stringSize.height/2)-1.0f, dirtyRect.size.width-52, stringSize.height);
+	
+	NSRect stringRect;
+	stringRect.size.height	= stringSize.height;
+	stringRect.size.width	= dirtyRect.size.width-50;
+	stringRect.origin.x		= dirtyRect.origin.x+25;
+	stringRect.origin.y		= (dirtyRect.size.height/2)-(stringSize.height/2);
 	
 	[titleAttrStr drawInRect:stringRect];
 	[titleAttrStr release];
 	// draw the close button on top of everything
 	if( _mouseInside ) {
-		[close drawInRect:NSMakeRect(10, 4, 12, 13) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+		//[close drawInRect:NSMakeRect(10, 4, 12, 13) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 	} else if( _image ) {
-		[_image drawInRect:NSMakeRect(10, 4, 14, 13) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+		//[_image drawInRect:NSMakeRect(10, 4, 14, 13) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 	}
 	
 	
@@ -460,8 +462,8 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	// for closing the tab, if so perform close the tab
 	if( _mouseDownInsideClose )
 	{
-		NSPoint new = [[self window] convertScreenToBase:_originalPoint];
-		NSPoint actual = [self convertPoint:new fromView:[[[self window] contentView] superview]];
+		NSPoint new		= [[self window] convertScreenToBase:_originalPoint];
+		NSPoint actual	= [self convertPoint:new fromView:[[[self window] contentView] superview]];
 		if( actual.x > 10 && actual.x < 22 && actual.y > 3 && actual.y < 19 )
 		{
 			/*[NSAnimationContext beginGrouping];

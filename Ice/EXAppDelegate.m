@@ -41,7 +41,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	self.window.titleVisibility = NSWindowTitleHidden;
+	//self.window.titleVisibility = NSWindowTitleHidden;
+	
+	[self switchMainView:_loginView];
 	
 	[[NSNotificationCenter defaultCenter]
 	 addObserver:self
