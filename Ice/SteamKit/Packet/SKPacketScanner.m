@@ -167,13 +167,7 @@
 			
 		case SKMsgTypeClientFriendsList:
 		{
-			NSLog(@"Received a friends list %@", packet.scanner.body);
-			
-			NSData *repeated = [packet valueForFieldNumber:2];
-			if( [repeated length] > 0 )
-			{
-				NSLog(@"Result: %@", [packet.scanner scanRepeated:repeated]);
-			}
+			[self handleFriendsList:packet];
 		}
 			break;
 			
@@ -255,31 +249,17 @@
 			
 		case SKMsgTypeClientPlayerNicknameList:
 		{
-			//DLog(@"Nicknamelist: %@ %@", packet.scanner.body, packet.scanner.header);
+			NSLog(@"Nicknames: %@", packet.scanner.body);
 		}
 			break;
 			
 		case SKMsgTypeClientFriendMsgIncoming:
 		{
-			//NSString *message	= [packet valueForFieldNumber:4];
-			//SInt32 chatType		= [[packet valueForFieldNumber:2] intValue];
-			//UInt32 timestamp	= [[packet valueForFieldNumber:5] unsignedIntValue];
 			UInt64 remoteID		= [[packet valueForFieldNumber:1] unsignedIntegerValue];
-			//NSDate *date		= [NSDate dateWithTimeIntervalSince1970:timestamp];
-			
-			//NSLog(@"Received a chat message: %llu %@ %@:%d", remoteID, message, date, chatType);
-			
 			SKSteamID *steamID = [[SKSteamID alloc] initWithRawSteamID:remoteID];
 			SKFriend *remoteFriend = [session friendForSteamID:steamID];
 			[remoteFriend receivedChatMessageWithBody:packet.scanner.body];
 			[steamID release];
-			
-			/*SKPacket *response = [SKPacket sendMessagePacket:@"No u"
-													  friend:remoteFriend
-													 session:session
-														type:SKChatEntryTypeMessage];
-			[_connection sendPacket:response];
-			[steamID release];*/
 		}
 			break;
 			
@@ -291,10 +271,8 @@
 				NSArray *friends = [packet.scanner scanRepeated:partial];
 				for(NSDictionary *rawFriend in friends)
 				{
-					SKFriend *friend = [[SKFriend alloc] initWithBody:rawFriend];
-					[session connectionAddFriend:friend]; // Will update the information
-					// if it is an existing friend, or should at least.
-					[friend release];
+					NSLog(@"Raw: %@", rawFriend);
+					[session connectionAddFriend:rawFriend];
 				}
 			}
 		}
@@ -374,6 +352,41 @@
 		default:
 			NSLog(@"Unhandled packet: Type=%u Body=%@", packet.msgType, packet.scanner.body);
 			break;
+	}
+}
+
+- (void)handleFriendsList:(SKPacket *)packet
+{
+	NSDictionary *list = packet.scanner.body;
+
+	id value = list[@"2"];
+	NSArray *friendsList = (NSArray *)value;
+	if( [value isKindOfClass:[NSData class]] )
+	{
+		friendsList = @[value];
+	}
+	
+	for(NSData *friend in friendsList)
+	{
+		NSDictionary *remoteFriend = [packet.scanner scanRepeated:friend][0];
+		SKFriendRelationType type = [remoteFriend[@"2"] unsignedIntValue];
+		SKSteamID *steamID	= [[SKSteamID alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
+		SKFriend *friend	= [[SKFriend alloc] init];
+		friend.steamID		= steamID;
+		if( type == SKFriendRelationTypeFriend )
+		{
+			[_connection.session connectionAddSKFriend:friend];
+		}
+		else if( type == SKFriendRelationTypeRequestInitiator )
+		{
+			NSLog(@"Received a friend request: %@", friend);
+		}
+		else if( type == SKFriendRelationTypeNone )
+		{
+			NSLog(@"Friend removed: %@", friend);
+		}
+		[steamID release];
+		[friend release];
 	}
 }
 

@@ -179,11 +179,30 @@ NSUInteger const ProtoMask = 0x80000000;
 	SKProtobufValue *value = [[SKProtobufValue alloc] initWithData:data type:key.type];
 	if( value.value != nil )
 	{
-		[storage setObject:value.value forKey:key.valueKey];
+		id existing = storage[key.valueKey];
+		if( existing )
+		{
+			if( [existing isKindOfClass:[NSMutableArray class]] )
+			{
+				[existing addObject:value.value];
+			}
+			else
+			{
+				NSMutableArray *list = [[NSMutableArray alloc] init];
+				[list addObject:existing];
+				[list addObject:value.value];
+				[storage setObject:list forKey:key.valueKey];
+				[list release];
+			}
+		}
+		else
+		{
+			[storage setObject:value.value forKey:key.valueKey];
+		}
 	}
 	else
 	{
-		DLog(@"Unable to scan value for %@ %@ %@", key, self.body, self.header);
+		//DLog(@"Unable to scan value for %@ %@ %@", key, self.body, self.header);
 	}
 	[data removeBytes:value.length];
 	[value release];

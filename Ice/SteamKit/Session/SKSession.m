@@ -180,8 +180,10 @@ static const SKSession *_sharedSession = nil;
 
 #pragma mark - Setting up basic information
 
-- (void)connectionAddFriend:(SKFriend *)remoteFriend
+- (void)connectionAddFriend:(NSDictionary *)rawFriend
 {
+	SKFriend *remoteFriend = [[SKFriend alloc] initWithBody:rawFriend];
+	
 	// Can't add self to the friends list
 	if( remoteFriend.steamID.rawSteamID == _rawSteamID )
 	{
@@ -193,29 +195,37 @@ static const SKSession *_sharedSession = nil;
 	{
 		remoteFriend.session = self;
 		[_friendsList addObject:remoteFriend];
-		[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
-															object:self];
 	}
 	else
 	{
-		// For updating friend information when it changes
-		oldFriend.session = nil;
-		[_friendsList removeObject:oldFriend];
-		[_friendsList addObject:remoteFriend];
-		DLog(@"=> Updated information for %@", remoteFriend);
+		[oldFriend updateWithBody:rawFriend];
 	}
+	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+														object:self];
+	[remoteFriend release];
 }
 
-- (SKFriend *)friendForSteamID:(SKSteamID *)steamID
+- (void)connectionAddSKFriend:(SKFriend *)remoteFriend
+{
+	remoteFriend.session = self;
+	[_friendsList addObject:remoteFriend];
+}
+
+- (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID
 {
 	for(SKFriend *remoteFriend in _friendsList)
 	{
-		if( remoteFriend.steamID.rawSteamID == steamID.rawSteamID )
+		if( remoteFriend.steamID.rawSteamID == rawSteamID )
 		{
 			return remoteFriend;
 		}
 	}
 	return nil;
+}
+
+- (SKFriend *)friendForSteamID:(SKSteamID *)steamID
+{
+	return [self friendForRawSteamID:steamID.rawSteamID];
 }
 
 #pragma mark - Delegate stuff
