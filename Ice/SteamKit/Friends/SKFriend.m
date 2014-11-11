@@ -18,16 +18,76 @@
 {
 	if( (self = [super init]) )
 	{
-		_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
-		_displayName	= [body[@"15"] retain];
-		_lastLogoff		= [body[@"45"] unsignedIntValue];
-		_lastLogon		= [body[@"46"] unsignedIntValue];
-		_avatarHash		= [body[@"31"] retain];
-		_gameName		= [body[@"55"] retain];
-		_appID			= [body[@"3"] unsignedIntValue];
-		_status			= [body[@"2"] unsignedIntValue];
+		[self updateWithBodyInternal:body isUpdate:NO];
 	}
 	return self;
+}
+
+- (void)updateWithBodyInternal:(NSDictionary *)body isUpdate:(BOOL)isUpdate
+{
+	[_steamID release];
+	[_displayName release];
+	[_avatarHash release];
+	[_gameName release];
+	
+	_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
+	_displayName	= [body[@"15"] retain];
+	_avatarHash		= [body[@"31"] retain];
+	_gameName		= [body[@"55"] retain];
+	
+	_lastLogoff		= [body[@"45"] unsignedIntValue];
+	_lastLogon		= [body[@"46"] unsignedIntValue];
+	_appID			= [body[@"3"] unsignedIntValue];
+	_status			= [body[@"2"] unsignedIntValue];
+	
+	// Done here, no need to send out notifications
+	if( !isUpdate )
+	{
+		return;
+	}
+	
+	switch(_status)
+	{
+		case SKPersonaStateOffline:
+		{
+			NSLog(@"%@ went offline", self);
+		}
+			break;
+			
+		case SKPersonaStateOnline:
+		{
+			NSLog(@"%@ is now online", self);
+		}
+			break;
+			
+		case SKPersonaStateAway:
+		{
+			NSLog(@"%@ went AFK", self);
+		}
+			break;
+			
+		case SKPersonaStateBusy:
+		{
+			NSLog(@"%@ is now Busy", self);
+		}
+			break;
+			
+		case SKPersonaStateLookingToTrade:
+		case SKPersonaStateSnooze:
+		case SKPersonaStateLookingToPlay:
+		{
+			NSLog(@"%@ is now sleeping", self);
+		}
+			break;
+			
+		default:
+			break;
+	}
+}
+
+- (void)updateWithBody:(NSDictionary *)body
+{
+	[self updateWithBodyInternal:body isUpdate:YES];
 }
 
 - (void)dealloc
@@ -126,6 +186,11 @@
 											   session:_session
 												  type:entryType];
 	[_session.TCPConnection sendPacket:chatPacket];
+}
+
+- (NSComparisonResult)displayNameSort:(SKFriend *)other
+{
+	return [[self displayName] caseInsensitiveCompare:[other displayName]];
 }
 
 - (NSString *)description
