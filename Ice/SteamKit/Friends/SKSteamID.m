@@ -19,4 +19,29 @@
 	return self;
 }
 
+- (UInt32)accountID
+{
+	return _rawSteamID & 0xFFFFFFFF;
+}
+
+- (UInt32)accountInstance
+{
+	return (_rawSteamID >> 32) & 0x000FFFFF;
+}
+
+- (UInt32)accountType
+{
+	return (_rawSteamID >> 52) & 0xF;
+}
+
+- (UInt32)accountUniverse
+{
+	return (_rawSteamID >> 56) & 0xF;
+}
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"[SKSteamID type=%u id=%u uni=%u]", [self accountType], [self accountID], [self accountUniverse]];
+}
+
 @end

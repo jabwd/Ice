@@ -10,6 +10,8 @@
 #import "SKSession.h"
 #import "AHHyperlinkScanner.h"
 #import "BFNotificationCenter.h"
+#import "SFTabStripView.h"
+#import "SFTabView.h"
 
 const NSString *EXChatFontName	= @"Helvetica Neue";
 const CGFloat EXChatFontSize	= 12.0f;
@@ -55,6 +57,11 @@ const CGFloat EXChatFontSize	= 12.0f;
 	self.window.title			= [NSString stringWithFormat:@"Chat - %@", _remoteFriend.displayName];
 	
 	[_messageField becomeFirstResponder];
+	
+	SFTabView *tabView = [[SFTabView alloc] init];
+	tabView.title = self.window.title;
+	[_stripView addTabView:tabView];
+	[tabView release];
 }
 
 - (IBAction)send:(id)sender

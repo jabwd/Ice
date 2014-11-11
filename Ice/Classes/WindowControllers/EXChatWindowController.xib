@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="EXChatWindowController">
             <connections>
                 <outlet property="messageField" destination="Hvh-cS-Fkv" id="sDe-Kc-Kee"/>
+                <outlet property="stripView" destination="5Nz-67-7zC" id="KtK-tk-M85"/>
                 <outlet property="textView" destination="rQL-43-R7a" id="sP9-bP-cKr"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -15,15 +16,31 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Chat window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="ChatWindow" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
-            <rect key="contentRect" x="196" y="240" width="275" height="270"/>
+            <rect key="contentRect" x="196" y="240" width="275" height="286"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <value key="minSize" type="size" width="275" height="270"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="275" height="270"/>
+                <rect key="frame" x="0.0" y="-1" width="275" height="286"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <textField verticalHuggingPriority="750" id="Hvh-cS-Fkv">
+                        <rect key="frame" x="13" y="7" width="249" height="22"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="F8f-HB-XbU">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="send:" target="-2" id="xl1-K1-Iu5"/>
+                        </connections>
+                    </textField>
+                    <customView id="5Nz-67-7zC" customClass="SFTabStripView">
+                        <rect key="frame" x="-1" y="263" width="277" height="24"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    </customView>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="dFU-C6-QaZ">
-                        <rect key="frame" x="-1" y="43" width="277" height="228"/>
+                        <rect key="frame" x="-1" y="37" width="277" height="227"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="g5e-PC-GE2">
                             <rect key="frame" x="1" y="1" width="223" height="133"/>
@@ -34,10 +51,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="275" height="226"/>
+                                    <size key="minSize" width="260" height="225"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="275" height="226"/>
+                                    <size key="minSize" width="260" height="225"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                 </textView>
                             </subviews>
@@ -52,18 +69,6 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <textField verticalHuggingPriority="750" id="Hvh-cS-Fkv">
-                        <rect key="frame" x="20" y="10" width="235" height="22"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="F8f-HB-XbU">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <action selector="send:" target="-2" id="xl1-K1-Iu5"/>
-                        </connections>
-                    </textField>
                 </subviews>
             </view>
             <toolbar key="toolbar" implicitIdentifier="ADD6A2E2-CED6-42AE-BCF0-3B4A49438FF3" autosavesConfiguration="NO" displayMode="iconOnly" sizeMode="regular" id="Hr6-Gw-Z74">
@@ -89,7 +94,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="122.5" y="196"/>
+            <point key="canvasLocation" x="122.5" y="204"/>
         </window>
     </objects>
     <resources>

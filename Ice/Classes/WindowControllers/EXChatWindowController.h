@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SKFriend.h"
 
-@class SKSession, EXChatWindowController;
+@class SKSession, EXChatWindowController, SFTabStripView;
 
 @protocol EXChatWindowControllerDelegate <NSObject>
 - (void)shouldCloseController:(EXChatWindowController *)controller;
@@ -24,6 +24,7 @@
 @property (assign) IBOutlet NSTextView *textView;
 @property (assign) IBOutlet NSTextField *messageField;
 @property (assign) IBOutlet NSVisualEffectView *effectView;
+@property (assign) IBOutlet SFTabStripView *stripView;
 
 @property (assign) id <EXChatWindowControllerDelegate> delegate;
 @property (readonly) SKFriend *remoteFriend;
