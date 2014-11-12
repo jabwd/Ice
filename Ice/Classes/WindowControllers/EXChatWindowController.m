@@ -127,7 +127,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 	NSString *dateString	= [NSDateFormatter localizedStringFromDate:date
 														  dateStyle:NSDateFormatterNoStyle
 														  timeStyle:NSDateFormatterShortStyle];
-	NSString *name			= [_remoteFriend.session.currentUser displaynameString];
+	NSString *name			= [_remoteFriend.session.currentUser displayNameString];
 	
 	
 	NSString *finalMessage = [NSString stringWithFormat:

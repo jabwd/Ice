@@ -46,6 +46,11 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 	SKFriend		*_currentUser;
 	NSString		*_loginKey;
 	NSTimer			*_keepAliveTimer;
+	
+	NSMutableArray *_onlineFriends;
+	NSMutableArray *_offlineFriends;
+	NSMutableArray *_pendingFriends;
+	
 	NSMutableArray	*_friendsList;
 	
 	id <SKSessionDelegate>	_delegate;

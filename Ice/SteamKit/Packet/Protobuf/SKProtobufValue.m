@@ -205,18 +205,20 @@
 {
 	UInt8 *bytes = (UInt8*)[data bytes];
 	
-	NSUInteger i	= 0;
+	UInt8 i	= 0;
 	UInt64 n		= 0;
 	for(;i<[data length];i++)
 	{
 		UInt32 m = bytes[i];
 		n = n + ((m & 0x7f) * pow(2,(7*i)));
-		*length = *length +1;
+		//*length = *length +1;
 		if( m < 128 )
 		{
+			++i;
 			break;
 		}
 	}
+	*length = i;
 	
 	return n;
 }

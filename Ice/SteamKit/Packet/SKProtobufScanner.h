@@ -15,7 +15,6 @@ extern NSUInteger const ProtoMask; // AND for isProto, XOR for STRIP
 @interface SKProtobufScanner : NSObject
 {
 	NSData				*_data;
-	NSMutableArray		*_values;
 	NSMutableDictionary	*_body;
 	NSMutableDictionary *_header;
 }
