@@ -211,15 +211,9 @@ static const SKSession *_sharedSession = nil;
 	remoteFriend.session = self;
 	if( remoteFriend.displayName == nil )
 	{
-		DLog(@"Requesting data for %@", remoteFriend);
 		[self requestFriendData:remoteFriend];
 	}
 	[_friendsList addObject:remoteFriend];
-	[_friendsList sortUsingComparator:^NSComparisonResult(id obj1, id obj2){
-		SKFriend *fr	= (SKFriend *)obj1;
-		SKFriend *fr2	= (SKFriend *)obj2;
-		return [fr.displayName caseInsensitiveCompare:fr2.displayName];
-	}];
 }
 
 - (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID
