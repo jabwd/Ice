@@ -216,6 +216,11 @@ static const SKSession *_sharedSession = nil;
 	[_friendsList addObject:remoteFriend];
 }
 
+- (void)sortFriendsList
+{
+	[_friendsList sortUsingSelector:@selector(displayNameSort:)];
+}
+
 - (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID
 {
 	for(SKFriend *remoteFriend in _friendsList)

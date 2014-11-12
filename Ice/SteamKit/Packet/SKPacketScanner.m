@@ -386,6 +386,7 @@
 		//[steamID release];
 		[friend release];
 	}
+	[_connection.session sortFriendsList];
 }
 
 
