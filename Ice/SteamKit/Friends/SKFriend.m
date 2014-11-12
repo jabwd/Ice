@@ -41,10 +41,6 @@
 - (void)updateWithBodyInternal:(NSDictionary *)body isUpdate:(BOOL)isUpdate
 {
 	[_steamID release];
-	[_displayName release];
-	[_avatarHash release];
-	[_gameName release];
-	
 	_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
 	
 	if( !isUpdate )
@@ -56,9 +52,15 @@
 		return;
 	}
 	
+	[_avatarHash release];
+	_avatarHash = nil;
+	[_gameName release];
+	_gameName = nil;
+	
 	if( body[@"15"] && ![_displayName isEqualToString:body[@"15"]] )
 	{
 		DLog(@"=> Updating for %@ from %@", body[@"15"], _displayName);
+		[_displayName release];
 		_displayName = [body[@"15"] retain];
 		[[SKFriendCache sharedCache] setPlayerNameForFriend:self];
 	}
@@ -85,23 +87,12 @@
 		}
 			break;
 			
-		case SKPersonaStateAway:
-		{
-			NSLog(@"%@ went AFK", self);
-		}
-			break;
-			
+		case SKPersonaStateAway:		
 		case SKPersonaStateBusy:
-		{
-			NSLog(@"%@ is now Busy", self);
-		}
-			break;
-			
 		case SKPersonaStateLookingToTrade:
 		case SKPersonaStateSnooze:
 		case SKPersonaStateLookingToPlay:
 		{
-			NSLog(@"%@ is now sleeping", self);
 		}
 			break;
 			

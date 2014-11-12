@@ -51,8 +51,6 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 	NSMutableArray *_offlineFriends;
 	NSMutableArray *_pendingFriends;
 	
-	NSMutableArray	*_friendsList;
-	
 	id <SKSessionDelegate>	_delegate;
 	SKSessionStatus			_status;
 	SKPersonaState			_userStatus;
@@ -68,7 +66,8 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 @property (readonly) NSData *sessionKey;
 @property (assign) SKSessionStatus status;
 @property (readonly) SKFriend *currentUser;
-@property (readonly) NSMutableArray *friendsList;
+@property (readonly) NSMutableArray *onlineFriends;
+@property (readonly) NSMutableArray *offlineFriends;
 @property (readonly) SKTCPConnection *TCPConnection;
 
 @property (retain) NSString *loginKey;
@@ -127,6 +126,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
  */
 - (void)connectionAddFriend:(NSDictionary *)rawFriend;
 - (void)connectionAddSKFriend:(SKFriend *)remoteFriend;
+- (void)addPendingFriend:(SKFriend *)pendingFriend;
 - (void)sortFriendsList;
 - (SKFriend *)friendForSteamID:(SKSteamID *)steamID;
 

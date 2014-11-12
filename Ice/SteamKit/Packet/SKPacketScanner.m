@@ -357,7 +357,7 @@
 - (void)handleFriendsList:(SKPacket *)packet
 {
 	NSDictionary *list = packet.scanner.body;
-
+	NSLog(@"%@ %@", list, packet.data);
 	id value = list[@"2"];
 	NSArray *friendsList = (NSArray *)value;
 	if( [value isKindOfClass:[NSData class]] )
@@ -378,6 +378,7 @@
 		else if( type == SKFriendRelationTypeRequestInitiator )
 		{
 			NSLog(@"Received a friend request: %@", friend);
+			[_connection.session addPendingFriend:friend];
 		}
 		else if( type == SKFriendRelationTypeNone )
 		{

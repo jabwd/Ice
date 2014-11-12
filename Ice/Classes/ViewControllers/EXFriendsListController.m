@@ -122,7 +122,7 @@
 {
 	if( item == nil )
 	{
-		return [_session.friendsList count];
+		return [_session.onlineFriends count];
 	}
 	return 0;
 }
@@ -131,7 +131,7 @@
 {
 	if( item == nil )
 	{
-		return _session.friendsList[index];
+		return _session.onlineFriends[index];
 	}
 	return nil;
 }

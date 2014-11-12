@@ -125,6 +125,13 @@
 			_session.delegate = nil;
 			[_session release];
 			_session = nil;
+			[self switchMainView:_loginView];
+		}
+			break;
+			
+		case SKSessionStatusConnecting:
+		{
+			[self switchMainView:_connectingView];
 		}
 			break;
 			

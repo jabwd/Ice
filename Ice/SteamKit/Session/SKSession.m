@@ -44,7 +44,10 @@ static const SKSession *_sharedSession = nil;
 		_sharedSession		= self;
 		_rawSteamID			= 76561197960265728;
 		_currentUser		= [[SKFriend alloc] init];
-		_friendsList		= [[NSMutableArray alloc] init];
+		
+		_pendingFriends		= nil; // this is rarely needed, save some memory.
+		_onlineFriends		= [[NSMutableArray alloc] init];
+		_offlineFriends		= [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -62,8 +65,12 @@ static const SKSession *_sharedSession = nil;
 	_currentUser = nil;
 	[_loginKey release];
 	_loginKey = nil;
-	[_friendsList release];
-	_friendsList = nil;
+	[_offlineFriends release];
+	_offlineFriends = nil;
+	[_onlineFriends release];
+	_onlineFriends = nil;
+	[_pendingFriends release];
+	_pendingFriends = nil;
 	_delegate = nil;
 	[super dealloc];
 }
@@ -140,8 +147,10 @@ static const SKSession *_sharedSession = nil;
 	[_TCPConnection disconnect];
 	[_TCPConnection release];
 	_TCPConnection = nil;
-	[_friendsList release];
-	_friendsList = [[NSMutableArray alloc] init];
+	[_onlineFriends release];
+	_onlineFriends = [[NSMutableArray alloc] init];
+	[_offlineFriends release];
+	_offlineFriends = [[NSMutableArray alloc] init];
 	[_currentUser release];
 	_currentUser = nil;
 	
@@ -194,12 +203,30 @@ static const SKSession *_sharedSession = nil;
 	SKFriend *oldFriend = [self friendForSteamID:remoteFriend.steamID];
 	if( oldFriend == nil )
 	{
-		remoteFriend.session = self;
-		[_friendsList addObject:remoteFriend];
+		NSLog(@"Invalid friend: %@", remoteFriend);
+		/*remoteFriend.session = self;
+		if( remoteFriend.status != SKPersonaStateOffline )
+		{
+			[_onlineFriends addObject:remoteFriend];
+		}
+		else
+		{
+			[_offlineFriends addObject:remoteFriend];
+		}*/
 	}
 	else
 	{
+		BOOL wasOffline = NO;
+		if( oldFriend.status == SKPersonaStateOffline )
+		{
+			wasOffline = YES;
+		}
 		[oldFriend updateWithBody:rawFriend];
+		if( oldFriend.status != SKPersonaStateOffline && wasOffline )
+		{
+			[_onlineFriends addObject:oldFriend];
+			[_offlineFriends removeObject:oldFriend];
+		}
 	}
 	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
 														object:self];
@@ -213,17 +240,39 @@ static const SKSession *_sharedSession = nil;
 	{
 		[self requestFriendData:remoteFriend];
 	}
-	[_friendsList addObject:remoteFriend];
+	
+	if( remoteFriend.status == SKPersonaStateOffline )
+	{
+		[_offlineFriends addObject:remoteFriend];
+	}
+	else
+	{
+		[_onlineFriends addObject:remoteFriend];
+	}
+}
+
+- (void)addPendingFriend:(SKFriend *)pendingFriend
+{
+	SKPacket *packet = [SKPacket addFriendPacket:pendingFriend];
+	[_TCPConnection sendPacket:packet];
 }
 
 - (void)sortFriendsList
 {
-	[_friendsList sortUsingSelector:@selector(displayNameSort:)];
+	[_onlineFriends sortUsingSelector:@selector(displayNameSort:)];
+	[_offlineFriends sortUsingSelector:@selector(displayNameSort:)];
 }
 
 - (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID
 {
-	for(SKFriend *remoteFriend in _friendsList)
+	for(SKFriend *remoteFriend in _onlineFriends)
+	{
+		if( remoteFriend.steamID.rawSteamID == rawSteamID )
+		{
+			return remoteFriend;
+		}
+	}
+	for(SKFriend *remoteFriend in _offlineFriends)
 	{
 		if( remoteFriend.steamID.rawSteamID == rawSteamID )
 		{

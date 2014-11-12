@@ -507,14 +507,13 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	NSMutableData *buffer = [[NSMutableData alloc] init];
 	
 	// + Create the header + //
-	/*SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
 	[compiler addHeaderValue:v fieldNumber:1];
 	[v release];
 	
 	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
 	[compiler addHeaderValue:v fieldNumber:2];
-	[v release];*/
-	SKProtobufValue *v;
+	[v release];
 	
 	// + Create the body + //
 	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
@@ -534,15 +533,94 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	return [packet autorelease];
 }
 
-+ (SKPacket *)requestFriendDataPacket:(SKFriend *)remoteFriend
++ (SKPacket *)addFriendPacket:(SKFriend *)remoteFriend
 {
-	/*if( [friends count] == 0 )
+	SKSession *session = nil;
+	session = remoteFriend.session;
+	if( !session )
 	{
-		DLog(@"[Error] cannot request friends data with empty friends array");
+		DLog(@"[Error] cannot send requestFriendsData packet with a proper session");
 		return nil;
 	}
+	
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientAddFriend;
+	SKMsgType type = packet.msgType;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v fieldNumber:2];
+	[v release];
+	// -------------------//
+	
+	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
+	[compiler addValue:v fieldNumber:1];
+	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
+	
+	return [packet autorelease];
+}
+
++ (SKPacket *)removeFriendPacket:(SKFriend *)remoteFriend
+{
 	SKSession *session = nil;
-	session = ((SKFriend *)friends[0]).session;*/
+	session = remoteFriend.session;
+	if( !session )
+	{
+		DLog(@"[Error] cannot send requestFriendsData packet with a proper session");
+		return nil;
+	}
+	
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientRemoveFriend;
+	SKMsgType type = packet.msgType;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v fieldNumber:2];
+	[v release];
+	// -------------------//
+	
+	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
+	[compiler addValue:v fieldNumber:1];
+	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
+	
+	return [packet autorelease];
+}
+
++ (SKPacket *)requestFriendDataPacket:(SKFriend *)remoteFriend
+{
 	SKSession *session = nil;
 	session = remoteFriend.session;
 	if( !session )
