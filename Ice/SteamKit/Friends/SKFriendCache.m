@@ -51,7 +51,12 @@
 	DLog(@"=> Updating friends cache");
 	
 	NSString *path = [[SKSentryFile appSupportDirectory] stringByAppendingPathComponent:@"friends.plist"];
-	[_storage writeToFile:path atomically:NO];
+	//[_storage writeToFile:path atomically:NO];
+	NSData *outData = [NSPropertyListSerialization dataWithPropertyList:_storage
+																 format:NSPropertyListBinaryFormat_v1_0
+																options:0
+																  error:nil];
+	[outData writeToFile:path atomically:NO];
 	DLog(@"=> Friends cache written to disk");
 }
 
