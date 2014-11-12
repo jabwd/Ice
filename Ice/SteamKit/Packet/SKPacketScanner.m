@@ -249,7 +249,7 @@
 			
 		case SKMsgTypeClientPlayerNicknameList:
 		{
-			NSLog(@"Nicknames: %@", packet.scanner.body);
+			//NSLog(@"Nicknames: %@", packet.scanner.body);
 		}
 			break;
 			
@@ -271,7 +271,6 @@
 				NSArray *friends = [packet.scanner scanRepeated:partial];
 				for(NSDictionary *rawFriend in friends)
 				{
-					NSLog(@"Raw: %@", rawFriend);
 					[session connectionAddFriend:rawFriend];
 				}
 			}
@@ -370,9 +369,8 @@
 	{
 		NSDictionary *remoteFriend = [packet.scanner scanRepeated:friend][0];
 		SKFriendRelationType type = [remoteFriend[@"2"] unsignedIntValue];
-		SKSteamID *steamID	= [[SKSteamID alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
-		SKFriend *friend	= [[SKFriend alloc] init];
-		friend.steamID		= steamID;
+		//SKSteamID *steamID	= [[SKSteamID alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
+		SKFriend *friend	= [[SKFriend alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
 		if( type == SKFriendRelationTypeFriend )
 		{
 			[_connection.session connectionAddSKFriend:friend];
@@ -385,7 +383,7 @@
 		{
 			NSLog(@"Friend removed: %@", friend);
 		}
-		[steamID release];
+		//[steamID release];
 		[friend release];
 	}
 }

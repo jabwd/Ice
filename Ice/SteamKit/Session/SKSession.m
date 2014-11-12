@@ -187,6 +187,7 @@ static const SKSession *_sharedSession = nil;
 	// Can't add self to the friends list
 	if( remoteFriend.steamID.rawSteamID == _rawSteamID )
 	{
+		[remoteFriend release];
 		return;
 	}
 	
@@ -208,7 +209,17 @@ static const SKSession *_sharedSession = nil;
 - (void)connectionAddSKFriend:(SKFriend *)remoteFriend
 {
 	remoteFriend.session = self;
+	if( remoteFriend.displayName == nil )
+	{
+		DLog(@"Requesting data for %@", remoteFriend);
+		[self requestFriendData:remoteFriend];
+	}
 	[_friendsList addObject:remoteFriend];
+	[_friendsList sortUsingComparator:^NSComparisonResult(id obj1, id obj2){
+		SKFriend *fr	= (SKFriend *)obj1;
+		SKFriend *fr2	= (SKFriend *)obj2;
+		return [fr.displayName caseInsensitiveCompare:fr2.displayName];
+	}];
 }
 
 - (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID
@@ -226,6 +237,19 @@ static const SKSession *_sharedSession = nil;
 - (SKFriend *)friendForSteamID:(SKSteamID *)steamID
 {
 	return [self friendForRawSteamID:steamID.rawSteamID];
+}
+
+- (void)requestFriendProfile:(SKFriend *)remoteFriend
+{
+	SKPacket *packet = [SKPacket requestFriendProfilePacket:remoteFriend];
+	[_TCPConnection sendPacket:packet];
+}
+
+- (void)requestFriendData:(SKFriend *)remoteFriend
+{
+	SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend];
+	[_TCPConnection sendPacket:packet];
+	
 }
 
 #pragma mark - Delegate stuff

@@ -253,6 +253,7 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 	notification.informativeText = body;
 	
 	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+	[notification release];
 }
 
 #pragma mark - Badge count

@@ -11,6 +11,7 @@
 #import "SKPacket.h"
 #import "SKSession.h"
 #import "SKTCPConnection.h"
+#import "SKFriendCache.h"
 
 @implementation SKFriend
 
@@ -18,7 +19,21 @@
 {
 	if( (self = [super init]) )
 	{
+		_steamID		= nil;
+		_displayName	= nil;
+		_avatarHash		= nil;
+		_gameName		= nil;
 		[self updateWithBodyInternal:body isUpdate:NO];
+	}
+	return self;
+}
+
+- (id)initWithRawSteamID:(UInt64)steamID
+{
+	if( (self = [super init]) )
+	{
+		_steamID		= [[SKSteamID alloc] initWithRawSteamID:steamID];
+		_displayName	= [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
 	}
 	return self;
 }
@@ -31,7 +46,23 @@
 	[_gameName release];
 	
 	_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
-	_displayName	= [body[@"15"] retain];
+	
+	if( !isUpdate )
+	{
+		if( !_displayName )
+		{
+			_displayName = [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
+		}
+		return;
+	}
+	
+	if( body[@"15"] && ![_displayName isEqualToString:body[@"15"]] )
+	{
+		DLog(@"=> Updating for %@ from %@", body[@"15"], _displayName);
+		_displayName = [body[@"15"] retain];
+		[[SKFriendCache sharedCache] setPlayerNameForFriend:self];
+	}
+	
 	_avatarHash		= [body[@"31"] retain];
 	_gameName		= [body[@"55"] retain];
 	
@@ -39,12 +70,6 @@
 	_lastLogon		= [body[@"46"] unsignedIntValue];
 	_appID			= [body[@"3"] unsignedIntValue];
 	_status			= [body[@"2"] unsignedIntValue];
-	
-	// Done here, no need to send out notifications
-	if( !isUpdate )
-	{
-		return;
-	}
 	
 	switch(_status)
 	{
@@ -114,7 +139,7 @@
 	[super dealloc];
 }
 
-- (NSString *)displayName
+- (NSString *)displayNameString
 {
 	if( [_displayName length] > 0 )
 	{
@@ -125,12 +150,6 @@
 		return _username;
 	}
 	return @"Uknown user";
-}
-
-- (void)setDisplayName:(NSString *)displayName
-{
-	[_displayName release];
-	_displayName = [displayName retain];
 }
 
 - (void)setDelegate:(id<SKFriendChatDelegate>)delegate

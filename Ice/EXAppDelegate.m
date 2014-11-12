@@ -23,6 +23,7 @@
 						  @100.0f,BFSoundVolumeDefaultsKey,
 						  nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dict];
+	[dict release];
 }
 
 - (void)dealloc

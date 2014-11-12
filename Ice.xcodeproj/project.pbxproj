@@ -14,6 +14,7 @@
 		3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524619ED2B1F0038A3A1 /* SKSentryFile.m */; };
 		363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */; };
 		3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3646FE3119FAA9D900143668 /* SKProtobufKey.m */; };
+		3647D1A41A13170E00D88225 /* SKFriendCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3647D1A31A13170E00D88225 /* SKFriendCache.m */; };
 		366863AB1A10553900EA08B6 /* EXChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366863A91A10553900EA08B6 /* EXChatWindowController.m */; };
 		366863AC1A10553900EA08B6 /* EXChatWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 366863AA1A10553900EA08B6 /* EXChatWindowController.xib */; };
 		3672A7BF1A10F441003AF16D /* BFNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7B21A10F441003AF16D /* BFNotificationCenter.m */; };
@@ -100,6 +101,8 @@
 		363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufScanner.m; path = SteamKit/Packet/SKProtobufScanner.m; sourceTree = "<group>"; };
 		3646FE3019FAA9D900143668 /* SKProtobufKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufKey.h; path = SteamKit/Packet/Protobuf/SKProtobufKey.h; sourceTree = "<group>"; };
 		3646FE3119FAA9D900143668 /* SKProtobufKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufKey.m; path = SteamKit/Packet/Protobuf/SKProtobufKey.m; sourceTree = "<group>"; };
+		3647D1A21A13170E00D88225 /* SKFriendCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKFriendCache.h; path = SteamKit/Friends/SKFriendCache.h; sourceTree = "<group>"; };
+		3647D1A31A13170E00D88225 /* SKFriendCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKFriendCache.m; path = SteamKit/Friends/SKFriendCache.m; sourceTree = "<group>"; };
 		366863A81A10553900EA08B6 /* EXChatWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXChatWindowController.h; path = Classes/WindowControllers/EXChatWindowController.h; sourceTree = "<group>"; };
 		366863A91A10553900EA08B6 /* EXChatWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXChatWindowController.m; path = Classes/WindowControllers/EXChatWindowController.m; sourceTree = "<group>"; };
 		366863AA1A10553900EA08B6 /* EXChatWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXChatWindowController.xib; path = Classes/WindowControllers/EXChatWindowController.xib; sourceTree = "<group>"; };
@@ -441,6 +444,8 @@
 				36CF7DD51A01199D00973C8B /* SKFriend.m */,
 				36B303D11A0FF0DF009C2D0B /* SKSteamID.h */,
 				36B303D21A0FF0DF009C2D0B /* SKSteamID.m */,
+				3647D1A21A13170E00D88225 /* SKFriendCache.h */,
+				3647D1A31A13170E00D88225 /* SKFriendCache.m */,
 			);
 			name = Friends;
 			sourceTree = "<group>";
@@ -723,6 +728,7 @@
 				3672A7C41A10F441003AF16D /* XNBorderedScrollView.m in Sources */,
 				36E5DA9619FDEBF300AD2A4D /* SKProtobufValue.m in Sources */,
 				369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */,
+				3647D1A41A13170E00D88225 /* SKFriendCache.m in Sources */,
 				367EF2DB1A1045C00038548D /* EXFriendsListController.m in Sources */,
 				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,

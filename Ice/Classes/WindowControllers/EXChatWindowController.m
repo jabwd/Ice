@@ -54,7 +54,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 	
 	self.window.titleVisibility = NSWindowTitleHidden;
 	self.window.delegate		= self;
-	self.window.title			= [NSString stringWithFormat:@"Chat - %@", _remoteFriend.displayName];
+	self.window.title			= [NSString stringWithFormat:@"Chat - %@", _remoteFriend.displayNameString];
 	
 	[_messageField becomeFirstResponder];
 	
@@ -87,7 +87,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 		[[BFNotificationCenter defaultNotificationCenter] playReceivedSound];
 		if( ![self.window isKeyWindow] )
 		{
-			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:[_remoteFriend displayName] body:[NSString stringWithFormat:@"%@", message]];
+			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:[_remoteFriend displayNameString] body:[NSString stringWithFormat:@"%@", message]];
 		}
 	}
 	else if( entryType == SKChatEntryTypeTyping )
@@ -101,7 +101,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 	NSString *dateString	= [NSDateFormatter localizedStringFromDate:date
 														  dateStyle:NSDateFormatterNoStyle
 														  timeStyle:NSDateFormatterShortStyle];
-	NSString *name			= [_remoteFriend displayName];
+	NSString *name			= [_remoteFriend displayNameString];
 	
 	
 	NSString *finalMessage = [NSString stringWithFormat:
@@ -127,7 +127,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 	NSString *dateString	= [NSDateFormatter localizedStringFromDate:date
 														  dateStyle:NSDateFormatterNoStyle
 														  timeStyle:NSDateFormatterShortStyle];
-	NSString *name			= [_remoteFriend.session.currentUser displayName];
+	NSString *name			= [_remoteFriend.session.currentUser displaynameString];
 	
 	
 	NSString *finalMessage = [NSString stringWithFormat:

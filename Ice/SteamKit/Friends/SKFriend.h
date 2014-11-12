@@ -73,6 +73,7 @@
  * @return SKFriend	remoteFriend	| a new instance of SKFriend
  */
 - (id)initWithBody:(NSDictionary *)body;
+- (id)initWithRawSteamID:(UInt64)steamID;
 
 /**
  * Updates the current SKFriend object with the given
@@ -92,7 +93,7 @@
  *
  * @return NSString	displayName	or steamID string rep
  */
-- (NSString *)displayName;
+- (NSString *)displayNameString;
 
 /**
  * Handles the given incoming msg protobuf body

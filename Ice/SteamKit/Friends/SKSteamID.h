@@ -17,4 +17,12 @@
 
 - (id)initWithRawSteamID:(UInt64)rawID;
 
+- (UInt32)accountID;
+
+- (UInt32)accountInstance;
+
+- (UInt32)accountType;
+
+- (UInt32)accountUniverse;
+
 @end
