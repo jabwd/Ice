@@ -34,14 +34,14 @@ typedef enum {
 
 @property (readonly) SKConnectionStatus status;
 @property (retain) NSMutableData *buffer;
-@property (retain) SKSession *session;
+@property (nonatomic, retain) SKSession *session;
 @property (assign) UInt32 destination;
 @property (retain) NSString *host;
 @property (assign) UInt16 port;
 
 + (NSString *)connectionStatusToString:(SKConnectionStatus)status;
 
-- (id)initWithAddress:(NSString *)address;
+- (id)initWithAddress:(NSString *)address session:(SKSession *)session;
 
 - (void)connect;
 - (void)disconnect;

@@ -54,20 +54,16 @@
 	[_socket writeData:data withTimeout:20 tag:0];
 }
 
-
 #pragma mark - TCPSocket delegate
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-	DLog(@"Connected to host: %@:%u", host, port);
-	
 	_status = SKConnectionStatusOnline;
 	[_socket readDataWithTimeout:-1 tag:0];
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-	DLog(@"TCP Socket disconnected");
 	[_session disconnect];
 }
 

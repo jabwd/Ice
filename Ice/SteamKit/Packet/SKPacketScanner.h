@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class SKConnection;
+@class SKConnection, SKSession;
 
 @interface SKPacketScanner : NSObject
 {
-	SKConnection *_connection;
+	SKConnection	*_connection;
+	SKSession		*_session;
 }
 
 /**

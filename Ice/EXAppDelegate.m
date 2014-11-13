@@ -42,8 +42,6 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	//self.window.titleVisibility = NSWindowTitleHidden;
-	
 	[self switchMainView:_loginView];
 	
 	[[NSNotificationCenter defaultCenter]
@@ -88,8 +86,6 @@
 - (IBAction)disconnect:(id)sender
 {
 	[_session disconnect];
-	[_session release];
-	_session = nil;
 }
 
 - (IBAction)openDeveloperWindow:(id)sender
@@ -116,12 +112,19 @@
 
 #pragma mark - SKSession delegate
 
+- (void)session:(SKSession *)session didDisconnectWithReason:(SKResultCode)reason
+{
+	
+}
+
 - (void)sessionChangedStatus:(SKSession *)session
 {
 	switch((SKSessionStatus)session.status)
 	{
 		case SKSessionStatusOffline:
 		{
+			[_friendsListController release];
+			_friendsListController = nil;
 			_session.delegate = nil;
 			[_session release];
 			_session = nil;
@@ -137,8 +140,6 @@
 			
 		case SKSessionStatusConnected:
 		{
-			[_session setUserStatus:SKPersonaStateOnline];
-			
 			if( !_friendsListController )
 			{
 				_friendsListController = [[EXFriendsListController alloc] initWithSession:_session];

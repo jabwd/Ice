@@ -203,7 +203,7 @@
 	return [[stringRepresentation copy] autorelease];
 }
 
-- (NSData *)uncompressedDataWithSize:(UInt64)size
+- (NSMutableData *)uncompressedDataWithSize:(UInt64)size
 {
 	z_stream stream;
 	stream.zalloc		= Z_NULL;
@@ -226,33 +226,7 @@
 		
 		if( deflateStatus != Z_STREAM_END )
 		{
-			NSString *errorMsg = nil;
-			switch (deflateStatus)
-			{
-				case Z_ERRNO:
-					errorMsg = @"Error occured while reading file.";
-					break;
-				case Z_STREAM_ERROR:
-					errorMsg = @"The stream state was inconsistent (e.g., next_in or next_out was NULL).";
-					break;
-				case Z_DATA_ERROR:
-					errorMsg = @"The deflate data was invalid or incomplete.";
-					break;
-				case Z_MEM_ERROR:
-					errorMsg = @"Memory could not be allocated for processing.";
-					break;
-				case Z_BUF_ERROR:
-					errorMsg = @"Ran out of output buffer for writing compressed bytes.";
-					break;
-				case Z_VERSION_ERROR:
-					errorMsg = @"The version of zlib.h and the version of the library linked do not match.";
-					break;
-				default:
-					errorMsg = @"Unknown error code.";
-					break;
-			}
-			NSLog(@"%s: zlib error while attempting uncompression: \"%@\" Message: \"%s\"", __func__, errorMsg, stream.msg);
-			[errorMsg release];
+			DLog(@"[Error] LIBZ Error");
 		}
 		inflateEnd(&stream);
 		return [buffer autorelease];
@@ -262,7 +236,6 @@
 		DLog(@"Unable to start inflate");
 		return nil;
 	}
-	
 	return nil;
 }
 

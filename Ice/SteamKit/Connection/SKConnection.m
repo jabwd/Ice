@@ -30,7 +30,7 @@
     return nil;
 }
 
-- (id)initWithAddress:(NSString *)address
+- (id)initWithAddress:(NSString *)address session:(SKSession *)session
 {
 	if( (self = [super init]) )
 	{
@@ -43,9 +43,9 @@
 			[self release];
 			return nil;
 		}
-		_host = [[comp objectAtIndex:0] retain];
-		_port = (UInt16)[[comp objectAtIndex:1] integerValue];
-		
+		_host		= [[comp objectAtIndex:0] retain];
+		_port		= (UInt16)[[comp objectAtIndex:1] integerValue];
+		_session	= [session retain];
 		_scanner	= [[SKPacketScanner alloc] initWithConnection:self];
 		_status		= SKConnectionStatusOffline;
 		_buffer		= [[NSMutableData alloc] init];
@@ -73,6 +73,12 @@
     return _status;
 }
 
+- (void)setSession:(SKSession *)session
+{
+	[_session release];
+	_session = [session retain];
+}
+
 - (void)connect
 {
     if( [self status] != SKConnectionStatusOffline )
@@ -86,13 +92,6 @@
 
 - (void)disconnect
 {
-    if( [self status] != SKConnectionStatusConnecting &&
-        [self status] != SKConnectionStatusOnline )
-    {
-        NSLog(@"Connection cannot disconnect while status is %@",
-              [SKConnection connectionStatusToString:[self status]]);
-        return;
-    }
 	_status = SKConnectionStatusDisconnecting;
 }
 

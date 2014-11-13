@@ -29,6 +29,8 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 
 @protocol SKSessionDelegate <NSObject>
 - (void)sessionChangedStatus:(SKSession *)session;
+- (void)session:(SKSession *)session didDisconnectWithReason:(SKResultCode)reason;
+
 - (NSString *)username;
 - (NSString *)password;
 - (NSString *)steamGuard;
@@ -77,8 +79,6 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 @property (assign) UInt64 targetID;
 @property (assign) UInt64 rawSteamID;
 
-+ (id)sharedSession;
-
 /** 
  * Generates a sessionKey for use in the steam server communication
  *
@@ -103,6 +103,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
  * @return void
  */
 - (void)disconnect;
+- (void)disconnectWithReason:(SKResultCode)reason;
 
 /**
  * Is called by the packetScanner when the Encryption challeng was accepted
@@ -129,7 +130,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 - (void)addPendingFriend:(SKFriend *)pendingFriend;
 - (void)sortFriendsList;
 - (SKFriend *)friendForSteamID:(SKSteamID *)steamID;
-
+- (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID;
 
 - (void)setUserStatus:(SKPersonaState)status;
 - (SKPersonaState)userStatus;

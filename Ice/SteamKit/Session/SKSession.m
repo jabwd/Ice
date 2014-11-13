@@ -20,18 +20,11 @@ NSString *SKLoginFailedSteamGuardNotificationName	= @"SKLoginFailedSteamGuard";
 NSString *SKFriendsListChangedNotificationName		= @"SKFriendsListChangedNotification";
 NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNotification";
 
-static const SKSession *_sharedSession = nil;
-
 @implementation SKSession
 
 + (NSData *)generateSessionKey
 {
 	return [SKAESEncryption generateRandomData:32];
-}
-
-+ (id)sharedSession
-{
-	return _sharedSession;
 }
 
 - (id)init
@@ -41,7 +34,6 @@ static const SKSession *_sharedSession = nil;
 		_sessionKey			= [[NSData dataFromByteString:@"1a03a1af12a4825b3599e897815b53e9588d7a713983b64fc54801333ff4c658"] retain];
 		_status				= SKSessionStatusOffline;
 		_delegate			= nil;
-		_sharedSession		= self;
 		_rawSteamID			= 76561197960265728;
 		_currentUser		= [[SKFriend alloc] init];
 		
@@ -54,7 +46,6 @@ static const SKSession *_sharedSession = nil;
 
 - (void)dealloc
 {
-	_sharedSession = nil;
 	[_sessionKey release];
 	_sessionKey = nil;
 	[_UDPConnection release];
@@ -85,7 +76,6 @@ static const SKSession *_sharedSession = nil;
 - (void)setStatus:(SKSessionStatus)status
 {
 	_status = status;
-	
 	if( status == SKSessionStatusConnected )
 	{
 		if( _keepAliveTimerSeconds == 0 )
@@ -102,6 +92,7 @@ static const SKSession *_sharedSession = nil;
 														 selector:@selector(keepAlive:)
 														 userInfo:nil
 														  repeats:YES];
+		[self setUserStatus:SKPersonaStateOnline];
 	}
 	else if( status == SKSessionStatusDisconnecting )
 	{
@@ -133,8 +124,8 @@ static const SKSession *_sharedSession = nil;
 	}
 	
 	[_TCPConnection release];
-	_TCPConnection		= [[SKTCPConnection alloc] initWithAddress:[[SKUDPConnection knownServerList] objectAtIndex:0]];
-	_TCPConnection.session = self;
+	_TCPConnection		= [[SKTCPConnection alloc] initWithAddress:[[SKUDPConnection knownServerList] objectAtIndex:0]
+													   session:self];
 	[_TCPConnection connect];
 	
 	[self setStatus:SKSessionStatusConnecting];
@@ -147,14 +138,26 @@ static const SKSession *_sharedSession = nil;
 	[_TCPConnection disconnect];
 	[_TCPConnection release];
 	_TCPConnection = nil;
+	
 	[_onlineFriends release];
 	_onlineFriends = [[NSMutableArray alloc] init];
 	[_offlineFriends release];
 	_offlineFriends = [[NSMutableArray alloc] init];
+	[_pendingFriends release];
+	_pendingFriends = nil;
 	[_currentUser release];
 	_currentUser = nil;
 	
 	[self setStatus:SKSessionStatusOffline];
+}
+
+- (void)disconnectWithReason:(SKResultCode)reason
+{
+	[self disconnect];
+	if( [_delegate respondsToSelector:@selector(session:didDisconnectWithReason:)] )
+	{
+		[_delegate session:self didDisconnectWithReason:reason];
+	}
 }
 
 - (void)logIn
@@ -201,20 +204,7 @@ static const SKSession *_sharedSession = nil;
 	}
 	
 	SKFriend *oldFriend = [self friendForSteamID:remoteFriend.steamID];
-	if( oldFriend == nil )
-	{
-		NSLog(@"Invalid friend: %@", remoteFriend);
-		/*remoteFriend.session = self;
-		if( remoteFriend.status != SKPersonaStateOffline )
-		{
-			[_onlineFriends addObject:remoteFriend];
-		}
-		else
-		{
-			[_offlineFriends addObject:remoteFriend];
-		}*/
-	}
-	else
+	if( oldFriend )
 	{
 		BOOL wasOffline = NO;
 		if( oldFriend.status == SKPersonaStateOffline )

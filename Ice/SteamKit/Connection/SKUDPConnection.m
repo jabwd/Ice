@@ -29,7 +29,7 @@
 
 - (id)initWithAddress:(NSString *)address
 {
-	if( (self = [super initWithAddress:address]) )
+	if( (self = [super initWithAddress:address session:nil]) )
 	{
 		_sequence	= 0;
 		_recvSeq	= 0;

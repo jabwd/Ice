@@ -24,7 +24,8 @@
 {
 	if( (self = [super init]) )
 	{
-		_connection = [connection retain];
+		_connection		= [connection retain];
+		_session		= [connection.session retain];
 	}
 	return self;
 }
@@ -33,6 +34,8 @@
 {
 	[_connection release];
 	_connection = nil;
+	[_session release];
+	_session = nil;
 	[super dealloc];
 }
 
@@ -74,8 +77,6 @@
 
 - (void)handlePacket:(SKPacket *)packet
 {
-	SKSession *session = _connection.session;
-	
 	switch(packet.msgType)
 	{
 		case SKMsgTypeMulti:
@@ -84,19 +85,19 @@
 			SKProtobufScanner *scanner	= packet.scanner;
 			NSNumber *sizeUnzipped		= scanner.body[@"1"];
 			NSData *data				= scanner.body[@"2"];
+			NSMutableData *buffer		= nil;
 			
+			// Uncompress the data if needed
 			if( sizeUnzipped.unsignedIntegerValue > 0 )
 			{
-				NSData *uncompressed = [data uncompressedDataWithSize:sizeUnzipped.intValue];
-				if( [uncompressed length] != sizeUnzipped.unsignedIntegerValue )
-				{
-					DLog(@"Compressed data of different length than what was told %@ %@", uncompressed, sizeUnzipped);
-				}
-				data = uncompressed;
+				buffer = [[data uncompressedDataWithSize:sizeUnzipped.intValue] retain];
+			}
+			else
+			{
+				buffer = [[NSMutableData alloc] initWithData:data];
 			}
 			
 			// Scan the actual packets
-			NSMutableData *buffer = [[NSMutableData alloc] initWithData:data];
 			while( [buffer length] > 0 )
 			{
 				UInt32 blockSize = [buffer getUInt32];
@@ -119,22 +120,16 @@
 			break;
 			
 		case SKMsgTypeChannelEncryptRequest:
-		{
-			SKPacket *encryptionResponse = [[SKPacket encryptionResponsePacket:session.sessionKey] retain];
-			[_connection sendPacket:encryptionResponse];
-			[encryptionResponse release];
-		}
+			[_connection sendPacket:[SKPacket encryptionResponsePacket:_session.sessionKey]];
 			break;
 			
 		case SKMsgTypeChannelEncryptResult:
-		{
 			[_connection.session logIn];
-		}
 			break;
 			
 		case SKMsgTypeClientLogOnResponse:
 		{
-			session.rawSteamID = [packet.scanner.header[@"1"] unsignedIntegerValue];
+			_session.rawSteamID = [packet.scanner.header[@"1"] unsignedIntegerValue];
 			SKResultCode result = (SKResultCode)[[packet valueForFieldNumber:1] integerValue];
 			switch(result)
 			{
@@ -149,12 +144,10 @@
 					
 				case SKResultCodeOK:
 				{
-					NSNumber *sessionID = [packet.scanner.header objectForKey:@"2"];
-					session.sessionID = [sessionID unsignedIntValue];
+					_session.sessionID = [[packet.scanner.header objectForKey:@"2"] unsignedIntValue];
+					_session.keepAliveTimerSeconds = [[packet valueForFieldNumber:2] intValue];
 					
-					UInt32 keepAliveSeconds = [[packet valueForFieldNumber:2] intValue];
-					session.keepAliveTimerSeconds = keepAliveSeconds;
-					[_connection sendPacket:[SKPacket heartBeatPacket:session]];
+					[_connection sendPacket:[SKPacket heartBeatPacket:_session]];
 				}
 					break;
 					
@@ -165,12 +158,57 @@
 		}
 			break;
 			
-		case SKMsgTypeClientFriendsList:
+		case SKMsgTypeClientLoggedOff:
 		{
-			[self handleFriendsList:packet];
+			SKResultCode resultCode = SKResultCodeInvalid;
+			resultCode = [[packet valueForFieldNumber:1] unsignedIntValue];
+			DLog(@"Received disconnect reason: %u", resultCode);
+			[_session disconnectWithReason:resultCode];
 		}
 			break;
 			
+		case SKMsgTypeClientFriendsList:
+			[self handleFriendsList:packet];
+			break;
+			
+		case SKMsgTypeClientFriendsGroupsList:
+			[self handleGroupsList:packet];
+			break;
+			
+		case SKMsgTypeClientPersonaState:
+			[self handlePersonaState:packet];
+			break;
+			
+		case SKMsgTypeClientAccountInfo:
+		{
+			_session.currentUser.displayName = packet.scanner.body[@"1"];
+			_session.currentUser.countryCode = packet.scanner.body[@"2"];
+		}
+			break;
+			
+		case SKMsgTypeClientEmailAddrInfo:
+		{
+			_session.currentUser.email = packet.scanner.body[@"1"];
+		}
+			break;
+		
+		case SKMsgTypeClientFriendMsgIncoming:
+		{
+			UInt64 remoteID			= [[packet valueForFieldNumber:1] unsignedIntegerValue];
+			SKFriend *remoteFriend	= [_session friendForRawSteamID:remoteID];
+			[remoteFriend receivedChatMessageWithBody:packet.scanner.body];
+		}
+			break;
+		
+		
+			
+		case SKMsgTypeClientSessionToken:
+		{
+			NSLog(@"=> Session Token received");
+		}
+			break;
+			
+		
 		case SKMsgTypeClientUpdateMachineAuth:
 		{
 			NSDictionary *body	= packet.scanner.body;
@@ -179,158 +217,28 @@
 			NSNumber *length	= body[@"3"];
 			NSData *data		= body[@"4"];
 			NSNumber *sourceID	= packet.scanner.header[@"10"];
-			//NSNumber *sessionID = packet.scanner.header[@"2"];
 			
-			session.targetID	= [sourceID unsignedIntegerValue];
+			_session.targetID	= [sourceID unsignedIntegerValue];
 			
-			[_connection.session updateSentryFile:fileName data:data];
+			[_session updateSentryFile:fileName data:data];
 			SKPacket *packet = [SKPacket machineAuthResponsePacket:(UInt32)length.unsignedIntegerValue
-														   session:session];
+														   session:_session];
 			[_connection sendPacket:packet];
 		}
 			break;
 			
 		case SKMsgTypeClientNewLoginKey:
 		{
-			UInt32 uniqueId		= (UInt32)[packet.scanner.body[@"1"] unsignedIntegerValue];
-			NSString *loginKey	= packet.scanner.body[@"2"];
-			
-			NSNumber *sourceID	= packet.scanner.header[@"10"];
-			if( sourceID )
-			{
-				DLog(@"Successfully set the sourceID: %@", sourceID);
-				session.targetID	= [sourceID unsignedIntegerValue];
-			}
-			
-			session.loginKey = loginKey;
-			session.uniqueID = uniqueId;
-			
-			[_connection sendPacket:[SKPacket loginKeyAccepted:session]];
-			
-			[session setStatus:SKSessionStatusConnected];
+			_session.loginKey	= packet.scanner.body[@"2"];
+			_session.uniqueID	= [packet.scanner.body[@"1"] unsignedIntValue];
+			[_connection sendPacket:[SKPacket loginKeyAccepted:_session]];
+			[_session setStatus:SKSessionStatusConnected];
 		}
-			break;
-			
-		case SKMsgTypeClientVACBanStatus:
-		{
-		}
-			break;
-			
-		case SKMsgTypeClientServersAvailable:
-			break;
-			
-		case SKMsgTypeClientAccountInfo:
-		{
-			session.currentUser.displayName = packet.scanner.body[@"1"];
-			session.currentUser.countryCode = packet.scanner.body[@"2"];
-		}
-			break;
-			
-		case SKMsgTypeClientEmailAddrInfo:
-		{
-			session.currentUser.email = packet.scanner.body[@"1"];
-		}
-			break;
-			
-		case SKMsgTypeClientRequestedClientStats:
 			break;
 			
 		case SKMsgTypeClientServerList:
 		{
 			//DLog(@"Received a server list %@ %@", packet.scanner.body, packet.scanner.header);
-		}
-			break;
-			
-		case SKMsgTypeClientFriendsGroupsList:
-		{
-			//DLog(@"Groups: %@ %@", packet.scanner.body, packet.scanner.header);
-		}
-			break;
-			
-		case SKMsgTypeClientPlayerNicknameList:
-		{
-			//NSLog(@"Nicknames: %@", packet.scanner.body);
-		}
-			break;
-			
-		case SKMsgTypeClientFriendMsgIncoming:
-		{
-			UInt64 remoteID		= [[packet valueForFieldNumber:1] unsignedIntegerValue];
-			SKSteamID *steamID = [[SKSteamID alloc] initWithRawSteamID:remoteID];
-			SKFriend *remoteFriend = [session friendForSteamID:steamID];
-			[remoteFriend receivedChatMessageWithBody:packet.scanner.body];
-			[steamID release];
-		}
-			break;
-			
-		case SKMsgTypeClientPersonaState:
-		{
-			NSData *partial = [packet valueForFieldNumber:2];
-			if( [partial length] > 0 )
-			{
-				NSArray *friends = [packet.scanner scanRepeated:partial];
-				for(NSDictionary *rawFriend in friends)
-				{
-					[session connectionAddFriend:rawFriend];
-				}
-			}
-		}
-			break;
-			
-		case SKMsgTypeClientLicenseList:
-		{
-			/*NSData *repeatedFields = [packet valueForFieldNumber:2];
-			if( [repeatedFields length] > 0 )
-			{
-				SKProtobufScanner *scanner	= [[SKProtobufScanner alloc] initWithData:nil];
-				NSMutableData *body			= [[NSMutableData alloc] initWithData:repeatedFields];
-				[scanner scanBody:body];
-				NSLog(@"Repeated result: %@", scanner.body);
-				[body release];
-				[scanner release];
-			}*/
-		}
-			break;
-			
-		case SKMsgTypeClientUpdateGuestPassesList:
-		{
-			// Unhandled for now
-		}
-			break;
-			
-		case SKMsgTypeClientWalletInfoUpdate:
-		{
-			//NSNumber *hasWallet = [packet valueForFieldNumber:1];
-			//NSNumber *balance	= [packet valueForFieldNumber:2];
-			//NSNumber *currency	= [packet valueForFieldNumber:3];
-		}
-			break;
-			
-		case SKMsgTypeClientSessionToken:
-		{
-			NSLog(@"=> Session Token received");
-			// Don't really know what  the use for this packet is at the moment
-			//DLog(@"Session token: %@ %@", packet.scanner.body, packet.scanner.header);
-		}
-			break;
-			
-		case SKMsgTypeClientIsLimitedAccount:
-		{
-			/*if( [[packet valueForFieldNumber:1] integerValue] == 1 )
-			{
-				DLog(@"Appears to be a limited account, do not know for what reason");
-			}
-			
-			if( [[packet valueForFieldNumber:4] integerValue] == 1 )
-			{
-				DLog(@"=> This account is allowed to add friends");
-			}*/
-		}
-			break;
-			
-		case SKMsgTypeClientGameConnectTokens:
-		{
-			// Unhandled for now
 		}
 			break;
 			
@@ -341,24 +249,50 @@
 			//DLog(@"Server List: %u.%u.%u.%u:%u", ((IP >> 24) & 0xFF), ((IP >> 16) & 0xFF), ((IP >> 8) & 0xFF), (IP & 0xFF), port);
 		}
 			break;
-			
+		
+		case SKMsgTypeClientWalletInfoUpdate:
+		case SKMsgTypeClientPlayerNicknameList:
+		case SKMsgTypeClientRequestedClientStats:
+		case SKMsgTypeClientVACBanStatus:
+		case SKMsgTypeClientServersAvailable:
+		case SKMsgTypeClientIsLimitedAccount:
+		case SKMsgTypeClientGameConnectTokens:
 		case SKMsgTypeClientMarketingMessageUpdate2:
-		{
-			// Always ignored.
-		}
+		case SKMsgTypeClientLicenseList:
+		case SKMsgTypeClientUpdateGuestPassesList:
 			break;
 			
 		default:
-			NSLog(@"Unhandled packet: Type=%u Body=%@", packet.msgType, packet.scanner.body);
+			DLog(@"Unhandled packet: %u\nBody %@\n Data: %@", packet.msgType, packet.scanner.body, packet.data);
 			break;
 	}
 }
 
+- (void)handlePersonaState:(SKPacket *)packet
+{
+	NSData *partial = [packet valueForFieldNumber:2];
+	if( [partial length] > 0 )
+	{
+		NSArray *friends = [packet.scanner scanRepeated:partial];
+		for(NSDictionary *rawFriend in friends)
+		{
+			[_session connectionAddFriend:rawFriend];
+		}
+	}
+}
+
+- (void)handleGroupsList:(SKPacket *)packet
+{
+	
+}
+
 - (void)handleFriendsList:(SKPacket *)packet
 {
-	NSDictionary *list = packet.scanner.body;
-	NSLog(@"%@ %@", list, packet.data);
-	id value = list[@"2"];
+	NSDictionary *list	= packet.scanner.body;
+	id value			= list[@"2"];
+	
+	// The list is either NSData or an NSArray depending
+	// on the amount of friends
 	NSArray *friendsList = (NSArray *)value;
 	if( [value isKindOfClass:[NSData class]] )
 	{
@@ -369,7 +303,6 @@
 	{
 		NSDictionary *remoteFriend = [packet.scanner scanRepeated:friend][0];
 		SKFriendRelationType type = [remoteFriend[@"2"] unsignedIntValue];
-		//SKSteamID *steamID	= [[SKSteamID alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
 		SKFriend *friend	= [[SKFriend alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
 		if( type == SKFriendRelationTypeFriend )
 		{
@@ -384,7 +317,6 @@
 		{
 			NSLog(@"Friend removed: %@", friend);
 		}
-		//[steamID release];
 		[friend release];
 	}
 	[_connection.session sortFriendsList];
