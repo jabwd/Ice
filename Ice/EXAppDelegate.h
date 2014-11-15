@@ -31,8 +31,11 @@
 @property (assign) IBOutlet NSTextField *usernameField;
 @property (assign) IBOutlet NSTextField *passwordField;
 
+@property (assign) IBOutlet NSProgressIndicator *loginIndicator;
+
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
 - (IBAction)openDeveloperWindow:(id)sender;
+- (IBAction)outputMemoryList:(id)sender;
 
 @end

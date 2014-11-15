@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="connectingView" destination="tKT-WZ-ixF" id="hES-om-T8Q"/>
                 <outlet property="contentView" destination="qLj-LT-dob" id="6Q3-r1-uys"/>
+                <outlet property="loginIndicator" destination="t9A-wr-Cg4" id="UYx-st-0UC"/>
                 <outlet property="loginView" destination="Nlo-Un-vWG" id="AJF-b6-qAL"/>
                 <outlet property="modeView" destination="orJ-Z7-8ak" id="eQH-y4-jSP"/>
                 <outlet property="passwordField" destination="XDc-ZR-S1I" id="VUB-hQ-fVN"/>
@@ -637,6 +638,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="openDeveloperWindow:" target="Voe-Tx-rLC" id="7Rt-pD-70j"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Log memory" id="BHo-B5-wAs">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="outputMemoryList:" target="Voe-Tx-rLC" id="Vzg-7d-cjv"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Ice Help" keyEquivalent="?" id="FKE-Sm-Kum">

@@ -13,6 +13,8 @@
 #import "EXFriendsListController.h"
 #import "BFNotificationCenter.h"
 
+#import "EXMemoryManager.h"
+
 @implementation EXAppDelegate
 
 + (void)initialize
@@ -88,6 +90,11 @@
 	[_session disconnect];
 }
 
+- (IBAction)outputMemoryList:(id)sender
+{
+	[[EXMemoryManager sharedManager] putout];
+}
+
 - (IBAction)openDeveloperWindow:(id)sender
 {
 	if( _developerWindowController )
@@ -99,6 +106,14 @@
 		_developerWindowController = [[EXSteamDeveloperWindow alloc] initWithSession:_session];
 		[self openDeveloperWindow:nil];
 	}
+	
+	[self bla];
+	
+}
+
+- (void)bla
+{
+	[[EXMemoryManager sharedManager] track];
 }
 
 - (void)switchMainView:(NSView *)view
@@ -129,6 +144,9 @@
 			[_session release];
 			_session = nil;
 			[self switchMainView:_loginView];
+			[_loginIndicator setIndeterminate:YES];
+			[_loginIndicator setUsesThreadedAnimation:YES];
+			[_loginIndicator startAnimation:nil];
 		}
 			break;
 			

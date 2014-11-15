@@ -92,6 +92,11 @@
 
 - (void)disconnect
 {
+	[_scanner release];
+	_scanner = nil;
+	[_session release];
+	_session = nil;
+	
 	_status = SKConnectionStatusDisconnecting;
 }
 

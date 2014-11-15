@@ -72,6 +72,7 @@
 		36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671519C6D8E300D9C761 /* GCDAsyncUdpSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671A19C6DAF500D9C761 /* SKConnection.m */; };
 		36E7671E19C707D900D9C761 /* SKPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671D19C707D900D9C761 /* SKPacket.m */; };
+		36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F143251A1690D100FFF4A4 /* EXMemoryManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,6 +201,8 @@
 		36E7671A19C6DAF500D9C761 /* SKConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKConnection.m; path = SteamKit/Connection/SKConnection.m; sourceTree = "<group>"; };
 		36E7671C19C707D900D9C761 /* SKPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPacket.h; path = SteamKit/Packet/SKPacket.h; sourceTree = "<group>"; };
 		36E7671D19C707D900D9C761 /* SKPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPacket.m; path = SteamKit/Packet/SKPacket.m; sourceTree = "<group>"; };
+		36F143241A1690D100FFF4A4 /* EXMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXMemoryManager.h; path = Classes/Developer/EXMemoryManager.h; sourceTree = "<group>"; };
+		36F143251A1690D100FFF4A4 /* EXMemoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXMemoryManager.m; path = Classes/Developer/EXMemoryManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +414,7 @@
 		36CB626C19FF343A00F2E996 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				36F143231A1690BE00FFF4A4 /* Debug */,
 				3672A7E31A10F90F003AF16D /* NSViewAdditions.h */,
 				3672A7E41A10F90F003AF16D /* NSViewAdditions.m */,
 				36E766EE19C6D54000D9C761 /* EXAppDelegate.h */,
@@ -579,6 +583,15 @@
 			name = Packet;
 			sourceTree = "<group>";
 		};
+		36F143231A1690BE00FFF4A4 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				36F143241A1690D100FFF4A4 /* EXMemoryManager.h */,
+				36F143251A1690D100FFF4A4 /* EXMemoryManager.m */,
+			);
+			name = Debug;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -696,6 +709,7 @@
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				3672A7C51A10F441003AF16D /* XNResizingMessageView.m in Sources */,
+				36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */,
 				36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */,
 				3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */,
 				3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */,
