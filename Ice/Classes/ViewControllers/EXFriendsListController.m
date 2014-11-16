@@ -13,6 +13,10 @@
 #import "SKSteamID.h"
 #import "EXChatWindowController.h"
 
+NSString *EXOnlineFriendsGroupName = @"Online Friends";
+NSString *EXOfflineFriendsGroupName = @"Offline Friends";
+NSString *EXPendingFriendsGroupName = @"Pending Friends";
+
 @implementation EXFriendsListController
 
 - (id)initWithSession:(SKSession *)session
@@ -99,7 +103,7 @@
 	if( selectedRow > -1 )
 	{
 		SKFriend *item = [_outlineView itemAtRow:selectedRow];
-		if( [item isKindOfClass:[SKFriend class]] )
+		if( [item isKindOfClass:[SKFriend class]] && item.status != SKPersonaStateOffline )
 		{
 			[self openChatForFriend:item];
 		}
@@ -108,13 +112,39 @@
 
 #pragma mark - Outlineview datasource
 
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+{
+	if( [item isKindOfClass:[SKFriend class]] )
+	{
+		return 36.0f;
+	}
+	return 24.0f;
+}
+
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
+	if( [item isKindOfClass:[NSString class]] )
+	{
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+{
+	if( [item isKindOfClass:[SKFriend class]] )
+	{
+		return YES;
+	}
 	return NO;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
+	if( [item isKindOfClass:[NSString class]] )
+	{
+		return YES;
+	}
 	return NO;
 }
 
@@ -122,7 +152,15 @@
 {
 	if( item == nil )
 	{
+		return 2;
+	}
+	else if( [item isEqualToString:EXOnlineFriendsGroupName] )
+	{
 		return [_session.onlineFriends count];
+	}
+	else if( [item isEqualToString:EXOfflineFriendsGroupName] )
+	{
+		return [_session.offlineFriends count];
 	}
 	return 0;
 }
@@ -131,7 +169,22 @@
 {
 	if( item == nil )
 	{
+		if( index == 0 )
+		{
+			return EXOnlineFriendsGroupName;
+		}
+		else
+		{
+			return EXOfflineFriendsGroupName;
+		}
+	}
+	else if( [item isEqualToString:EXOnlineFriendsGroupName] )
+	{
 		return _session.onlineFriends[index];
+	}
+	else if( [item isEqualToString:EXOfflineFriendsGroupName] )
+	{
+		return _session.offlineFriends[index];
 	}
 	return nil;
 }
@@ -143,20 +196,23 @@
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-	SKFriend *remoteFriend = (SKFriend *)item;
-	
-	if( item == nil )
+	if( [item isKindOfClass:[SKFriend class]] )
 	{
-		return nil;
+		SKFriend *remoteFriend = (SKFriend *)item;
+		
+		EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"FriendCell" owner:self];
+		[view.imageView setImage:[NSImage imageNamed:@"avatar-default"]];
+		[view.textField setStringValue:[remoteFriend displayNameString]];
+		return view;
 	}
-	EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"FriendCell" owner:self];
-	if( !view )
+	else if( [item isKindOfClass:[NSString class]] )
 	{
-		DLog(@"[Error] cannot make friends cell view");
+		EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"GroupCell" owner:self];
+		//[view.imageView setImage:[NSImage imageNamed:@"avatar-default"]];
+		[view.textField setStringValue:item];
+		return view;
 	}
-	[view.imageView setImage:[NSImage imageNamed:@"avatar-default"]];
-	[view.displayNameField setStringValue:[remoteFriend displayNameString]];
-	return view;
+	return nil;
 }
 
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item

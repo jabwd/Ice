@@ -11,6 +11,10 @@
 
 @class SKSession, EXFriendsListRowView;
 
+extern NSString *EXOnlineFriendsGroupName;
+extern NSString *EXOfflineFriendsGroupName;
+extern NSString *EXPendingFriendsGroupName;
+
 @interface EXFriendsListController : NSViewController <NSOutlineViewDataSource, NSOutlineViewDelegate, EXChatWindowControllerDelegate>
 {
 	SKSession *_session;

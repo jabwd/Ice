@@ -12,14 +12,14 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <scrollView focusRingType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="P4E-Du-bdX">
+        <scrollView focusRingType="none" autohidesScrollers="YES" horizontalLineScroll="36" horizontalPageScroll="10" verticalLineScroll="36" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="P4E-Du-bdX">
             <rect key="frame" x="0.0" y="0.0" width="240" height="135"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="6FA-dJ-cmQ">
                 <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <outlineView focusRingType="none" appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="wdG-oE-fx8" id="hUX-hR-DfK">
+                    <outlineView focusRingType="none" appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="wdG-oE-fx8" id="hUX-hR-DfK">
                         <autoresizingMask key="autoresizingMask"/>
                         <size key="intercellSpacing" width="3" height="0.0"/>
                         <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -58,9 +58,26 @@
                                             </textField>
                                         </subviews>
                                         <connections>
-                                            <outlet property="displayNameField" destination="AvR-wA-2BI" id="5fH-lO-GXw"/>
                                             <outlet property="imageView" destination="Pdr-4Y-cu4" id="Dje-Z7-Z6s"/>
                                             <outlet property="textField" destination="AvR-wA-2BI" id="xn6-sr-kTJ"/>
+                                        </connections>
+                                    </tableCellView>
+                                    <tableCellView identifier="GroupCell" id="sjC-9B-L1M" customClass="EXFriendsListRowView">
+                                        <rect key="frame" x="1" y="36" width="235" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="N2B-dx-WUM">
+                                                <rect key="frame" x="1" y="3" width="233" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Display_name" id="en3-kH-YH5">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <connections>
+                                            <outlet property="textField" destination="N2B-dx-WUM" id="PU3-2g-mhg"/>
                                         </connections>
                                     </tableCellView>
                                 </prototypeCellViews>
@@ -74,11 +91,11 @@
                 </subviews>
                 <nil key="backgroundColor"/>
             </clipView>
-            <scroller key="horizontalScroller" hidden="YES" appearanceType="vibrantLight" verticalHuggingPriority="750" horizontal="YES" id="STa-PK-JNL">
+            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="STa-PK-JNL">
                 <rect key="frame" x="1" y="119" width="223" height="15"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
-            <scroller key="verticalScroller" hidden="YES" appearanceType="vibrantLight" verticalHuggingPriority="750" horizontal="NO" id="a60-mK-Q4U">
+            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="a60-mK-Q4U">
                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
