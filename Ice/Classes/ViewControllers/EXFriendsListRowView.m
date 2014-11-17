@@ -25,7 +25,7 @@
 		[_statusField setHidden:YES];
 	}
 	
-	[self.textField setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
+	[[self.textField animator] setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
 }
 
 @end

@@ -46,6 +46,11 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 
 - (void)dealloc
 {
+	if( _keepAliveTimer )
+	{
+		[_keepAliveTimer invalidate];
+		_keepAliveTimer = nil;
+	}
 	[_sessionKey release];
 	_sessionKey = nil;
 	[_UDPConnection release];
@@ -98,7 +103,6 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 	{
 		[_keepAliveTimer invalidate];
 		_keepAliveTimer = nil;
-		DLog(@"Stopped heartbeating");
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:SKSessionStatusChangedNotificationName object:self];

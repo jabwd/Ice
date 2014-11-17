@@ -64,10 +64,6 @@
 	{
 		DLog(@"UDP Packets are not supported right now");
 	}
-	else
-	{
-		NSLog(@"Packet size %u exceeds buffer size", first);
-	}
 	
 	if( packet )
 	{

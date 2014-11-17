@@ -77,13 +77,11 @@
 	{
 		case SKPersonaStateOffline:
 		{
-			NSLog(@"%@ went offline", self);
 		}
 			break;
 			
 		case SKPersonaStateOnline:
 		{
-			NSLog(@"%@ is now online", self);
 		}
 			break;
 			
@@ -172,6 +170,11 @@
 			return @"Offline";
 	}
 	return @"Offline";
+}
+
+- (NSImage *)avatarImage
+{
+	return [NSImage imageNamed:@"avatar-default"];
 }
 
 - (void)setDelegate:(id<SKFriendChatDelegate>)delegate

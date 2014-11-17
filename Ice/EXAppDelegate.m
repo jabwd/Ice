@@ -106,14 +106,6 @@
 		_developerWindowController = [[EXSteamDeveloperWindow alloc] initWithSession:_session];
 		[self openDeveloperWindow:nil];
 	}
-	
-	[self bla];
-	
-}
-
-- (void)bla
-{
-	[[EXMemoryManager sharedManager] track];
 }
 
 - (void)switchMainView:(NSView *)view

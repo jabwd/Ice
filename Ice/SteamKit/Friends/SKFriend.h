@@ -95,6 +95,7 @@
  */
 - (NSString *)displayNameString;
 - (NSString *)statusDisplayString;
+- (NSImage *)avatarImage;
 
 /**
  * Handles the given incoming msg protobuf body
