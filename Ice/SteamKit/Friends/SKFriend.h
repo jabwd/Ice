@@ -17,6 +17,8 @@
 						   type:(SKChatEntryType)entryType;
 @end
 
+extern NSString *SKFriendOnlineStatusChangedNotification;
+
 @interface SKFriend : NSObject
 {
 	NSString *_displayName;

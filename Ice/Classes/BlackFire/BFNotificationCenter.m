@@ -262,7 +262,7 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 {
 	_badgeCount += add;
 	
-	[[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%lu",_badgeCount]];
+	[[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%lu", _badgeCount]];
 }
 
 - (void)deleteBadgeCount:(NSUInteger)remove
@@ -270,11 +270,14 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 	_badgeCount -= remove;
 	
     // update the badge, remove if smaller or equal than 0
-	if( _badgeCount <= 0 ) {
+	if( _badgeCount <= 0 )
+	{
 		[[NSApp dockTile] setBadgeLabel:nil];
         _badgeCount = 0;
-	} else {
-		[[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%lu",_badgeCount]];
+	}
+	else
+	{
+		[[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%lu", _badgeCount]];
 	}
 }
 @end

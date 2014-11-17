@@ -20,6 +20,8 @@ extern NSString *EXPendingFriendsGroupName;
 	SKSession *_session;
 	
 	NSMutableArray *_chatWindowControllers;
+	
+	BOOL _notifications;
 }
 @property (assign) IBOutlet NSOutlineView *outlineView;
 

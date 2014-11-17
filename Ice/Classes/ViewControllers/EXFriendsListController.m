@@ -12,6 +12,7 @@
 #import "SKFriend.h"
 #import "SKSteamID.h"
 #import "EXChatWindowController.h"
+#import "BFNotificationCenter.h"
 
 NSString *EXOnlineFriendsGroupName = @"Online Friends";
 NSString *EXOfflineFriendsGroupName = @"Offline Friends";
@@ -34,12 +35,20 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 												 selector:@selector(openChat:)
 													 name:SKFriendNeedsChatWindowNotificationName
 												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(onlineStatusChanged:)
+													 name:SKFriendOnlineStatusChangedNotification
+												   object:nil];
+		
+		[self performSelector:@selector(activateNotifications) withObject:nil afterDelay:5.0f];
+		_notifications = NO;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	[_session release];
 	_session = nil;
 	[_chatWindowControllers release];
@@ -59,6 +68,34 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 - (void)reloadData
 {
 	[_outlineView reloadData];
+}
+
+- (void)activateNotifications
+{
+	_notifications = YES;
+}
+
+- (void)onlineStatusChanged:(NSNotification *)notification
+{
+	if( !_notifications )
+	{
+		return;
+	}
+	
+	SKFriend *remoteFriend = notification.userInfo[@"friend"];
+	if( remoteFriend )
+	{
+		if( remoteFriend.status != SKPersonaStateOffline )
+		{
+			NSString *message = [NSString stringWithFormat:@"%@ is now online", [remoteFriend displayNameString]];
+			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:@"Friend came online" body:message];
+		}
+		else
+		{
+			NSString *message = [NSString stringWithFormat:@"%@ went offline", [remoteFriend displayNameString]];
+			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:@"Friend went offline" body:message];
+		}
+	}
 }
 
 - (void)openChat:(NSNotification *)notification

@@ -13,6 +13,8 @@
 #import "SKTCPConnection.h"
 #import "SKFriendCache.h"
 
+NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChanged";
+
 @implementation SKFriend
 
 - (id)initWithBody:(NSDictionary *)body
@@ -77,11 +79,17 @@
 	{
 		case SKPersonaStateOffline:
 		{
+			[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
+																object:nil
+															  userInfo:@{@"friend":self}];
 		}
 			break;
 			
 		case SKPersonaStateOnline:
 		{
+			[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
+																object:nil
+															  userInfo:@{@"friend":self}];
 		}
 			break;
 			

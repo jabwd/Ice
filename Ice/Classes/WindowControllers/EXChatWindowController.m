@@ -25,6 +25,8 @@ const CGFloat EXChatFontSize	= 12.0f;
 		_remoteFriend			= [remoteFriend retain];
 		_remoteFriend.delegate	= self;
 		
+		_missedMessagesCount	= 0;
+		
 		[self.window makeKeyAndOrderFront:nil];
 	}
 	return self;
@@ -64,6 +66,12 @@ const CGFloat EXChatFontSize	= 12.0f;
 	[tabView release];
 }
 
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+	[[BFNotificationCenter defaultNotificationCenter] deleteBadgeCount:_missedMessagesCount];
+	_missedMessagesCount = 0;
+}
+
 - (IBAction)send:(id)sender
 {
 	NSString *message = [[_messageField stringValue] retain];
@@ -88,6 +96,9 @@ const CGFloat EXChatFontSize	= 12.0f;
 		if( ![self.window isKeyWindow] )
 		{
 			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:[_remoteFriend displayNameString] body:[NSString stringWithFormat:@"%@", message]];
+			_missedMessagesCount++;
+			[[BFNotificationCenter defaultNotificationCenter] addBadgeCount:1];
+			[NSApp requestUserAttention:NSInformationalRequest];
 		}
 	}
 	else if( entryType == SKChatEntryTypeTyping )

@@ -20,6 +20,8 @@
 	SKFriend *_remoteFriend;
 	
 	id <EXChatWindowControllerDelegate> _delegate;
+	
+	UInt32 _missedMessagesCount;
 }
 @property (assign) IBOutlet NSTextView *textView;
 @property (assign) IBOutlet NSTextField *messageField;
