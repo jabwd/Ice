@@ -102,6 +102,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 			[NSObject cancelPreviousPerformRequestsWithTarget:self
 													 selector:@selector(removeIsTyping)
 													   object:nil];
+			[self removeIsTyping];
 		}
 	}
 	else if( entryType == SKChatEntryTypeTyping )

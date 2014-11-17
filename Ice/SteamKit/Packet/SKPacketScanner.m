@@ -147,6 +147,18 @@
 				}
 					break;
 					
+				case SKResultCodeInvalidPassword:
+				{
+					DLog(@"Incorrect password");
+				}
+					break;
+					
+				case SKResultCodeInvalidLoginAuthCode:
+				{
+					DLog(@"Incorrect Steam Guard code");
+				}
+					break;
+					
 				default:
 					DLog(@"Unhandled login response: %@", packet.scanner.body);
 					break;
