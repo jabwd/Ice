@@ -139,6 +139,15 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	return NO;
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item
+{
+	if( [item isKindOfClass:[NSString class]] )
+	{
+		return YES;
+	}
+	return NO;
+}
+
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
 	if( [item isKindOfClass:[NSString class]] )
@@ -203,6 +212,17 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"FriendCell" owner:self];
 		[view.imageView setImage:[NSImage imageNamed:@"avatar-default"]];
 		[view.textField setStringValue:[remoteFriend displayNameString]];
+		
+		if( remoteFriend.status != SKPersonaStateOnline )
+		{
+			[view setShowsStatusField:YES];
+			[view.statusField setStringValue:[remoteFriend statusDisplayString]];
+		}
+		else
+		{
+			[view setShowsStatusField:NO];
+			[view.statusField setStringValue:@"Online"];
+		}
 		return view;
 	}
 	else if( [item isKindOfClass:[NSString class]] )

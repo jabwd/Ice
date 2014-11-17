@@ -118,11 +118,12 @@
 
 - (void)switchMainView:(NSView *)view
 {
-	NSArray *subviews = [_contentView subviews];
+	NSView *contentView = self.window.contentView;
+	NSArray *subviews = [contentView subviews];
 	[subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	
-	[view setFrameSize:_contentView.frame.size];
-	[_contentView addSubview:view];
+	[view setFrameSize:contentView.frame.size];
+	[contentView addSubview:view];
 }
 
 #pragma mark - SKSession delegate

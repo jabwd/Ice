@@ -94,6 +94,7 @@
  * @return NSString	displayName	or steamID string rep
  */
 - (NSString *)displayNameString;
+- (NSString *)statusDisplayString;
 
 /**
  * Handles the given incoming msg protobuf body

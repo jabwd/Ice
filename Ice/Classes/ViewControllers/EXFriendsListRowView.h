@@ -10,7 +10,8 @@
 
 @interface EXFriendsListRowView : NSTableCellView
 
-//@property (assign) IBOutlet NSTextField *displayNameField;
-//@property (assign) IBOutlet NSImageView *avatarView;
+@property (assign) IBOutlet NSTextField *statusField;
+
+- (void)setShowsStatusField:(BOOL)showsStatus;
 
 @end

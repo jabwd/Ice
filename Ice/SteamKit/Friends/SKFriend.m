@@ -143,6 +143,37 @@
 	return @"Uknown user";
 }
 
+- (NSString *)statusDisplayString
+{
+	switch(_status)
+	{
+		case SKPersonaStateOffline:
+			return @"Offline";
+			
+		case SKPersonaStateAway:
+			return @"Away";
+			
+		case SKPersonaStateBusy:
+			return @"Busy";
+			
+		case SKPersonaStateLookingToPlay:
+			return @"Looking to play";
+			
+		case SKPersonaStateLookingToTrade:
+			return @"Looking to trade";
+			
+		case SKPersonaStateOnline:
+			return @"Online";
+			
+		case SKPersonaStateSnooze:
+			return @"Sleeping";
+			
+		default:
+			return @"Offline";
+	}
+	return @"Offline";
+}
+
 - (void)setDelegate:(id<SKFriendChatDelegate>)delegate
 {
 	_delegate = delegate;
