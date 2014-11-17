@@ -21,11 +21,23 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 {
 	if( (self = [super init]) )
 	{
-		_steamID		= nil;
-		_displayName	= nil;
-		_avatarHash		= nil;
-		_gameName		= nil;
-		[self updateWithBodyInternal:body isUpdate:NO];
+		_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
+		_displayName	= [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
+		
+		if( body[@"15"] && ![_displayName isEqualToString:body[@"15"]] )
+		{
+			[_displayName release];
+			_displayName = [body[@"15"] retain];
+			[[SKFriendCache sharedCache] setPlayerNameForFriend:self];
+		}
+		
+		_avatarHash		= [body[@"31"] retain];
+		_gameName		= [body[@"55"] retain];
+		
+		_lastLogoff		= [body[@"45"] unsignedIntValue];
+		_lastLogon		= [body[@"46"] unsignedIntValue];
+		_appID			= [body[@"3"] unsignedIntValue];
+		_status			= [body[@"2"] unsignedIntValue];
 	}
 	return self;
 }
@@ -36,74 +48,89 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 	{
 		_steamID		= [[SKSteamID alloc] initWithRawSteamID:steamID];
 		_displayName	= [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
+		_status			= SKPersonaStateOffline;
 	}
 	return self;
 }
 
 - (void)updateWithBodyInternal:(NSDictionary *)body isUpdate:(BOOL)isUpdate
 {
-	[_steamID release];
-	_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
-	
-	if( !isUpdate )
+	if( body[@"31"] )
 	{
-		if( !_displayName )
-		{
-			_displayName = [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
-		}
-		return;
+		[_avatarHash release];
+		_avatarHash = [body[@"31"] retain];
 	}
-	
-	[_avatarHash release];
-	_avatarHash = nil;
-	[_gameName release];
-	_gameName = nil;
 	
 	if( body[@"15"] && ![_displayName isEqualToString:body[@"15"]] )
 	{
-		DLog(@"=> Updating for %@ from %@", body[@"15"], _displayName);
 		[_displayName release];
 		_displayName = [body[@"15"] retain];
 		[[SKFriendCache sharedCache] setPlayerNameForFriend:self];
 	}
 	
-	_avatarHash		= [body[@"31"] retain];
-	_gameName		= [body[@"55"] retain];
-	
-	_lastLogoff		= [body[@"45"] unsignedIntValue];
-	_lastLogon		= [body[@"46"] unsignedIntValue];
-	_appID			= [body[@"3"] unsignedIntValue];
-	_status			= [body[@"2"] unsignedIntValue];
-	
-	switch(_status)
+	if( body[@"55"] )
 	{
-		case SKPersonaStateOffline:
+		[_gameName release];
+		_gameName = [body[@"55"] retain];
+	}
+	
+	if( body[@"45"] )
+	{
+		_lastLogoff = [body[@"45"] unsignedIntValue];
+		_lastLogon	= [body[@"46"] unsignedIntValue];
+	}
+	
+	SKPersonaState oldStatus = SKPersonaStateMax;
+	if( body[@"2"] )
+	{
+		SKPersonaState newStatus = [body[@"2"] unsignedIntValue];
+		if( _status != SKPersonaStateMax && _status != newStatus )
 		{
-			[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
-																object:nil
-															  userInfo:@{@"friend":self}];
+			oldStatus = _status;
 		}
-			break;
-			
-		case SKPersonaStateOnline:
+		_status = newStatus;
+	}
+	
+	if( body[@"3"] )
+	{
+		_appID = [body[@"3"] unsignedIntValue];
+	}
+	
+	if( oldStatus != SKPersonaStateMax )
+	{
+		switch(_status)
 		{
-			[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
-																object:nil
-															  userInfo:@{@"friend":self}];
+			case SKPersonaStateOffline:
+			{
+				[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
+																	object:nil
+																  userInfo:@{@"friend":self}];
+			}
+				break;
+				
+			case SKPersonaStateOnline:
+			{
+				if( oldStatus == SKPersonaStateOffline )
+				{
+					[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
+																		object:nil
+																	  userInfo:@{@"friend":self}];
+				}
+			}
+				break;
+				
+			case SKPersonaStateAway:		
+			case SKPersonaStateBusy:
+			case SKPersonaStateLookingToTrade:
+			case SKPersonaStateSnooze:
+			case SKPersonaStateLookingToPlay:
+			{
+			}
+				break;
+				
+			default:
+				break;
 		}
-			break;
-			
-		case SKPersonaStateAway:		
-		case SKPersonaStateBusy:
-		case SKPersonaStateLookingToTrade:
-		case SKPersonaStateSnooze:
-		case SKPersonaStateLookingToPlay:
-		{
-		}
-			break;
-			
-		default:
-			break;
 	}
 }
 
@@ -182,6 +209,13 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 
 - (NSImage *)avatarImage
 {
+	NSURL *URL = [self avatarURL];
+	if( URL )
+	{
+		NSLog(@"Avatar: %@", URL);
+		NSImage *test = [[NSImage alloc] initWithContentsOfURL:URL];
+		return test;
+	}
 	return [NSImage imageNamed:@"avatar-default"];
 }
 

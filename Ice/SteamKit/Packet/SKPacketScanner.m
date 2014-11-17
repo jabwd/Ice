@@ -272,7 +272,7 @@
 		NSArray *friends = [packet.scanner scanRepeated:partial];
 		for(NSDictionary *rawFriend in friends)
 		{
-			[_session connectionAddFriend:rawFriend];
+			[_session updateFriend:rawFriend];
 		}
 	}
 }
@@ -297,12 +297,17 @@
 	
 	for(NSData *friend in friendsList)
 	{
+		if( ![friend isKindOfClass:[NSData class]] )
+		{
+			DLog(@"Error in friends list: %@", friendsList);
+			continue;
+		}
 		NSDictionary *remoteFriend = [packet.scanner scanRepeated:friend][0];
 		SKFriendRelationType type = [remoteFriend[@"2"] unsignedIntValue];
 		SKFriend *friend	= [[SKFriend alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
 		if( type == SKFriendRelationTypeFriend )
 		{
-			[_connection.session connectionAddSKFriend:friend];
+			[_connection.session connectionAddFriend:friend];
 		}
 		else if( type == SKFriendRelationTypeRequestInitiator )
 		{

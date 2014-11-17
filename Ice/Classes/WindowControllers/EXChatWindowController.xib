@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EXChatWindowController">
             <connections>
+                <outlet property="isTypingView" destination="AKE-Zn-5Hb" id="5g3-VT-MPf"/>
                 <outlet property="messageField" destination="Hvh-cS-Fkv" id="sDe-Kc-Kee"/>
                 <outlet property="stripView" destination="5Nz-67-7zC" id="KtK-tk-M85"/>
                 <outlet property="textView" destination="rQL-43-R7a" id="sP9-bP-cKr"/>
@@ -51,10 +52,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="260" height="225"/>
+                                    <size key="minSize" width="275" height="225"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="260" height="225"/>
+                                    <size key="minSize" width="275" height="225"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                 </textView>
                             </subviews>
@@ -75,14 +76,14 @@
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="vet-KQ-wIR"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="jzj-5c-fbg"/>
-                    <toolbarItem implicitItemIdentifier="AD5D48DB-FF1B-4B9F-A90B-BA097F5C7B31" label="IsTyping" paletteLabel="IsTyping" image="pencil-icon-614x460" id="2p8-wQ-N2p">
+                    <toolbarItem implicitItemIdentifier="AD5D48DB-FF1B-4B9F-A90B-BA097F5C7B31" label="IsTyping" paletteLabel="IsTyping" id="2p8-wQ-N2p">
                         <nil key="toolTip"/>
                         <size key="minSize" width="16" height="16"/>
                         <size key="maxSize" width="32" height="48"/>
                         <imageView key="view" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="AKE-Zn-5Hb">
                             <rect key="frame" x="18" y="14" width="16" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pencil-icon-614x460" id="wBR-mf-cI4"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="wBR-mf-cI4"/>
                         </imageView>
                     </toolbarItem>
                 </allowedToolbarItems>
@@ -97,7 +98,4 @@
             <point key="canvasLocation" x="122.5" y="204"/>
         </window>
     </objects>
-    <resources>
-        <image name="pencil-icon-614x460" width="256" height="256"/>
-    </resources>
 </document>

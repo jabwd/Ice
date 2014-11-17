@@ -197,38 +197,38 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 
 #pragma mark - Setting up basic information
 
-- (void)connectionAddFriend:(NSDictionary *)rawFriend
+- (void)updateFriend:(NSDictionary *)packetData
 {
-	SKFriend *remoteFriend = [[SKFriend alloc] initWithBody:rawFriend];
-	
-	// Can't add self to the friends list
-	if( remoteFriend.steamID.rawSteamID == _rawSteamID )
+	UInt64 steamID			= [packetData[@"1"] unsignedIntegerValue];
+	SKFriend *remoteFriend	= [self friendForRawSteamID:steamID];
+	if( !remoteFriend )
 	{
-		[remoteFriend release];
+		//DLog(@"Unhandled persona state: %@", packetData);
 		return;
 	}
 	
-	SKFriend *oldFriend = [self friendForSteamID:remoteFriend.steamID];
-	if( oldFriend )
+	SKPersonaState oldStatus = remoteFriend.status;
+	[remoteFriend updateWithBody:packetData];
+	
+	if( oldStatus == SKPersonaStateOffline && remoteFriend.status != SKPersonaStateOffline )
 	{
-		BOOL wasOffline = NO;
-		if( oldFriend.status == SKPersonaStateOffline )
-		{
-			wasOffline = YES;
-		}
-		[oldFriend updateWithBody:rawFriend];
-		if( oldFriend.status != SKPersonaStateOffline && wasOffline )
-		{
-			[_onlineFriends addObject:oldFriend];
-			[_offlineFriends removeObject:oldFriend];
-		}
+		[_onlineFriends addObject:remoteFriend];
+		[_offlineFriends removeObject:remoteFriend];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+															object:self];
 	}
-	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
-														object:self];
-	[remoteFriend release];
+	else if( remoteFriend.status == SKPersonaStateOffline && oldStatus != SKPersonaStateOffline )
+	{
+		[_offlineFriends addObject:remoteFriend];
+		[_onlineFriends removeObject:remoteFriend];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+															object:self];
+	}
 }
 
-- (void)connectionAddSKFriend:(SKFriend *)remoteFriend
+- (void)connectionAddFriend:(SKFriend *)remoteFriend
 {
 	remoteFriend.session = self;
 	if( remoteFriend.displayName == nil )
@@ -236,7 +236,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 		[self requestFriendData:remoteFriend];
 	}
 	
-	if( remoteFriend.status == SKPersonaStateOffline )
+	if( remoteFriend.status == SKPersonaStateOffline || remoteFriend.status == SKPersonaStateMax )
 	{
 		[_offlineFriends addObject:remoteFriend];
 	}
@@ -244,6 +244,8 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 	{
 		[_onlineFriends addObject:remoteFriend];
 	}
+	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+														object:self];
 }
 
 - (void)addPendingFriend:(SKFriend *)pendingFriend

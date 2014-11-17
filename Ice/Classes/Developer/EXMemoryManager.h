@@ -14,8 +14,6 @@
 }
 + (instancetype)sharedManager;
 
-- (void)add:(NSDictionary *)entry;
-
 - (void)putout;
 - (void)track;
 - (void)untrack;

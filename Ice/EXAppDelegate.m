@@ -80,6 +80,8 @@
 		DLog(@"Already connected!");
 		return;
 	}
+	[_authcode release];
+	_authcode = nil;
 	_session = [[SKSession alloc] init];
 	_session.delegate = self;
 	[_session connect];

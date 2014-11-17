@@ -27,6 +27,8 @@ const CGFloat EXChatFontSize	= 12.0f;
 		
 		_missedMessagesCount	= 0;
 		
+		self.window.titleVisibility = NSWindowTitleHidden;
+		self.window.delegate		= self;
 		[self.window makeKeyAndOrderFront:nil];
 	}
 	return self;
@@ -54,8 +56,6 @@ const CGFloat EXChatFontSize	= 12.0f;
 {
     [super windowDidLoad];
 	
-	self.window.titleVisibility = NSWindowTitleHidden;
-	self.window.delegate		= self;
 	self.window.title			= [NSString stringWithFormat:@"Chat - %@", _remoteFriend.displayNameString];
 	
 	[_messageField becomeFirstResponder];
@@ -99,12 +99,23 @@ const CGFloat EXChatFontSize	= 12.0f;
 			_missedMessagesCount++;
 			[[BFNotificationCenter defaultNotificationCenter] addBadgeCount:1];
 			[NSApp requestUserAttention:NSInformationalRequest];
+			[NSObject cancelPreviousPerformRequestsWithTarget:self
+													 selector:@selector(removeIsTyping)
+													   object:nil];
 		}
 	}
 	else if( entryType == SKChatEntryTypeTyping )
 	{
-		NSLog(@"Received an isTyping notification");
+		[_isTypingView setImage:[NSImage imageNamed:@"pencil"]];
+		[self performSelector:@selector(removeIsTyping)
+				   withObject:nil
+				   afterDelay:20.0f];
 	}
+}
+
+- (void)removeIsTyping
+{
+	[_isTypingView setImage:nil];
 }
 
 - (void)addFriendMessage:(NSString *)message date:(NSDate *)date
