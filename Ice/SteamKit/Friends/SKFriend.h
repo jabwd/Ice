@@ -11,6 +11,8 @@
 
 @class SKSteamID, SKSession;
 
+// /steamcommunity/public/images/avatars/c2/c236e022f0a5c083634de2a4b3aab8e74a645cbf_medium.jpg
+
 @protocol SKFriendChatDelegate <NSObject>
 - (void)friendDidReceiveMessage:(NSString *)message
 						   date:(NSDate *)date
@@ -120,6 +122,14 @@ extern NSString *SKFriendOnlineStatusChangedNotification;
  * @return void
  */
 - (void)sendMessage:(NSString *)message ofType:(SKChatEntryType)entryType;
+
+/**
+ * Generates the URL to the steam media server for downloading
+ * the avatar
+ *
+ * @return NSURL URL
+ */
+- (NSURL *)avatarURL;
 
 
 - (NSComparisonResult)displayNameSort:(SKFriend *)other;

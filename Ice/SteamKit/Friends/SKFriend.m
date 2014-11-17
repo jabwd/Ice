@@ -205,6 +205,22 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 	return _delegate;
 }
 
+#pragma mark - Avatar handling
+
+- (NSURL *)avatarURL
+{
+	if( [_avatarHash length] < 1 )
+	{
+		// Should request it through the session
+		return nil;
+	}
+	NSString *baseURL = @"http://media.steampowered.com/steamcommunity/public/images/avatars/";
+	NSString *desc = [_avatarHash description];
+	desc = [desc substringWithRange:NSMakeRange(1, [desc length]-2)];
+	NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@_medium.jpg", baseURL, [desc substringWithRange:NSMakeRange(0, 2)], desc];
+	return [NSURL URLWithString:URLString];
+}
+
 #pragma mark - Chatting
 
 - (void)receivedChatMessageWithBody:(NSDictionary *)body

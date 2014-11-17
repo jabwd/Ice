@@ -97,6 +97,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 														 selector:@selector(keepAlive:)
 														 userInfo:nil
 														  repeats:YES];
+		[_keepAliveTimer setTolerance:10];
 		[self setUserStatus:SKPersonaStateOnline];
 	}
 	else if( status == SKSessionStatusDisconnecting )
