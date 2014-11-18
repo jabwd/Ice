@@ -29,4 +29,16 @@
 	[textField setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
 }
 
+- (void)drawRect:(NSRect)dirtyRect
+{
+	if( self.backgroundStyle == NSBackgroundStyleDark )
+	{
+		[self.statusField setTextColor:[NSColor whiteColor]];
+	}
+	else
+	{
+		[self.statusField setTextColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
+	}
+}
+
 @end

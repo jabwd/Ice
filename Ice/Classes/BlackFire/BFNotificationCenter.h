@@ -13,7 +13,7 @@
 extern NSString *BFSoundSetPathDefaultsKey;
 extern NSString *BFSoundVolumeDefaultsKey;
 
-@interface BFNotificationCenter : NSObject
+@interface BFNotificationCenter : NSObject <NSUserNotificationCenterDelegate>
 
 + (id)defaultNotificationCenter;
 

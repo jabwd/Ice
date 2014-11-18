@@ -158,6 +158,7 @@
 				_friendsListController = [[EXFriendsListController alloc] initWithSession:_session];
 			}
 			[self switchMainView:_friendsListController.view];
+			[[BFNotificationCenter defaultNotificationCenter] playConnectedSound];
 		}
 			break;
 			

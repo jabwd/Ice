@@ -256,6 +256,12 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 	[notification release];
 }
 
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
+{
+	// At this point we don't want to stack the notification center with crap.
+	[[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:notification];
+}
+
 #pragma mark - Badge count
 
 - (void)addBadgeCount:(NSUInteger)add

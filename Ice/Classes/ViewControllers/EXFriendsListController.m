@@ -79,6 +79,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 {
 	if( !_notifications )
 	{
+		DLog(@"Notifications not active");
 		return;
 	}
 	
@@ -89,11 +90,13 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		{
 			NSString *message = [NSString stringWithFormat:@"%@ is now online", [remoteFriend displayNameString]];
 			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:@"Friend came online" body:message];
+			[[BFNotificationCenter defaultNotificationCenter] playOnlineSound];
 		}
 		else
 		{
 			NSString *message = [NSString stringWithFormat:@"%@ went offline", [remoteFriend displayNameString]];
 			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:@"Friend went offline" body:message];
+			[[BFNotificationCenter defaultNotificationCenter] playOfflineSound];
 		}
 	}
 }
