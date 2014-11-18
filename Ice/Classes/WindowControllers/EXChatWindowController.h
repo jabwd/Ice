@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SKFriend.h"
+#import "XNResizingMessageView.h"
 
 @class SKSession, EXChatWindowController, SFTabStripView;
 
@@ -15,7 +16,7 @@
 - (void)shouldCloseController:(EXChatWindowController *)controller;
 @end
 
-@interface EXChatWindowController : NSWindowController <SKFriendChatDelegate, NSWindowDelegate>
+@interface EXChatWindowController : NSWindowController <SKFriendChatDelegate, NSWindowDelegate, BFChatMessageViewDelegate>
 {
 	SKFriend *_remoteFriend;
 	

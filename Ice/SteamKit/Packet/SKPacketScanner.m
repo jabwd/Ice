@@ -131,6 +131,7 @@
 			{
 				case SKResultCodeAccountLogonDenied:
 				{
+					DLog(@"Logon denied");
 					[[NSNotificationCenter defaultCenter]
 					 postNotificationName:SKLoginFailedSteamGuardNotificationName
 					 object:nil
@@ -140,6 +141,7 @@
 					
 				case SKResultCodeOK:
 				{
+					DLog(@"Logon ok");
 					_session.sessionID = [[packet.scanner.header objectForKey:@"2"] unsignedIntValue];
 					_session.keepAliveTimerSeconds = [[packet valueForFieldNumber:2] intValue];
 					

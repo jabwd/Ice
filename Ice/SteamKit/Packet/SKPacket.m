@@ -201,7 +201,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[compiler addValue:v forType:WireTypePacked fieldNumber:51];
 	[v release];
 	
-	SKSentryFile *file = [[SKSentryFile alloc] init];
+	SKSentryFile *file = [[SKSentryFile alloc] initWithSession:session];
 	NSData *hash = [file sha1Hash];
 	SKResultCode sentryResult = SKResultCodeFileNotFound;
 	if( [hash length] > 0 && [guardCode length] < 1 )
@@ -282,7 +282,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	
 	NSMutableData *buffer			= [[NSMutableData alloc] init];
 	SKProtobufCompiler *compiler	= [[SKProtobufCompiler alloc] init];
-	SKSentryFile *sentryFile		= [[SKSentryFile alloc] init];
+	SKSentryFile *sentryFile		= [[SKSentryFile alloc] initWithSession:session];
 	
 	// + Create the header + //
 	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
@@ -607,6 +607,61 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
 	[compiler addValue:v fieldNumber:1];
 	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
+	
+	return [packet autorelease];
+}
+
++ (SKPacket *)requestFriendsDataPacket:(NSArray *)friends
+{
+	if( [friends count] == 0 )
+	{
+		return nil;
+	}
+	SKSession *session = nil;
+	session = [friends[0] session];
+	if( !session )
+	{
+		DLog(@"[Error] cannot send requestFriendsData packet with a proper session");
+		return nil;
+	}
+	
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientRequestFriendData;
+	SKMsgType type = packet.msgType;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v fieldNumber:2];
+	[v release];
+	// -------------------//
+	
+	// Requested persona state
+	v = [[SKProtobufValue alloc] initWithVarint:2];
+	[compiler addValue:v fieldNumber:1];
+	[v release];
+	
+	for(SKFriend *remoteFriend in friends)
+	{
+		v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
+		[compiler addValue:v fieldNumber:2];
+		[v release];
+	}
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];

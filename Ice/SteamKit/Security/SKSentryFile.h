@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class SKSession;
+
 @interface SKSentryFile : NSObject
 {
-	NSData *_data;
+	NSData		*_data;
+	SKSession	*_session;
 }
 @property (retain) NSData *data;
+
+- (id)initWithSession:(SKSession *)session;
 
 /**
  * Finds or creates the AppSupport directory for the current app
@@ -28,7 +33,6 @@
  * @return NSString		path to the sentry file
  */
 - (NSString *)sentryPath:(NSString *)fileName;
-
 - (NSString *)fileName;
 
 /**

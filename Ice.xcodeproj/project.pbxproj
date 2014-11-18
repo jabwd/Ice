@@ -43,6 +43,7 @@
 		367EF2DC1A1045C00038548D /* EXFriendsListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 367EF2DA1A1045C00038548D /* EXFriendsListController.xib */; };
 		367EF2DF1A1046120038548D /* EXFriendsListRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 367EF2DE1A1046120038548D /* EXFriendsListRowView.m */; };
 		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
+		36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */; };
 		36B303D31A0FF0DF009C2D0B /* SKSteamID.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B303D21A0FF0DF009C2D0B /* SKSteamID.m */; };
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
 		36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714C819D2F36F006F08B3 /* SKAESEncryption.m */; };
@@ -147,6 +148,8 @@
 		367EF2DE1A1046120038548D /* EXFriendsListRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXFriendsListRowView.m; path = Classes/ViewControllers/EXFriendsListRowView.m; sourceTree = "<group>"; };
 		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
 		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
+		36A7F1871A1A52EC0033FF89 /* EXOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXOutlineView.h; path = Classes/Views/EXOutlineView.h; sourceTree = "<group>"; };
+		36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXOutlineView.m; path = Classes/Views/EXOutlineView.m; sourceTree = "<group>"; };
 		36B303D11A0FF0DF009C2D0B /* SKSteamID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSteamID.h; path = SteamKit/Friends/SKSteamID.h; sourceTree = "<group>"; };
 		36B303D21A0FF0DF009C2D0B /* SKSteamID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSteamID.m; path = SteamKit/Friends/SKSteamID.m; sourceTree = "<group>"; };
 		36B714B719D07A4F006F08B3 /* SKSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSession.h; path = SteamKit/Session/SKSession.h; sourceTree = "<group>"; };
@@ -286,17 +289,10 @@
 		3672A79B1A10F405003AF16D /* BlackFire */ = {
 			isa = PBXGroup;
 			children = (
-				364875D71A116E1D00F7FA97 /* SafariTabs */,
 				3672A7B11A10F441003AF16D /* BFNotificationCenter.h */,
 				3672A7B21A10F441003AF16D /* BFNotificationCenter.m */,
 				3672A7B31A10F441003AF16D /* BFSoundSet.h */,
 				3672A7B41A10F441003AF16D /* BFSoundSet.m */,
-				3672A7B51A10F441003AF16D /* BFWindow.h */,
-				3672A7B61A10F441003AF16D /* BFWindow.m */,
-				3672A7BB1A10F441003AF16D /* XNBorderedScrollView.h */,
-				3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */,
-				3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */,
-				3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */,
 			);
 			name = BlackFire;
 			sourceTree = "<group>";
@@ -347,6 +343,22 @@
 				367EF2DE1A1046120038548D /* EXFriendsListRowView.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		36A7F1851A1A52A80033FF89 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				364875D71A116E1D00F7FA97 /* SafariTabs */,
+				3672A7B51A10F441003AF16D /* BFWindow.h */,
+				3672A7B61A10F441003AF16D /* BFWindow.m */,
+				3672A7BB1A10F441003AF16D /* XNBorderedScrollView.h */,
+				3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */,
+				3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */,
+				3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */,
+				36A7F1871A1A52EC0033FF89 /* EXOutlineView.h */,
+				36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		36B714B619D07A3A006F08B3 /* Session */ = {
@@ -416,6 +428,7 @@
 		36CB626C19FF343A00F2E996 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				36A7F1851A1A52A80033FF89 /* Views */,
 				36F143231A1690BE00FFF4A4 /* Debug */,
 				36E766EE19C6D54000D9C761 /* EXAppDelegate.h */,
 				36E766EF19C6D54000D9C761 /* EXAppDelegate.m */,
@@ -708,6 +721,7 @@
 				367EF2DF1A1046120038548D /* EXFriendsListRowView.m in Sources */,
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
+				36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */,
 				3672A7C51A10F441003AF16D /* XNResizingMessageView.m in Sources */,
 				36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */,
 				36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */,

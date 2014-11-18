@@ -27,7 +27,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 		
 		_missedMessagesCount	= 0;
 		
-		self.window.titleVisibility = NSWindowTitleHidden;
+		//self.window.titleVisibility = NSWindowTitleHidden;
 		self.window.delegate		= self;
 		[self.window makeKeyAndOrderFront:nil];
 	}
@@ -82,6 +82,21 @@ const CGFloat EXChatFontSize	= 12.0f;
 	[message release];
 	
 	[[BFNotificationCenter defaultNotificationCenter] playSendSound];
+}
+
+- (void)sendMessage:(NSString *)message
+{
+	
+}
+
+- (void)resizeMessageView:(id)messageView
+{
+	
+}
+
+- (void)controlTextChanged
+{
+	
 }
 
 #pragma mark - Chat delegate

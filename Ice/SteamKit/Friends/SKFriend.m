@@ -214,6 +214,7 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 	{
 		NSLog(@"Avatar: %@", URL);
 		NSImage *test = [[NSImage alloc] initWithContentsOfURL:URL];
+		[test autorelease];
 		return test;
 	}
 	return [NSImage imageNamed:@"avatar-default"];

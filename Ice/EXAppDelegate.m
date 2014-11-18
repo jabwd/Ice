@@ -80,8 +80,6 @@
 		DLog(@"Already connected!");
 		return;
 	}
-	[_authcode release];
-	_authcode = nil;
 	_session = [[SKSession alloc] init];
 	_session.delegate = self;
 	[_session connect];
@@ -138,6 +136,8 @@
 			_session.delegate = nil;
 			[_session release];
 			_session = nil;
+			[_authcode release];
+			_authcode = nil;
 			[self switchMainView:_loginView];
 			[_loginIndicator setIndeterminate:YES];
 			[_loginIndicator setUsesThreadedAnimation:YES];
@@ -168,7 +168,7 @@
 
 - (void)updateSentryFile:(NSString *)fileName data:(NSData *)data
 {
-	SKSentryFile *file = [[SKSentryFile alloc] init];
+	SKSentryFile *file = [[SKSentryFile alloc] initWithSession:_session];
 	[file createWithData:data fileName:fileName];
 	[file release];
 }

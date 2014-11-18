@@ -8,11 +8,20 @@
 
 #import "SKSentryFile.h"
 #import <Security/Security.h>
+#import "SKFriend.h"
+#import "SKSteamID.h"
+#import "SKSession.h"
 
 @implementation SKSentryFile
 
 + (NSString *)appSupportDirectory
 {
+	static NSString *finalPath = nil;
+	if( finalPath )
+	{
+		[[NSFileManager defaultManager] createDirectoryAtPath:finalPath withIntermediateDirectories:YES attributes:nil error:nil];
+		return finalPath;
+	}
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(
 		NSApplicationSupportDirectory,
 		NSUserDomainMask,
@@ -33,7 +42,7 @@
 		return nil;
 	}
 	
-	NSString *finalPath = [appSupport stringByAppendingPathComponent:executableName];
+	finalPath = [[appSupport stringByAppendingPathComponent:executableName] retain];
 	NSError *error = nil;
 	[[NSFileManager defaultManager] createDirectoryAtPath:finalPath withIntermediateDirectories:YES attributes:nil error:&error];
 	if( error )
@@ -44,11 +53,37 @@
 	return finalPath;
 }
 
-- (id)init
++ (NSString *)cacheFolderPath
+{
+	static NSString *finalPath = nil;
+	if( finalPath )
+	{
+		return finalPath;
+	}
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(
+														 NSCachesDirectory,
+														 NSUserDomainMask,
+														 YES
+														 );
+	
+	if( [paths count] == 0 )
+	{
+		DLog(@"Cannot find cache folder path");
+		return nil;
+	}
+	
+	NSString *domain = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+	
+	finalPath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:domain] retain];
+	[[NSFileManager defaultManager] createDirectoryAtPath:finalPath withIntermediateDirectories:YES attributes:nil error:nil];
+	return finalPath;
+}
+
+- (id)initWithSession:(SKSession *)session
 {
 	if( (self = [super init]) )
 	{
-		//_data = [[NSData alloc] initWithContentsOfFile:[self currentSentryFilePath]];
+		_session = session;
 	}
 	return self;
 }
@@ -57,6 +92,7 @@
 {
 	[_data release];
 	_data = nil;
+	_session = nil;
 	[super dealloc];
 }
 
@@ -65,12 +101,15 @@
 - (NSString *)sentryPath:(NSString *)fileName
 {
 	NSString *appSupport = [SKSentryFile appSupportDirectory];
+	appSupport = [appSupport stringByAppendingPathComponent:[_session username]];
+	[[NSFileManager defaultManager] createDirectoryAtPath:appSupport withIntermediateDirectories:YES attributes:nil error:nil];
 	return [appSupport stringByAppendingPathComponent:fileName];
 }
 
 - (NSString *)fileName
 {
-	return [[NSUserDefaults standardUserDefaults] objectForKey:@"SentryFileName"];
+	NSString *key = [NSString stringWithFormat:@"Sentry.%@", [_session username]];
+	return [[NSUserDefaults standardUserDefaults] objectForKey:key];
 }
 
 - (NSString *)currentSentryFilePath
@@ -133,7 +172,7 @@
 	if( [bytes length] > 1 )
 	{
 		NSString *path = [self sentryPath:fileName];
-		[[NSUserDefaults standardUserDefaults] setObject:fileName forKey:@"SentryFileName"];
+		[[NSUserDefaults standardUserDefaults] setObject:fileName forKey:[NSString stringWithFormat:@"Sentry.%@", [_session username]]];
 		[bytes writeToFile:path atomically:NO];
 	}
 	else
