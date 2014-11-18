@@ -334,7 +334,6 @@
 		}
 		[friend release];
 	}
-	[_connection.session sortFriendsList];
 }
 
 

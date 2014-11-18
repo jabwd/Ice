@@ -11,9 +11,9 @@
 #import "SKPacket.h"
 #import "SKSession.h"
 #import "SKTCPConnection.h"
-#import "SKFriendCache.h"
 
-NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChanged";
+NSString *SKFriendOnlineStatusChangedNotification	= @"SKFriendOnlineStatusChanged";
+NSString *SKDefaultAvatarImageName					= @"avatar-default";
 
 @implementation SKFriend
 
@@ -159,6 +159,8 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 	_session = nil;
 	[_storedMessages release];
 	_storedMessages = nil;
+	[_avatarImage release];
+	_avatarImage = nil;
 	_delegate = nil;
 	[super dealloc];
 }
@@ -209,15 +211,56 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 
 - (NSImage *)avatarImage
 {
-	NSURL *URL = [self avatarURL];
-	if( URL )
+	// Return the cached version so we do not
+	// restart any download mechanics or whatever
+	if( _avatarImage )
 	{
-		NSLog(@"Avatar: %@", URL);
-		NSImage *test = [[NSImage alloc] initWithContentsOfURL:URL];
-		[test autorelease];
-		return test;
+		return _avatarImage;
 	}
-	return [NSImage imageNamed:@"avatar-default"];
+	
+	if( !_avatarHash )
+	{
+		// Request the data somehow
+		DLog(@"Image data should be requested at some point.");
+		_avatarImage = [[NSImage imageNamed:SKDefaultAvatarImageName] retain];
+	}
+	else
+	{
+		// This method will automatically download the avatar image for us
+		// and call the avatarDownloadDelegate method when required
+		NSString *path = [[SKFriendCache sharedCache] avatarPathForFriend:self];
+		
+		// If we don't have a path we assign the image anyway so we don't
+		// call avatarPathForFriend too often.
+		if( path )
+		{
+			_avatarImage = [[NSImage alloc] initWithContentsOfFile:path];
+		}
+		else
+		{
+			_avatarImage = [[NSImage imageNamed:SKDefaultAvatarImageName] retain];
+		}
+	}
+	return [NSImage imageNamed:SKDefaultAvatarImageName];
+}
+
+- (void)downloadDidFinishWithPath:(NSString *)newPath
+{
+	[_avatarImage release];
+	_avatarImage = [[NSImage alloc] initWithContentsOfFile:newPath];
+	if( !_avatarImage )
+	{
+		[self downloadDidFail];
+	}
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+														object:_session];
+}
+
+- (void)downloadDidFail
+{
+	[_avatarImage release];
+	_avatarImage = [[NSImage imageNamed:SKDefaultAvatarImageName] retain];
 }
 
 - (void)setDelegate:(id<SKFriendChatDelegate>)delegate
@@ -252,7 +295,9 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 	NSString *baseURL = @"http://media.steampowered.com/steamcommunity/public/images/avatars/";
 	NSString *desc = [_avatarHash description];
 	desc = [desc substringWithRange:NSMakeRange(1, [desc length]-2)];
-	NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@_medium.jpg", baseURL, [desc substringWithRange:NSMakeRange(0, 2)], desc];
+	NSString *prefix = [desc substringWithRange:NSMakeRange(0, 2)];
+	desc = [desc stringByReplacingOccurrencesOfString:@" " withString:@""];
+	NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@_medium.jpg", baseURL, prefix, desc];
 	return [NSURL URLWithString:URLString];
 }
 
@@ -298,7 +343,7 @@ NSString *SKFriendOnlineStatusChangedNotification = @"SKFriendOnlineStatusChange
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"[SKFriend displayName=%@ steamID=%@]", _displayName, _steamID];
+	return [NSString stringWithFormat:@"[SKFriend displayName=%@ steamID=%@ avatarHash=%@]", _displayName, _steamID, _avatarHash];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SteamConstants.h"
+#import "SKFriendCache.h"
 
 @class SKSteamID, SKSession;
 
@@ -20,8 +21,9 @@
 @end
 
 extern NSString *SKFriendOnlineStatusChangedNotification;
+extern NSString *SKDefaultAvatarImageName;
 
-@interface SKFriend : NSObject
+@interface SKFriend : NSObject <SKAvatarDownloadDelegate>
 {
 	NSString *_displayName;
 	NSString *_username;
@@ -35,6 +37,7 @@ extern NSString *SKFriendOnlineStatusChangedNotification;
 	SKSession *_session;
 	
 	NSData *_avatarHash;
+	NSImage *_avatarImage;
 	
 	NSMutableArray *_storedMessages;
 	

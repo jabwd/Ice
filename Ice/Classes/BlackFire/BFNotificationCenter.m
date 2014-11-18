@@ -190,7 +190,9 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 	
 	if( ! _offlineSound )
 	{
-		_offlineSound = [[NSSound alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"offline" ofType:@"m4v"] byReference:NO];
+		_offlineSound = [[NSSound alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"offline"
+																								ofType:@"m4v"]
+													byReference:NO];
 		_offlineSound.volume = [self soundVolume];
 	}
 	if( [_offlineSound isPlaying] )

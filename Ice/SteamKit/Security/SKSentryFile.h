@@ -25,6 +25,7 @@
  * @return NSString		appSupport directory path
  */
 + (NSString *)appSupportDirectory;
++ (NSString *)cacheFolderPath;
 
 /**
  * Returns the path to the SteamGuard.dat file in the appsupport directory

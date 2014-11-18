@@ -215,16 +215,14 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 		[_onlineFriends addObject:remoteFriend];
 		[_offlineFriends removeObject:remoteFriend];
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
-															object:self];
+		[self sortFriendsList];
 	}
 	else if( remoteFriend.status == SKPersonaStateOffline && oldStatus != SKPersonaStateOffline )
 	{
 		[_offlineFriends addObject:remoteFriend];
 		[_onlineFriends removeObject:remoteFriend];
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
-															object:self];
+		[self sortFriendsList];
 	}
 }
 
@@ -258,6 +256,9 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 {
 	[_onlineFriends sortUsingSelector:@selector(displayNameSort:)];
 	[_offlineFriends sortUsingSelector:@selector(displayNameSort:)];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+														object:self];
 }
 
 - (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID

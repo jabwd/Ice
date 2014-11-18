@@ -10,6 +10,11 @@
 
 @class SKFriend;
 
+@protocol SKAvatarDownloadDelegate <NSObject>
+- (void)downloadDidFail;
+- (void)downloadDidFinishWithPath:(NSString *)newPath;
+@end
+
 @interface SKFriendCache : NSObject
 {
 	NSMutableDictionary *_storage;
@@ -19,5 +24,11 @@
 
 - (NSString *)playerNameForFriend:(SKFriend *)remoteFriend;
 - (void)setPlayerNameForFriend:(SKFriend *)remoteFriend;
+
+- (NSString *)avatarPathForFriend:(SKFriend <SKAvatarDownloadDelegate>*)remoteFriend;
+- (void)downloadAvatarForFriend:(SKFriend <SKAvatarDownloadDelegate>*)remoteFriend;
+
+- (NSData *)avatarHashForFriend:(SKFriend *)remoteFriend;
+- (void)setAvatarHashForFriend:(SKFriend *)remoteFriend;
 
 @end
