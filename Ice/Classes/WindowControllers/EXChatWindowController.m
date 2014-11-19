@@ -22,7 +22,6 @@ const CGFloat EXChatFontSize	= 12.0f;
 {
 	if( (self = [super initWithWindowNibName:@"EXChatWindowController" owner:self]) )
 	{
-		DLog(@"%@", [remoteFriend avatarImage]);
 		_remoteFriend			= [remoteFriend retain];
 		_remoteFriend.delegate	= self;
 		

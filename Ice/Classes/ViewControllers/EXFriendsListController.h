@@ -21,6 +21,9 @@ extern NSString *EXPendingFriendsGroupName;
 	
 	NSMutableArray *_chatWindowControllers;
 	
+	NSString *_onlineFriends;
+	NSString *_offlineFriends;
+	
 	BOOL _notifications;
 }
 @property (assign) IBOutlet NSOutlineView *outlineView;

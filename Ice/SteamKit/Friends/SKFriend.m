@@ -56,7 +56,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 
 - (void)updateWithBodyInternal:(NSDictionary *)body isUpdate:(BOOL)isUpdate
 {
-	if( body[@"31"] )
+	if( body[@"31"] && ![_avatarHash isEqualToData:body[@"31"]] )
 	{
 		[_avatarImage release];
 		_avatarImage = nil;
@@ -224,8 +224,6 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	
 	if( !_avatarHash )
 	{
-		// Request the data somehow
-		DLog(@"Image data should be requested at some point.");
 		_avatarImage = [[NSImage imageNamed:SKDefaultAvatarImageName] retain];
 	}
 	else

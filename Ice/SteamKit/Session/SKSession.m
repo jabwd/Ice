@@ -199,7 +199,6 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 
 - (void)updateFriend:(NSDictionary *)packetData
 {
-	DLog(@"Persona state: %@", packetData);
 	UInt64 steamID			= [packetData[@"1"] unsignedIntegerValue];
 	SKFriend *remoteFriend	= [self friendForRawSteamID:steamID];
 	if( !remoteFriend )

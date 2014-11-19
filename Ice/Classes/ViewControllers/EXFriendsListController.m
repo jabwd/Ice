@@ -201,6 +201,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 {
 	if( item == nil )
 	{
+		[self performSelector:@selector(openGroups) withObject:nil afterDelay:1.0f];
 		return 2;
 	}
 	else if( [item isEqualToString:EXOnlineFriendsGroupName] )
@@ -212,6 +213,12 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		return [_session.offlineFriends count];
 	}
 	return 0;
+}
+
+- (void)openGroups
+{
+	[_outlineView expandItem:EXOnlineFriendsGroupName];
+	[_outlineView expandItem:EXOfflineFriendsGroupName];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
