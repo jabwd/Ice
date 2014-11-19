@@ -261,7 +261,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		else
 		{
 			[view setShowsStatusField:NO];
-			[view.statusField setStringValue:@"Online"];
+			[view.statusField setStringValue:@""];
 		}
 		return view;
 	}

@@ -11,6 +11,9 @@
 #import "SKFriend.h"
 #import "SKSteamID.h"
 
+NSString *SKPlayerNameKey = @"name";
+NSString *SKAvatarHashKey = @"avatarHash";
+
 @implementation SKFriendCache
 
 + (id)sharedCache
@@ -46,6 +49,14 @@
 
 #pragma mark - Implementation
 
+- (void)performSave
+{
+	// Save the changes to disk, but make sure we do not over use this
+	// method if there is no need for it. ( like on login, with rapid succession )
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	[self performSelector:@selector(saveChanges) withObject:nil afterDelay:5.0f];
+}
+
 - (void)saveChanges
 {
 	DLog(@"=> Updating friends cache");
@@ -63,17 +74,34 @@
 
 - (NSString *)playerNameForFriend:(SKFriend *)remoteFriend
 {
-	return _storage[[self keyForFriend:remoteFriend]];
+	return _storage[[self keyForFriend:remoteFriend]][SKPlayerNameKey];
 }
 
 - (void)setPlayerNameForFriend:(SKFriend *)remoteFriend
 {
-	_storage[[self keyForFriend:remoteFriend]] = remoteFriend.displayName;
-	
-	// Save the changes to disk, but make sure we do not over use this
-	// method if there is no need for it. ( like on login, with rapid succession )
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[self performSelector:@selector(saveChanges) withObject:nil afterDelay:5.0f];
+	NSString *key = [self keyForFriend:remoteFriend];
+	if( !_storage[key] )
+	{
+		_storage[key] = [[[NSMutableDictionary alloc] init] autorelease];
+	}
+	_storage[key][SKPlayerNameKey] = remoteFriend.displayName;
+	[self performSave];
+}
+
+- (void)setAvatarHashForFriend:(SKFriend *)remoteFriend
+{
+	NSString *key = [self keyForFriend:remoteFriend];
+	if( !_storage[key] )
+	{
+		_storage[key] = [[[NSMutableDictionary alloc] init] autorelease];
+	}
+	_storage[key][SKAvatarHashKey] = remoteFriend.avatarHash;
+	[self performSave];
+}
+
+- (NSData *)avatarHashForFriend:(SKFriend *)remoteFriend
+{
+	return _storage[[self keyForFriend:remoteFriend]][SKAvatarHashKey];
 }
 
 #pragma mark - Managing avatar downloads

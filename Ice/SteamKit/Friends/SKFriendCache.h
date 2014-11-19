@@ -10,6 +10,9 @@
 
 @class SKFriend;
 
+extern NSString *SKPlayerNameKey;
+extern NSString *SKAvatarHashKey;
+
 @protocol SKAvatarDownloadDelegate <NSObject>
 - (void)downloadDidFail;
 - (void)downloadDidFinishWithPath:(NSString *)newPath;

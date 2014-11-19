@@ -26,7 +26,31 @@
 	}
 	
 	NSTextField *textField = self.textField;
+	//DLog(@"Visible: %lf %lf", [self visibleRect].size.width, [self visibleRect].size.height);
+	if( [self visibleRect].size.width != 162.0f )
+	{
+		textField = [textField animator];
+	}
 	[textField setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
+}
+
+- (void)_setShowsStatusField:(BOOL)showsStatus
+{
+	NSRect rect = self.textField.frame;
+	
+	if( showsStatus )
+	{
+		rect.origin.y = 16;
+		[_statusField setHidden:NO];
+	}
+	else
+	{
+		rect.origin.y = 10;
+		[_statusField setHidden:YES];
+	}
+	
+	NSTextField *textField = self.textField;
+	[[textField animator] setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
 }
 
 - (void)drawRect:(NSRect)dirtyRect

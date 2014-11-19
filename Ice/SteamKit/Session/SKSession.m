@@ -199,6 +199,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 
 - (void)updateFriend:(NSDictionary *)packetData
 {
+	DLog(@"Persona state: %@", packetData);
 	UInt64 steamID			= [packetData[@"1"] unsignedIntegerValue];
 	SKFriend *remoteFriend	= [self friendForRawSteamID:steamID];
 	if( !remoteFriend )
@@ -214,16 +215,13 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 	{
 		[_onlineFriends addObject:remoteFriend];
 		[_offlineFriends removeObject:remoteFriend];
-		
-		[self sortFriendsList];
 	}
 	else if( remoteFriend.status == SKPersonaStateOffline && oldStatus != SKPersonaStateOffline )
 	{
 		[_offlineFriends addObject:remoteFriend];
 		[_onlineFriends removeObject:remoteFriend];
-		
-		[self sortFriendsList];
 	}
+	[self sortFriendsList];
 }
 
 - (void)connectionAddFriend:(SKFriend *)remoteFriend
@@ -232,6 +230,12 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 	if( remoteFriend.displayName == nil )
 	{
 		[self requestFriendData:remoteFriend];
+	}
+	
+	if( remoteFriend.avatarHash == nil )
+	{
+		SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPresence];
+		[_TCPConnection sendPacket:packet];
 	}
 	
 	if( remoteFriend.status == SKPersonaStateOffline || remoteFriend.status == SKPersonaStateMax )
@@ -293,7 +297,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 
 - (void)requestFriendData:(SKFriend *)remoteFriend
 {
-	SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend];
+	SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPlayerName];
 	[_TCPConnection sendPacket:packet];
 	
 }

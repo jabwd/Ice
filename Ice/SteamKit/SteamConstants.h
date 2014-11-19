@@ -207,3 +207,19 @@ typedef NS_ENUM(UInt32, SKResultCode)
 	SKResultCodeAccountLoginDeniedThrottle			= 87,
 	SKResultCodeTwoFactorCodeMismatch				= 88,
 };
+
+typedef NS_ENUM(UInt32, SKPersonaStateFlag)
+{
+	SKPersonaStateFlagStatus = 1,
+	SKPersonaStateFlagPlayerName = 2,
+	SKPersonaStateFlagQueryPort = 4,
+	SKPersonaStateFlagSourceID = 8,
+	SKPersonaStateFlagPresence = 16,
+	SKPersonaStateFlagMetadata = 32,
+	SKPersonaStateFlagLastSeen = 64,
+	SKPersonaStateFlagClanInfo = 128,
+	SKPersonaStateFlagGameExtraInfo = 256,
+	SKPersonaStateFlagGameDataBlob = 512,
+	SKPersonaStateFlagClanTag = 1024,
+	SKPersonaStateFlagFacebook = 2048,
+};

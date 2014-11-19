@@ -656,14 +656,14 @@
         </menu>
         <window title="Ice" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="IceMainWindow" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <rect key="contentRect" x="513" y="220" width="286" height="359"/>
+            <rect key="contentRect" x="513" y="220" width="196" height="359"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <value key="minSize" type="size" width="196" height="360"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="1" width="286" height="359"/>
+                <rect key="frame" x="0.0" y="0.0" width="196" height="359"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
-            <point key="canvasLocation" x="355" y="440.5"/>
+            <point key="canvasLocation" x="310" y="440.5"/>
         </window>
         <customView id="Nlo-Un-vWG" userLabel="Login View">
             <rect key="frame" x="0.0" y="0.0" width="196" height="360"/>

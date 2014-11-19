@@ -619,7 +619,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	return [packet autorelease];
 }
 
-+ (SKPacket *)requestFriendsDataPacket:(NSArray *)friends
++ (SKPacket *)requestFriendsDataPacket:(NSArray *)friends flag:(SKPersonaStateFlag)flag
 {
 	if( [friends count] == 0 )
 	{
@@ -652,7 +652,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	// -------------------//
 	
 	// Requested persona state
-	v = [[SKProtobufValue alloc] initWithVarint:2];
+	v = [[SKProtobufValue alloc] initWithVarint:flag];
 	[compiler addValue:v fieldNumber:1];
 	[v release];
 	
@@ -674,7 +674,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	return [packet autorelease];
 }
 
-+ (SKPacket *)requestFriendDataPacket:(SKFriend *)remoteFriend
++ (SKPacket *)requestFriendDataPacket:(SKFriend *)remoteFriend flag:(SKPersonaStateFlag)flag
 {
 	SKSession *session = nil;
 	session = remoteFriend.session;
@@ -703,7 +703,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	// -------------------//
 	
 	// Requested persona state
-	v = [[SKProtobufValue alloc] initWithVarint:2];
+	v = [[SKProtobufValue alloc] initWithVarint:flag];
 	[compiler addValue:v fieldNumber:1];
 	[v release];
 	

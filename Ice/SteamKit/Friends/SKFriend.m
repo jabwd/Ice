@@ -48,6 +48,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	{
 		_steamID		= [[SKSteamID alloc] initWithRawSteamID:steamID];
 		_displayName	= [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
+		_avatarHash		= [[[SKFriendCache sharedCache] avatarHashForFriend:self] retain];
 		_status			= SKPersonaStateOffline;
 	}
 	return self;
@@ -57,8 +58,11 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 {
 	if( body[@"31"] )
 	{
+		[_avatarImage release];
+		_avatarImage = nil;
 		[_avatarHash release];
 		_avatarHash = [body[@"31"] retain];
+		[[SKFriendCache sharedCache] setAvatarHashForFriend:self];
 	}
 	
 	if( body[@"15"] && ![_displayName isEqualToString:body[@"15"]] )
@@ -241,7 +245,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 			_avatarImage = [[NSImage imageNamed:SKDefaultAvatarImageName] retain];
 		}
 	}
-	return [NSImage imageNamed:SKDefaultAvatarImageName];
+	return _avatarImage;
 }
 
 - (void)downloadDidFinishWithPath:(NSString *)newPath
