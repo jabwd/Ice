@@ -663,7 +663,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="196" height="359"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
-            <point key="canvasLocation" x="310" y="440.5"/>
+            <point key="canvasLocation" x="635" y="435.5"/>
         </window>
         <customView id="Nlo-Un-vWG" userLabel="Login View">
             <rect key="frame" x="0.0" y="0.0" width="196" height="360"/>

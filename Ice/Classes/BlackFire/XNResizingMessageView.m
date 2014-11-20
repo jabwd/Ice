@@ -49,7 +49,7 @@
 												 name:NSTextDidChangeNotification 
 											   object:self];
 	_maxLength = 4000;
-	[self setFont:[NSFont fontWithName:@"Helvetica" size:13.0f]];
+	[self setFont:[NSFont fontWithName:@"Arial" size:12.0f]];
 }
 
 - (id)initWithFrame:(NSRect)frameRect

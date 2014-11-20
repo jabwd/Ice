@@ -12,6 +12,7 @@
 #import "BFNotificationCenter.h"
 #import "SFTabStripView.h"
 #import "SFTabView.h"
+#import "XNResizingMessageView.h"
 
 const NSString *EXChatFontName	= @"Helvetica Neue";
 const CGFloat EXChatFontSize	= 12.0f;
@@ -58,12 +59,17 @@ const CGFloat EXChatFontSize	= 12.0f;
 	
 	self.window.title			= [NSString stringWithFormat:@"Chat - %@", _remoteFriend.displayNameString];
 	
-	[_messageField becomeFirstResponder];
+	//[_messageView becomeFirstResponder];
+	[_messageView setEnabled:YES];
+	[_messageView setMessageDelegate:self];
 	
 	SFTabView *tabView = [[SFTabView alloc] init];
 	tabView.title = self.window.title;
 	[_stripView addTabView:tabView];
 	[tabView release];
+	
+	[self.window setContentBorderThickness:35.0 forEdge:NSMinYEdge];
+	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification
@@ -74,29 +80,67 @@ const CGFloat EXChatFontSize	= 12.0f;
 
 - (IBAction)send:(id)sender
 {
-	NSString *message = [[_messageField stringValue] retain];
+	/*NSString *message = [[_messageField stringValue] retain];
 	[_messageField setStringValue:@""];
 	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
 	
 	[self addSelfMessage:message date:[NSDate date]];
 	[message release];
 	
-	[[BFNotificationCenter defaultNotificationCenter] playSendSound];
+	[[BFNotificationCenter defaultNotificationCenter] playSendSound];*/
 }
 
 - (void)sendMessage:(NSString *)message
 {
+	_previousStamp = 0;
+	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
 	
+	[self addSelfMessage:message date:[NSDate date]];
+	
+	[[BFNotificationCenter defaultNotificationCenter] playSendSound];
 }
 
 - (void)resizeMessageView:(id)messageView
 {
+	DLog(@"Should resize window");
+	NSWindow *window = self.window;
+	NSScrollView *messageScrollView = (NSScrollView *)[[_messageView superview] superview];
+	NSScrollView *scrollView = (NSScrollView *)[[_textView superview] superview];
 	
+	// change the size of the message scroll view
+	NSSize size = [(XNResizingMessageView *)messageView desiredSize];
+	NSRect frame = [messageScrollView frame];
+	CGFloat heightAddition = size.height - frame.size.height;
+	frame.size.height += heightAddition;
+	[messageScrollView setFrame:frame];
+	
+	// change the window frame
+	NSRect windowFrame = [window frame];
+	windowFrame.size.height += heightAddition;
+	windowFrame.origin.y -= heightAddition;
+	CGFloat height = [window contentBorderThicknessForEdge:NSMinYEdge];
+	height += heightAddition;
+	[window setContentBorderThickness:height forEdge:NSMinYEdge];
+	NSRect mainView = [scrollView frame];
+	mainView.origin.y += heightAddition;
+	mainView.size.height -= heightAddition;
+	if( heightAddition < 0 )
+	{
+		[scrollView setFrame:mainView];
+	}
+	else
+		[scrollView setFrame:mainView];
+	[window setFrame:windowFrame display:YES animate:NO];
 }
 
 - (void)controlTextChanged
 {
-	
+	NSUInteger now = [[NSDate date] timeIntervalSince1970];
+	if( (now-_previousStamp) > 15 )
+	{
+		[_remoteFriend sendMessage:nil ofType:SKChatEntryTypeTyping];
+		_previousStamp = now;
+	}
 }
 
 #pragma mark - Chat delegate

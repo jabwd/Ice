@@ -22,11 +22,11 @@
 	
 	id <EXChatWindowControllerDelegate> _delegate;
 	
+	UInt64 _previousStamp;
 	UInt32 _missedMessagesCount;
 }
 @property (assign) IBOutlet NSTextView *textView;
-@property (assign) IBOutlet NSTextField *messageField;
-@property (assign) IBOutlet NSVisualEffectView *effectView;
+@property (assign) IBOutlet XNResizingMessageView *messageView;
 @property (assign) IBOutlet NSImageView *isTypingView;
 @property (assign) IBOutlet SFTabStripView *stripView;
 

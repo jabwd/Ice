@@ -63,11 +63,11 @@
 	
 	if( [[self window] isKeyWindow] )
 	{
-		[[NSColor colorWithCalibratedWhite:0.45 alpha:alpha] set];
+		[[NSColor colorWithCalibratedWhite:0.6 alpha:alpha] set];
 	}
 	else 
 	{
-		[[NSColor colorWithCalibratedWhite:0.6 alpha:alpha] set];
+		[[NSColor colorWithCalibratedWhite:0.7 alpha:alpha] set];
 	}
 	
 	[path stroke];

@@ -182,9 +182,6 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 		[countString release];
 	}
 	[style release];
-	
-	[[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f] set];
-	NSRectFill(NSMakeRect(0, 1, dirtyRect.size.width, 1));
 }
 
 
