@@ -126,7 +126,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
  * @return void
  */
 - (void)updateFriend:(NSDictionary *)packetData;
-- (void)connectionAddFriend:(SKFriend *)remoteFriend;
+- (void)connectionAddFriend:(SKFriend *)remoteFriend moreComing:(BOOL)moreComing;
 - (void)addPendingFriend:(SKFriend *)pendingFriend;
 - (void)sortFriendsList;
 - (SKFriend *)friendForSteamID:(SKSteamID *)steamID;

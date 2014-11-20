@@ -201,9 +201,13 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 {
 	UInt64 steamID			= [packetData[@"1"] unsignedIntegerValue];
 	SKFriend *remoteFriend	= [self friendForRawSteamID:steamID];
-	if( !remoteFriend )
+	if( !remoteFriend && remoteFriend.steamID.rawSteamID != self.rawSteamID )
 	{
-		//DLog(@"Unhandled persona state: %@", packetData);
+		// At this point in time I do not know why this is happening.
+		SKFriend *newFriend = [[SKFriend alloc] initWithRawSteamID:[packetData[@"1"] unsignedIntegerValue]];
+		[newFriend updateWithBody:packetData];
+		[self connectionAddFriend:newFriend moreComing:NO];
+		[newFriend release];
 		return;
 	}
 	
@@ -220,10 +224,13 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 		[_offlineFriends addObject:remoteFriend];
 		[_onlineFriends removeObject:remoteFriend];
 	}
-	[self sortFriendsList];
+	
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(sortFriendsList) object:nil];
+	[self performSelector:@selector(sortFriendsList) withObject:nil afterDelay:0.2f];
+	//[self sortFriendsList];
 }
 
-- (void)connectionAddFriend:(SKFriend *)remoteFriend
+- (void)connectionAddFriend:(SKFriend *)remoteFriend moreComing:(BOOL)moreComing
 {
 	remoteFriend.session = self;
 	if( remoteFriend.displayName == nil )
@@ -245,8 +252,6 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 	{
 		[_onlineFriends addObject:remoteFriend];
 	}
-	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
-														object:self];
 }
 
 - (void)addPendingFriend:(SKFriend *)pendingFriend

@@ -29,7 +29,7 @@
 	//DLog(@"Visible: %lf %lf", [self visibleRect].size.width, [self visibleRect].size.height);
 	if( [self visibleRect].size.width != 162.0f )
 	{
-		textField = [textField animator];
+		//textField = [textField animator];
 	}
 	[textField setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
 }

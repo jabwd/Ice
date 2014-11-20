@@ -253,6 +253,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 - (void)downloadDidFinishWithPath:(NSString *)newPath
 {
 	[_avatarImage release];
+	_avatarImage = nil;
 	_avatarImage = [[NSImage alloc] initWithContentsOfFile:newPath];
 	if( !_avatarImage )
 	{
@@ -260,12 +261,13 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
-														object:_session];
+														object:_session userInfo:@{@"remoteFriend":self}];
 }
 
 - (void)downloadDidFail
 {
 	[_avatarImage release];
+	_avatarImage = nil;
 	_avatarImage = [[NSImage imageNamed:SKDefaultAvatarImageName] retain];
 }
 

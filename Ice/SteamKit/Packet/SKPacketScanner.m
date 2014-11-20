@@ -260,6 +260,7 @@
 		}
 			break;
 		
+		case SKMsgTypeClientClanState:
 		case SKMsgTypeClientWalletInfoUpdate:
 		case SKMsgTypeClientPlayerNicknameList:
 		case SKMsgTypeClientRequestedClientStats:
@@ -313,7 +314,6 @@
 	{
 		if( ![friend isKindOfClass:[NSData class]] )
 		{
-			DLog(@"Error in friends list: %@", friendsList);
 			continue;
 		}
 		NSDictionary *remoteFriend = [packet.scanner scanRepeated:friend][0];
@@ -321,7 +321,7 @@
 		SKFriend *friend	= [[SKFriend alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
 		if( type == SKFriendRelationTypeFriend )
 		{
-			[_connection.session connectionAddFriend:friend];
+			[_session connectionAddFriend:friend moreComing:YES];
 		}
 		else if( type == SKFriendRelationTypeRequestInitiator )
 		{
@@ -334,6 +334,7 @@
 		}
 		[friend release];
 	}
+	[_session sortFriendsList];
 }
 
 

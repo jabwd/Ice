@@ -28,7 +28,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		_chatWindowControllers	= [[NSMutableArray alloc] init];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(reloadData)
+												 selector:@selector(reloadData:)
 													 name:SKFriendsListChangedNotificationName
 												   object:_session];
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -65,9 +65,21 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	[_outlineView setDoubleAction:@selector(doubleAction:)];
 }
 
-- (void)reloadData
+- (void)reloadData:(NSNotification *)notification
 {
-	[_outlineView reloadData];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if( notification.userInfo )
+		{
+			SKFriend *fr = notification.userInfo[@"remoteFriend"];
+			NSInteger row = [_outlineView rowForItem:fr];
+			if( row > 0 )
+			{
+				[_outlineView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row]
+										columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+			}
+		}
+		[_outlineView reloadData];
+	});
 }
 
 - (void)activateNotifications
@@ -256,7 +268,9 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		SKFriend *remoteFriend = (SKFriend *)item;
 		
 		EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"FriendCell" owner:self];
-		[view.imageView setImage:[remoteFriend avatarImage]];
+		NSImage *avatarImage = [[remoteFriend avatarImage] copy];
+		[view.imageView setImage:avatarImage];
+		[avatarImage release];
 		[view.textField setStringValue:[remoteFriend displayNameString]];
 		
 		if( remoteFriend.status != SKPersonaStateOnline || remoteFriend.appID != 0 )
@@ -283,11 +297,18 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item
 {
-	NSUInteger row = [outlineView rowForItem:item];
-	NSTableRowView *rowView = [outlineView rowViewAtRow:row makeIfNecessary:YES];
-	if( rowView )
+	if( [item isKindOfClass:[NSString class]] )
 	{
-		return rowView;
+		return nil;
+	}
+	NSInteger row = [outlineView rowForItem:item];
+	if( row > 0 )
+	{
+		NSTableRowView *rowView = [outlineView rowViewAtRow:row makeIfNecessary:YES];
+		if( rowView )
+		{
+			return rowView;
+		}
 	}
 	return nil;
 }

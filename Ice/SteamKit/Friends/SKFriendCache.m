@@ -90,7 +90,6 @@ NSString *SKAvatarHashKey = @"avatarHash";
 
 - (void)setAvatarHashForFriend:(SKFriend *)remoteFriend
 {
-	DLog(@"Updating for %@", remoteFriend);
 	NSString *key = [self keyForFriend:remoteFriend];
 	if( !_storage[key] )
 	{
