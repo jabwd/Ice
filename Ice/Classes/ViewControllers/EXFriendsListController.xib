@@ -45,7 +45,7 @@
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Pdr-4Y-cu4">
                                                 <rect key="frame" x="2" y="2" width="32" height="32"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="2rI-we-Oie"/>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="avatar-default" id="2rI-we-Oie"/>
                                             </imageView>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="AvR-wA-2BI">
                                                 <rect key="frame" x="40" y="10" width="121" height="17"/>
@@ -113,6 +113,6 @@
         </scrollView>
     </objects>
     <resources>
-        <image name="NSApplicationIcon" width="128" height="128"/>
+        <image name="avatar-default" width="100" height="100"/>
     </resources>
 </document>

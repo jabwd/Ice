@@ -734,7 +734,7 @@ DQ
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <progressIndicator maxValue="100" indeterminate="YES" style="bar" id="t9A-wr-Cg4">
-                    <rect key="frame" x="50" y="301" width="96" height="20"/>
+                    <rect key="frame" x="20" y="301" width="156" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </progressIndicator>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="x0Z-Os-fjj">

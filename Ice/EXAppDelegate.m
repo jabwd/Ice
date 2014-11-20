@@ -139,15 +139,15 @@
 			[_authcode release];
 			_authcode = nil;
 			[self switchMainView:_loginView];
-			[_loginIndicator setIndeterminate:YES];
-			[_loginIndicator setUsesThreadedAnimation:YES];
-			[_loginIndicator startAnimation:nil];
 		}
 			break;
 			
 		case SKSessionStatusConnecting:
 		{
 			[self switchMainView:_connectingView];
+			[_loginIndicator setIndeterminate:YES];
+			[_loginIndicator setUsesThreadedAnimation:YES];
+			[_loginIndicator startAnimation:nil];
 		}
 			break;
 			

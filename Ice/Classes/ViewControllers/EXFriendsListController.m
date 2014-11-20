@@ -79,7 +79,6 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 {
 	if( !_notifications )
 	{
-		DLog(@"Notifications not active");
 		return;
 	}
 	

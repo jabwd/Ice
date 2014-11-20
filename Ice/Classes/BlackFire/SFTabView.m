@@ -65,56 +65,30 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	
 	// the window key determines whether it is the key window or not
 	NSColor *backgroundColor = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0f];
-	if( ![[self window] isMainWindow] ) {
-		backgroundColor = [NSColor colorWithCalibratedWhite:0.9 alpha:1.0f];
-	}
 	
-	// determine what close button image to use
-	//NSImage *close = nil;
-	/*if( _mouseInsideClose ) {
-		if( _mouseDownInsideClose ) {
-			close = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabClosePressed", windowKey, statusPrefix]];
-		} else {
-			close = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabCloseRollover", windowKey, statusPrefix]];
-		}
-	} else {
-		close = [NSImage imageNamed:[NSString stringWithFormat:@"%@ %@TabClose", windowKey, statusPrefix]];
-	}*/
+	if( ![[self window] isMainWindow] ) {
+		backgroundColor = [NSColor colorWithCalibratedWhite:0.96 alpha:1.0f];
+	}
+	[backgroundColor set];
+	NSRectFill(dirtyRect);
+	
+	NSImage *closeImage = [NSImage imageNamed:@"NSStopProgressTemplate"];
 	
 	// improves the way the tabs are drawn on the screen
 	if( _tabDragAction || self.selected )
 	{
-		//[left drawInRect:NSMakeRect(0, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
-		//[right drawInRect:NSMakeRect(dirtyRect.size.width-11, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 	}
 	else
 	{
 		[[NSColor colorWithCalibratedWhite:0.66 alpha:1.0f] set];
 		if( _tabRightSide )
 		{
-			//[right drawInRect:NSMakeRect(dirtyRect.size.width-11, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 			NSRectFill(NSMakeRect(dirtyRect.size.width-1, 0, 1, 24));
 		}
 		else
 		{
-			
 			NSRectFill(NSMakeRect(0, 0, 1, 24));
-			//[left drawInRect:NSMakeRect(0, 0, 11, 24) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 		}
-	}
-	
-	
-	// optimizes the drawing. the tabstrip already has this fill.
-	if( _mouseInside )
-	{
-		//[[NSColor colorWithCalibratedWhite:0.72f alpha:1.0f] set];
-		//oNSRectFill(NSMakeRect(1, 0, dirtyRect.size.width-2, 24));
-		//[[NSGraphicsContext currentContext] restoreGraphicsState];
-	}
-	else if( !self.selected )
-	{
-		[backgroundColor set];
-		NSRectFill(NSMakeRect(1, 0, dirtyRect.size.width-2, 24));
 	}
 	
 	NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -127,9 +101,12 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	
 	// determine the appropriate text color for the control
 	NSColor *textColor = nil;
-	if( [[self window] isMainWindow] ) {
+	if( [[self window] isMainWindow] )
+	{
 		textColor = [NSColor colorWithCalibratedWhite:0.2f alpha:1.0f];
-	} else {
+	}
+	else
+	{
 		textColor = [NSColor disabledControlTextColor];
 	}
 	
@@ -144,7 +121,8 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	};
 	[shadow release];
 	
-	if( ! _title ) {
+	if( ! _title )
+	{
 		_title = @"";
 	}
 	
@@ -159,14 +137,27 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	stringRect.size.height	= stringSize.height;
 	stringRect.size.width	= dirtyRect.size.width-50;
 	stringRect.origin.x		= dirtyRect.origin.x+25;
-	stringRect.origin.y		= (dirtyRect.size.height/2)-(stringSize.height/2);
+	stringRect.origin.y		= (dirtyRect.size.height/2)-(stringSize.height/2)+2;
 	
 	[titleAttrStr drawInRect:stringRect];
 	[titleAttrStr release];
+	
 	// draw the close button on top of everything
-	if( _mouseInside ) {
-		//[close drawInRect:NSMakeRect(10, 4, 12, 13) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
-	} else if( _image ) {
+	if( _mouseInside )
+	{
+		if( _mouseInsideClose )
+		{
+			NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(5, 3, 18, 18)
+																 xRadius:2.0f
+																 yRadius:2.0f];
+			[[NSColor colorWithCalibratedWhite:0.6f alpha:1.0f] set];
+			[path fill];
+		}
+		
+		[closeImage drawInRect:NSMakeRect(10, 8, 8, 8) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+	}
+	else if( _image )
+	{
 		//[_image drawInRect:NSMakeRect(10, 4, 14, 13) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 	}
 	
@@ -191,6 +182,9 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 		[countString release];
 	}
 	[style release];
+	
+	[[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f] set];
+	NSRectFill(NSMakeRect(0, 1, dirtyRect.size.width, 1));
 }
 
 
@@ -228,7 +222,11 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 - (void)mouseMoved:(NSEvent *)theEvent {
 	// get the mouse location in this view
 	NSPoint mousePoint = [NSEvent mouseLocation];
-	NSPoint actual = [self convertPoint:[[self window] convertScreenToBase:mousePoint] fromView:[[[self window] contentView] superview]];
+	NSRect mouseRect = [[self window] convertRectFromScreen:NSMakeRect(mousePoint.x, mousePoint.y, 1, 1)];
+	NSPoint actual = [self convertPoint:mouseRect.origin
+							   fromView:[[[self window] contentView] superview]];
+	
+	//NSPoint actual = [self convertPoint:[[self window] convertScreenToBase:mousePoint] fromView:[[[self window] contentView] superview]];
 	
 	// determine whether it is inside the rect of the close box
 	if( actual.x > 10 && actual.x < 22 && actual.y > 3 && actual.y < 19 ) {
@@ -330,8 +328,9 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	_originalPoint	= [NSEvent mouseLocation];
 	_originalRect	= [self frame];
 	
-	NSPoint new = [[self window] convertScreenToBase:_originalPoint];
-	NSPoint actual = [self convertPoint:new fromView:[[[self window] contentView] superview]];
+	NSPoint new = [[self window] convertRectFromScreen:NSMakeRect(_originalPoint.x, _originalPoint.y, 1, 1)].origin;
+	NSPoint actual = [self convertPoint:new
+							   fromView:[[[self window] contentView] superview]];
 	
 	if( actual.x > 10 && actual.x < 22 && actual.y > 3 && actual.y < 19 )
 	{
@@ -462,7 +461,8 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	// for closing the tab, if so perform close the tab
 	if( _mouseDownInsideClose )
 	{
-		NSPoint new		= [[self window] convertScreenToBase:_originalPoint];
+		
+		NSPoint new		= [[self window] convertRectFromScreen:NSMakeRect(_originalPoint.x, _originalPoint.y, 1, 1)].origin;
 		NSPoint actual	= [self convertPoint:new fromView:[[[self window] contentView] superview]];
 		if( actual.x > 10 && actual.x < 22 && actual.y > 3 && actual.y < 19 )
 		{
