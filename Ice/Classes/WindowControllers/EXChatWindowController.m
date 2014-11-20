@@ -14,8 +14,8 @@
 #import "SFTabView.h"
 #import "XNResizingMessageView.h"
 
-const NSString *EXChatFontName	= @"Helvetica Neue";
-const CGFloat EXChatFontSize	= 12.0f;
+const NSString *EXChatFontName	= @"Arial";
+const CGFloat EXChatFontSize	= 14.0f;
 
 @implementation EXChatWindowController
 
