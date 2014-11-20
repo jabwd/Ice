@@ -56,7 +56,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 
 - (void)updateWithBodyInternal:(NSDictionary *)body isUpdate:(BOOL)isUpdate
 {
-	if( body[@"31"] && ![_avatarHash isEqualToData:body[@"31"]] )
+	if( body[@"31"] && [body[@"31"] isKindOfClass:[NSData class]] && ![_avatarHash isEqualToData:body[@"31"]] )
 	{
 		[_avatarImage release];
 		_avatarImage = nil;
@@ -184,6 +184,10 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 
 - (NSString *)statusDisplayString
 {
+	if( [_gameName length] > 0 && _appID != 0 )
+	{
+		return [NSString stringWithFormat:@"Playing %@", _gameName];
+	}
 	switch(_status)
 	{
 		case SKPersonaStateOffline:
@@ -340,6 +344,18 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 
 - (NSComparisonResult)displayNameSort:(SKFriend *)other
 {
+	if( self.appID != 0 && other.appID == 0 )
+	{
+		return NSOrderedAscending;
+	}
+	else if( self.appID != 0 && other.appID != 0 )
+	{
+		return [[self displayName] caseInsensitiveCompare:[other displayName]];
+	}
+	else if( self.appID == 0 && other.appID != 0 )
+	{
+		return NSOrderedDescending;
+	}
 	return [[self displayName] caseInsensitiveCompare:[other displayName]];
 }
 

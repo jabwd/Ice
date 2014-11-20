@@ -259,7 +259,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		[view.imageView setImage:[remoteFriend avatarImage]];
 		[view.textField setStringValue:[remoteFriend displayNameString]];
 		
-		if( remoteFriend.status != SKPersonaStateOnline )
+		if( remoteFriend.status != SKPersonaStateOnline || remoteFriend.appID != 0 )
 		{
 			[view setShowsStatusField:YES];
 			[view.statusField setStringValue:[remoteFriend statusDisplayString]];
