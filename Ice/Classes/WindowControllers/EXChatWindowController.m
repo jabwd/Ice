@@ -102,7 +102,6 @@ const CGFloat EXChatFontSize	= 12.0f;
 
 - (void)resizeMessageView:(id)messageView
 {
-	DLog(@"Should resize window");
 	NSWindow *window = self.window;
 	NSScrollView *messageScrollView = (NSScrollView *)[[_messageView superview] superview];
 	NSScrollView *scrollView = (NSScrollView *)[[_textView superview] superview];
@@ -158,11 +157,11 @@ const CGFloat EXChatFontSize	= 12.0f;
 			_missedMessagesCount++;
 			[[BFNotificationCenter defaultNotificationCenter] addBadgeCount:1];
 			[NSApp requestUserAttention:NSInformationalRequest];
-			[NSObject cancelPreviousPerformRequestsWithTarget:self
-													 selector:@selector(removeIsTyping)
-													   object:nil];
-			[self removeIsTyping];
 		}
+		[NSObject cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(removeIsTyping)
+												   object:nil];
+		[self removeIsTyping];
 	}
 	else if( entryType == SKChatEntryTypeTyping )
 	{
@@ -236,7 +235,7 @@ const CGFloat EXChatFontSize	= 12.0f;
 	
 	[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
 	//[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
-	[[_textView animator] scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
+	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length]-1, 1)];
 	[_textView setNeedsDisplay:YES];
 	[scanner release];
 }

@@ -7,19 +7,20 @@
 //
 
 #import "BFWindow.h"
+#import "XNResizingMessageView.h"
 
 @implementation BFWindow
 
 - (void)sendEvent:(NSEvent *)theEvent
 {
 	NSResponder *first = [self firstResponder];
-	if( ! [first isKindOfClass:[NSTextView class]] )
+	if( ! [first isKindOfClass:[XNResizingMessageView class]] )
 	{
 		// lookup the text field
 		NSArray *subviews = [[self contentView] subviews];
 		for(NSView *subview in subviews)
 		{
-			if( [subview isKindOfClass:[NSTextView class]] )
+			if( [subview isKindOfClass:[XNResizingMessageView class]] )
 			{
 				[self makeFirstResponder:subview];
 			}
