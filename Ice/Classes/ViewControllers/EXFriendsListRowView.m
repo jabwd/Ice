@@ -10,6 +10,13 @@
 
 @implementation EXFriendsListRowView
 
+- (void)dealloc
+{
+	[_avatarImage release];
+	_avatarImage = nil;
+	[super dealloc];
+}
+
 - (void)setShowsStatusField:(BOOL)showsStatus
 {
 	NSRect rect = self.textField.frame;
@@ -62,6 +69,18 @@
 	else
 	{
 		[self.statusField setTextColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
+	}
+	
+	if( _avatarImage )
+	{
+		[[NSGraphicsContext currentContext] saveGraphicsState];
+		NSBezierPath *curvePath = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(2, 2, 32, 32) xRadius:16 yRadius:16];
+		[curvePath setClip];
+		[_avatarImage drawInRect:NSMakeRect(2, 2, 32, 32)
+						fromRect:NSZeroRect
+					   operation:NSCompositeSourceOver
+						fraction:1.0f];
+		[[NSGraphicsContext currentContext] restoreGraphicsState];
 	}
 }
 

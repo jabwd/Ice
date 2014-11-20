@@ -30,6 +30,15 @@ typedef NS_ENUM(SInt32, SKChatEntryType)
 	SKChatEntryTypeInvalid	= 0,
 	SKChatEntryTypeMessage	= 1,
 	SKChatEntryTypeTyping	= 2,
+	SKChatEntryTypeInviteGame = 3,
+	SKChatEntryTypeEmote = 4,
+	SKChatEntryTypeLobbyGameStart = 5,
+	SKChatEntryTypeLeftConversation = 6,
+	SKChatEntryTypeEntered = 7,
+	SKChatEntryTypeWasKicked = 8,
+	SKChatEntryTypeWasBanned = 9,
+	SKChatEntryTypeDisconnected = 10,
+	SKChatEntryTypeHistoricalChat = 11,
 };
 
 typedef NS_ENUM(UInt32, SKOSType)

@@ -14,7 +14,7 @@
 #import "SFTabView.h"
 #import "XNResizingMessageView.h"
 
-const NSString *EXChatFontName	= @"Arial";
+const NSString *EXChatFontName	= @"Helvetica Neue";
 const CGFloat EXChatFontSize	= 14.0f;
 
 @implementation EXChatWindowController
@@ -94,7 +94,7 @@ const CGFloat EXChatFontSize	= 14.0f;
 {
 	_previousStamp = 0;
 	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
-	
+	//[_remoteFriend sendMessage:@":d2invoker:" ofType:SKChatEntryTypeEmote];
 	[self addSelfMessage:message date:[NSDate date]];
 	
 	[[BFNotificationCenter defaultNotificationCenter] playSendSound];
@@ -169,6 +169,14 @@ const CGFloat EXChatFontSize	= 14.0f;
 		[self performSelector:@selector(removeIsTyping)
 				   withObject:nil
 				   afterDelay:20.0f];
+	}
+	else if( entryType == SKChatEntryTypeInviteGame )
+	{
+		DLog(@"Got invited to a game");
+	}
+	else
+	{
+		DLog(@"Unhandled chat notificaiton %u", entryType);
 	}
 }
 

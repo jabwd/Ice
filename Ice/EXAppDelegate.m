@@ -114,8 +114,12 @@
 	NSArray *subviews = [contentView subviews];
 	[subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	
+	
 	[view setFrameSize:contentView.frame.size];
 	[contentView addSubview:view];
+	NSRect frame = [view frame];
+	frame.origin.y++;
+	[view setFrame:frame];
 }
 
 #pragma mark - SKSession delegate

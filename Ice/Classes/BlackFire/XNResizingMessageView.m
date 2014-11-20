@@ -10,7 +10,7 @@
 #import "XNBorderedScrollView.h"
 
 #define ENTRY_TEXTVIEW_PADDING	6
-#define BASE_HEIGHT				24
+#define BASE_HEIGHT				22
 #define MAX_EXTRA_HEIGHT		120
 #define MAX_HEIGHT				BASE_HEIGHT+MAX_EXTRA_HEIGHT
 
@@ -49,7 +49,7 @@
 												 name:NSTextDidChangeNotification 
 											   object:self];
 	_maxLength = 4000;
-	[self setFont:[NSFont fontWithName:@"Arial" size:14.0f]];
+	[self setFont:[NSFont fontWithName:@"Helvetica Neue" size:14.0f]];
 }
 
 - (id)initWithFrame:(NSRect)frameRect

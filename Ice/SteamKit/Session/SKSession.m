@@ -210,6 +210,11 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 		[newFriend release];
 		return;
 	}
+	else if( !remoteFriend )
+	{
+		// Self, don't.
+		return;
+	}
 	
 	SKPersonaState oldStatus = remoteFriend.status;
 	[remoteFriend updateWithBody:packetData];

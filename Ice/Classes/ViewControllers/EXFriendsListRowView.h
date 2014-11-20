@@ -9,7 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 @interface EXFriendsListRowView : NSTableCellView
+{
+	NSImage *_avatarImage;
+}
 
+@property (retain) NSImage *avatarImage;
 @property (assign) IBOutlet NSTextField *statusField;
 
 - (void)setShowsStatusField:(BOOL)showsStatus;
