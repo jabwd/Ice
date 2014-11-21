@@ -201,18 +201,19 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 {
 	UInt64 steamID			= [packetData[@"1"] unsignedIntegerValue];
 	SKFriend *remoteFriend	= [self friendForRawSteamID:steamID];
-	if( !remoteFriend && remoteFriend.steamID.rawSteamID != self.rawSteamID )
+	if( !remoteFriend )
 	{
+		// Don't add your self.
+		if( steamID == self.rawSteamID )
+		{
+			[_currentUser updateWithBody:packetData];
+			return;
+		}
 		// At this point in time I do not know why this is happening.
 		SKFriend *newFriend = [[SKFriend alloc] initWithRawSteamID:[packetData[@"1"] unsignedIntegerValue]];
 		[newFriend updateWithBody:packetData];
 		[self connectionAddFriend:newFriend moreComing:NO];
 		[newFriend release];
-		return;
-	}
-	else if( !remoteFriend )
-	{
-		// Self, don't.
 		return;
 	}
 	
