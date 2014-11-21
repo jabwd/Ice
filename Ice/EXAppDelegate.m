@@ -48,6 +48,17 @@
 {
 	[self switchMainView:_loginView];
 	
+	NSString *defaultUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultUsername"];
+	if( defaultUsername )
+	{
+		[_usernameField setStringValue:defaultUsername];
+		[_passwordField becomeFirstResponder];
+	}
+	else
+	{
+		[_usernameField becomeFirstResponder];
+	}
+	
 	[[NSNotificationCenter defaultCenter]
 	 addObserver:self
 	 selector:@selector(notificationReceived:)
@@ -159,6 +170,7 @@
 			
 		case SKSessionStatusConnected:
 		{
+			[[NSUserDefaults standardUserDefaults] setObject:[_usernameField stringValue] forKey:@"defaultUsername"];
 			if( !_friendsListController )
 			{
 				_friendsListController = [[EXFriendsListController alloc] initWithSession:_session];

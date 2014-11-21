@@ -680,15 +680,21 @@
                             <string>NSAllRomanInputSourcesLocaleIdentifier</string>
                         </allowedInputSourceLocales>
                     </secureTextFieldCell>
+                    <connections>
+                        <outlet property="nextKeyView" destination="ExG-0x-APG" id="gA9-Qk-Q9S"/>
+                    </connections>
                 </secureTextField>
                 <textField verticalHuggingPriority="750" id="ExG-0x-APG">
                     <rect key="frame" x="20" y="318" width="156" height="22"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="number5_" placeholderString="Username" drawsBackground="YES" id="S7C-Er-5YU">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Username" drawsBackground="YES" id="S7C-Er-5YU">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <outlet property="nextKeyView" destination="XDc-ZR-S1I" id="Ii2-Gf-M6A"/>
+                    </connections>
                 </textField>
                 <button verticalHuggingPriority="750" id="d4I-fY-7A3">
                     <rect key="frame" x="111" y="250" width="71" height="32"/>
@@ -727,7 +733,7 @@ DQ
                     </buttonCell>
                 </button>
             </subviews>
-            <point key="canvasLocation" x="635" y="679"/>
+            <point key="canvasLocation" x="346" y="471"/>
         </customView>
         <customView id="tKT-WZ-ixF" userLabel="Connecting View">
             <rect key="frame" x="0.0" y="0.0" width="196" height="360"/>
