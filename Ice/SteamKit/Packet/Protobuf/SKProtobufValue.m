@@ -148,14 +148,15 @@
 		_type = WireTypePacked;
 		
 		NSMutableData *buff = [[NSMutableData alloc] init];
-		
+		NSData *strData = [string dataUsingEncoding:NSUTF8StringEncoding];
 		// Generate the length byte and append it
-		SKProtobufValue *length = [[SKProtobufValue alloc] initWithVarint:[string length]];
+		//SKProtobufValue
+		SKProtobufValue *length = [[SKProtobufValue alloc] initWithVarint:[strData length]];
 		[buff appendData:length.data];
 		[length release];
 		
 		// Append the string data
-		[buff appendData:[string dataUsingEncoding:NSUTF8StringEncoding]];
+		[buff appendData:strData];
 		
 		_data = [buff retain];
 		

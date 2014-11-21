@@ -74,6 +74,7 @@
 		36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671A19C6DAF500D9C761 /* SKConnection.m */; };
 		36E7671E19C707D900D9C761 /* SKPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671D19C707D900D9C761 /* SKPacket.m */; };
 		36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F143251A1690D100FFF4A4 /* EXMemoryManager.m */; };
+		36F263D21A1F9BC5000CEADC /* EXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F263D11A1F9BC5000CEADC /* EXImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,8 @@
 		36E7671D19C707D900D9C761 /* SKPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPacket.m; path = SteamKit/Packet/SKPacket.m; sourceTree = "<group>"; };
 		36F143241A1690D100FFF4A4 /* EXMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXMemoryManager.h; path = Classes/Developer/EXMemoryManager.h; sourceTree = "<group>"; };
 		36F143251A1690D100FFF4A4 /* EXMemoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXMemoryManager.m; path = Classes/Developer/EXMemoryManager.m; sourceTree = "<group>"; };
+		36F263D01A1F9BC5000CEADC /* EXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXImageView.h; path = Classes/Views/EXImageView.h; sourceTree = "<group>"; };
+		36F263D11A1F9BC5000CEADC /* EXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXImageView.m; path = Classes/Views/EXImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +257,8 @@
 		364875D71A116E1D00F7FA97 /* SafariTabs */ = {
 			isa = PBXGroup;
 			children = (
+				3672A7E31A10F90F003AF16D /* NSViewAdditions.h */,
+				3672A7E41A10F90F003AF16D /* NSViewAdditions.m */,
 				3672A7B71A10F441003AF16D /* SFTabStripView.h */,
 				3672A7B81A10F441003AF16D /* SFTabStripView.m */,
 				3672A7B91A10F441003AF16D /* SFTabView.h */,
@@ -337,8 +342,6 @@
 			children = (
 				367EF2D81A1045C00038548D /* EXFriendsListController.h */,
 				367EF2D91A1045C00038548D /* EXFriendsListController.m */,
-				367EF2DD1A1046120038548D /* EXFriendsListRowView.h */,
-				367EF2DE1A1046120038548D /* EXFriendsListRowView.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -346,17 +349,11 @@
 		36A7F1851A1A52A80033FF89 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				36F263D41A1F9BDA000CEADC /* FriendsList */,
+				36F263D31A1F9BD5000CEADC /* MessageView */,
 				364875D71A116E1D00F7FA97 /* SafariTabs */,
 				3672A7B51A10F441003AF16D /* BFWindow.h */,
 				3672A7B61A10F441003AF16D /* BFWindow.m */,
-				3672A7BB1A10F441003AF16D /* XNBorderedScrollView.h */,
-				3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */,
-				3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */,
-				3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */,
-				36A7F1871A1A52EC0033FF89 /* EXOutlineView.h */,
-				36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */,
-				3672A7E31A10F90F003AF16D /* NSViewAdditions.h */,
-				3672A7E41A10F90F003AF16D /* NSViewAdditions.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -605,6 +602,30 @@
 			name = Debug;
 			sourceTree = "<group>";
 		};
+		36F263D31A1F9BD5000CEADC /* MessageView */ = {
+			isa = PBXGroup;
+			children = (
+				3672A7BB1A10F441003AF16D /* XNBorderedScrollView.h */,
+				3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */,
+				3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */,
+				3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */,
+			);
+			name = MessageView;
+			sourceTree = "<group>";
+		};
+		36F263D41A1F9BDA000CEADC /* FriendsList */ = {
+			isa = PBXGroup;
+			children = (
+				36F263D01A1F9BC5000CEADC /* EXImageView.h */,
+				36F263D11A1F9BC5000CEADC /* EXImageView.m */,
+				36A7F1871A1A52EC0033FF89 /* EXOutlineView.h */,
+				36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */,
+				367EF2DD1A1046120038548D /* EXFriendsListRowView.h */,
+				367EF2DE1A1046120038548D /* EXFriendsListRowView.m */,
+			);
+			name = FriendsList;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -744,6 +765,7 @@
 				36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				3672A7C01A10F441003AF16D /* BFSoundSet.m in Sources */,
+				36F263D21A1F9BC5000CEADC /* EXImageView.m in Sources */,
 				3672A7BF1A10F441003AF16D /* BFNotificationCenter.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
 				36D4F8821A00EE570028CE96 /* SKOneTimePassword.m in Sources */,

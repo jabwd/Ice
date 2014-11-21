@@ -15,6 +15,8 @@
 
 #import "EXMemoryManager.h"
 
+#import "SKProtobufValue.h"
+
 @implementation EXAppDelegate
 
 + (void)initialize

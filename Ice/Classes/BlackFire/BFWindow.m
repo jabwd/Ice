@@ -8,19 +8,25 @@
 
 #import "BFWindow.h"
 #import "XNResizingMessageView.h"
+#import "XNBorderedScrollView.h"
 
 @implementation BFWindow
 
 - (void)sendEvent:(NSEvent *)theEvent
 {
 	NSResponder *first = [self firstResponder];
-	if( ! [first isKindOfClass:[XNResizingMessageView class]] )
+	if( [first isKindOfClass:[NSTextView class]] )
+	{
+		[super sendEvent:theEvent];
+		return;
+	}
+	if( ! [first isKindOfClass:[XNBorderedScrollView class]] )
 	{
 		// lookup the text field
 		NSArray *subviews = [[self contentView] subviews];
 		for(NSView *subview in subviews)
 		{
-			if( [subview isKindOfClass:[XNResizingMessageView class]] )
+			if( [subview isKindOfClass:[XNBorderedScrollView class]] )
 			{
 				[self makeFirstResponder:subview];
 			}

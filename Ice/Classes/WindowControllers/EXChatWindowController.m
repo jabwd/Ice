@@ -93,7 +93,14 @@ const CGFloat EXChatFontSize	= 14.0f;
 - (void)sendMessage:(NSString *)message
 {
 	_previousStamp = 0;
-	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
+	if( [message isEqualToString:@":d2invoker:"] )
+	{
+		[_remoteFriend sendMessage:message ofType:SKChatEntryTypeEmote];
+	}
+	else
+	{
+		[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
+	}
 	//[_remoteFriend sendMessage:@":d2invoker:" ofType:SKChatEntryTypeEmote];
 	[self addSelfMessage:message date:[NSDate date]];
 	

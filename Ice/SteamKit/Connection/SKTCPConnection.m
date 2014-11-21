@@ -70,12 +70,18 @@
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
 	[_buffer appendData:data];
+	DLog(@"Buffer size: %lu", [_buffer length]);
+	
 	UInt32 length = [_buffer getUInt32];
 	
 	// Wait till we have enough data to scan the packet we received
 	if( length <= [_buffer length] )
 	{
 		[_scanner checkForPacket:_buffer];
+	}
+	else
+	{
+		DLog(@"Not enough data to scan for packet: %u %lu", length, [_buffer length]);
 	}
 	[_socket readDataWithTimeout:-1 tag:0];
 }

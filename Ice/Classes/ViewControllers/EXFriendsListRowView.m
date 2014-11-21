@@ -7,13 +7,12 @@
 //
 
 #import "EXFriendsListRowView.h"
+#import "EXImageView.h"
 
 @implementation EXFriendsListRowView
 
 - (void)dealloc
 {
-	[_avatarImage release];
-	_avatarImage = nil;
 	[super dealloc];
 }
 
@@ -41,23 +40,9 @@
 	[textField setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
 }
 
-- (void)_setShowsStatusField:(BOOL)showsStatus
+- (void)setAvatarImage:(NSImage *)avatarImage
 {
-	NSRect rect = self.textField.frame;
-	
-	if( showsStatus )
-	{
-		rect.origin.y = 16;
-		[_statusField setHidden:NO];
-	}
-	else
-	{
-		rect.origin.y = 10;
-		[_statusField setHidden:YES];
-	}
-	
-	NSTextField *textField = self.textField;
-	[[textField animator] setFrame:NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
+	_avatarView.avatarImage = avatarImage;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -69,18 +54,6 @@
 	else
 	{
 		[self.statusField setTextColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
-	}
-	
-	if( _avatarImage )
-	{
-		[[NSGraphicsContext currentContext] saveGraphicsState];
-		NSBezierPath *curvePath = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(2, 2, 32, 32) xRadius:16 yRadius:16];
-		[curvePath setClip];
-		[_avatarImage drawInRect:NSMakeRect(2, 2, 32, 32)
-						fromRect:NSZeroRect
-					   operation:NSCompositeSourceOver
-						fraction:1.0f];
-		[[NSGraphicsContext currentContext] restoreGraphicsState];
 	}
 }
 

@@ -268,7 +268,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		SKFriend *remoteFriend = (SKFriend *)item;
 		
 		EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"FriendCell" owner:self];
-		view.avatarImage = [remoteFriend avatarImage];
+		[view setAvatarImage:[remoteFriend avatarImage]];
 		[view.textField setStringValue:[remoteFriend displayNameString]];
 		
 		if( remoteFriend.status != SKPersonaStateOnline || remoteFriend.appID != 0 )

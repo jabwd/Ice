@@ -8,14 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface EXFriendsListRowView : NSTableCellView
-{
-	NSImage *_avatarImage;
-}
+@class EXImageView;
 
-@property (retain) NSImage *avatarImage;
+@interface EXFriendsListRowView : NSTableCellView
+
 @property (assign) IBOutlet NSTextField *statusField;
+@property (assign) IBOutlet EXImageView *avatarView;
 
 - (void)setShowsStatusField:(BOOL)showsStatus;
+
+- (void)setAvatarImage:(NSImage *)avatarImage;
 
 @end
