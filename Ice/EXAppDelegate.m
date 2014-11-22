@@ -13,9 +13,7 @@
 #import "EXFriendsListController.h"
 #import "BFNotificationCenter.h"
 
-#import "EXMemoryManager.h"
-
-#import "SKProtobufValue.h"
+#import "EXPreferencesWindowController.h"
 
 @implementation EXAppDelegate
 
@@ -52,11 +50,11 @@
 	if( defaultUsername )
 	{
 		[_usernameField setStringValue:defaultUsername];
-		[_passwordField becomeFirstResponder];
+		[self.window makeFirstResponder:_passwordField];
 	}
 	else
 	{
-		[_usernameField becomeFirstResponder];
+		[self.window makeFirstResponder:_usernameField];
 	}
 	
 	[[NSNotificationCenter defaultCenter]
@@ -103,9 +101,9 @@
 	[_session disconnect];
 }
 
-- (IBAction)outputMemoryList:(id)sender
+- (IBAction)showPreferences:(id)sender
 {
-	[[EXMemoryManager sharedManager] putout];
+	[[EXPreferencesWindowController sharedController] show];
 }
 
 - (IBAction)openDeveloperWindow:(id)sender

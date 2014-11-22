@@ -36,6 +36,6 @@
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
 - (IBAction)openDeveloperWindow:(id)sender;
-- (IBAction)outputMemoryList:(id)sender;
+- (IBAction)showPreferences:(id)sender;
 
 @end

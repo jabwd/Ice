@@ -15,6 +15,8 @@
 		363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */; };
 		3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3646FE3119FAA9D900143668 /* SKProtobufKey.m */; };
 		3647D1A41A13170E00D88225 /* SKFriendCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3647D1A31A13170E00D88225 /* SKFriendCache.m */; };
+		365E9BDD1A20C5C40037C50C /* EXPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */; };
+		365E9BDE1A20C5C40037C50C /* EXPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 365E9BDC1A20C5C40037C50C /* EXPreferencesWindowController.xib */; };
 		366863AB1A10553900EA08B6 /* EXChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366863A91A10553900EA08B6 /* EXChatWindowController.m */; };
 		366863AC1A10553900EA08B6 /* EXChatWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 366863AA1A10553900EA08B6 /* EXChatWindowController.xib */; };
 		3672A7BF1A10F441003AF16D /* BFNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7B21A10F441003AF16D /* BFNotificationCenter.m */; };
@@ -34,7 +36,6 @@
 		3672A7DA1A10F65A003AF16D /* send.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7D51A10F65A003AF16D /* send.m4v */; };
 		3672A7DF1A10F670003AF16D /* private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7DB1A10F670003AF16D /* private.pem */; };
 		3672A7E01A10F670003AF16D /* public.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7DC1A10F670003AF16D /* public.pem */; };
-		3672A7E11A10F670003AF16D /* steamInternal.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7DD1A10F670003AF16D /* steamInternal.pem */; };
 		3672A7E21A10F670003AF16D /* steamPublic.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7DE1A10F670003AF16D /* steamPublic.pem */; };
 		3672A7E51A10F90F003AF16D /* NSViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7E41A10F90F003AF16D /* NSViewAdditions.m */; };
 		367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 367EF2D31A103F060038548D /* EXSteamDeveloperWindow.m */; };
@@ -105,6 +106,9 @@
 		3646FE3119FAA9D900143668 /* SKProtobufKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufKey.m; path = SteamKit/Packet/Protobuf/SKProtobufKey.m; sourceTree = "<group>"; };
 		3647D1A21A13170E00D88225 /* SKFriendCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKFriendCache.h; path = SteamKit/Friends/SKFriendCache.h; sourceTree = "<group>"; };
 		3647D1A31A13170E00D88225 /* SKFriendCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKFriendCache.m; path = SteamKit/Friends/SKFriendCache.m; sourceTree = "<group>"; };
+		365E9BDA1A20C5C40037C50C /* EXPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPreferencesWindowController.h; path = Classes/WindowControllers/EXPreferencesWindowController.h; sourceTree = "<group>"; };
+		365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXPreferencesWindowController.m; path = Classes/WindowControllers/EXPreferencesWindowController.m; sourceTree = "<group>"; };
+		365E9BDC1A20C5C40037C50C /* EXPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXPreferencesWindowController.xib; path = Classes/WindowControllers/EXPreferencesWindowController.xib; sourceTree = "<group>"; };
 		366863A81A10553900EA08B6 /* EXChatWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXChatWindowController.h; path = Classes/WindowControllers/EXChatWindowController.h; sourceTree = "<group>"; };
 		366863A91A10553900EA08B6 /* EXChatWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXChatWindowController.m; path = Classes/WindowControllers/EXChatWindowController.m; sourceTree = "<group>"; };
 		366863AA1A10553900EA08B6 /* EXChatWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXChatWindowController.xib; path = Classes/WindowControllers/EXChatWindowController.xib; sourceTree = "<group>"; };
@@ -135,7 +139,6 @@
 		3672A7D51A10F65A003AF16D /* send.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; name = send.m4v; path = Resources/Sounds/send.m4v; sourceTree = "<group>"; };
 		3672A7DB1A10F670003AF16D /* private.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = private.pem; path = Resources/private.pem; sourceTree = "<group>"; };
 		3672A7DC1A10F670003AF16D /* public.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = public.pem; path = Resources/public.pem; sourceTree = "<group>"; };
-		3672A7DD1A10F670003AF16D /* steamInternal.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = steamInternal.pem; path = Resources/steamInternal.pem; sourceTree = "<group>"; };
 		3672A7DE1A10F670003AF16D /* steamPublic.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = steamPublic.pem; path = Resources/steamPublic.pem; sourceTree = "<group>"; };
 		3672A7E31A10F90F003AF16D /* NSViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSViewAdditions.h; path = Classes/Helpers/NSViewAdditions.h; sourceTree = "<group>"; };
 		3672A7E41A10F90F003AF16D /* NSViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSViewAdditions.m; path = Classes/Helpers/NSViewAdditions.m; sourceTree = "<group>"; };
@@ -274,6 +277,8 @@
 				36CB626D19FF344100F2E996 /* Steam Guard */,
 				366863A81A10553900EA08B6 /* EXChatWindowController.h */,
 				366863A91A10553900EA08B6 /* EXChatWindowController.m */,
+				365E9BDA1A20C5C40037C50C /* EXPreferencesWindowController.h */,
+				365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */,
 			);
 			name = WindowControllers;
 			sourceTree = "<group>";
@@ -307,7 +312,6 @@
 			children = (
 				3672A7DB1A10F670003AF16D /* private.pem */,
 				3672A7DC1A10F670003AF16D /* public.pem */,
-				3672A7DD1A10F670003AF16D /* steamInternal.pem */,
 				3672A7DE1A10F670003AF16D /* steamPublic.pem */,
 				3672A7D01A10F647003AF16D /* Sounds */,
 				36E766F419C6D54000D9C761 /* Images.xcassets */,
@@ -462,6 +466,7 @@
 		36D8F5B319F6A2CE00C3D4BE /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				365E9BDC1A20C5C40037C50C /* EXPreferencesWindowController.xib */,
 				366863AA1A10553900EA08B6 /* EXChatWindowController.xib */,
 				367EF2DA1A1045C00038548D /* EXFriendsListController.xib */,
 				367EF2D41A103F060038548D /* EXSteamDeveloperWindow.xib */,
@@ -704,6 +709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3672A7DA1A10F65A003AF16D /* send.m4v in Resources */,
+				365E9BDE1A20C5C40037C50C /* EXPreferencesWindowController.xib in Resources */,
 				367EF2D61A103F060038548D /* EXSteamDeveloperWindow.xib in Resources */,
 				3672A7D61A10F65A003AF16D /* connected.m4v in Resources */,
 				367EF2DC1A1045C00038548D /* EXFriendsListController.xib in Resources */,
@@ -711,7 +717,6 @@
 				36E766F519C6D54000D9C761 /* Images.xcassets in Resources */,
 				3672A7D81A10F65A003AF16D /* online.m4v in Resources */,
 				3672A7D71A10F65A003AF16D /* offline.m4v in Resources */,
-				3672A7E11A10F670003AF16D /* steamInternal.pem in Resources */,
 				3672A7DF1A10F670003AF16D /* private.pem in Resources */,
 				3672A7E01A10F670003AF16D /* public.pem in Resources */,
 				3672A7D91A10F65A003AF16D /* receive.m4v in Resources */,
@@ -747,6 +752,7 @@
 				36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */,
 				36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */,
 				3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */,
+				365E9BDD1A20C5C40037C50C /* EXPreferencesWindowController.m in Sources */,
 				3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */,
 				3672A7C11A10F441003AF16D /* BFWindow.m in Sources */,
 				3672A7CE1A10F606003AF16D /* AHMarkedHyperlink.m in Sources */,

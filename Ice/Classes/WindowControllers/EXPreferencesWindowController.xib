@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EXPreferencesWindowController">
+            <connections>
+                <outlet property="advancedView" destination="C70-Vp-2wx" id="gQ0-Bb-Lad"/>
+                <outlet property="generalView" destination="1Gn-2o-Stj" id="2tH-7V-bEl"/>
+                <outlet property="soundView" destination="QbU-Jp-JdJ" id="fiQ-FL-Bng"/>
+                <outlet property="toolbar" destination="G5M-72-YY7" id="tKR-uf-bK7"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="PreferencesWindow" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <rect key="contentRect" x="750" y="383" width="456" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="456" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="37D8287F-8893-4A43-8A2F-856444FDA6A2" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="G5M-72-YY7">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="iRx-Pb-kB6"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="3Eq-4g-w5n"/>
+                    <toolbarItem implicitItemIdentifier="522FCDBD-AC53-4C29-B6F0-0E418F3F10D7" explicitItemIdentifier="General" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="Wf7-jM-WR0">
+                        <connections>
+                            <action selector="selectPane:" target="-2" id="jrt-1m-CCt"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="29F8A856-27D0-4FC9-A060-6BC4FA64FEEA" explicitItemIdentifier="Advanced" label="Advanced" paletteLabel="Advanced" tag="2" image="NSAdvanced" selectable="YES" id="Vcy-nk-AdA">
+                        <connections>
+                            <action selector="selectPane:" target="-2" id="PJp-sQ-GfE"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="40C0E6A9-0EE6-4E6D-8A41-B73DB34363FD" explicitItemIdentifier="Sound" label="Sound" paletteLabel="Sound" tag="1" image="NSStatusAvailable" selectable="YES" id="rMM-Ro-6kd">
+                        <connections>
+                            <action selector="selectPane:" target="-2" id="QQ9-am-SHu"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="Wf7-jM-WR0"/>
+                    <toolbarItem reference="rMM-Ro-6kd"/>
+                    <toolbarItem reference="3Eq-4g-w5n"/>
+                    <toolbarItem reference="Vcy-nk-AdA"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="344" y="92"/>
+        </window>
+        <customView id="1Gn-2o-Stj" userLabel="General view">
+            <rect key="frame" x="0.0" y="0.0" width="456" height="259"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="6gB-S6-gPY">
+                    <rect key="frame" x="118" y="222" width="43" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Login:" id="Dk1-Pi-nGu">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button id="DwD-3y-v8F">
+                    <rect key="frame" x="185" y="201" width="154" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Remember password" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Y7t-x8-FKK">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="enabled" keyPath="values.rememberUsername" id="NQ1-D9-0xS"/>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.rememberPassword" id="fGh-7d-chS"/>
+                    </connections>
+                </button>
+                <button id="gkZ-mv-dhH">
+                    <rect key="frame" x="165" y="221" width="154" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Remember username" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Had-Sc-Gt3">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.rememberUsername" id="wdM-ff-E8e"/>
+                    </connections>
+                </button>
+            </subviews>
+            <point key="canvasLocation" x="344" y="410.5"/>
+        </customView>
+        <customView id="QbU-Jp-JdJ" userLabel="Sound view">
+            <rect key="frame" x="0.0" y="6" width="456" height="226"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="KzV-MO-yhd">
+                    <rect key="frame" x="69" y="189" width="112" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sound on events:" id="eQi-Z7-RB5">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button id="V9y-2A-Dpz">
+                    <rect key="frame" x="185" y="188" width="194" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="When a friend comes online" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RLS-L3-9sT">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.offlineFriendSound" id="KIi-eQ-T4o"/>
+                    </connections>
+                </button>
+                <button id="Ssp-Qv-8se">
+                    <rect key="frame" x="185" y="168" width="183" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="When a friend goes offline" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MXX-TW-aGe">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.onlineFriendSound" id="hbG-rk-h2d"/>
+                    </connections>
+                </button>
+                <button id="bop-0g-0Q9">
+                    <rect key="frame" x="185" y="148" width="202" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="When you receive a message" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="V64-3t-2vC">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.messageReceiveSound" id="CQQ-Ig-Fvc"/>
+                    </connections>
+                </button>
+                <button id="WTD-iz-D7D">
+                    <rect key="frame" x="207" y="128" width="143" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Only in background" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xb2-2Y-znJ">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="enabled" keyPath="values.messageReceiveSound" id="F1G-eH-HpJ"/>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.messageReceiveSoundBackground" id="pUP-Qa-FJx"/>
+                    </connections>
+                </button>
+                <button id="RWR-be-MLv">
+                    <rect key="frame" x="185" y="108" width="188" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="When you send a message" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fSa-54-fuL">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.messageSendSound" id="MdA-4s-abO"/>
+                    </connections>
+                </button>
+                <button id="3wB-eu-vrj">
+                    <rect key="frame" x="185" y="88" width="176" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="When you are connected" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Aeq-Mw-9y1">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.connectSound" id="MLi-Qp-f8W"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="BJ9-3E-tgS">
+                    <rect key="frame" x="84" y="56" width="97" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sound volume:" id="VNY-Iu-iK7">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <slider verticalHuggingPriority="750" id="NQZ-rr-Jtr">
+                    <rect key="frame" x="185" y="54" width="202" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="bpy-lK-nT3"/>
+                    <connections>
+                        <binding destination="s0k-WD-OxP" name="value" keyPath="values.soundVolume" id="fO5-yk-jZX"/>
+                    </connections>
+                </slider>
+                <button verticalHuggingPriority="750" id="wca-hB-wo5">
+                    <rect key="frame" x="175" y="13" width="108" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Test sound" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d1V-gg-inW">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="playTestSound:" target="-2" id="aej-1a-SBf"/>
+                    </connections>
+                </button>
+            </subviews>
+            <point key="canvasLocation" x="344" y="702"/>
+        </customView>
+        <userDefaultsController representsSharedInstance="YES" id="s0k-WD-OxP"/>
+        <customView id="C70-Vp-2wx" userLabel="Advanced view">
+            <rect key="frame" x="0.0" y="0.0" width="456" height="259"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <point key="canvasLocation" x="344" y="1025.5"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
+        <image name="NSStatusAvailable" width="16" height="16"/>
+    </resources>
+</document>
