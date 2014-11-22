@@ -19,13 +19,21 @@
 
 + (void)initialize
 {
-	//NSNumber *n_YES	= [[NSNumber alloc] initWithBool:YES];
+	NSNumber *n_YES	= [[NSNumber alloc] initWithBool:YES];
 	//NSNumber *n_NO	= [[NSNumber alloc] initWithBool:NO];
 	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
 						  @100.0f,BFSoundVolumeDefaultsKey,
+						  n_YES, @"onlineFriendSound",
+						  n_YES, @"offlineFriendSound",
+						  n_YES, @"messageReceiveSound",
+						  n_YES, @"messageSendSound",
+						  n_YES, @"connectSound",
+						  n_YES, @"rememberUsername",
+						  n_YES, @"rememberPassword",
 						  nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 	[dict release];
+	[n_YES release];
 }
 
 - (void)dealloc
@@ -47,7 +55,7 @@
 	[self switchMainView:_loginView];
 	
 	NSString *defaultUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultUsername"];
-	if( defaultUsername )
+	if( defaultUsername && [[NSUserDefaults standardUserDefaults] boolForKey:@"rememberUsername"] )
 	{
 		[_usernameField setStringValue:defaultUsername];
 		[self.window makeFirstResponder:_passwordField];
@@ -137,7 +145,7 @@
 
 - (void)session:(SKSession *)session didDisconnectWithReason:(SKResultCode)reason
 {
-	
+	DLog(@"Disconnected with reason: %u", reason);
 }
 
 - (void)sessionChangedStatus:(SKSession *)session

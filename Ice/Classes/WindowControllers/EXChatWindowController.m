@@ -278,14 +278,31 @@ const CGFloat EXChatFontSize	= 14.0f;
 	[finalMessage release];
 }
 
+- (void)scrollToBottom;
+{
+	NSPoint newScrollOrigin;
+	NSScrollView *scrollview = (NSScrollView *)[[_textView superview] superview];
+	// assume that the scrollview is an existing variable
+	if ([[scrollview documentView] isFlipped]) {
+		newScrollOrigin=NSMakePoint(0.0,NSMaxY([[scrollview documentView] frame])
+									-NSHeight([[scrollview contentView] bounds]));
+	} else {
+		newScrollOrigin=NSMakePoint(0.0,0.0);
+	}
+	[[scrollview documentView] scrollPoint:newScrollOrigin];
+ 
+}
+
 - (void)appendToTextView:(NSAttributedString *)str
 {
 	AHHyperlinkScanner *scanner = [[AHHyperlinkScanner alloc] initWithAttributedString:str usingStrictChecking:NO];
-	
 	[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
-	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
+	[_textView display];
+	[self scrollToBottom];
+	/*[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
+	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];*/
 	//[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length]-1, 1)];
-	[_textView setNeedsDisplay:YES];
+	//[_textView setNeedsDisplay:YES];
 	[scanner release];
 }
 

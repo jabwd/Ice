@@ -101,7 +101,8 @@
 
 - (IBAction)playTestSound:(id)sender
 {
-	[[BFNotificationCenter defaultNotificationCenter] playDemoSound];
+	[[BFNotificationCenter defaultNotificationCenter] updateSoundVolume];
+	[[BFNotificationCenter defaultNotificationCenter] playConnectedSound];
 }
 
 @end

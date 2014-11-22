@@ -188,6 +188,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="bpy-lK-nT3"/>
                     <connections>
+                        <action selector="playTestSound:" target="-2" id="rDH-FI-9Br"/>
                         <binding destination="s0k-WD-OxP" name="value" keyPath="values.soundVolume" id="fO5-yk-jZX"/>
                     </connections>
                 </slider>
