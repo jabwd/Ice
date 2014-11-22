@@ -18,6 +18,7 @@
 - (void)friendDidReceiveMessage:(NSString *)message
 						   date:(NSDate *)date
 						   type:(SKChatEntryType)entryType;
+- (void)friendStatusDidChange;
 @end
 
 extern NSString *SKFriendOnlineStatusChangedNotification;

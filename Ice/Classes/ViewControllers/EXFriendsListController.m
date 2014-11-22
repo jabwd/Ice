@@ -65,6 +65,31 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	[_outlineView setDoubleAction:@selector(doubleAction:)];
 }
 
+- (void)setSession:(SKSession *)session
+{
+	[_session release];
+	_session = session;
+	
+	if( _session == nil )
+	{
+		for(EXChatWindowController *controller in _chatWindowControllers)
+		{
+			[controller goOffline];
+		}
+	}
+	
+	[self reloadData:nil];
+}
+
+- (SKFriend *)newRemoteFriendForID:(SKSteamID *)steamID
+{
+	if( _session )
+	{
+		return [_session friendForSteamID:steamID];
+	}
+	return nil;
+}
+
 - (void)reloadData:(NSNotification *)notification
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
@@ -94,7 +119,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		return;
 	}
 	
-	SKFriend *remoteFriend = notification.userInfo[@"friend"];
+	SKFriend *remoteFriend = notification.object;
 	if( remoteFriend )
 	{
 		if( remoteFriend.status != SKPersonaStateOffline )

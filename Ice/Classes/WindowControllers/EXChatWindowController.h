@@ -9,12 +9,21 @@
 #import <Cocoa/Cocoa.h>
 #import "SKFriend.h"
 #import "XNResizingMessageView.h"
+#import "SFTabStripView.h"
 
-@class SKSession, EXChatWindowController, SFTabStripView;
+@class SKSession, EXChatWindowController;
 
 @protocol EXChatWindowControllerDelegate <NSObject>
 - (void)shouldCloseController:(EXChatWindowController *)controller;
+- (SKFriend *)newRemoteFriendForID:(SKSteamID *)steamID;
 @end
+
+typedef NS_ENUM(UInt32, EXChatMessageType)
+{
+	EXChatMessageTypeSelf			= 0,
+	EXChatMessageTypeFriend			= 1,
+	EXChatMessageTypeNotification	= 2,
+};
 
 @interface EXChatWindowController : NSWindowController <SKFriendChatDelegate, NSWindowDelegate, BFChatMessageViewDelegate>
 {
@@ -35,6 +44,6 @@
 
 - (id)initWithFriend:(SKFriend *)remoteFriend;
 
-- (IBAction)send:(id)sender;
+- (void)goOffline;
 
 @end

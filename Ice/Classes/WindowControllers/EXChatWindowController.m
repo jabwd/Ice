@@ -14,7 +14,7 @@
 #import "SFTabView.h"
 #import "XNResizingMessageView.h"
 
-const NSString *EXChatFontName	= @"Helvetica Neue";
+NSString *EXChatFontName		= @"Helvetica Neue";
 const CGFloat EXChatFontSize	= 14.0f;
 
 @implementation EXChatWindowController
@@ -66,10 +66,17 @@ const CGFloat EXChatFontSize	= 14.0f;
 	SFTabView *tabView = [[SFTabView alloc] init];
 	tabView.title = self.window.title;
 	[_stripView addTabView:tabView];
+	//[_stripView setDelegate:self];
 	[tabView release];
 	
 	[self.window setContentBorderThickness:35.0 forEdge:NSMinYEdge];
 	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
+	
+	[self.window makeFirstResponder:_messageView];
+	
+	// Set default values
+	[_textView setFont:[NSFont fontWithName:EXChatFontName size:EXChatFontSize]];
+	[_textView setTextColor:[NSColor blackColor]];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification
@@ -78,33 +85,34 @@ const CGFloat EXChatFontSize	= 14.0f;
 	_missedMessagesCount = 0;
 }
 
-- (IBAction)send:(id)sender
+- (void)goOffline
 {
-	/*NSString *message = [[_messageField stringValue] retain];
-	[_messageField setStringValue:@""];
-	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
-	
-	[self addSelfMessage:message date:[NSDate date]];
-	[message release];
-	
-	[[BFNotificationCenter defaultNotificationCenter] playSendSound];*/
+	[_messageView setEnabled:NO];
 }
+
+#pragma mark - Message view delegate
 
 - (void)sendMessage:(NSString *)message
 {
 	_previousStamp = 0;
-	if( [message isEqualToString:@":d2invoker:"] )
-	{
-		[_remoteFriend sendMessage:message ofType:SKChatEntryTypeEmote];
-	}
-	else
-	{
-		[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
-	}
-	//[_remoteFriend sendMessage:@":d2invoker:" ofType:SKChatEntryTypeEmote];
-	[self addSelfMessage:message date:[NSDate date]];
+	
+	[_remoteFriend sendMessage:message ofType:SKChatEntryTypeMessage];
+	[self processMessage:message
+					from:_remoteFriend.session.currentUser
+					date:[NSDate date]
+				  ofType:EXChatMessageTypeSelf];
 	
 	[[BFNotificationCenter defaultNotificationCenter] playSendSound];
+}
+
+- (void)controlTextChanged
+{
+	NSUInteger now = [[NSDate date] timeIntervalSince1970];
+	if( (now-_previousStamp) > 15 )
+	{
+		[_remoteFriend sendMessage:nil ofType:SKChatEntryTypeTyping];
+		_previousStamp = now;
+	}
 }
 
 - (void)resizeMessageView:(id)messageView
@@ -139,32 +147,42 @@ const CGFloat EXChatFontSize	= 14.0f;
 	[window setFrame:windowFrame display:YES animate:NO];
 }
 
-- (void)controlTextChanged
-{
-	NSUInteger now = [[NSDate date] timeIntervalSince1970];
-	if( (now-_previousStamp) > 15 )
-	{
-		[_remoteFriend sendMessage:nil ofType:SKChatEntryTypeTyping];
-		_previousStamp = now;
-	}
-}
-
 #pragma mark - Chat delegate
+
+- (void)friendStatusDidChange
+{
+	NSString *message = nil;
+	
+	message = [[NSString alloc] initWithFormat:@"%@ is now %@",
+			   [_remoteFriend displayNameString],
+			   [_remoteFriend statusDisplayString]];
+	
+	[self processMessage:message from:nil date:[NSDate date] ofType:EXChatMessageTypeNotification];
+	[message release];
+}
 
 - (void)friendDidReceiveMessage:(NSString *)message date:(NSDate *)date type:(SKChatEntryType)entryType
 {
 	if( entryType == SKChatEntryTypeMessage && [message length] > 0 )
 	{
-		[self addFriendMessage:message date:date];
+		[self processMessage:message
+						from:_remoteFriend
+						date:date
+					  ofType:EXChatMessageTypeFriend];
 		
 		[[BFNotificationCenter defaultNotificationCenter] playReceivedSound];
 		if( ![self.window isKeyWindow] )
 		{
-			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:[_remoteFriend displayNameString] body:[NSString stringWithFormat:@"%@", message]];
-			_missedMessagesCount++;
+			[[BFNotificationCenter defaultNotificationCenter] postNotificationWithTitle:[_remoteFriend displayNameString]
+																				   body:[NSString stringWithFormat:@"%@", message]];
 			[[BFNotificationCenter defaultNotificationCenter] addBadgeCount:1];
+			
+			_missedMessagesCount++;
+			
 			[NSApp requestUserAttention:NSInformationalRequest];
 		}
+		
+		// Remove the isTyping
 		[NSObject cancelPreviousPerformRequestsWithTarget:self
 												 selector:@selector(removeIsTyping)
 												   object:nil];
@@ -179,7 +197,17 @@ const CGFloat EXChatFontSize	= 14.0f;
 	}
 	else if( entryType == SKChatEntryTypeInviteGame )
 	{
-		DLog(@"Got invited to a game");
+		[self processMessage:@"Invited you to a game"
+						from:nil
+						date:[NSDate date]
+					  ofType:EXChatMessageTypeNotification];
+	}
+	else if( entryType == SKChatEntryTypeLeftConversation )
+	{
+		[self processMessage:@"Your 'friend' closed the chat window"
+						from:nil
+						date:[NSDate date]
+					  ofType:EXChatMessageTypeNotification];
 	}
 	else
 	{
@@ -192,56 +220,62 @@ const CGFloat EXChatFontSize	= 14.0f;
 	[_isTypingView setImage:nil];
 }
 
-- (void)addFriendMessage:(NSString *)message date:(NSDate *)date
+- (void)processMessage:(NSString *)message from:(SKFriend *)sender date:(NSDate *)date ofType:(EXChatMessageType)type
 {
 	NSString *dateString	= [NSDateFormatter localizedStringFromDate:date
 														  dateStyle:NSDateFormatterNoStyle
 														  timeStyle:NSDateFormatterShortStyle];
-	NSString *name			= [_remoteFriend displayNameString];
+	NSString *name			= [sender displayNameString];
+	NSString *finalMessage	= [[NSString alloc] initWithFormat:
+							   @"%@ - %@: %@\n",
+							   dateString,
+							   name,
+							   message];
+	NSColor	*nameColor		= nil;
+	NSFont *font			= [NSFont fontWithName:EXChatFontName size:EXChatFontSize];
 	
+	switch(type)
+	{
+		case EXChatMessageTypeSelf:
+			nameColor = [NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.8f alpha:1.0f];
+			break;
+			
+		case EXChatMessageTypeFriend:
+			nameColor = [NSColor colorWithCalibratedRed:0.8f green:0.0f blue:0.0f alpha:1.0f];
+			break;
+			
+		case EXChatMessageTypeNotification:
+			nameColor = [NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
+			[finalMessage release];
+			finalMessage = [[NSString alloc] initWithFormat:@"<%@ - %@>", dateString, message];
+			break;
+	}
 	
-	NSString *finalMessage = [NSString stringWithFormat:
-							  @"%@ - %@: %@\n",
-							  dateString,
-							  name,
-							  message];
-	
+	// Generate a colored version of the finalMessage string
 	NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:finalMessage attributes:nil];
 	
-	[str addAttribute:NSFontAttributeName value:[NSFont fontWithName:(NSString *)EXChatFontName size:EXChatFontSize] range:NSMakeRange(0, [finalMessage length])];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(0, [finalMessage length])];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:NSMakeRange([dateString length]+3, [name length]+1)];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor colorWithCalibratedWhite:0.3f alpha:1.0f] range:NSMakeRange(0, [dateString length])];
+	// Set the default attributes for the entire string, just to be sure.
+	[str addAttributes:@{NSFontAttributeName: font, NSForegroundColorAttributeName: [NSColor blackColor]} range:NSMakeRange(0, [finalMessage length])];
+	
+	if( type != EXChatMessageTypeNotification )
+	{
+		[str addAttribute:NSForegroundColorAttributeName
+					value:nameColor
+					range:NSMakeRange([dateString length]+3, [name length]+1)];
+		[str addAttribute:NSForegroundColorAttributeName
+					value:[NSColor colorWithCalibratedWhite:0.3f alpha:1.0f]
+					range:NSMakeRange(0, [dateString length])];
+	}
+	else
+	{
+		[str addAttribute:NSForegroundColorAttributeName
+					value:nameColor
+					range:NSMakeRange(0, [finalMessage length])];
+	}
 	
 	[self appendToTextView:str];
-	
 	[str release];
-}
-
-- (void)addSelfMessage:(NSString *)message date:(NSDate *)date
-{
-	NSString *dateString	= [NSDateFormatter localizedStringFromDate:date
-														  dateStyle:NSDateFormatterNoStyle
-														  timeStyle:NSDateFormatterShortStyle];
-	NSString *name			= [_remoteFriend.session.currentUser displayNameString];
-	
-	
-	NSString *finalMessage = [NSString stringWithFormat:
-							  @"%@ - %@: %@\n",
-							  dateString,
-							  name,
-							  message];
-	
-	NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:finalMessage attributes:nil];
-	
-	[str addAttribute:NSFontAttributeName value:[NSFont fontWithName:(NSString *)EXChatFontName size:EXChatFontSize] range:NSMakeRange(0, [finalMessage length])];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(0, [finalMessage length])];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor] range:NSMakeRange([dateString length]+3, [name length]+1)];
-	[str addAttribute:NSForegroundColorAttributeName value:[NSColor colorWithCalibratedWhite:0.3f alpha:1.0f] range:NSMakeRange(0, [dateString length])];
-	
-	[self appendToTextView:str];
-	
-	[str release];
+	[finalMessage release];
 }
 
 - (void)appendToTextView:(NSAttributedString *)str
@@ -249,8 +283,8 @@ const CGFloat EXChatFontSize	= 14.0f;
 	AHHyperlinkScanner *scanner = [[AHHyperlinkScanner alloc] initWithAttributedString:str usingStrictChecking:NO];
 	
 	[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
-	//[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
-	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length]-1, 1)];
+	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];
+	//[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length]-1, 1)];
 	[_textView setNeedsDisplay:YES];
 	[scanner release];
 }

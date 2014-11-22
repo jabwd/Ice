@@ -102,13 +102,20 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	
 	if( oldStatus != SKPersonaStateMax )
 	{
+		if( _delegate )
+		{
+			if( [_delegate respondsToSelector:@selector(friendStatusDidChange)] )
+			{
+				[_delegate friendStatusDidChange];
+			}
+		}
 		switch(_status)
 		{
 			case SKPersonaStateOffline:
 			{
 				[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
-																	object:nil
-																  userInfo:@{@"friend":self}];
+																	object:self
+																  userInfo:nil];
 			}
 				break;
 				
@@ -117,8 +124,8 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 				if( oldStatus == SKPersonaStateOffline )
 				{
 					[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
-																		object:nil
-																	  userInfo:@{@"friend":self}];
+																		object:self
+																	  userInfo:nil];
 				}
 			}
 				break;
@@ -128,8 +135,6 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 			case SKPersonaStateLookingToTrade:
 			case SKPersonaStateSnooze:
 			case SKPersonaStateLookingToPlay:
-			{
-			}
 				break;
 				
 			default:

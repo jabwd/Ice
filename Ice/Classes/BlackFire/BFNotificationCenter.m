@@ -148,8 +148,8 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 
 - (void)playConnectedSound
 {
-	//if( ![[NSUserDefaults standardUserDefaults] boolForKey:BFEnableConnectSound] )
-	//	return;
+	if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"connectSound"] )
+		return;
 	
 	if( ! _connectSound )
 	{
@@ -166,8 +166,8 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 
 - (void)playOnlineSound
 {
-	//if( ![[NSUserDefaults standardUserDefaults] boolForKey:BFEnableFriendOnlineStatusSound] )
-	//	return;
+	if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"onlineFriendSound"] )
+		return;
 	
 	if( ! _onlineSound )
 	{
@@ -185,8 +185,8 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 
 - (void)playOfflineSound
 {
-	//if( ![[NSUserDefaults standardUserDefaults] boolForKey:BFEnableFriendOnlineStatusSound] )
-	//	return;
+	if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"offlineFriendSound"] )
+		return;
 	
 	if( ! _offlineSound )
 	{
@@ -206,8 +206,8 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 
 - (void)playReceivedSound
 {
-	//if( ![[NSUserDefaults standardUserDefaults] boolForKey:BFEnableReceiveSound] )
-	//	return;
+	if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"messageReceiveSound"] )
+		return;
 	
 	if( ! _receiveSound )
 	{
@@ -226,8 +226,8 @@ NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 
 - (void)playSendSound
 {
-	//if( ![[NSUserDefaults standardUserDefaults] boolForKey:BFEnableSendSound] )
-	//	return;
+	if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"messageSendSound"] )
+		return;
 	
 	if( ! _sendSound )
 	{

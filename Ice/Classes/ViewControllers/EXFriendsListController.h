@@ -29,6 +29,7 @@ extern NSString *EXPendingFriendsGroupName;
 @property (assign) IBOutlet NSOutlineView *outlineView;
 
 - (id)initWithSession:(SKSession *)session;
+- (void)setSession:(SKSession *)session;
 
 - (IBAction)doubleAction:(id)sender;
 
