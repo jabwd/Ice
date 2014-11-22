@@ -53,6 +53,8 @@
 		36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */; };
 		36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */; };
 		36CE6D071A20EA980093EA4C /* BFKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CE6D061A20EA980093EA4C /* BFKeychainManager.m */; };
+		36CE6D0A1A20F8620093EA4C /* SKServerListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CE6D091A20F8620093EA4C /* SKServerListManager.m */; };
+		36CE6D0D1A20FA9E0093EA4C /* EXBetterTextview.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CE6D0C1A20FA9E0093EA4C /* EXBetterTextview.m */; };
 		36CF7DD61A01199D00973C8B /* SKFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF7DD51A01199D00973C8B /* SKFriend.m */; };
 		36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */; };
 		36D4F8821A00EE570028CE96 /* SKOneTimePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */; };
@@ -170,6 +172,10 @@
 		36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXSteamGuardWindowController.xib; path = "Classes/Steam Guard/EXSteamGuardWindowController.xib"; sourceTree = "<group>"; };
 		36CE6D051A20EA980093EA4C /* BFKeychainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFKeychainManager.h; sourceTree = "<group>"; };
 		36CE6D061A20EA980093EA4C /* BFKeychainManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFKeychainManager.m; sourceTree = "<group>"; };
+		36CE6D081A20F8620093EA4C /* SKServerListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKServerListManager.h; path = SteamKit/Connection/SKServerListManager.h; sourceTree = "<group>"; };
+		36CE6D091A20F8620093EA4C /* SKServerListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKServerListManager.m; path = SteamKit/Connection/SKServerListManager.m; sourceTree = "<group>"; };
+		36CE6D0B1A20FA9E0093EA4C /* EXBetterTextview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXBetterTextview.h; path = Classes/Views/EXBetterTextview.h; sourceTree = "<group>"; };
+		36CE6D0C1A20FA9E0093EA4C /* EXBetterTextview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXBetterTextview.m; path = Classes/Views/EXBetterTextview.m; sourceTree = "<group>"; };
 		36CF7DD41A01199D00973C8B /* SKFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKFriend.h; path = SteamKit/Friends/SKFriend.h; sourceTree = "<group>"; };
 		36CF7DD51A01199D00973C8B /* SKFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKFriend.m; path = SteamKit/Friends/SKFriend.m; sourceTree = "<group>"; };
 		36CF849A1A0F19A000C7A087 /* SKProtobufHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufHeader.h; path = SteamKit/Packet/Protobuf/SKProtobufHeader.h; sourceTree = "<group>"; };
@@ -363,6 +369,8 @@
 				364875D71A116E1D00F7FA97 /* SafariTabs */,
 				3672A7B51A10F441003AF16D /* BFWindow.h */,
 				3672A7B61A10F441003AF16D /* BFWindow.m */,
+				36CE6D0B1A20FA9E0093EA4C /* EXBetterTextview.h */,
+				36CE6D0C1A20FA9E0093EA4C /* EXBetterTextview.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -587,6 +595,8 @@
 				36B714C119D1CAB3006F08B3 /* GCDAsyncSocket */,
 				36E7671919C6DAF500D9C761 /* SKConnection.h */,
 				36E7671A19C6DAF500D9C761 /* SKConnection.m */,
+				36CE6D081A20F8620093EA4C /* SKServerListManager.h */,
+				36CE6D091A20F8620093EA4C /* SKServerListManager.m */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -753,6 +763,7 @@
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */,
+				36CE6D0A1A20F8620093EA4C /* SKServerListManager.m in Sources */,
 				3672A7C51A10F441003AF16D /* XNResizingMessageView.m in Sources */,
 				36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */,
 				36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */,
@@ -763,6 +774,7 @@
 				3672A7CE1A10F606003AF16D /* AHMarkedHyperlink.m in Sources */,
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
 				3672A7C21A10F441003AF16D /* SFTabStripView.m in Sources */,
+				36CE6D0D1A20FA9E0093EA4C /* EXBetterTextview.m in Sources */,
 				36E5DA9319FDE4EB00AD2A4D /* SKProtobufCompiler.m in Sources */,
 				36B303D31A0FF0DF009C2D0B /* SKSteamID.m in Sources */,
 				36CE6D071A20EA980093EA4C /* BFKeychainManager.m in Sources */,

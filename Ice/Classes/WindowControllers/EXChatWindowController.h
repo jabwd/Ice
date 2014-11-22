@@ -45,5 +45,6 @@ typedef NS_ENUM(UInt32, EXChatMessageType)
 - (id)initWithFriend:(SKFriend *)remoteFriend;
 
 - (void)goOffline;
+- (void)scrollToBottom;
 
 @end

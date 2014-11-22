@@ -247,7 +247,7 @@ const CGFloat EXChatFontSize	= 14.0f;
 		case EXChatMessageTypeNotification:
 			nameColor = [NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
 			[finalMessage release];
-			finalMessage = [[NSString alloc] initWithFormat:@"<%@ - %@>", dateString, message];
+			finalMessage = [[NSString alloc] initWithFormat:@"<%@ - %@>\n", dateString, message];
 			break;
 	}
 	
@@ -297,12 +297,7 @@ const CGFloat EXChatFontSize	= 14.0f;
 {
 	AHHyperlinkScanner *scanner = [[AHHyperlinkScanner alloc] initWithAttributedString:str usingStrictChecking:NO];
 	[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
-	[_textView display];
-	[self scrollToBottom];
-	/*[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
-	[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length], 0)];*/
-	//[_textView scrollRangeToVisible:NSMakeRange([[_textView string] length]-1, 1)];
-	//[_textView setNeedsDisplay:YES];
+	[_textView setNeedsDisplay:YES];
 	[scanner release];
 }
 
