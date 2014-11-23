@@ -98,7 +98,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 														 userInfo:nil
 														  repeats:YES];
 		[_keepAliveTimer setTolerance:10];
-		[self setUserStatus:SKPersonaStateOnline];
+		[self setUserStatus:SKPersonaStateSnooze];
 	}
 	else if( status == SKSessionStatusDisconnecting )
 	{
@@ -158,11 +158,11 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 
 - (void)disconnectWithReason:(SKResultCode)reason
 {
-	[self disconnect];
 	if( [_delegate respondsToSelector:@selector(session:didDisconnectWithReason:)] )
 	{
 		[_delegate session:self didDisconnectWithReason:reason];
 	}
+	[self disconnect];
 }
 
 - (void)logIn
