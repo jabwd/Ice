@@ -19,6 +19,10 @@
 	NSMutableData		*_headerData;
 }
 
+- (void)addVarint:(UInt64)varint field:(UInt32)fieldNumber;
+- (void)addData:(NSData *)data forType:(WireType)type fieldNumber:(UInt32)fieldNumber;
+
+
 - (void)addHeaderValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber;
 - (void)addValue:(SKProtobufValue *)value forType:(WireType)type fieldNumber:(UInt32)fieldNumber;
 

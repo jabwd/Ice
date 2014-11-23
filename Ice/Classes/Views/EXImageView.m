@@ -23,7 +23,7 @@
 	if( _avatarImage )
 	{
 		[[NSGraphicsContext currentContext] saveGraphicsState];
-		NSBezierPath *curvePath = [NSBezierPath bezierPathWithRoundedRect:drawRect xRadius:16 yRadius:16];
+		NSBezierPath *curvePath = [NSBezierPath bezierPathWithRoundedRect:drawRect xRadius:4 yRadius:4];
 		[curvePath setClip];
 		[_avatarImage drawInRect:drawRect];
 		[[NSGraphicsContext currentContext] restoreGraphicsState];

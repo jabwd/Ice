@@ -131,7 +131,6 @@
 			{
 				case SKResultCodeAccountLogonDenied:
 				{
-					DLog(@"Logon denied");
 					[[NSNotificationCenter defaultCenter]
 					 postNotificationName:SKLoginFailedSteamGuardNotificationName
 					 object:nil
@@ -141,7 +140,6 @@
 					
 				case SKResultCodeOK:
 				{
-					DLog(@"Logon ok");
 					_session.sessionID = [[packet.scanner.header objectForKey:@"2"] unsignedIntValue];
 					_session.keepAliveTimerSeconds = [[packet valueForFieldNumber:2] intValue];
 					
@@ -151,13 +149,13 @@
 					
 				case SKResultCodeInvalidPassword:
 				{
-					DLog(@"Incorrect password");
+					[_session disconnectWithReason:SKResultCodeInvalidPassword];
 				}
 					break;
 					
 				case SKResultCodeInvalidLoginAuthCode:
 				{
-					DLog(@"Incorrect Steam Guard code");
+					[_session disconnectWithReason:SKResultCodeInvalidLoginAuthCode];
 				}
 					break;
 					
@@ -207,6 +205,9 @@
 			UInt64 remoteID			= [[packet valueForFieldNumber:1] unsignedIntegerValue];
 			SKFriend *remoteFriend	= [_session friendForRawSteamID:remoteID];
 			[remoteFriend receivedChatMessageWithBody:packet.scanner.body];
+			
+			SKPacket *pack = [SKPacket requestAppInfoPacket:570 session:_session];
+			[_connection sendPacket:pack];
 		}
 			break;
 		
@@ -257,6 +258,52 @@
 			//UInt32 IP	= [packet.scanner.body[@"1"] unsignedIntValue];
 			//UInt32 port = [packet.scanner.body[@"2"] unsignedIntValue];
 			//DLog(@"Server List: %u.%u.%u.%u:%u", ((IP >> 24) & 0xFF), ((IP >> 16) & 0xFF), ((IP >> 8) & 0xFF), (IP & 0xFF), port);
+		}
+			break;
+			
+		case SKMsgTypeClientAppInfoResponse:
+		{
+			NSData *sepp = [NSData dataFromByteString:@"0001"];
+			NSDictionary *body = packet.scanner.body;
+			NSData *app = body[@"1"];
+			if( [app isKindOfClass:[NSString class]] )
+			{
+				DLog(@"Apparently it was a string lol.");
+				app = [(NSString *)app dataUsingEncoding:NSUTF8StringEncoding];
+			}
+			NSArray *rep = [packet.scanner scanRepeated:app];
+			for(NSDictionary *singleApp in rep)
+			{
+				NSData *sections = singleApp[@"3"];
+				if( [sections isKindOfClass:[NSData class]] )
+				{
+					NSArray *rep2 = [packet.scanner scanRepeated:sections];
+					for(NSDictionary *section in rep2)
+					{
+						if( [section[@"1"] unsignedIntegerValue] == 2 )
+						{
+							NSMutableData *part = [[NSMutableData alloc] init];
+							for(NSUInteger i = 6;i<[sections length];i+=1)
+							{
+								unsigned char byte = [sections byteAtIndex:(UInt32)i];
+								if( byte == 0x00 || byte == 0x01 )
+								{
+									continue;
+								}
+								[part appendByte:byte];
+							}
+							NSString *appDataString = [[NSString alloc] initWithData:part encoding:NSUTF8StringEncoding];
+							NSRange strRange = [appDataString rangeOfString:@"clienticon"];
+							NSRange nameRange = [appDataString rangeOfString:@"name"];
+							NSString *appID = [appDataString substringWithRange:NSMakeRange(0, nameRange.location)];
+							NSString *sub = [appDataString substringWithRange:NSMakeRange(strRange.location+strRange.length, 40)];
+							DLog(@"AppIcon URL: https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/%@/%@.ico", appID, sub);
+							[appDataString release];
+							[part release];
+						}
+					}
+				}
+			}
 		}
 			break;
 		

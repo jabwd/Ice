@@ -32,4 +32,7 @@ extern NSUInteger const ProtoMask; // AND for isProto, XOR for STRIP
  * @return NSArray repeated entries ( if available )
  */
 - (NSArray *)scanRepeated:(NSData *)repeated;
+
+- (UInt64)decodeVarint:(NSData *)varint;
+
 @end

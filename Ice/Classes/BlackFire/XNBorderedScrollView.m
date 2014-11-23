@@ -14,8 +14,14 @@
 {
 	if( (self = [super initWithCoder:aDecoder]) )
 	{
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:NSWindowDidBecomeKeyNotification object:[self window]];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:NSWindowDidResignKeyNotification object:[self window]];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(update)
+													 name:NSWindowDidBecomeKeyNotification
+												   object:[self window]];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(update)
+													 name:NSWindowDidResignKeyNotification
+												   object:[self window]];
 	}
 	return self;
 }
@@ -47,8 +53,6 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
 	NSRect frame = [self bounds];
-	frame.size.height	-= 1;
-	frame.origin.y		+= 0;
     
     CGFloat alpha = 1.0f;
     if( _offlineMode )

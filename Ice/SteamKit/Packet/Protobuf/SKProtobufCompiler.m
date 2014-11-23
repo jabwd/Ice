@@ -9,6 +9,7 @@
 #import "SKProtobufCompiler.h"
 #import "SKProtobufValue.h"
 #import "SKProtobufKey.h"
+#import "SKProtobufEncoder.h"
 
 @implementation SKProtobufCompiler
 
@@ -38,6 +39,21 @@
 }
 
 #pragma mark - Implementation
+
+- (void)addVarint:(UInt64)varint field:(UInt32)fieldNumber
+{
+	[self addData:[SKProtobufEncoder encodeVarint:varint]
+		  forType:WireTypeVarint
+	  fieldNumber:fieldNumber];
+}
+
+- (void)addData:(NSData *)data forType:(WireType)type fieldNumber:(UInt32)fieldNumber
+{
+	UInt32 byte = type;
+	byte |= (fieldNumber << 3);
+	[_data appendData:[SKProtobufEncoder encodeVarint:byte]];
+	[_data appendData:data];
+}
 
 - (void)addHeaderValue:(SKProtobufValue *)value fieldNumber:(UInt32)fieldNumber
 {
