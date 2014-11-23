@@ -10,26 +10,7 @@
 
 @implementation SKProtobufEncoder
 
-+ (SKProtobufEncoder *)sharedEncoder
-{
-	static SKProtobufEncoder *_sharedEncoder = nil;
-	if( !_sharedEncoder )
-	{
-		_sharedEncoder = [[[self class] alloc] init];
-	}
-	return _sharedEncoder;
-}
-
-- (id)init
-{
-	if( (self = [super init]) )
-	{
-		
-	}
-	return self;
-}
-
-- (NSData *)encodeVarint:(UInt64)value
++ (NSData *)encodeVarint:(UInt64)value
 {
 	NSMutableData *buff		= [[NSMutableData alloc] init];
 	
@@ -46,6 +27,37 @@
 	} while( n != 0 );
 	
 	return [buff autorelease];
+}
+
++ (NSData *)encodeFixed64:(UInt64)fixedValue
+{
+	return [[[NSData alloc] initWithBytes:&fixedValue length:sizeof(UInt64)] autorelease];
+}
+
++ (NSData *)encodeFixed32:(UInt32)fixedValue
+{
+	return [[[NSData alloc] initWithBytes:&fixedValue length:sizeof(UInt32)] autorelease];
+}
+
++ (NSData *)encodeString:(NSString *)stringValue
+{
+	NSMutableData *buff = [[NSMutableData alloc] init];
+	NSData *strData		= [stringValue dataUsingEncoding:NSUTF8StringEncoding];
+	
+	[buff appendData:[SKProtobufEncoder encodeVarint:[strData length]]];
+	[buff appendData:strData];
+	
+	return [buff autorelease];
+}
+
++ (NSData *)encodeData:(NSData *)packed
+{
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	[buffer appendData:[SKProtobufEncoder encodeVarint:[packed length]]];
+	[buffer appendData:packed];
+	
+	return [buffer autorelease];
 }
 
 @end

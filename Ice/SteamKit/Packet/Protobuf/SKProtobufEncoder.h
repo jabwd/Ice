@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface SKProtobufEncoder : NSObject
-{
-	
-}
-
-+ (SKProtobufEncoder *)sharedEncoder;
-
++ (NSData *)encodeVarint:(UInt64)value;
++ (NSData *)encodeFixed64:(UInt64)fixedValue;
++ (NSData *)encodeFixed32:(UInt32)fixedValue;
++ (NSData *)encodeString:(NSString *)stringValue;
++ (NSData *)encodeData:(NSData *)packed;
 @end
