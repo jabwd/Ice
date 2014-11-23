@@ -76,6 +76,8 @@ extern UInt32 const		SKProtocolProtobufMask;
 + (SKPacket *)requestFriendProfilePacket:(SKFriend *)remoteFriend;
 + (SKPacket *)requestFriendDataPacket:(SKFriend *)remoteFriend flag:(SKPersonaStateFlag)flag;
 
++ (SKPacket *)requestAppInfoPacket:(UInt32)appID session:(SKSession *)session;
+
 + (SKPacket *)addFriendPacket:(SKFriend *)remoteFriend;
 + (SKPacket *)removeFriendPacket:(SKFriend *)remoteFriend;
 

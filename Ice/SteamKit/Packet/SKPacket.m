@@ -20,6 +20,7 @@
 #import "SKSentryFile.h"
 #import "SKSteamID.h"
 #import "SKFriend.h"
+#import "SKProtobufEncoder.h"
 
 NSInteger const SKPacketTCPMagicHeader = 0x31305456;
 NSInteger const SKPacketUDPMagicHeader = 0x31305356;
@@ -173,25 +174,15 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[compiler addHeaderValue:v forType:WireTypeFixed64 fieldNumber:1];
 	[v release];
 	
-	v	= [[SKProtobufValue alloc] initWithVarint:SKProtocolVersion];
-	[compiler addValue:v forType:WireTypeVarint fieldNumber:1];
-	[v release];
-	
-	v	= [[SKProtobufValue alloc] initWithVarint:2964189448];
-	[compiler addValue:v forType:WireTypeVarint fieldNumber:2];
-	[v release];
-	
-	v	= [[SKProtobufValue alloc] initWithVarint:1771];
-	[compiler addValue:v forType:WireTypeVarint fieldNumber:5];
-	[v release];
+	[compiler addVarint:SKProtocolVersion field:1];
+	[compiler addVarint:2964189448 field:2];
+	[compiler addVarint:1771 field:5];
 	
 	v	= [[SKProtobufValue alloc] initWithString:@"english"];
 	[compiler addValue:v forType:WireTypePacked fieldNumber:6];
 	[v release];
 	
-	v	= [[SKProtobufValue alloc] initWithVarint:SKOSTypeMacOS109];
-	[compiler addValue:v forType:WireTypeVarint fieldNumber:7];
-	[v release];
+	[compiler addVarint:SKOSTypeMacOS109 field:7];
 	
 	v	= [[SKProtobufValue alloc] initWithString:[session username]];
 	[compiler addValue:v forType:WireTypePacked fieldNumber:50];
@@ -213,9 +204,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 		[v release];
 	}
 	
-	v	= [[SKProtobufValue alloc] initWithVarint:sentryResult];
-	[compiler addValue:v forType:WireTypeVarint fieldNumber:82];
-	[v release];
+	[compiler addVarint:sentryResult field:82];
 	
 	[file release];
 	
@@ -417,14 +406,10 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[v release];
 	
 	// New status
-	v = [[SKProtobufValue alloc] initWithVarint:session.userStatus];
-	[compiler addValue:v fieldNumber:1];
-	[v release];
+	[compiler addVarint:session.userStatus field:1];
 	
 	// User set
-	v = [[SKProtobufValue alloc] initWithVarint:1];
-	[compiler addValue:v fieldNumber:5];
-	[v release];
+	[compiler addVarint:1 field:5];
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];
@@ -710,6 +695,57 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
 	[compiler addValue:v fieldNumber:2];
 	[v release];
+	
+	[buffer appendBytes:&type length:4];
+	[buffer appendData:[compiler generate]];
+	
+	packet.data = buffer;
+	[packet encryptWithSession:session];
+	[compiler release];
+	[buffer release];
+	
+	return [packet autorelease];
+}
+
++ (SKPacket *)requestAppInfoPacket:(UInt32)appID session:(SKSession *)session
+{
+	SKPacket *packet = [[SKPacket alloc] init];
+	
+	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientAppInfoRequest;
+	SKMsgType type = packet.msgType;
+	
+	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer = [[NSMutableData alloc] init];
+	
+	// + Create the header + //
+	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
+	[compiler addHeaderValue:v fieldNumber:1];
+	[v release];
+	
+	v = [[SKProtobufValue alloc] initWithVarint:session.sessionID];
+	[compiler addHeaderValue:v fieldNumber:2];
+	[v release];
+	// -------------------//
+	
+	NSMutableData *buff = [[NSMutableData alloc] init];
+	SKProtobufKey *key = [[SKProtobufKey alloc] initWithType:WireTypeVarint fieldNumber:1];
+	[buff appendData:[key encode]];
+	[key release];
+	[buff appendData:[SKProtobufEncoder encodeVarint:appID]];
+	NSData *dat = [SKProtobufEncoder encodeVarint:0xFFFF];
+	UInt32 flags = 0xFFFF;
+	UInt32 crc = (UInt32)crc32(0, (void *)&flags, 4);
+	key = [[SKProtobufKey alloc] initWithType:WireTypeVarint fieldNumber:2];
+	[buff appendData:[key encode]];
+	[buff appendData:dat];
+	[key release];
+	key = [[SKProtobufKey alloc] initWithType:WireTypeVarint fieldNumber:3];
+	[buff appendData:[key encode]];
+	[key release];
+	[buff appendData:[SKProtobufEncoder encodeVarint:crc]];
+	[compiler addData:[SKProtobufEncoder encodeData:buff] forType:WireTypePacked fieldNumber:1];
+	[buff release];
+	
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];
