@@ -12,6 +12,7 @@
 #import "EXSteamDeveloperWindow.h"
 #import "EXFriendsListController.h"
 #import "BFNotificationCenter.h"
+#import "EXImageView.h"
 
 #import "EXPreferencesWindowController.h"
 
@@ -233,6 +234,14 @@
 			_session = nil;
 			[_authcode release];
 			_authcode = nil;
+			
+			[_namePopup setEnabled:NO];
+			[[_namePopup itemAtIndex:0] setTitle:@""];
+			[_statusPopup setEnabled:NO];
+			[_avatarImageView setAvatarImage:nil];
+			[[_statusPopup itemAtIndex:0] setTitle:@"Offline"];
+			[_statusImageView setImage:[NSImage imageNamed:@"NSStatusNone"]];
+			
 			[self switchMainView:_loginView];
 		}
 			break;
@@ -254,6 +263,14 @@
 				_friendsListController = [[EXFriendsListController alloc] initWithSession:_session];
 			}
 			[self switchMainView:_friendsListController.view];
+			
+			[_namePopup setEnabled:YES];
+			[[_namePopup itemAtIndex:0] setTitle:[_session.currentUser displayNameString]];
+			[_statusPopup setEnabled:YES];
+			[_avatarImageView setAvatarImage:[_session.currentUser avatarImage]];
+			[[_statusPopup itemAtIndex:0] setTitle:@"Available"];
+			[_statusImageView setImage:[NSImage imageNamed:@"NSStatusAvailable"]];
+			
 			[[BFNotificationCenter defaultNotificationCenter] playConnectedSound];
 		}
 			break;
@@ -261,6 +278,52 @@
 		default:
 			break;
 	}
+}
+
+- (IBAction)selectStatus:(id)sender
+{
+	SKPersonaState state = (SKPersonaState)[sender tag];
+	if( state == SKPersonaStateOffline )
+	{
+		//[self disconnect:nil];
+		//return;
+	}
+	[_session setUserStatus:state];
+	NSString *statusString = nil;
+	NSImage *image = [NSImage imageNamed:@"NSStatusAvailable"];
+	switch(state)
+	{
+		case SKPersonaStateOffline:
+			statusString = @"Offline";
+			image = [NSImage imageNamed:@"NSStatusNone"];
+			break;
+		case SKPersonaStateAway:
+			statusString = @"Away";
+			image = [NSImage imageNamed:@"NSStatusUnavailable"];
+			break;
+		case SKPersonaStateBusy:
+			statusString = @"Busy";
+			image = [NSImage imageNamed:@"NSStatusPartiallyAvailable"];
+			break;
+		case SKPersonaStateLookingToPlay:
+			statusString = @"Looking to Play";
+			break;
+		case SKPersonaStateLookingToTrade:
+			statusString = @"Looking to Trade";
+			break;
+		case SKPersonaStateMax:
+			statusString = @"Error :D";
+			break;
+		case SKPersonaStateOnline:
+			statusString = @"Available";
+			break;
+		case SKPersonaStateSnooze:
+			statusString = @"Sleeping";
+			image = [NSImage imageNamed:@"NSStatusNone"];
+			break;
+	}
+	[_statusImageView setImage:image];
+	[[_statusPopup itemAtIndex:0] setTitle:statusString];
 }
 
 - (void)updateSentryFile:(NSString *)fileName data:(NSData *)data

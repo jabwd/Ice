@@ -13,10 +13,14 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="EXAppDelegate">
             <connections>
+                <outlet property="avatarImageView" destination="4I9-WY-1Rk" id="SBN-rd-ijX"/>
                 <outlet property="connectingView" destination="tKT-WZ-ixF" id="hES-om-T8Q"/>
                 <outlet property="loginIndicator" destination="t9A-wr-Cg4" id="UYx-st-0UC"/>
                 <outlet property="loginView" destination="Nlo-Un-vWG" id="AJF-b6-qAL"/>
+                <outlet property="namePopup" destination="FmS-RX-l4b" id="yA2-RN-A1u"/>
                 <outlet property="passwordField" destination="XDc-ZR-S1I" id="VUB-hQ-fVN"/>
+                <outlet property="statusImageView" destination="hI6-XL-1hg" id="RLX-NV-wYA"/>
+                <outlet property="statusPopup" destination="vYU-fV-X1V" id="280-gP-3t5"/>
                 <outlet property="toolbarView" destination="kzH-Cn-zBo" id="9Ds-eS-juP"/>
                 <outlet property="usernameField" destination="ExG-0x-APG" id="ePH-5F-2to"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -516,55 +520,23 @@ DQ
                 <imageView id="hI6-XL-1hg">
                     <rect key="frame" x="3" y="13" width="12" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="mQ2-wN-BUi"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="NSStatusNone" id="mQ2-wN-BUi"/>
                 </imageView>
-                <popUpButton verticalHuggingPriority="750" id="HBG-as-OAM">
-                    <rect key="frame" x="18" y="1" width="101" height="17"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="recessed" title="Offline" bezelStyle="recessed" alignment="left" scrollable="YES" lineBreakMode="clipping" enabled="NO" borderStyle="borderAndBezel" inset="2" pullsDown="YES" autoenablesItems="NO" id="exy-Bx-ZeQ">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                        <font key="font" metaFont="smallSystem"/>
-                        <menu key="menu" autoenablesItems="NO" id="aFX-cA-jQP">
-                            <items>
-                                <menuItem title="Offline" hidden="YES" id="zDe-tC-z8c">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="Available" tag="2" id="uSf-po-7zY">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="Away" tag="6" id="Jz9-lF-dXu">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="Offline" tag="6" id="3D0-45-oJT">
-                                    <attributedString key="attributedTitle"/>
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="Current iTunes Song" tag="6" id="LRW-8a-kMo">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem isSeparatorItem="YES" tag="-1" id="VQX-s0-Emw"/>
-                                <menuItem title="Custom status…" tag="6" id="jAp-ot-78A">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                            </items>
-                        </menu>
-                    </popUpButtonCell>
-                </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="FmS-RX-l4b">
-                    <rect key="frame" x="17" y="19" width="102" height="17"/>
+                    <rect key="frame" x="17" y="17" width="102" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="recessed" bezelStyle="recessed" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" inset="2" pullsDown="YES" arrowPosition="noArrow" autoenablesItems="NO" selectedItem="Bds-Pl-goF" id="SbS-mk-nwQ">
+                    <popUpButtonCell key="cell" type="recessed" bezelStyle="recessed" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" tag="1" inset="2" pullsDown="YES" arrowPosition="noArrow" autoenablesItems="NO" selectedItem="9qM-BQ-ZI3" id="SbS-mk-nwQ">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                         <font key="font" metaFont="system"/>
                         <menu key="menu" autoenablesItems="NO" id="Omb-PX-ohy">
                             <items>
-                                <menuItem hidden="YES" id="Bds-Pl-goF">
+                                <menuItem tag="1" hidden="YES" id="Bds-Pl-goF">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="Show my profile" tag="6" id="eMs-lr-Opt">
+                                <menuItem title="Show my profile" tag="6" enabled="NO" id="eMs-lr-Opt">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="Change nickname…" tag="6" id="9qM-BQ-ZI3">
+                                <menuItem title="Change nickname…" tag="6" enabled="NO" id="9qM-BQ-ZI3">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                             </items>
@@ -575,11 +547,74 @@ DQ
                     <rect key="frame" x="127" y="2" width="34" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                 </customView>
+                <popUpButton verticalHuggingPriority="750" id="vYU-fV-X1V">
+                    <rect key="frame" x="22" y="2" width="100" height="17"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="recessed" title="Offline" bezelStyle="recessed" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="border" tag="20" imageScaling="proportionallyDown" inset="2" pullsDown="YES" autoenablesItems="NO" id="6XC-Np-tep">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                        <font key="font" metaFont="smallSystemBold"/>
+                        <menu key="menu" autoenablesItems="NO" id="CfF-O6-qul">
+                            <items>
+                                <menuItem title="Offline" tag="20" hidden="YES" id="GLg-mk-DBL">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="guj-E1-nsd"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Available" tag="1" id="mvL-Zv-g18">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="r34-cU-zub"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Busy" tag="2" id="8Vo-4q-PVe">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="NzA-eD-ydG"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Away" tag="3" id="rlu-JJ-4jg">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="4QR-5a-Syw"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Sleeping" tag="4" id="UJd-n3-tWU">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="lLg-v2-jzf"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Looking to trade" tag="5" id="Faf-5a-sXw">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="f4B-Xr-N89"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Looking to play" tag="6" id="yDY-ug-ba9">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="G5n-Ls-dzi"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem isSeparatorItem="YES" tag="-1" id="Xwl-G6-Wtf"/>
+                                <menuItem title="Offline" id="bvS-nh-gRa">
+                                    <attributedString key="attributedTitle"/>
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="selectStatus:" target="Voe-Tx-rLC" id="myU-83-Kwf"/>
+                                    </connections>
+                                </menuItem>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                </popUpButton>
             </subviews>
             <point key="canvasLocation" x="403.5" y="253"/>
         </customView>
     </objects>
     <resources>
         <image name="NSLockLockedTemplate" width="10" height="14"/>
+        <image name="NSStatusNone" width="16" height="16"/>
     </resources>
 </document>

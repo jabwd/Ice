@@ -10,7 +10,7 @@
 #import "SKSession.h"
 #import "EXSteamGuardWindowController.h"
 
-@class EXSteamDeveloperWindow, EXFriendsListController;
+@class EXSteamDeveloperWindow, EXFriendsListController, EXImageView;
 
 @interface EXAppDelegate : NSObject <NSApplicationDelegate,
 									SKSessionDelegate,
@@ -27,13 +27,16 @@
 }
 
 @property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet NSView	*contentView;
-@property (assign) IBOutlet NSTableView *modeView;
 @property (assign) IBOutlet NSView *connectingView;
 @property (assign) IBOutlet NSView *loginView;
 @property (assign) IBOutlet NSView *toolbarView;
 @property (assign) IBOutlet NSTextField *usernameField;
 @property (assign) IBOutlet NSTextField *passwordField;
+
+@property (assign) IBOutlet NSPopUpButton *statusPopup;
+@property (assign) IBOutlet EXImageView *avatarImageView;
+@property (assign) IBOutlet NSImageView *statusImageView;
+@property (assign) IBOutlet NSPopUpButton *namePopup;
 
 @property (assign) IBOutlet NSProgressIndicator *loginIndicator;
 
@@ -41,5 +44,7 @@
 - (IBAction)disconnect:(id)sender;
 - (IBAction)openDeveloperWindow:(id)sender;
 - (IBAction)showPreferences:(id)sender;
+
+- (IBAction)selectStatus:(id)sender;
 
 @end
