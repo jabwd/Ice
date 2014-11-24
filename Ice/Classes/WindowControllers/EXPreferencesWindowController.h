@@ -16,11 +16,16 @@ typedef NS_ENUM(UInt32, EXPrefTabTag)
 };
 
 @interface EXPreferencesWindowController : NSWindowController
+{
+	NSMutableArray *_soundsets;
+}
 
 @property (assign) IBOutlet NSToolbar *toolbar;
 @property (assign) IBOutlet NSView *generalView;
 @property (assign) IBOutlet NSView *soundView;
 @property (assign) IBOutlet NSView *advancedView;
+
+@property (assign) IBOutlet NSPopUpButton *soundsetDropDown;
 
 + (instancetype)sharedController;
 

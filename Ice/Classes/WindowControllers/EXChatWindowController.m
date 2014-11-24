@@ -8,7 +8,7 @@
 
 #import "EXChatWindowController.h"
 #import "SKSession.h"
-#import "AHHyperlinkScanner.h"
+#import <AutoHyperlinks/AutoHyperlinks.h>
 #import "BFNotificationCenter.h"
 #import "SFTabStripView.h"
 #import "SFTabView.h"

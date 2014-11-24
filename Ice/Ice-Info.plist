@@ -32,5 +32,24 @@
 	<string>http://exurion.com/ice/appcast.xml</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>AdiumSoundset</string>
+				<string>AdiumSoundSet</string>
+				<string>BlackFireSoundset</string>
+				<string>BlackFireSnd</string>
+				<string>BlackFireSoundSet</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>soundSet.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>BlackFire Soundset</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+	</array>
 </dict>
 </plist>

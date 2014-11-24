@@ -30,9 +30,6 @@
 		3672A7C31A10F441003AF16D /* SFTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7BA1A10F441003AF16D /* SFTabView.m */; };
 		3672A7C41A10F441003AF16D /* XNBorderedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */; };
 		3672A7C51A10F441003AF16D /* XNResizingMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */; };
-		3672A7CC1A10F606003AF16D /* AHHyperlinkScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7C71A10F606003AF16D /* AHHyperlinkScanner.m */; };
-		3672A7CD1A10F606003AF16D /* AHLinkLexer.yy.c in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7C91A10F606003AF16D /* AHLinkLexer.yy.c */; };
-		3672A7CE1A10F606003AF16D /* AHMarkedHyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7CB1A10F606003AF16D /* AHMarkedHyperlink.m */; };
 		3672A7D61A10F65A003AF16D /* connected.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7D11A10F65A003AF16D /* connected.m4v */; };
 		3672A7D71A10F65A003AF16D /* offline.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7D21A10F65A003AF16D /* offline.m4v */; };
 		3672A7D81A10F65A003AF16D /* online.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 3672A7D31A10F65A003AF16D /* online.m4v */; };
@@ -62,6 +59,8 @@
 		36CE6D0D1A20FA9E0093EA4C /* EXBetterTextview.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CE6D0C1A20FA9E0093EA4C /* EXBetterTextview.m */; };
 		36CF7DD61A01199D00973C8B /* SKFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF7DD51A01199D00973C8B /* SKFriend.m */; };
 		36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */; };
+		36D13CB81A236C7B0006008F /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */; };
+		36D13CB91A236C840006008F /* AutoHyperlinks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36D4F8821A00EE570028CE96 /* SKOneTimePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
@@ -105,6 +104,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				3663977A1A2257680070AD09 /* Sparkle.framework in Embed Frameworks */,
+				36D13CB91A236C840006008F /* AutoHyperlinks.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,12 +151,6 @@
 		3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XNBorderedScrollView.m; path = Classes/BlackFire/XNBorderedScrollView.m; sourceTree = "<group>"; };
 		3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XNResizingMessageView.h; path = Classes/BlackFire/XNResizingMessageView.h; sourceTree = "<group>"; };
 		3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XNResizingMessageView.m; path = Classes/BlackFire/XNResizingMessageView.m; sourceTree = "<group>"; };
-		3672A7C61A10F606003AF16D /* AHHyperlinkScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHHyperlinkScanner.h; path = Classes/AHLinkScanner/AHHyperlinkScanner.h; sourceTree = "<group>"; };
-		3672A7C71A10F606003AF16D /* AHHyperlinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AHHyperlinkScanner.m; path = Classes/AHLinkScanner/AHHyperlinkScanner.m; sourceTree = "<group>"; };
-		3672A7C81A10F606003AF16D /* AHLinkLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHLinkLexer.h; path = Classes/AHLinkScanner/AHLinkLexer.h; sourceTree = "<group>"; };
-		3672A7C91A10F606003AF16D /* AHLinkLexer.yy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AHLinkLexer.yy.c; path = Classes/AHLinkScanner/AHLinkLexer.yy.c; sourceTree = "<group>"; };
-		3672A7CA1A10F606003AF16D /* AHMarkedHyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHMarkedHyperlink.h; path = Classes/AHLinkScanner/AHMarkedHyperlink.h; sourceTree = "<group>"; };
-		3672A7CB1A10F606003AF16D /* AHMarkedHyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AHMarkedHyperlink.m; path = Classes/AHLinkScanner/AHMarkedHyperlink.m; sourceTree = "<group>"; };
 		3672A7D11A10F65A003AF16D /* connected.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; name = connected.m4v; path = Resources/Sounds/connected.m4v; sourceTree = "<group>"; };
 		3672A7D21A10F65A003AF16D /* offline.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; name = offline.m4v; path = Resources/Sounds/offline.m4v; sourceTree = "<group>"; };
 		3672A7D31A10F65A003AF16D /* online.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; name = online.m4v; path = Resources/Sounds/online.m4v; sourceTree = "<group>"; };
@@ -204,6 +198,7 @@
 		36CF7DD51A01199D00973C8B /* SKFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKFriend.m; path = SteamKit/Friends/SKFriend.m; sourceTree = "<group>"; };
 		36CF849A1A0F19A000C7A087 /* SKProtobufHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufHeader.h; path = SteamKit/Packet/Protobuf/SKProtobufHeader.h; sourceTree = "<group>"; };
 		36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufHeader.m; path = SteamKit/Packet/Protobuf/SKProtobufHeader.m; sourceTree = "<group>"; };
+		36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AutoHyperlinks.framework; sourceTree = "<group>"; };
 		36D4F8801A00EE570028CE96 /* SKOneTimePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKOneTimePassword.h; path = SteamKit/Security/SKOneTimePassword.h; sourceTree = "<group>"; };
 		36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKOneTimePassword.m; path = SteamKit/Security/SKOneTimePassword.m; sourceTree = "<group>"; };
 		36DAFB5519CAD81600A65E6F /* SKUDPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKUDPConnection.h; path = SteamKit/Connection/SKUDPConnection.h; sourceTree = "<group>"; };
@@ -260,6 +255,7 @@
 				36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */,
 				36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */,
 				366397791A2257680070AD09 /* Sparkle.framework in Frameworks */,
+				36D13CB81A236C7B0006008F /* AutoHyperlinks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,17 +328,11 @@
 			name = WindowControllers;
 			sourceTree = "<group>";
 		};
-		3672A79A1A10EBCC003AF16D /* AHLinkScanner */ = {
+		3672A79A1A10EBCC003AF16D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				3672A7C61A10F606003AF16D /* AHHyperlinkScanner.h */,
-				3672A7C71A10F606003AF16D /* AHHyperlinkScanner.m */,
-				3672A7C81A10F606003AF16D /* AHLinkLexer.h */,
-				3672A7C91A10F606003AF16D /* AHLinkLexer.yy.c */,
-				3672A7CA1A10F606003AF16D /* AHMarkedHyperlink.h */,
-				3672A7CB1A10F606003AF16D /* AHMarkedHyperlink.m */,
 			);
-			name = AHLinkScanner;
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		3672A79B1A10F405003AF16D /* BlackFire */ = {
@@ -483,12 +473,12 @@
 		36CB626C19FF343A00F2E996 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3672A79A1A10EBCC003AF16D /* Helpers */,
 				36A7F1851A1A52A80033FF89 /* Views */,
 				36F143231A1690BE00FFF4A4 /* Debug */,
 				36E766EE19C6D54000D9C761 /* EXAppDelegate.h */,
 				36E766EF19C6D54000D9C761 /* EXAppDelegate.m */,
 				3672A79B1A10F405003AF16D /* BlackFire */,
-				3672A79A1A10EBCC003AF16D /* AHLinkScanner */,
 				366863A71A10551C00EA08B6 /* WindowControllers */,
 				367EF2D71A1045A50038548D /* ViewControllers */,
 			);
@@ -553,6 +543,7 @@
 		36E766DB19C6D54000D9C761 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */,
 				36E0F7D31A22432900FF6A22 /* Sparkle.framework */,
 				360609B319EBE12B0003EA2D /* libz.dylib */,
 				36B714CA19D2FB69006F08B3 /* Security.framework */,
@@ -805,7 +796,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3672A7CC1A10F606003AF16D /* AHHyperlinkScanner.m in Sources */,
 				367EF2DF1A1046120038548D /* EXFriendsListRowView.m in Sources */,
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
@@ -819,14 +809,12 @@
 				3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */,
 				368033881A22FE370022B403 /* SimplePing.m in Sources */,
 				3672A7C11A10F441003AF16D /* BFWindow.m in Sources */,
-				3672A7CE1A10F606003AF16D /* AHMarkedHyperlink.m in Sources */,
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
 				3672A7C21A10F441003AF16D /* SFTabStripView.m in Sources */,
 				36CE6D0D1A20FA9E0093EA4C /* EXBetterTextview.m in Sources */,
 				36E5DA9319FDE4EB00AD2A4D /* SKProtobufCompiler.m in Sources */,
 				36B303D31A0FF0DF009C2D0B /* SKSteamID.m in Sources */,
 				36CE6D071A20EA980093EA4C /* BFKeychainManager.m in Sources */,
-				3672A7CD1A10F606003AF16D /* AHLinkLexer.yy.c in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
 				363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */,

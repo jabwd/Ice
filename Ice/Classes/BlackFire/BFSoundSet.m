@@ -161,11 +161,11 @@
 		NSArray *comp = [soundsetFile componentsSeparatedByString:@"."];
 		if( [comp count] > 0 )
 		{
-			_name = comp[0];
+			_name = [comp[0] retain];
 		}
 		
 		if( ! _name )
-			_name = @"Untitled";
+			_name = [@"Untitled" retain];
 		
 		
 		NSDictionary *sounds = information[@"Sounds"];
@@ -213,9 +213,9 @@
 	
 	if( information )
 	{
-		NSString *name = information[@"soundsetName"];
+		NSString *name = [information[@"soundsetName"] retain];
 		if( ! name )
-			name = @"Untitled soundset";
+			name = [@"Untitled soundset" retain];
 		
 		_name = name;
 		

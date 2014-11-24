@@ -11,7 +11,7 @@
 
 static BFNotificationCenter *notificationCenter = nil;
 
-NSString *BFSoundSetPathDefaultsKey		= @"defaultSoundSetPath";
+NSString *BFSoundSetPathDefaultsKey		= @"soundSetPath";
 NSString *BFSoundVolumeDefaultsKey		= @"soundVolume";
 
 @implementation BFNotificationCenter

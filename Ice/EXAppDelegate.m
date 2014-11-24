@@ -13,6 +13,7 @@
 #import "EXFriendsListController.h"
 #import "BFNotificationCenter.h"
 #import "EXImageView.h"
+#import "BFSoundSet.h"
 
 #import "EXPreferencesWindowController.h"
 
@@ -85,6 +86,91 @@
 	
 	[toolbar      setDelegate:self];
 	[_window	setToolbar:toolbar];
+}
+
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+	NSString *folderPath = [[SKSentryFile appSupportDirectory] stringByAppendingPathComponent:@"Soundsets"];
+	[[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
+	for(NSString *file in filenames)
+	{
+		// in these cases it can be blackfire compatible soundsets
+		if( [file hasSuffix:@".BlackFireSnd"] || [file hasSuffix:@"AdiumSoundset"] || [file hasSuffix:@"AdiumSoundSet"] || [file hasSuffix:@".BlackFireSoundset"] || [file hasSuffix:@".BlackFireSoundSet"] )
+		{
+			// try to parse the file as a soundset
+			[[NSFileManager defaultManager] copyItemAtPath:file toPath:[NSString stringWithFormat:@"%@/%@",folderPath,[file lastPathComponent]] error:nil];
+			BFSoundSet *set = [[BFSoundSet alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@",folderPath,[file lastPathComponent]]];
+			
+			// if this fails than its not a real soundset and we can simply report an error
+			if( set )
+			{
+				NSString *name = set.name;
+				if( ! name )
+					name = @"Untitled soundset";
+				
+				NSAlert *alert = [[NSAlert alloc] init];
+				[alert setInformativeText:@"Soundset installed"];
+				[alert setAlertStyle:NSInformationalAlertStyle];
+				[alert addButtonWithTitle:@"OK"];
+				[alert addButtonWithTitle:@"Set as default now"];
+				[alert setMessageText:[NSString stringWithFormat:@"Soundset %@ was successfully installed", name]];
+				
+				[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
+					DLog(@"Returncode: %u", returnCode);
+					if( returnCode == NSModalResponseOK )
+					{
+						[[BFNotificationCenter defaultNotificationCenter] setSoundSet:set];
+						[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@/%@",folderPath,[file lastPathComponent]] forKey:@"soundSetPath"];
+					}
+				}];
+				[alert release];
+			}
+			else
+			{
+				NSAlert *alert = [[NSAlert alloc] init];
+				[alert setInformativeText:@"Error"];
+				[alert setAlertStyle:NSWarningAlertStyle];
+				[alert addButtonWithTitle:@"OK"];
+				[alert setMessageText:[NSString stringWithFormat:@"This soundset is corrupted, consider re-downloading it."]];
+				
+				[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
+				}];
+				[alert release];
+			}
+		}
+		else
+		{
+			// try to find an application which can open the files, if we can't find any will simply say
+			// we can't do anything with the given file
+			NSURL *URL = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",file]]];
+			NSString *message = nil;
+			NSString *secondButton = nil;
+			if( URL )
+			{
+				NSString *appname = [[URL relativePath] lastPathComponent];
+				appname = [appname stringByReplacingOccurrencesOfString:@".app" withString:@""];
+				message = [NSString stringWithFormat:@"The file you tried to open with BlackFire is unsupported by Ice. However it seems that %@ is able to open your file.",appname];
+				secondButton = [NSString stringWithFormat:@"Open with %@",appname];
+			}
+			if( ! message )
+				message = @"Ice cannot open this file.";
+			
+			NSAlert *alert = [[NSAlert alloc] init];
+			[alert setInformativeText:@"Unrecognized file"];
+			[alert setAlertStyle:NSInformationalAlertStyle];
+			[alert addButtonWithTitle:@"OK"];
+			[alert addButtonWithTitle:secondButton];
+			[alert setMessageText:message];
+			
+			[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
+				if( returnCode == NSModalResponseOK )
+				{
+					[[NSWorkspace sharedWorkspace] openFile:file];
+				}
+			}];
+			[alert release];
+		}
+	}
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)aToolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag

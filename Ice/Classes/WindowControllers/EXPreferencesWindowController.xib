@@ -9,6 +9,7 @@
                 <outlet property="advancedView" destination="C70-Vp-2wx" id="gQ0-Bb-Lad"/>
                 <outlet property="generalView" destination="1Gn-2o-Stj" id="2tH-7V-bEl"/>
                 <outlet property="soundView" destination="QbU-Jp-JdJ" id="fiQ-FL-Bng"/>
+                <outlet property="soundsetDropDown" destination="1J8-EB-PXH" id="j0n-3y-9ML"/>
                 <outlet property="toolbar" destination="G5M-72-YY7" id="tKR-uf-bK7"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -76,8 +77,8 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <binding destination="s0k-WD-OxP" name="enabled" keyPath="values.rememberUsername" id="NQ1-D9-0xS"/>
                         <binding destination="s0k-WD-OxP" name="value" keyPath="values.rememberPassword" id="fGh-7d-chS"/>
+                        <binding destination="s0k-WD-OxP" name="enabled" keyPath="values.rememberUsername" id="NQ1-D9-0xS"/>
                     </connections>
                 </button>
                 <button id="gkZ-mv-dhH">
@@ -95,11 +96,11 @@
             <point key="canvasLocation" x="344" y="410.5"/>
         </customView>
         <customView id="QbU-Jp-JdJ" userLabel="Sound view">
-            <rect key="frame" x="0.0" y="6" width="456" height="226"/>
+            <rect key="frame" x="0.0" y="-2" width="456" height="263"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="KzV-MO-yhd">
-                    <rect key="frame" x="69" y="189" width="112" height="17"/>
+                    <rect key="frame" x="69" y="226" width="112" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sound on events:" id="eQi-Z7-RB5">
                         <font key="font" metaFont="system"/>
@@ -108,7 +109,7 @@
                     </textFieldCell>
                 </textField>
                 <button id="V9y-2A-Dpz">
-                    <rect key="frame" x="185" y="188" width="194" height="18"/>
+                    <rect key="frame" x="185" y="225" width="194" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="When a friend comes online" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RLS-L3-9sT">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -119,7 +120,7 @@
                     </connections>
                 </button>
                 <button id="Ssp-Qv-8se">
-                    <rect key="frame" x="185" y="168" width="183" height="18"/>
+                    <rect key="frame" x="185" y="205" width="183" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="When a friend goes offline" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MXX-TW-aGe">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -130,7 +131,7 @@
                     </connections>
                 </button>
                 <button id="bop-0g-0Q9">
-                    <rect key="frame" x="185" y="148" width="202" height="18"/>
+                    <rect key="frame" x="185" y="185" width="202" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="When you receive a message" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="V64-3t-2vC">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -141,7 +142,7 @@
                     </connections>
                 </button>
                 <button id="WTD-iz-D7D">
-                    <rect key="frame" x="207" y="128" width="143" height="18"/>
+                    <rect key="frame" x="207" y="165" width="143" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Only in background" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xb2-2Y-znJ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -153,7 +154,7 @@
                     </connections>
                 </button>
                 <button id="RWR-be-MLv">
-                    <rect key="frame" x="185" y="108" width="188" height="18"/>
+                    <rect key="frame" x="185" y="145" width="188" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="When you send a message" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fSa-54-fuL">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -164,7 +165,7 @@
                     </connections>
                 </button>
                 <button id="3wB-eu-vrj">
-                    <rect key="frame" x="185" y="88" width="176" height="18"/>
+                    <rect key="frame" x="185" y="125" width="176" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="When you are connected" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Aeq-Mw-9y1">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -175,7 +176,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="BJ9-3E-tgS">
-                    <rect key="frame" x="84" y="56" width="97" height="17"/>
+                    <rect key="frame" x="84" y="93" width="97" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sound volume:" id="VNY-Iu-iK7">
                         <font key="font" metaFont="system"/>
@@ -184,7 +185,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" id="NQZ-rr-Jtr">
-                    <rect key="frame" x="185" y="54" width="202" height="21"/>
+                    <rect key="frame" x="185" y="91" width="202" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="bpy-lK-nT3"/>
                     <connections>
@@ -193,7 +194,7 @@
                     </connections>
                 </slider>
                 <button verticalHuggingPriority="750" id="wca-hB-wo5">
-                    <rect key="frame" x="175" y="13" width="108" height="32"/>
+                    <rect key="frame" x="174" y="13" width="108" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Test sound" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d1V-gg-inW">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -203,8 +204,24 @@
                         <action selector="playTestSound:" target="-2" id="aej-1a-SBf"/>
                     </connections>
                 </button>
+                <popUpButton verticalHuggingPriority="750" id="1J8-EB-PXH">
+                    <rect key="frame" x="127" y="58" width="203" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Default soundpack" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="uTw-LV-Rxr" id="APp-qE-OJ1">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="Exc-hc-fLH">
+                            <items>
+                                <menuItem title="Default soundpack" state="on" id="uTw-LV-Rxr"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="selectSoundSet:" target="-2" id="Yti-34-4gP"/>
+                    </connections>
+                </popUpButton>
             </subviews>
-            <point key="canvasLocation" x="344" y="702"/>
+            <point key="canvasLocation" x="344" y="720.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="s0k-WD-OxP"/>
         <customView id="C70-Vp-2wx" userLabel="Advanced view">
