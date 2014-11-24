@@ -47,6 +47,7 @@
 		367EF2DB1A1045C00038548D /* EXFriendsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 367EF2D91A1045C00038548D /* EXFriendsListController.m */; };
 		367EF2DC1A1045C00038548D /* EXFriendsListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 367EF2DA1A1045C00038548D /* EXFriendsListController.xib */; };
 		367EF2DF1A1046120038548D /* EXFriendsListRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 367EF2DE1A1046120038548D /* EXFriendsListRowView.m */; };
+		368033881A22FE370022B403 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 368033871A22FE370022B403 /* SimplePing.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
 		36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */; };
 		36B303D31A0FF0DF009C2D0B /* SKSteamID.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B303D21A0FF0DF009C2D0B /* SKSteamID.m */; };
@@ -174,6 +175,8 @@
 		367EF2DA1A1045C00038548D /* EXFriendsListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXFriendsListController.xib; path = Classes/ViewControllers/EXFriendsListController.xib; sourceTree = "<group>"; };
 		367EF2DD1A1046120038548D /* EXFriendsListRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXFriendsListRowView.h; path = Classes/ViewControllers/EXFriendsListRowView.h; sourceTree = "<group>"; };
 		367EF2DE1A1046120038548D /* EXFriendsListRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXFriendsListRowView.m; path = Classes/ViewControllers/EXFriendsListRowView.m; sourceTree = "<group>"; };
+		368033861A22FE370022B403 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimplePing.h; path = SteamKit/Connection/SimplePing.h; sourceTree = "<group>"; };
+		368033871A22FE370022B403 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimplePing.m; path = SteamKit/Connection/SimplePing.m; sourceTree = "<group>"; };
 		369715A219D4387A001D8653 /* SKRSAEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKRSAEncryption.h; path = SteamKit/Security/SKRSAEncryption.h; sourceTree = "<group>"; };
 		369715A319D4387A001D8653 /* SKRSAEncryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKRSAEncryption.m; path = SteamKit/Security/SKRSAEncryption.m; sourceTree = "<group>"; };
 		36A7F1871A1A52EC0033FF89 /* EXOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXOutlineView.h; path = Classes/Views/EXOutlineView.h; sourceTree = "<group>"; };
@@ -630,6 +633,8 @@
 		36E7671119C6D8C100D9C761 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
+				368033861A22FE370022B403 /* SimplePing.h */,
+				368033871A22FE370022B403 /* SimplePing.m */,
 				36B714C319D1CAC9006F08B3 /* TCP */,
 				36B714C219D1CAC2006F08B3 /* UDP */,
 				36B714C119D1CAB3006F08B3 /* GCDAsyncSocket */,
@@ -812,6 +817,7 @@
 				3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */,
 				365E9BDD1A20C5C40037C50C /* EXPreferencesWindowController.m in Sources */,
 				3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */,
+				368033881A22FE370022B403 /* SimplePing.m in Sources */,
 				3672A7C11A10F441003AF16D /* BFWindow.m in Sources */,
 				3672A7CE1A10F606003AF16D /* AHMarkedHyperlink.m in Sources */,
 				36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */,
