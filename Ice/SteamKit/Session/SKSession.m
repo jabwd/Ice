@@ -8,12 +8,12 @@
 
 #import "SKSession.h"
 #import "SKAESEncryption.h"
-#import "SKUDPConnection.h"
 #import "SKTCPConnection.h"
 #import "SKPacket.h"
 #import "SKFriend.h"
 #import "SKSteamID.h"
 #import "NSData_SteamKitAdditions.h"
+#import "SKServerListManager.h"
 
 NSString *SKSessionStatusChangedNotificationName	= @"SKSessionStatusChanged";
 NSString *SKLoginFailedSteamGuardNotificationName	= @"SKLoginFailedSteamGuard";
@@ -133,13 +133,17 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 		DLog(@"[Error] Attempting to connect a session that is not offline!");
 		return;
 	}
+	[self setStatus:SKSessionStatusConnecting];
+	
+	SKServerListManager *manager = [[SKServerListManager alloc] initWithCache];
+	NSString *IP = [manager getRandomAddress];
+	[manager release];
+	DLog(@"=> Connecting to %@", IP);
 	
 	[_TCPConnection release];
-	_TCPConnection		= [[SKTCPConnection alloc] initWithAddress:[[SKUDPConnection knownServerList] objectAtIndex:0]
+	_TCPConnection		= [[SKTCPConnection alloc] initWithAddress:IP
 													   session:self];
 	[_TCPConnection connect];
-	
-	[self setStatus:SKSessionStatusConnecting];
 }
 
 - (void)disconnect

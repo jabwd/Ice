@@ -15,9 +15,9 @@
 #import "NSData_SteamKitAdditions.h"
 #import "NSMutableData_XfireAdditions.h"
 #import "SKProtobufValue.h"
-#import "SKFriend.h"
 #import "SKSteamID.h"
 #import "SKGamesManager.h"
+#import "SKServerListManager.h"
 
 @implementation SKPacketScanner
 
@@ -248,14 +248,34 @@
 		case SKMsgTypeClientServerList:
 		{
 			//DLog(@"Received a server list %@ %@", packet.scanner.body, packet.scanner.header);
+			//DLog(@"%@", packet.scanner.body);
 		}
 			break;
 			
 		case SKMsgTypeClientCMList:
 		{
-			//UInt32 IP	= [packet.scanner.body[@"1"] unsignedIntValue];
-			//UInt32 port = [packet.scanner.body[@"2"] unsignedIntValue];
-			//DLog(@"Server List: %u.%u.%u.%u:%u", ((IP >> 24) & 0xFF), ((IP >> 16) & 0xFF), ((IP >> 8) & 0xFF), (IP & 0xFF), port);
+			NSArray *ips	= packet.scanner.body[@"1"];
+			NSArray *ports	= packet.scanner.body[@"2"];
+			
+			if( [ports count] != [ips count] )
+			{
+				DLog(@"[Error] incorrect CMList received");
+			}
+			else
+			{
+				// Create a new and empty server list manager
+				SKServerListManager *manager = [[SKServerListManager alloc] init];
+				for(NSUInteger i = 0;i<[ports count];i++)
+				{
+					NSNumber *IP		= ips[i];
+					NSNumber *port		= ports[i];
+					UInt32 ipInt		= [IP unsignedIntValue];
+					UInt16 portInt		= [port unsignedShortValue];
+					[manager addServer:ipInt port:portInt];
+				}
+				[manager save];
+				[manager release];
+			}
 		}
 			break;
 			
