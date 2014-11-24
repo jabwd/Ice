@@ -14,13 +14,16 @@
 
 @interface EXAppDelegate : NSObject <NSApplicationDelegate,
 									SKSessionDelegate,
-									EXSteamGuardWindowControllerDelegate>
+									EXSteamGuardWindowControllerDelegate,
+									NSToolbarDelegate>
 {
 	SKSession *_session;
 	NSString *_authcode;
 	
 	EXSteamDeveloperWindow	*_developerWindowController;
 	EXFriendsListController *_friendsListController;
+	
+	NSToolbarItem *_toolbarItem;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -28,6 +31,7 @@
 @property (assign) IBOutlet NSTableView *modeView;
 @property (assign) IBOutlet NSView *connectingView;
 @property (assign) IBOutlet NSView *loginView;
+@property (assign) IBOutlet NSView *toolbarView;
 @property (assign) IBOutlet NSTextField *usernameField;
 @property (assign) IBOutlet NSTextField *passwordField;
 

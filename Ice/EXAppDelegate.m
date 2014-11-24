@@ -69,6 +69,78 @@
 	 addObserver:self
 	 selector:@selector(notificationReceived:)
 	 name:SKLoginFailedSteamGuardNotificationName object:nil];
+	
+	
+	NSToolbar*toolbar = [[NSToolbar alloc] initWithIdentifier:@"friendsListToolbar"];
+	[toolbar setAllowsUserCustomization:NO];
+	[toolbar setAutosavesConfiguration: YES];
+	[toolbar setSizeMode:               NSToolbarSizeModeSmall];
+	[toolbar setDisplayMode:            NSToolbarDisplayModeIconOnly];
+	
+	_toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:@"status"];
+	[_toolbarItem setView:_toolbarView];
+	[_toolbarItem setMinSize:NSMakeSize(168.0, NSHeight([_toolbarView frame]))];
+	[_toolbarItem setMaxSize:NSMakeSize(1920.0, NSHeight([_toolbarView frame]))];
+	
+	[toolbar      setDelegate:self];
+	[_window	setToolbar:toolbar];
+}
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)aToolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
+{
+	return _toolbarItem;
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)aToolbar
+{
+	return @[@"status"];
+}
+
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)aToolbar
+{
+	return @[@"status"];
+}
+
+- (BOOL)validateToolbarItem:(NSToolbarItem *)theItem
+{
+	return YES;
+}
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
+{
+	// Makes the chat with the most missed messages the front
+	// In many cases this is the most important chat
+	// TODO: Use timestamps?
+	/*if( [_chatControllers count] > 0 )
+	{
+		BFChat *targetChat = nil;
+		NSUInteger top = 0;
+		for(BFChat *chat in _chatControllers)
+		{
+			// if the new chat has more missed messages than the other one
+			// make it the new main priority
+			if( chat.missedMessages > 0 && chat.missedMessages > top )
+			{
+				top = chat.missedMessages;
+				targetChat = chat;
+			}
+		}
+		
+		// finally make our target chat front
+		if( targetChat ) {
+			[targetChat.windowController selectChat:targetChat];
+			[targetChat.windowController.window makeKeyAndOrderFront:self];
+			return NO;
+		}
+	}*/
+	
+	// default behavior
+	if( ![_window isVisible] )
+	{
+		[_window makeKeyAndOrderFront:self];
+	}
+	return NO;
 }
 
 - (void)notificationReceived:(NSNotification *)notification
