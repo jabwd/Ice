@@ -71,7 +71,6 @@
 {
 	[_buffer appendData:data];
 	[_socket readDataWithTimeout:-1 tag:0];
-	DLog(@"Buffer size: %lu", [_buffer length]);
 	
 	BOOL shouldContinue = YES;
 	while( shouldContinue && [_buffer length] > 0 )

@@ -116,7 +116,6 @@
 - (void)removeBytesOfLength:(NSUInteger)length
 {
 	[_buffer replaceBytesInRange:NSMakeRange(0, length) withBytes:NULL length:0];
-	DLog(@"Buffer size: %lu", [_buffer length]);
 }
 
 @end
