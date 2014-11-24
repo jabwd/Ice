@@ -254,27 +254,30 @@
 			
 		case SKMsgTypeClientCMList:
 		{
-			NSArray *ips	= packet.scanner.body[@"1"];
-			NSArray *ports	= packet.scanner.body[@"2"];
-			
-			if( [ports count] != [ips count] )
+			if( [SKServerListManager needsNewList] )
 			{
-				DLog(@"[Error] incorrect CMList received");
-			}
-			else
-			{
-				// Create a new and empty server list manager
-				SKServerListManager *manager = [[SKServerListManager alloc] init];
-				for(NSUInteger i = 0;i<[ports count];i++)
+				NSArray *ips	= packet.scanner.body[@"1"];
+				NSArray *ports	= packet.scanner.body[@"2"];
+				
+				if( [ports count] != [ips count] )
 				{
-					NSNumber *IP		= ips[i];
-					NSNumber *port		= ports[i];
-					UInt32 ipInt		= [IP unsignedIntValue];
-					UInt16 portInt		= [port unsignedShortValue];
-					[manager addServer:ipInt port:portInt];
+					DLog(@"[Error] incorrect CMList received");
 				}
-				[manager save];
-				[manager release];
+				else
+				{
+					// Create a new and empty server list manager
+					SKServerListManager *manager = [[SKServerListManager alloc] init];
+					for(NSUInteger i = 0;i<[ports count];i++)
+					{
+						NSNumber *IP		= ips[i];
+						NSNumber *port		= ports[i];
+						UInt32 ipInt		= [IP unsignedIntValue];
+						UInt16 portInt		= [port unsignedShortValue];
+						[manager addServer:ipInt port:portInt];
+					}
+					[manager save];
+					[manager release];
+				}
 			}
 		}
 			break;

@@ -12,12 +12,30 @@
 
 @implementation SKServerListManager
 
++ (NSString *)cacheFilePath
+{
+	static NSString *path = nil;
+	if( !path )
+	{
+		path = [[[SKSentryFile appSupportDirectory] stringByAppendingPathComponent:@"servers.plist"] retain];
+	}
+	return path;
+}
+
++ (BOOL)needsNewList
+{
+	if( [[NSFileManager defaultManager] fileExistsAtPath:[SKServerListManager cacheFilePath]] )
+	{
+		return NO;
+	}
+	return YES;
+}
+
 - (id)initWithCache
 {
 	if( (self = [super init]) )
 	{
-		NSString *path		= [[SKSentryFile appSupportDirectory] stringByAppendingPathComponent:@"servers.plist"];
-		_list = [[NSMutableArray alloc] initWithContentsOfFile:path];
+		_list = [[NSMutableArray alloc] initWithContentsOfFile:[SKServerListManager cacheFilePath]];
 		if( !_list )
 		{
 			DLog(@"[Notice] no server list cache available");
@@ -60,6 +78,16 @@
 	DLog(@"=> Wrote a new server list");
 }
 
+- (void)optimize
+{
+	for(NSString *hostName in _list)
+	{
+		SimplePing *pinger = [[SimplePing simplePingWithHostName:hostName] retain];
+		[pinger setDelegate:self];
+		[pinger sendPingWithData:nil];
+	}
+}
+
 - (NSString *)getRandomAddress
 {
 	if( !_list )
@@ -69,6 +97,30 @@
 	UInt32 max = (UInt32)[_list count];
 	char index = arc4random_uniform(max);
 	return _list[index];
+}
+
+#pragma mark - Simple ping delegate
+
+- (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet
+{
+	[pinger setDelegate:nil];
+	[pinger release];
+	[pinger stop];
+}
+
+- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error
+{
+	[pinger setDelegate:nil];
+	[pinger release];
+	DLog(@"=> Pinging failed %@", error);
+}
+
+- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
+{
+	[pinger setDelegate:nil];
+	[pinger stop];
+	[pinger release];
+	NSLog(@"#%u received", (unsigned int) OSSwapBigToHostInt16([SimplePing icmpInPacket:packet]->sequenceNumber) );
 }
 
 @end

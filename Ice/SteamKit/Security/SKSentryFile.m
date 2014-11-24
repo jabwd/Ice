@@ -19,7 +19,6 @@
 	static NSString *finalPath = nil;
 	if( finalPath )
 	{
-		[[NSFileManager defaultManager] createDirectoryAtPath:finalPath withIntermediateDirectories:YES attributes:nil error:nil];
 		return finalPath;
 	}
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(

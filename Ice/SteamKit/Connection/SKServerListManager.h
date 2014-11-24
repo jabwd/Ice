@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SimplePing.h"
 
-@interface SKServerListManager : NSObject
+@interface SKServerListManager : NSObject <SimplePingDelegate>
 {
 	NSMutableArray *_list;
 }
+
++ (BOOL)needsNewList;
 
 /**
  * Is used when the instance is not going to be used
