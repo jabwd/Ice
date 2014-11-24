@@ -69,9 +69,6 @@
 	 addObserver:self
 	 selector:@selector(notificationReceived:)
 	 name:SKLoginFailedSteamGuardNotificationName object:nil];
-	
-	NSString *bla = [NSString stringWithContentsOfFile:@"/Users/jabwd/Desktop/Bla.plist" encoding:NSUTF8StringEncoding error:nil];
-	NSLog(@"%@", bla);
 }
 
 - (void)notificationReceived:(NSNotification *)notification

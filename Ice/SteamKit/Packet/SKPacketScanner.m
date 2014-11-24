@@ -17,6 +17,7 @@
 #import "SKProtobufValue.h"
 #import "SKFriend.h"
 #import "SKSteamID.h"
+#import "SKGamesManager.h"
 
 @implementation SKPacketScanner
 
@@ -205,9 +206,6 @@
 			UInt64 remoteID			= [[packet valueForFieldNumber:1] unsignedIntegerValue];
 			SKFriend *remoteFriend	= [_session friendForRawSteamID:remoteID];
 			[remoteFriend receivedChatMessageWithBody:packet.scanner.body];
-			
-			SKPacket *pack = [SKPacket requestAppInfoPacket:570 session:_session];
-			[_connection sendPacket:pack];
 		}
 			break;
 		
@@ -263,14 +261,8 @@
 			
 		case SKMsgTypeClientAppInfoResponse:
 		{
-			NSData *sepp = [NSData dataFromByteString:@"0001"];
 			NSDictionary *body = packet.scanner.body;
 			NSData *app = body[@"1"];
-			if( [app isKindOfClass:[NSString class]] )
-			{
-				DLog(@"Apparently it was a string lol.");
-				app = [(NSString *)app dataUsingEncoding:NSUTF8StringEncoding];
-			}
 			NSArray *rep = [packet.scanner scanRepeated:app];
 			for(NSDictionary *singleApp in rep)
 			{
@@ -297,7 +289,11 @@
 							NSRange nameRange = [appDataString rangeOfString:@"name"];
 							NSString *appID = [appDataString substringWithRange:NSMakeRange(0, nameRange.location)];
 							NSString *sub = [appDataString substringWithRange:NSMakeRange(strRange.location+strRange.length, 40)];
-							DLog(@"AppIcon URL: https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/%@/%@.ico", appID, sub);
+							NSString *iconURL = [[NSString alloc] initWithFormat:@"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/%@/%@.ico", appID, sub];
+							NSURL *theURL = [[NSURL alloc] initWithString:iconURL];
+							[[SKGamesManager sharedManager] downloadImageAtURL:theURL forID:[appID intValue]];
+							[theURL release];
+							[iconURL release];
 							[appDataString release];
 							[part release];
 						}

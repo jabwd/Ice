@@ -17,6 +17,9 @@
 		3647D1A41A13170E00D88225 /* SKFriendCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3647D1A31A13170E00D88225 /* SKFriendCache.m */; };
 		365E9BDD1A20C5C40037C50C /* EXPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */; };
 		365E9BDE1A20C5C40037C50C /* EXPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 365E9BDC1A20C5C40037C50C /* EXPreferencesWindowController.xib */; };
+		366397791A2257680070AD09 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E0F7D31A22432900FF6A22 /* Sparkle.framework */; };
+		3663977A1A2257680070AD09 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36E0F7D31A22432900FF6A22 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3663977F1A2258D40070AD09 /* SKGamesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3663977E1A2258D40070AD09 /* SKGamesManager.m */; };
 		366863AB1A10553900EA08B6 /* EXChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366863A91A10553900EA08B6 /* EXChatWindowController.m */; };
 		366863AC1A10553900EA08B6 /* EXChatWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 366863AA1A10553900EA08B6 /* EXChatWindowController.xib */; };
 		3672A7BF1A10F441003AF16D /* BFNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3672A7B21A10F441003AF16D /* BFNotificationCenter.m */; };
@@ -62,7 +65,6 @@
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
 		36E0F7CF1A21A32300FF6A22 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 36E0F7CE1A21A32300FF6A22 /* dsa_pub.pem */; };
 		36E0F7D21A22400D00FF6A22 /* SKProtobufDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E0F7D11A22400D00FF6A22 /* SKProtobufDecoder.m */; };
-		36E0F7D41A22432900FF6A22 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E0F7D31A22432900FF6A22 /* Sparkle.framework */; };
 		36E5DA9319FDE4EB00AD2A4D /* SKProtobufCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E5DA9219FDE4EB00AD2A4D /* SKProtobufCompiler.m */; };
 		36E5DA9619FDEBF300AD2A4D /* SKProtobufValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E5DA9519FDEBF300AD2A4D /* SKProtobufValue.m */; };
 		36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E766DC19C6D54000D9C761 /* Cocoa.framework */; };
@@ -94,6 +96,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3663977B1A2257680070AD09 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3663977A1A2257680070AD09 /* Sparkle.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		360609B319EBE12B0003EA2D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		3613523C19ECB1060038A3A1 /* SKPacketScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPacketScanner.h; path = SteamKit/Packet/SKPacketScanner.h; sourceTree = "<group>"; };
@@ -115,6 +131,8 @@
 		365E9BDA1A20C5C40037C50C /* EXPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPreferencesWindowController.h; path = Classes/WindowControllers/EXPreferencesWindowController.h; sourceTree = "<group>"; };
 		365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXPreferencesWindowController.m; path = Classes/WindowControllers/EXPreferencesWindowController.m; sourceTree = "<group>"; };
 		365E9BDC1A20C5C40037C50C /* EXPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXPreferencesWindowController.xib; path = Classes/WindowControllers/EXPreferencesWindowController.xib; sourceTree = "<group>"; };
+		3663977D1A2258D40070AD09 /* SKGamesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKGamesManager.h; path = SteamKit/Games/SKGamesManager.h; sourceTree = "<group>"; };
+		3663977E1A2258D40070AD09 /* SKGamesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKGamesManager.m; path = SteamKit/Games/SKGamesManager.m; sourceTree = "<group>"; };
 		366863A81A10553900EA08B6 /* EXChatWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXChatWindowController.h; path = Classes/WindowControllers/EXChatWindowController.h; sourceTree = "<group>"; };
 		366863A91A10553900EA08B6 /* EXChatWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXChatWindowController.m; path = Classes/WindowControllers/EXChatWindowController.m; sourceTree = "<group>"; };
 		366863AA1A10553900EA08B6 /* EXChatWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EXChatWindowController.xib; path = Classes/WindowControllers/EXChatWindowController.xib; sourceTree = "<group>"; };
@@ -238,7 +256,7 @@
 				360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */,
 				36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */,
 				36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */,
-				36E0F7D41A22432900FF6A22 /* Sparkle.framework in Frameworks */,
+				366397791A2257680070AD09 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +305,15 @@
 				3672A7BA1A10F441003AF16D /* SFTabView.m */,
 			);
 			name = SafariTabs;
+			sourceTree = "<group>";
+		};
+		3663977C1A2258B60070AD09 /* Games */ = {
+			isa = PBXGroup;
+			children = (
+				3663977D1A2258D40070AD09 /* SKGamesManager.h */,
+				3663977E1A2258D40070AD09 /* SKGamesManager.m */,
+			);
+			name = Games;
 			sourceTree = "<group>";
 		};
 		366863A71A10551C00EA08B6 /* WindowControllers */ = {
@@ -587,6 +614,7 @@
 		36E7671019C6D8BB00D9C761 /* SteamKit */ = {
 			isa = PBXGroup;
 			children = (
+				3663977C1A2258B60070AD09 /* Games */,
 				36CF7DD31A01198D00973C8B /* Friends */,
 				363C842919F65AC500DC3CCD /* MsgType.h */,
 				3613524919ED78DA0038A3A1 /* SteamConstants.h */,
@@ -668,6 +696,7 @@
 				36E766D519C6D54000D9C761 /* Sources */,
 				36E766D619C6D54000D9C761 /* Frameworks */,
 				36E766D719C6D54000D9C761 /* Resources */,
+				3663977B1A2257680070AD09 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -802,6 +831,7 @@
 				36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				3672A7C01A10F441003AF16D /* BFSoundSet.m in Sources */,
+				3663977F1A2258D40070AD09 /* SKGamesManager.m in Sources */,
 				36F263D21A1F9BC5000CEADC /* EXImageView.m in Sources */,
 				3672A7BF1A10F441003AF16D /* BFNotificationCenter.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
@@ -960,6 +990,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ice/Ice-Prefix.pch";
 				INFOPLIST_FILE = "Ice/Ice-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
@@ -983,6 +1014,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ice/Ice-Prefix.pch";
 				INFOPLIST_FILE = "Ice/Ice-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",

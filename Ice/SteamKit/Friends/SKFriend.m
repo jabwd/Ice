@@ -11,6 +11,7 @@
 #import "SKPacket.h"
 #import "SKSession.h"
 #import "SKTCPConnection.h"
+#import "SKGamesManager.h"
 
 NSString *SKFriendOnlineStatusChangedNotification	= @"SKFriendOnlineStatusChanged";
 NSString *SKDefaultAvatarImageName					= @"avatar-default";
@@ -98,6 +99,10 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	if( body[@"3"] )
 	{
 		_appID = [body[@"3"] unsignedIntValue];
+		
+		// so we can display the game icon
+		[_avatarImage release];
+		_avatarImage = nil;
 	}
 	
 	if( oldStatus != SKPersonaStateMax )
@@ -230,6 +235,20 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	{
 		return _avatarImage;
 	}
+	
+	/*if( _appID != 0 )
+	{
+		_avatarImage = [[[SKGamesManager sharedManager] imageForAppID:_appID] retain];
+		if( _avatarImage )
+		{
+			return _avatarImage;
+		}
+		else
+		{
+			[_session requestAppInfo:_appID];
+			return [NSImage imageNamed:SKDefaultAvatarImageName];
+		}
+	}*/
 	
 	if( !_avatarHash )
 	{

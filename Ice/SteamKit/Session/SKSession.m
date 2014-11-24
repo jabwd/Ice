@@ -98,7 +98,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 														 userInfo:nil
 														  repeats:YES];
 		[_keepAliveTimer setTolerance:10];
-		[self setUserStatus:SKPersonaStateSnooze];
+		[self setUserStatus:SKPersonaStateOnline];
 	}
 	else if( status == SKSessionStatusDisconnecting )
 	{
@@ -116,6 +116,12 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 - (void)keepAlive:(NSTimer *)timer
 {
 	[_TCPConnection sendPacket:[SKPacket heartBeatPacket:self]];
+}
+
+- (void)requestAppInfo:(UInt32)appID
+{
+	SKPacket *packet = [SKPacket requestAppInfoPacket:appID session:self];
+	[_TCPConnection sendPacket:packet];
 }
 
 #pragma mark - Connection Handling

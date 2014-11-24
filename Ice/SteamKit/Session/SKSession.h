@@ -132,6 +132,8 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 - (SKFriend *)friendForSteamID:(SKSteamID *)steamID;
 - (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID;
 
+- (void)requestAppInfo:(UInt32)appID;
+
 - (void)setUserStatus:(SKPersonaState)status;
 - (SKPersonaState)userStatus;
 
