@@ -161,12 +161,6 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	_avatarHash = nil;
 	[_displayName release];
 	_displayName = nil;
-	[_username release];
-	_username = nil;
-	[_password release];
-	_password = nil;
-	[_countryCode release];
-	_countryCode = nil;
 	[_steamID release];
 	_steamID = nil;
 	[_session release];
@@ -184,10 +178,6 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	if( [_displayName length] > 0 )
 	{
 		return _displayName;
-	}
-	else if( [_username length] > 0 )
-	{
-		return _username;
 	}
 	return @"Uknown user";
 }

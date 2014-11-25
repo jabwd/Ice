@@ -27,36 +27,28 @@ extern NSString *SKDefaultAvatarImageName;
 @interface SKFriend : NSObject <SKAvatarDownloadDelegate>
 {
 	NSString *_displayName;
-	NSString *_username;
-	NSString *_password;
-	NSString *_email;
 	NSString *_gameName;
-	
-	NSString *_countryCode;
 	
 	SKSteamID *_steamID;
 	SKSession *_session;
 	
-	NSData *_avatarHash;
+	NSData	*_avatarHash;
 	NSImage *_avatarImage;
 	
 	NSMutableArray *_storedMessages;
 	
 	id _delegate;
 	
-	SKPersonaState _status;
 	UInt32 _lastLogon;
 	UInt32 _lastLogoff;
 	UInt32 _onlineInstances;
 	UInt32 _currentInstance;
 	UInt32 _appID;
+	
+	SKPersonaState _status:3;
 }
 
 @property (retain) NSString *displayName;
-@property (retain) NSString *username;
-@property (retain) NSString *password;
-@property (retain) NSString *email;
-@property (retain) NSString *countryCode;
 @property (retain) NSString *gameName;
 @property (retain) NSData *avatarHash;
 
@@ -64,12 +56,12 @@ extern NSString *SKDefaultAvatarImageName;
 @property (retain) SKSession *session;
 @property (assign) id <SKFriendChatDelegate> delegate;
 
-@property (assign) SKPersonaState status;
 @property (assign) UInt32 lastLogon;
 @property (assign) UInt32 lastLogoff;
 @property (assign) UInt32 onlineInstances;
 @property (assign) UInt32 currentInstance;
 @property (assign) UInt32 appID;
+@property (assign) SKPersonaState status;
 
 /**
  * Creates an SKFriend object with the given protobuf

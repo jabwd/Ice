@@ -191,13 +191,14 @@
 		case SKMsgTypeClientAccountInfo:
 		{
 			_session.currentUser.displayName = packet.scanner.body[@"1"];
-			_session.currentUser.countryCode = packet.scanner.body[@"2"];
+			//_session.currentUser.countryCode = packet.scanner.body[@"2"];
 		}
 			break;
 			
 		case SKMsgTypeClientEmailAddrInfo:
 		{
-			_session.currentUser.email = packet.scanner.body[@"1"];
+			// Useless.
+			//_session.currentUser.email = packet.scanner.body[@"1"];
 		}
 			break;
 		

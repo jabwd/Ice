@@ -116,7 +116,7 @@
 				[alert setMessageText:[NSString stringWithFormat:@"Soundset %@ was successfully installed", name]];
 				
 				[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
-					DLog(@"Returncode: %u", returnCode);
+					DLog(@"Returncode: %lu", (long)returnCode);
 					if( returnCode == NSModalResponseOK )
 					{
 						[[BFNotificationCenter defaultNotificationCenter] setSoundSet:set];
