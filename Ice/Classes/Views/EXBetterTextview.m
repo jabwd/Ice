@@ -11,11 +11,22 @@
 
 @implementation EXBetterTextview
 
+- (void)setNeedsScrolledDisplay
+{
+	_needsScroll = YES;
+	[self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];
-	EXChatWindowController *controller = (EXChatWindowController *)self.delegate;
-	[controller scrollToBottom];
+	
+	if( _needsScroll )
+	{
+		_needsScroll = NO;
+		EXChatWindowController *controller = (EXChatWindowController *)self.delegate;
+		[controller scrollToBottom];
+	}
 }
 
 @end

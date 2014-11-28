@@ -9,5 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface EXBetterTextview : NSTextView
+{
+	BOOL _needsScroll;
+}
+
+- (void)setNeedsScrolledDisplay;
 
 @end

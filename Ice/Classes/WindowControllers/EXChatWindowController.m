@@ -12,6 +12,7 @@
 #import "BFNotificationCenter.h"
 #import "SFTabStripView.h"
 #import "SFTabView.h"
+#import "EXBetterTextview.h"
 #import "XNResizingMessageView.h"
 
 NSString *EXChatFontName		= @"Helvetica Neue";
@@ -297,7 +298,8 @@ const CGFloat EXChatFontSize	= 14.0f;
 {
 	AHHyperlinkScanner *scanner = [[AHHyperlinkScanner alloc] initWithAttributedString:str usingStrictChecking:NO];
 	[[_textView textStorage] appendAttributedString:[scanner linkifiedString]];
-	[_textView setNeedsDisplay:YES];
+	//[_textView setNeedsDisplay:YES];
+	[(EXBetterTextview *)_textView setNeedsScrolledDisplay];
 	[scanner release];
 }
 
