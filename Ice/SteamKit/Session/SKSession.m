@@ -31,7 +31,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 {
 	if( (self = [super init]) )
 	{
-		_sessionKey			= [[NSData dataFromByteString:@"1a03a1af12a4825b3599e897815b53e9588d7a713983b64fc54801333ff4c658"] retain];
+		_sessionKey			= [[SKSession generateSessionKey] retain];
 		_status				= SKSessionStatusOffline;
 		_delegate			= nil;
 		_rawSteamID			= 76561197960265728;

@@ -153,6 +153,8 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[payLoad appendBytes:&len length:4];
 	packet.data = payLoad;
 	[payLoad release];
+	
+	
 	return [packet autorelease];
 }
 
