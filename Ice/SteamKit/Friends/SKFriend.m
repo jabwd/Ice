@@ -186,8 +186,20 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 {
 	if( [_gameName length] > 0 && _appID != 0 )
 	{
-		return [NSString stringWithFormat:@"Playing %@", _gameName];
+		if( _status == SKPersonaStateOnline )
+		{
+			return [NSString stringWithFormat:@"Playing %@", _gameName];
+		}
+		else
+		{
+			return [NSString stringWithFormat:@"%@, Playing %@", [self personaStateToString:_status], _gameName];
+		}
 	}
+	return [self personaStateToString:_status];
+}
+
+- (NSString *)personaStateToString:(SKPersonaState)state
+{
 	switch(_status)
 	{
 		case SKPersonaStateOffline:
