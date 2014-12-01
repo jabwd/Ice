@@ -27,11 +27,16 @@
 
 + (NSData *)encryptPacketData:(NSData *)packetData key:(NSData *)key
 {
+	static NSData *iv = nil;
+	if( !iv )
+	{
+		iv = [[self generateRandomData:16] retain];
+	}
 	if( !key )
 	{
 		return nil;
 	}
-	NSData *iv				= [self generateRandomData:16];
+	//NSData *iv				= [self generateRandomData:16];
 	NSData *encryptedIV		= nil;
 	SecKeyRef cryptoKey		= NULL;
 	SecTransformRef encrypt = NULL;
