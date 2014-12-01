@@ -66,8 +66,6 @@ static const unsigned char steamPublicKey2014[] = {
 	}
 	
 	// Cleanup
-	CFRelease(tempArray);
-	CFRelease(publicKey);
 	CFRelease(encrypt);
 	[keyData release];
 	
