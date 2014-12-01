@@ -45,6 +45,8 @@ extern NSString *SKDefaultAvatarImageName;
 	UInt32 _currentInstance;
 	UInt32 _appID;
 	
+	BOOL _userSetStatus;
+	
 	SKPersonaState _status:3;
 }
 
@@ -55,6 +57,7 @@ extern NSString *SKDefaultAvatarImageName;
 @property (retain) SKSteamID *steamID;
 @property (retain) SKSession *session;
 @property (assign) id <SKFriendChatDelegate> delegate;
+@property (assign) BOOL userSetStatus;
 
 @property (assign) UInt32 lastLogon;
 @property (assign) UInt32 lastLogoff;

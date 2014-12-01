@@ -57,6 +57,7 @@ typedef NS_ENUM(UInt32, SKOSType)
 	SKOSTypeMacOS107	= -90,
 	SKOSTypeMacOS108	= -89,
 	SKOSTypeMacOS109	= -88,
+	SKOSTypeMacOS1010	= -87,
 	SKOSTypeLinuxUnknown = -203,
 	SKOSTypeLinux22		= -202,
 	SKOSTypeLinux24		= -201,

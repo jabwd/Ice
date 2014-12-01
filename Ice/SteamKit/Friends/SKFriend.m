@@ -95,6 +95,10 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 		}
 		_status = newStatus;
 	}
+	if( body[@"10"] )
+	{
+		_userSetStatus = [body[@"10"] boolValue];
+	}
 	
 	if( body[@"3"] )
 	{
@@ -194,6 +198,10 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 		{
 			return [NSString stringWithFormat:@"%@, Playing %@", [self personaStateToString:_status], _gameName];
 		}
+	}
+	if( _userSetStatus && _status != SKPersonaStateOnline )
+	{
+		return [NSString stringWithFormat:@"Self %@", [self personaStateToString:_status]];
 	}
 	return [self personaStateToString:_status];
 }
