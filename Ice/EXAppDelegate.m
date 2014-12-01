@@ -286,6 +286,11 @@
 	}
 }
 
+- (IBAction)changeNickname:(id)sender
+{
+	
+}
+
 - (void)switchMainView:(NSView *)view
 {
 	NSView *contentView = self.window.contentView;

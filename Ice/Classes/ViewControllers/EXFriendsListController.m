@@ -83,10 +83,6 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 
 - (SKFriend *)newRemoteFriendForID:(SKSteamID *)steamID
 {
-	if( _session )
-	{
-		return [_session friendForSteamID:steamID];
-	}
 	return nil;
 }
 

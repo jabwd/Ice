@@ -410,8 +410,19 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	// New status
 	[compiler addVarint:session.userStatus field:1];
 	
+	[compiler addData:[SKProtobufEncoder encodeString:session.currentUser.displayName]
+			  forType:WireTypePacked fieldNumber:2];
+	
 	// User set
-	[compiler addVarint:1 field:5];
+	if( session.userStatus == SKPersonaStateAway ||
+	    session.userStatus == SKPersonaStateSnooze )
+	{
+		//[compiler addVarint:0 field:5];
+	}
+	else
+	{
+		[compiler addVarint:1 field:5];
+	}
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];

@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="advancedView" destination="C70-Vp-2wx" id="gQ0-Bb-Lad"/>
                 <outlet property="generalView" destination="1Gn-2o-Stj" id="2tH-7V-bEl"/>
+                <outlet property="nicknameField" destination="AvZ-d8-EiK" id="Qn3-Fw-gih"/>
                 <outlet property="soundView" destination="QbU-Jp-JdJ" id="fiQ-FL-Bng"/>
                 <outlet property="soundsetDropDown" destination="1J8-EB-PXH" id="j0n-3y-9ML"/>
                 <outlet property="toolbar" destination="G5M-72-YY7" id="tKR-uf-bK7"/>
@@ -57,11 +58,11 @@
             <point key="canvasLocation" x="344" y="92"/>
         </window>
         <customView id="1Gn-2o-Stj" userLabel="General view">
-            <rect key="frame" x="0.0" y="0.0" width="456" height="259"/>
+            <rect key="frame" x="0.0" y="2" width="456" height="182"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="6gB-S6-gPY">
-                    <rect key="frame" x="118" y="222" width="43" height="17"/>
+                    <rect key="frame" x="118" y="145" width="43" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Login:" id="Dk1-Pi-nGu">
                         <font key="font" metaFont="system"/>
@@ -70,7 +71,7 @@
                     </textFieldCell>
                 </textField>
                 <button id="DwD-3y-v8F">
-                    <rect key="frame" x="185" y="201" width="154" height="18"/>
+                    <rect key="frame" x="185" y="124" width="154" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Remember password" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Y7t-x8-FKK">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -82,7 +83,7 @@
                     </connections>
                 </button>
                 <button id="gkZ-mv-dhH">
-                    <rect key="frame" x="165" y="221" width="154" height="18"/>
+                    <rect key="frame" x="165" y="144" width="154" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Remember username" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Had-Sc-Gt3">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -92,8 +93,29 @@
                         <binding destination="s0k-WD-OxP" name="value" keyPath="values.rememberUsername" id="wdM-ff-E8e"/>
                     </connections>
                 </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="1pM-Bl-wxy">
+                    <rect key="frame" x="114" y="83" width="47" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Profile:" id="2Yn-QI-GAR">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="AvZ-d8-EiK">
+                    <rect key="frame" x="167" y="80" width="170" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Nickname" drawsBackground="YES" id="AoE-nU-Z8i">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="shouldChangeNickname:" target="-2" id="p4f-lJ-1oi"/>
+                    </connections>
+                </textField>
             </subviews>
-            <point key="canvasLocation" x="344" y="410.5"/>
+            <point key="canvasLocation" x="344" y="372"/>
         </customView>
         <customView id="QbU-Jp-JdJ" userLabel="Sound view">
             <rect key="frame" x="0.0" y="-2" width="456" height="263"/>

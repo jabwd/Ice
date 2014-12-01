@@ -242,7 +242,7 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	_keepOn = YES;
     //BOOL isInside	= YES;
     NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	NSPoint mouseDownLocation = mouseLoc;
+//	NSPoint mouseDownLocation = mouseLoc;
 	
     while( _keepOn )
 	{
@@ -260,7 +260,7 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 				NSRect dragStartRect = NSMakeRect(bounds.origin.x-20.0f, bounds.origin.y-20.0f, bounds.size.width+40.0f, bounds.size.height+50.0f);
 				if( ![self mouse:mouseLoc inRect:dragStartRect] /*&& _tabStrip.tabs.count > 1*/ )
 				{
-					NSSize dragOffset = NSMakeSize(0.0, 0.0);
+					/*NSSize dragOffset = NSMakeSize(0.0, 0.0);
 					NSPasteboard *pboard;
 					NSImage *displayImage = [self displayImage];
 					pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
@@ -269,8 +269,9 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 					
 					NSPoint imageLocation = NSMakePoint(mouseLoc.x-mouseDownLocation.x, mouseLoc.y-mouseDownLocation.y);
 					
-					[self dragImage:displayImage at:imageLocation offset:dragOffset
-							  event:theEvent pasteboard:pboard source:self slideBack:NO];
+					
+					//[self dragImage:displayImage at:imageLocation offset:dragOffset
+					//		  event:theEvent pasteboard:pboard source:self slideBack:NO];*/
 				}
 				
 				break;

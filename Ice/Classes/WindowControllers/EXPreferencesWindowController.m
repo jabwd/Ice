@@ -9,6 +9,8 @@
 #import "EXPreferencesWindowController.h"
 #import "BFNotificationCenter.h"
 #import "BFSoundSet.h"
+#import "SKSession.h"
+#import "SKFriend.h"
 #import "SKSentryFile.h"
 
 @interface EXPreferencesWindowController ()
@@ -126,6 +128,7 @@
 	switch((EXPrefTabTag)[sender tag])
 	{
 		case EXPrefTabGeneral:
+			[self setupGeneral];
 			[self switchView:_generalView];
 			break;
 			
@@ -170,6 +173,12 @@
 	aView.frame = mainView.bounds;
 }
 
+- (void)setupGeneral
+{
+	SKFriend *user = [[SKSession currentSession] currentUser];
+	[_nicknameField setStringValue:[user displayName]];
+}
+
 #pragma mark - Sound view
 
 - (IBAction)selectSoundSet:(id)sender
@@ -202,6 +211,11 @@
 {
 	[[BFNotificationCenter defaultNotificationCenter] updateSoundVolume];
 	[[BFNotificationCenter defaultNotificationCenter] playConnectedSound];
+}
+
+- (IBAction)shouldChangeNickname:(id)sender
+{
+	[[SKSession currentSession] setUserDisplayName:[_nicknameField stringValue]];
 }
 
 @end

@@ -27,17 +27,12 @@
 
 + (NSData *)encryptPacketData:(NSData *)packetData key:(NSData *)key
 {
-	static NSData *iv = nil;
-	if( !iv )
-	{
-		iv = [[self generateRandomData:16] retain];
-	}
+	static NSData *encryptedIV	= nil;
+	static NSData *iv			= nil;
 	if( !key )
 	{
 		return nil;
 	}
-	//NSData *iv				= [self generateRandomData:16];
-	NSData *encryptedIV		= nil;
 	SecKeyRef cryptoKey		= NULL;
 	SecTransformRef encrypt = NULL;
 	CFErrorRef error		= NULL;
@@ -52,20 +47,27 @@
 	// Create the SecKeyRef and the cryptor for the IV
 	CFDictionarySetValue(params, kSecAttrKeyType, kSecAttrKeyTypeAES);
 	cryptoKey	= SecKeyCreateFromData(params, (CFDataRef)key, &error);
-	encrypt		= SecEncryptTransformCreate(cryptoKey, &error);
 	
-	SecTransformSetAttribute(encrypt, kSecTransformInputAttributeName, (CFDataRef)iv, &error);
-	SecTransformSetAttribute(encrypt, kSecPaddingKey, kSecPaddingNone, &error);
-	SecTransformSetAttribute(encrypt, kSecEncryptionMode, kSecModeECBKey, &error);
-	SecTransformSetAttribute(encrypt, kSecIVKey, NULL, &error);
-	
-	// Encrypt the IV for appeding to the front of the packet data
-	encryptedIV = (NSData *)SecTransformExecute(encrypt, &error);
-	if( error )
+	// Generate the encryptedIV if needed
+	if( !encryptedIV )
 	{
-		DLog(@"Encryption error: %@", (NSError *)error);
+		[iv release];
+		iv = [[self generateRandomData:16] retain];
+		encrypt		= SecEncryptTransformCreate(cryptoKey, &error);
+		
+		SecTransformSetAttribute(encrypt, kSecTransformInputAttributeName, (CFDataRef)iv, &error);
+		SecTransformSetAttribute(encrypt, kSecPaddingKey, kSecPaddingNone, &error);
+		SecTransformSetAttribute(encrypt, kSecEncryptionMode, kSecModeECBKey, &error);
+		SecTransformSetAttribute(encrypt, kSecIVKey, NULL, &error);
+		
+		// Encrypt the IV for appeding to the front of the packet data
+		encryptedIV = (NSData *)SecTransformExecute(encrypt, &error);
+		if( error )
+		{
+			DLog(@"Encryption error: %@", (NSError *)error);
+		}
+		CFRelease(encrypt);
 	}
-	CFRelease(encrypt);
 	
 	// Create the cryptor for the packet data
 	encrypt = SecEncryptTransformCreate(cryptoKey, &error);
@@ -88,7 +90,6 @@
 	[result release];
 	
 	// Cleanup
-	[encryptedIV release];
 	CFRelease(encrypt);
 	CFRelease(params);
 	CFRelease(cryptoKey);

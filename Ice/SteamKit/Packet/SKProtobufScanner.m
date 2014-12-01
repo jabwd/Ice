@@ -71,14 +71,12 @@ NSUInteger const ProtoMask = 0x80000000;
 
 - (void)scanHeader:(NSMutableData *)header
 {
-	NSUInteger length	= 0;
 	while( [header length] > 0 )
 	{
 		// Read the SKProtobufKey which can be more
 		// than just one byte.
-		length	= 0;
-		UInt64 value	= 0;
-		value	= [self readVarint:header length:&length];
+		UInt32 length	= 0;
+		UInt64 value	= [self readVarint:header length:&length];
 		[header removeBytes:length];
 		
 		// Scan the value, it will be automatically added to our header
@@ -91,14 +89,11 @@ NSUInteger const ProtoMask = 0x80000000;
 
 - (void)scanBody:(NSMutableData *)body
 {
-	NSUInteger length	= 0;
-	UInt64 value		= 0;
 	while( [body length] > 0 )
 	{
 		// Read the SKProtobufKey
-		value	= 0;
-		length	= 0;
-		value	= [self readVarint:body length:&length];
+		UInt32 length	= 0;
+		UInt64 value = [self readVarint:body length:&length];
 		[body removeBytes:length];
 		
 		// Scan the value, it will be automatically added to our body
@@ -114,20 +109,17 @@ NSUInteger const ProtoMask = 0x80000000;
 	NSMutableData *body		= [[NSMutableData alloc] initWithData:repeated];
 	NSMutableArray *list	= [[NSMutableArray alloc] init];
 	
-	NSUInteger length	= 0;
-	UInt64 value		= 0;
 	NSMutableDictionary *entry = [[NSMutableDictionary alloc] init];
 	while( [body length] > 0 )
 	{
 		// Read the SKProtobufKey
-		value	= 0;
-		length	= 0;
-		value	= [self readVarint:body length:&length];
+		UInt32 length	= 0;
+		UInt64 varint	= [self readVarint:body length:&length];
 		[body removeBytes:length];
 		
 		// Scan the value, it will be automatically added to our body
 		// content
-		SKProtobufKey *key = [[SKProtobufKey alloc] initWithVarint:value];
+		SKProtobufKey *key = [[SKProtobufKey alloc] initWithVarint:varint];
 		SKProtobufValue *value = [[SKProtobufValue alloc] initWithData:body type:key.type];
 		[body removeBytes:value.length];
 		
@@ -208,7 +200,7 @@ NSUInteger const ProtoMask = 0x80000000;
 	[value release];
 }
 
-- (UInt64)readVarint:(NSData *)data length:(NSUInteger *)length
+- (UInt64)readVarint:(NSData *)data length:(UInt32 *)length
 {
 	UInt8 *bytes = (UInt8*)[data bytes];
 	
@@ -218,7 +210,6 @@ NSUInteger const ProtoMask = 0x80000000;
 	{
 		UInt32 m = bytes[i];
 		n = n + ((m & 0x7f) * pow(2,(7*i)));
-		//*length = *length +1;
 		if( m < 128 )
 		{
 			++i; // for the length

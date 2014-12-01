@@ -26,9 +26,11 @@ typedef NS_ENUM(UInt32, EXPrefTabTag)
 @property (assign) IBOutlet NSView *advancedView;
 
 @property (assign) IBOutlet NSPopUpButton *soundsetDropDown;
+@property (assign) IBOutlet NSTextField *nicknameField;
 
 + (instancetype)sharedController;
 
+- (IBAction)shouldChangeNickname:(id)sender;
 - (IBAction)selectPane:(id)sender;
 - (void)show;
 

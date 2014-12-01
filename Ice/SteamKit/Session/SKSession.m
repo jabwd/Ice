@@ -20,11 +20,18 @@ NSString *SKLoginFailedSteamGuardNotificationName	= @"SKLoginFailedSteamGuard";
 NSString *SKFriendsListChangedNotificationName		= @"SKFriendsListChangedNotification";
 NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNotification";
 
+static SKSession *_currentSession = nil;
+
 @implementation SKSession
 
 + (NSData *)generateSessionKey
 {
 	return [SKAESEncryption generateRandomData:32];
+}
+
++ (SKSession *)currentSession
+{
+	return _currentSession;
 }
 
 - (id)init
@@ -36,6 +43,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 		_delegate			= nil;
 		_rawSteamID			= 76561197960265728;
 		_currentUser		= [[SKFriend alloc] init];
+		_currentSession		= self;
 		
 		_pendingFriends		= nil; // this is rarely needed, save some memory.
 		_onlineFriends		= [[NSMutableArray alloc] init];
@@ -51,6 +59,7 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 		[_keepAliveTimer invalidate];
 		_keepAliveTimer = nil;
 	}
+	_currentSession = nil;
 	[_sessionKey release];
 	_sessionKey = nil;
 	[_UDPConnection release];
@@ -203,6 +212,19 @@ NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNot
 - (SKPersonaState)userStatus
 {
 	return _userStatus;
+}
+
+- (void)setUserDisplayName:(NSString *)newName
+{
+	if( !newName )
+	{
+		return;
+	}
+	
+	_currentUser.displayName = newName;
+	
+	SKPacket *changePacket = [SKPacket changeUserStatusPacket:self];
+	[_TCPConnection sendPacket:changePacket];
 }
 
 #pragma mark - Setting up basic information

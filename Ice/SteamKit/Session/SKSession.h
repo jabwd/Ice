@@ -87,6 +87,8 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
  */
 + (NSData *)generateSessionKey;
 
++ (SKSession *)currentSession;
+
 #pragma mark - Connection handling
 
 /**
@@ -136,6 +138,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 
 - (void)setUserStatus:(SKPersonaState)status;
 - (SKPersonaState)userStatus;
+- (void)setUserDisplayName:(NSString *)newName;
 
 /**
  * Updates the current SKSentryFile with the new fileName and data
