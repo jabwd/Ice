@@ -251,6 +251,11 @@
 	[self connect:nil];
 }
 
+- (IBAction)createAccount:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://store.steampowered.com/join/"]];
+}
+
 - (IBAction)connect:(id)sender
 {
 	if( _session )

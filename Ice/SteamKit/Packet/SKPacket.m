@@ -671,8 +671,8 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	packet.msgType = SKProtocolProtobufMask + SKMsgTypeClientRequestFriendData;
 	SKMsgType type = packet.msgType;
 	
-	SKProtobufCompiler *compiler = [[SKProtobufCompiler alloc] init];
-	NSMutableData *buffer = [[NSMutableData alloc] init];
+	SKProtobufCompiler *compiler	= [[SKProtobufCompiler alloc] init];
+	NSMutableData *buffer			= [[NSMutableData alloc] init];
 	
 	// + Create the header + //
 	SKProtobufValue *v = [[SKProtobufValue alloc] initWithFixed64:session.rawSteamID];
@@ -685,13 +685,8 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	// -------------------//
 	
 	// Requested persona state
-	v = [[SKProtobufValue alloc] initWithVarint:flag];
-	[compiler addValue:v fieldNumber:1];
-	[v release];
-	
-	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
-	[compiler addValue:v fieldNumber:2];
-	[v release];
+	[compiler addVarint:flag field:1];
+	[compiler addFixed64:remoteFriend.steamID.rawSteamID field:2];
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];

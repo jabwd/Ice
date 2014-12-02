@@ -42,9 +42,11 @@
 
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
+- (IBAction)createAccount:(id)sender;
 - (IBAction)openDeveloperWindow:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 
 - (IBAction)selectStatus:(id)sender;
+
 
 @end

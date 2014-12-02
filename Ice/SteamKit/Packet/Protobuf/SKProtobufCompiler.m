@@ -40,6 +40,27 @@
 
 #pragma mark - Implementation
 
+- (void)addString:(NSString *)string field:(UInt32)fieldNumber
+{
+	[self addData:[SKProtobufEncoder encodeString:string]
+		  forType:WireTypePacked
+	  fieldNumber:fieldNumber];
+}
+
+- (void)addFixed32:(UInt32)value field:(UInt32)fieldNumber
+{
+	[self addData:[SKProtobufEncoder encodeFixed32:value]
+		  forType:WireTypeFixed32
+	  fieldNumber:fieldNumber];
+}
+
+- (void)addFixed64:(UInt64)value field:(UInt32)fieldNumber
+{
+	[self addData:[SKProtobufEncoder encodeFixed64:value]
+		  forType:WireTypeFixed64
+	  fieldNumber:fieldNumber];
+}
+
 - (void)addVarint:(UInt64)varint field:(UInt32)fieldNumber
 {
 	[self addData:[SKProtobufEncoder encodeVarint:varint]

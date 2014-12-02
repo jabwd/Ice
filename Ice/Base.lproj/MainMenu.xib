@@ -478,6 +478,9 @@ DQ
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="createAccount:" target="Voe-Tx-rLC" id="pfV-bW-Rsv"/>
+                    </connections>
                 </button>
             </subviews>
             <point key="canvasLocation" x="635" y="1260"/>
