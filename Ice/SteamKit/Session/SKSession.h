@@ -70,6 +70,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 @property (readonly) SKFriend *currentUser;
 @property (readonly) NSMutableArray *onlineFriends;
 @property (readonly) NSMutableArray *offlineFriends;
+@property (readonly) NSMutableArray *pendingFriends;
 @property (readonly) SKTCPConnection *TCPConnection;
 
 @property (retain) NSString *loginKey;
@@ -130,6 +131,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 - (void)updateFriend:(NSDictionary *)packetData;
 - (void)connectionAddFriend:(SKFriend *)remoteFriend moreComing:(BOOL)moreComing;
 - (void)connectionRemoveFriend:(SKFriend *)remoteFriend;
+- (void)removePendingFriend:(SKFriend *)friend;
 - (void)addPendingFriend:(SKFriend *)pendingFriend;
 - (void)sortFriendsList;
 - (SKFriend *)friendForSteamID:(SKSteamID *)steamID;

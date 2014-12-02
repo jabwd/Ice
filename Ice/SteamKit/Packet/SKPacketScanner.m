@@ -330,6 +330,13 @@
 		case SKMsgTypeClientAddFriendResponse:
 		{
 			DLog(@"Add friend response: %@", packet.scanner.body);
+			if( [packet.scanner.body[@"1"] unsignedIntValue] == SKResultCodeOK )
+			{
+				SKFriend *remoteFriend = [[SKFriend alloc] initWithRawSteamID:[packet.scanner.body[@"2"] unsignedIntegerValue]];
+				remoteFriend.session = _session;
+				[_session removePendingFriend:remoteFriend];
+				[remoteFriend release];
+			}
 		}
 			break;
 		
@@ -398,7 +405,6 @@
 		}
 		else if( type == SKFriendRelationTypeRequestRecipient )
 		{
-			NSLog(@"Received a friend request: %@", friend);
 			[_connection.session addPendingFriend:friend];
 		}
 		else if( type == SKFriendRelationTypeNone )

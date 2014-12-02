@@ -128,7 +128,7 @@
                         <action selector="blockFriend:" target="-2" id="YWi-Bs-zS3"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Remove friend" id="iZq-IW-40k">
+                <menuItem title="Remove friend" tag="1" id="iZq-IW-40k">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="removeFriend:" target="-2" id="Rza-WP-TvH"/>

@@ -187,6 +187,17 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	SKFriend *selFriend = [self selectedFriend];
 	if( selFriend )
 	{
+		if( [menuItem tag] == 1 )
+		{
+			if( selFriend.isPendingFriend )
+			{
+				[menuItem setTitle:@"Accept friend request"];
+			}
+			else
+			{
+				[menuItem setTitle:@"Remove friend"];
+			}
+		}
 		return YES;
 	}
 	return NO;
@@ -209,7 +220,16 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	SKFriend *fr = [self selectedFriend];
 	if( fr )
 	{
-		[fr removeAsFriend];
+		// this method handles both situations as the menu item
+		// gets modified depending on the situation
+		if( fr.isPendingFriend )
+		{
+			[fr addAsFriend];
+		}
+		else
+		{
+			[fr removeAsFriend];
+		}
 	}
 }
 
@@ -265,6 +285,10 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	if( item == nil )
 	{
 		[self performSelector:@selector(openGroups) withObject:nil afterDelay:1.0f];
+		if( [_session.pendingFriends count] > 0 )
+		{
+			return 3;
+		}
 		return 2;
 	}
 	else if( [item isEqualToString:EXOnlineFriendsGroupName] )
@@ -274,6 +298,10 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	else if( [item isEqualToString:EXOfflineFriendsGroupName] )
 	{
 		return [_session.offlineFriends count];
+	}
+	else if( [item isEqualToString:EXPendingFriendsGroupName] )
+	{
+		return [_session.pendingFriends count];
 	}
 	return 0;
 }
@@ -292,9 +320,13 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		{
 			return EXOnlineFriendsGroupName;
 		}
-		else
+		else if( index == 1 )
 		{
 			return EXOfflineFriendsGroupName;
+		}
+		else if( index == 2 )
+		{
+			return EXPendingFriendsGroupName;
 		}
 	}
 	else if( [item isEqualToString:EXOnlineFriendsGroupName] )
@@ -304,6 +336,10 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	else if( [item isEqualToString:EXOfflineFriendsGroupName] )
 	{
 		return _session.offlineFriends[index];
+	}
+	else if( [item isEqualToString:EXPendingFriendsGroupName] )
+	{
+		return _session.pendingFriends[index];
 	}
 	return nil;
 }
@@ -324,6 +360,11 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		[view.textField setStringValue:[remoteFriend displayNameString]];
 		
 		if( remoteFriend.status != SKPersonaStateOnline || remoteFriend.appID != 0 )
+		{
+			[view setShowsStatusField:YES];
+			[view.statusField setStringValue:[remoteFriend statusDisplayString]];
+		}
+		else if( remoteFriend.isPendingFriend )
 		{
 			[view setShowsStatusField:YES];
 			[view.statusField setStringValue:[remoteFriend statusDisplayString]];

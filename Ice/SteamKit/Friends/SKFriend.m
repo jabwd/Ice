@@ -208,6 +208,10 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 
 - (NSString *)personaStateToString:(SKPersonaState)state
 {
+	if( _isPendingFriend )
+	{
+		return @"Friend request pending";
+	}
 	switch(_status)
 	{
 		case SKPersonaStateOffline:
@@ -328,6 +332,12 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 - (void)removeAsFriend
 {
 	SKPacket *packet = [SKPacket removeFriendPacket:self];
+	[_session.TCPConnection sendPacket:packet];
+}
+
+- (void)addAsFriend
+{
+	SKPacket *packet = [SKPacket addFriendPacket:self];
 	[_session.TCPConnection sendPacket:packet];
 }
 

@@ -184,7 +184,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[compiler addValue:v forType:WireTypePacked fieldNumber:6];
 	[v release];
 	
-	[compiler addVarint:SKOSTypeMacOS109 field:7];
+	[compiler addVarint:SKOSTypeMacOS1010 field:7];
 	
 	v	= [[SKProtobufValue alloc] initWithString:[session username]];
 	[compiler addValue:v forType:WireTypePacked fieldNumber:50];
@@ -458,24 +458,12 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[v release];
 	
 	// Remote ID
-	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
-	[compiler addValue:v fieldNumber:1];
-	[v release];
+	[compiler addData:[SKProtobufEncoder encodeFixed64:remoteFriend.steamID.rawSteamID] forType:WireTypeFixed64 fieldNumber:1];
 	
 	// Entry type
-	v = [[SKProtobufValue alloc] initWithVarint:entryType];
-	[compiler addValue:v fieldNumber:2];
-	[v release];
-	
-	v = [[SKProtobufValue alloc] initWithString:message];
-	[compiler addValue:v fieldNumber:3];
-	[v release];
-	
-	NSDate *date = [NSDate date];
-	
-	v = [[SKProtobufValue alloc] initWithFixed32:(UInt32)[date timeIntervalSince1970]];
-	[compiler addValue:v fieldNumber:4];
-	[v release];
+	[compiler addVarint:entryType field:2];
+	[compiler addData:[SKProtobufEncoder encodeString:message] forType:WireTypePacked fieldNumber:3];
+	[compiler addData:[SKProtobufEncoder encodeFixed32:(UInt32)[[NSDate date] timeIntervalSince1970]] forType:WireTypeFixed32 fieldNumber:4];
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];

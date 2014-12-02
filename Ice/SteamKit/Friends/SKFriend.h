@@ -46,6 +46,7 @@ extern NSString *SKDefaultAvatarImageName;
 	UInt32 _appID;
 	
 	BOOL _userSetStatus;
+	BOOL _isPendingFriend;
 	
 	SKPersonaState _status:3;
 }
@@ -58,6 +59,7 @@ extern NSString *SKDefaultAvatarImageName;
 @property (retain) SKSession *session;
 @property (assign) id <SKFriendChatDelegate> delegate;
 @property (assign) BOOL userSetStatus;
+@property (assign) BOOL isPendingFriend;
 
 @property (assign) UInt32 lastLogon;
 @property (assign) UInt32 lastLogoff;
@@ -131,6 +133,7 @@ extern NSString *SKDefaultAvatarImageName;
 - (NSURL *)avatarURL;
 
 - (void)removeAsFriend;
+- (void)addAsFriend;
 
 
 - (NSComparisonResult)displayNameSort:(SKFriend *)other;

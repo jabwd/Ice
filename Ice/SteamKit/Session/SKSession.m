@@ -265,11 +265,15 @@ static SKSession *_currentSession = nil;
 	
 	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(sortFriendsList) object:nil];
 	[self performSelector:@selector(sortFriendsList) withObject:nil afterDelay:0.2f];
-	//[self sortFriendsList];
 }
 
 - (void)connectionAddFriend:(SKFriend *)remoteFriend moreComing:(BOOL)moreComing
 {
+	if( [self friendForSteamID:remoteFriend.steamID] )
+	{
+		// this also seems to be causing an issue!
+		return;
+	}
 	remoteFriend.session = self;
 	if( remoteFriend.displayName == nil )
 	{
@@ -278,8 +282,9 @@ static SKSession *_currentSession = nil;
 	
 	if( remoteFriend.avatarHash == nil )
 	{
-		SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPresence];
-		[_TCPConnection sendPacket:packet];
+		// should maybe be changed later.
+		//SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPresence];
+		//[_TCPConnection sendPacket:packet];
 	}
 	
 	if( remoteFriend.status == SKPersonaStateOffline || remoteFriend.status == SKPersonaStateMax )
@@ -300,11 +305,46 @@ static SKSession *_currentSession = nil;
 	[self sortFriendsList];
 }
 
+- (void)removePendingFriend:(SKFriend *)friend
+{
+	// Need to do a manual seek/remove as this can be a different pointer / object
+	// than the SKFriend we already know ( SKFriend does not implement isEqual: )
+	for(NSUInteger i = 0;i<[_pendingFriends count];i++)
+	{
+		SKFriend *c = _pendingFriends[i];
+		if( c.steamID.rawSteamID == friend.steamID.rawSteamID )
+		{
+			c.isPendingFriend = NO; // this seems to cause an issue
+									// so setting it specifically
+			[_pendingFriends removeObjectAtIndex:i];
+			if( [_pendingFriends count] )
+			{
+				// free up some memory
+				[_pendingFriends release];
+				_pendingFriends = nil;
+			}
+			return; // done here
+		}
+	}
+}
+
 - (void)addPendingFriend:(SKFriend *)pendingFriend
 {
+	if( !_pendingFriends )
+	{
+		_pendingFriends = [[NSMutableArray alloc] init];
+	}
 	pendingFriend.session = self;
-	SKPacket *packet = [SKPacket addFriendPacket:pendingFriend];
-	[_TCPConnection sendPacket:packet];
+	if( pendingFriend.displayName == nil )
+	{
+		[self requestFriendData:pendingFriend];
+	}
+	pendingFriend.isPendingFriend = YES;
+	[_pendingFriends addObject:pendingFriend];
+	
+	[self sortFriendsList];
+	//SKPacket *packet = [SKPacket addFriendPacket:pendingFriend];
+	//[_TCPConnection sendPacket:packet];
 }
 
 - (void)sortFriendsList
@@ -332,6 +372,13 @@ static SKSession *_currentSession = nil;
 			return remoteFriend;
 		}
 	}
+	for(SKFriend *remoteFriend in _pendingFriends)
+	{
+		if( remoteFriend.steamID.rawSteamID == rawSteamID )
+		{
+			return remoteFriend;
+		}
+	}
 	return nil;
 }
 
@@ -348,7 +395,7 @@ static SKSession *_currentSession = nil;
 
 - (void)requestFriendData:(SKFriend *)remoteFriend
 {
-	SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPlayerName];
+	SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPlayerName|SKPersonaStateFlagPresence];
 	[_TCPConnection sendPacket:packet];
 	
 }
