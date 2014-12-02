@@ -205,12 +205,27 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 
 - (SKFriend *)selectedFriend
 {
-	SKFriend *item = [_outlineView itemAtRow:[_outlineView selectedRow]];
+	SKFriend *item = [_outlineView itemAtRow:[self activeRow]];
 	if( [item isKindOfClass:[SKFriend class]] )
 	{
 		return item;
 	}
 	return nil;
+}
+
+- (NSInteger)activeRow
+{
+	// first check the selected row
+	NSInteger selRow    = [_outlineView selectedRow];
+	NSInteger clickRow  = [_outlineView clickedRow];
+	
+	if ( selRow == clickRow )
+		return selRow;
+	else if ( clickRow >= 0 )
+		return clickRow;
+	else
+		return selRow;
+	return 0;
 }
 
 #pragma mark - Friend menu
@@ -231,6 +246,18 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 			[fr removeAsFriend];
 		}
 	}
+}
+
+- (IBAction)blockFriend:(id)sender
+{
+	NSBeep();
+}
+
+- (IBAction)showProfile:(id)sender
+{
+	SKFriend *sel = [self selectedFriend];
+	NSString *URL = [NSString stringWithFormat:@"http://steamcommunity.com/profiles/%llu", sel.steamID.rawSteamID];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL]];
 }
 
 #pragma mark - Outlineview datasource
@@ -310,6 +337,10 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 {
 	[_outlineView expandItem:EXOnlineFriendsGroupName];
 	[_outlineView expandItem:EXOfflineFriendsGroupName];
+	if( _session.pendingFriends )
+	{
+		[_outlineView expandItem:EXPendingFriendsGroupName];
+	}
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item

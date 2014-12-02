@@ -241,8 +241,9 @@ NSString *BFPboardTabType = @"BFPboardTabType";
 	[self mouseDown_proxy:theEvent];
 	_keepOn = YES;
     //BOOL isInside	= YES;
-    NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+   // NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 //	NSPoint mouseDownLocation = mouseLoc;
+	NSPoint mouseLoc;
 	
     while( _keepOn )
 	{
