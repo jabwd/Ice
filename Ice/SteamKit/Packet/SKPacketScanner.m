@@ -326,6 +326,12 @@
 			}
 		}
 			break;
+			
+		case SKMsgTypeClientAddFriendResponse:
+		{
+			DLog(@"Add friend response: %@", packet.scanner.body);
+		}
+			break;
 		
 		case SKMsgTypeClientClanState:
 		case SKMsgTypeClientWalletInfoUpdate:
@@ -390,14 +396,22 @@
 		{
 			[_session connectionAddFriend:friend moreComing:YES];
 		}
-		else if( type == SKFriendRelationTypeRequestInitiator )
+		else if( type == SKFriendRelationTypeRequestRecipient )
 		{
 			NSLog(@"Received a friend request: %@", friend);
 			[_connection.session addPendingFriend:friend];
 		}
 		else if( type == SKFriendRelationTypeNone )
 		{
-			NSLog(@"Friend removed: %@", friend);
+			SKFriend *fr = [_session friendForRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
+			if( fr )
+			{
+				[_session connectionRemoveFriend:fr];
+			}
+		}
+		else
+		{
+			DLog(@"=> Unhandled friend relationship type: %u", type);
 		}
 		[friend release];
 	}

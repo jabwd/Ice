@@ -325,6 +325,12 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	return _delegate;
 }
 
+- (void)removeAsFriend
+{
+	SKPacket *packet = [SKPacket removeFriendPacket:self];
+	[_session.TCPConnection sendPacket:packet];
+}
+
 #pragma mark - Avatar handling
 
 - (NSURL *)avatarURL

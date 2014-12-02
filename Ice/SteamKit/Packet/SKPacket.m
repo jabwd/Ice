@@ -559,9 +559,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[v release];
 	// -------------------//
 	
-	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
-	[compiler addValue:v fieldNumber:1];
-	[v release];
+	[compiler addData:[SKProtobufEncoder encodeFixed64:remoteFriend.steamID.rawSteamID] forType:WireTypeFixed64 fieldNumber:1];
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];
@@ -602,9 +600,7 @@ UInt32 const SKProtocolProtobufMask		= 0x80000000;
 	[v release];
 	// -------------------//
 	
-	v = [[SKProtobufValue alloc] initWithFixed64:remoteFriend.steamID.rawSteamID];
-	[compiler addValue:v fieldNumber:1];
-	[v release];
+	[compiler addData:[SKProtobufEncoder encodeFixed64:remoteFriend.steamID.rawSteamID] forType:WireTypeFixed64 fieldNumber:1];
 	
 	[buffer appendBytes:&type length:4];
 	[buffer appendData:[compiler generate]];

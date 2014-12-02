@@ -108,7 +108,37 @@
                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
+            <connections>
+                <outlet property="menu" destination="6pk-Fh-twC" id="310-Gt-aGA"/>
+            </connections>
             <point key="canvasLocation" x="236.5" y="225.5"/>
         </scrollView>
+        <menu id="6pk-Fh-twC">
+            <items>
+                <menuItem title="Show profile" id="pPT-l9-rGG">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showProfile:" target="-2" id="Pld-fW-mJd"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="UTV-et-ecl"/>
+                <menuItem title="Block friend" id="Fwk-xj-bDY">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="blockFriend:" target="-2" id="YWi-Bs-zS3"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Remove friend" id="iZq-IW-40k">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="removeFriend:" target="-2" id="Rza-WP-TvH"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="-2" id="Wsr-ZR-jaj"/>
+            </connections>
+            <point key="canvasLocation" x="325" y="25.5"/>
+        </menu>
     </objects>
 </document>

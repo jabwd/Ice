@@ -27,8 +27,8 @@
 
 + (NSData *)encryptPacketData:(NSData *)packetData key:(NSData *)key
 {
-	static NSData *encryptedIV	= nil;
-	static NSData *iv			= nil;
+	NSData *encryptedIV	= nil;
+	NSData *iv			= nil;
 	if( !key )
 	{
 		return nil;
@@ -48,26 +48,21 @@
 	CFDictionarySetValue(params, kSecAttrKeyType, kSecAttrKeyTypeAES);
 	cryptoKey	= SecKeyCreateFromData(params, (CFDataRef)key, &error);
 	
-	// Generate the encryptedIV if needed
-	if( !encryptedIV )
+	iv			= [self generateRandomData:16];
+	encrypt		= SecEncryptTransformCreate(cryptoKey, &error);
+	
+	SecTransformSetAttribute(encrypt, kSecTransformInputAttributeName, (CFDataRef)iv, &error);
+	SecTransformSetAttribute(encrypt, kSecPaddingKey, kSecPaddingNone, &error);
+	SecTransformSetAttribute(encrypt, kSecEncryptionMode, kSecModeECBKey, &error);
+	SecTransformSetAttribute(encrypt, kSecIVKey, NULL, &error);
+	
+	// Encrypt the IV for appeding to the front of the packet data
+	encryptedIV = (NSData *)SecTransformExecute(encrypt, &error);
+	if( error )
 	{
-		[iv release];
-		iv = [[self generateRandomData:16] retain];
-		encrypt		= SecEncryptTransformCreate(cryptoKey, &error);
-		
-		SecTransformSetAttribute(encrypt, kSecTransformInputAttributeName, (CFDataRef)iv, &error);
-		SecTransformSetAttribute(encrypt, kSecPaddingKey, kSecPaddingNone, &error);
-		SecTransformSetAttribute(encrypt, kSecEncryptionMode, kSecModeECBKey, &error);
-		SecTransformSetAttribute(encrypt, kSecIVKey, NULL, &error);
-		
-		// Encrypt the IV for appeding to the front of the packet data
-		encryptedIV = (NSData *)SecTransformExecute(encrypt, &error);
-		if( error )
-		{
-			DLog(@"Encryption error: %@", (NSError *)error);
-		}
-		CFRelease(encrypt);
+		DLog(@"Encryption error: %@", (NSError *)error);
 	}
+	CFRelease(encrypt);
 	
 	// Create the cryptor for the packet data
 	encrypt = SecEncryptTransformCreate(cryptoKey, &error);
@@ -93,6 +88,7 @@
 	CFRelease(encrypt);
 	CFRelease(params);
 	CFRelease(cryptoKey);
+	[encryptedIV release];
 	
 	return [final autorelease];
 }

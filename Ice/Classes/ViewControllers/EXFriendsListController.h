@@ -15,7 +15,7 @@ extern NSString *EXOnlineFriendsGroupName;
 extern NSString *EXOfflineFriendsGroupName;
 extern NSString *EXPendingFriendsGroupName;
 
-@interface EXFriendsListController : NSViewController <NSOutlineViewDataSource, NSOutlineViewDelegate, EXChatWindowControllerDelegate>
+@interface EXFriendsListController : NSViewController <NSOutlineViewDataSource, NSOutlineViewDelegate, EXChatWindowControllerDelegate, NSMenuDelegate>
 {
 	SKSession *_session;
 	
@@ -32,5 +32,10 @@ extern NSString *EXPendingFriendsGroupName;
 - (void)setSession:(SKSession *)session;
 
 - (IBAction)doubleAction:(id)sender;
+
+- (IBAction)removeFriend:(id)sender;
+- (IBAction)blockFriend:(id)sender;
+- (IBAction)showProfile:(id)sender;
+
 
 @end

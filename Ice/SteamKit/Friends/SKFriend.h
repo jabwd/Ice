@@ -130,6 +130,8 @@ extern NSString *SKDefaultAvatarImageName;
  */
 - (NSURL *)avatarURL;
 
+- (void)removeAsFriend;
+
 
 - (NSComparisonResult)displayNameSort:(SKFriend *)other;
 

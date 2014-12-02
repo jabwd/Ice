@@ -292,8 +292,17 @@ static SKSession *_currentSession = nil;
 	}
 }
 
+- (void)connectionRemoveFriend:(SKFriend *)remoteFriend
+{
+	[_offlineFriends	removeObject:remoteFriend];
+	[_onlineFriends		removeObject:remoteFriend];
+	
+	[self sortFriendsList];
+}
+
 - (void)addPendingFriend:(SKFriend *)pendingFriend
 {
+	pendingFriend.session = self;
 	SKPacket *packet = [SKPacket addFriendPacket:pendingFriend];
 	[_TCPConnection sendPacket:packet];
 }

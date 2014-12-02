@@ -182,6 +182,37 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	}
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	SKFriend *selFriend = [self selectedFriend];
+	if( selFriend )
+	{
+		return YES;
+	}
+	return NO;
+}
+
+- (SKFriend *)selectedFriend
+{
+	SKFriend *item = [_outlineView itemAtRow:[_outlineView selectedRow]];
+	if( [item isKindOfClass:[SKFriend class]] )
+	{
+		return item;
+	}
+	return nil;
+}
+
+#pragma mark - Friend menu
+
+- (IBAction)removeFriend:(id)sender
+{
+	SKFriend *fr = [self selectedFriend];
+	if( fr )
+	{
+		[fr removeAsFriend];
+	}
+}
+
 #pragma mark - Outlineview datasource
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
