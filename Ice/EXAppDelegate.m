@@ -303,7 +303,21 @@
 
 - (IBAction)changeNickname:(id)sender
 {
+	NSAlert *alert = [[NSAlert alloc] init];
 	
+	[alert setMessageText:@"Change your nickname"];
+	
+	NSTextField *field = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 300, 22)];
+	[field setStringValue:_session.currentUser.displayName];
+	[alert setAccessoryView:field];
+	[alert setAlertStyle:NSInformationalAlertStyle];
+	[alert setIcon:[_session.currentUser avatarImage]];
+	
+	[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
+		[_session setUserDisplayName:[field stringValue]];
+		[alert release];
+	}];
+	[field release];
 }
 
 - (void)switchMainView:(NSView *)view
