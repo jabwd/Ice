@@ -278,6 +278,16 @@
 	[[EXPreferencesWindowController sharedController] show];
 }
 
+- (IBAction)showProfile:(id)sender
+{
+	if( !_session )
+	{
+		NSBeep();
+	}
+	NSString *URLStr = [NSString stringWithFormat:@"http://steamcommunity.com/profiles/%llu", _session.rawSteamID];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URLStr]];
+}
+
 - (IBAction)openDeveloperWindow:(id)sender
 {
 	if( _developerWindowController )
@@ -315,6 +325,36 @@
 - (void)session:(SKSession *)session didDisconnectWithReason:(SKResultCode)reason
 {
 	DLog(@"Disconnected with reason: %u", reason);
+	
+	NSString *title = @"Disconnected from Steam";
+	NSString *message = @"Unknown reason";
+	switch(reason)
+	{
+		case SKResultCodeInvalidPassword:
+			message = @"Incorrect username and/or password";
+			break;
+			
+		case SKResultCodeServiceUnavailable:
+			message = @"The Steam network is not available right now, try again in ~10 minutes or so.";
+			break;
+			
+		case SKResultCodeLogonSessionReplaced:
+			message = @"Someone else logged in on this Steam account";
+			break;
+			
+		default:
+			message = [NSString stringWithFormat:@"Error %u", reason];
+			break;
+	}
+	
+	NSAlert *alert = [[NSAlert alloc] init];
+	
+	[alert setMessageText:title];
+	[alert setInformativeText:message];
+	
+	[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
+		[alert release];
+	}];
 }
 
 - (void)sessionChangedStatus:(SKSession *)session

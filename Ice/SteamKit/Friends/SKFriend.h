@@ -45,10 +45,10 @@ extern NSString *SKDefaultAvatarImageName;
 	UInt32 _currentInstance;
 	UInt32 _appID;
 	
+	SKPersonaState _status:3;
+	
 	BOOL _userSetStatus;
 	BOOL _isPendingFriend;
-	
-	SKPersonaState _status:3;
 }
 
 @property (retain) NSString *displayName;

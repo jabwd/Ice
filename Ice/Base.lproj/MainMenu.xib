@@ -328,6 +328,10 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Account" id="VKu-QO-03V">
                         <items>
+                            <menuItem title="Add a friend" id="ecG-zZ-vqr">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="V1O-w2-L7M"/>
                             <menuItem title="Disconnect" id="pXu-jA-AXU">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
@@ -528,7 +532,7 @@ DQ
                 <popUpButton verticalHuggingPriority="750" id="FmS-RX-l4b">
                     <rect key="frame" x="17" y="17" width="102" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="recessed" bezelStyle="recessed" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" tag="1" inset="2" pullsDown="YES" arrowPosition="noArrow" autoenablesItems="NO" selectedItem="9qM-BQ-ZI3" id="SbS-mk-nwQ">
+                    <popUpButtonCell key="cell" type="recessed" bezelStyle="recessed" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" tag="1" inset="2" pullsDown="YES" arrowPosition="noArrow" autoenablesItems="NO" id="SbS-mk-nwQ">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                         <font key="font" metaFont="system"/>
                         <menu key="menu" autoenablesItems="NO" id="Omb-PX-ohy">
@@ -536,8 +540,11 @@ DQ
                                 <menuItem tag="1" hidden="YES" id="Bds-Pl-goF">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="Show my profile" tag="6" enabled="NO" id="eMs-lr-Opt">
+                                <menuItem title="Show my profile" tag="6" id="eMs-lr-Opt">
                                     <modifierMask key="keyEquivalentModifierMask"/>
+                                    <connections>
+                                        <action selector="showProfile:" target="Voe-Tx-rLC" id="AUF-OU-snW"/>
+                                    </connections>
                                 </menuItem>
                                 <menuItem title="Change nickname…" tag="6" enabled="NO" id="9qM-BQ-ZI3">
                                     <modifierMask key="keyEquivalentModifierMask"/>

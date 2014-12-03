@@ -317,7 +317,7 @@ static SKSession *_currentSession = nil;
 			c.isPendingFriend = NO; // this seems to cause an issue
 									// so setting it specifically
 			[_pendingFriends removeObjectAtIndex:i];
-			if( [_pendingFriends count] )
+			if( [_pendingFriends count] == 0 )
 			{
 				// free up some memory
 				[_pendingFriends release];
@@ -343,8 +343,6 @@ static SKSession *_currentSession = nil;
 	[_pendingFriends addObject:pendingFriend];
 	
 	[self sortFriendsList];
-	//SKPacket *packet = [SKPacket addFriendPacket:pendingFriend];
-	//[_TCPConnection sendPacket:packet];
 }
 
 - (void)sortFriendsList

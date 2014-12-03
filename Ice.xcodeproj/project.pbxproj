@@ -12,6 +12,7 @@
 		3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_SteamKitAdditions.m */; };
 		3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */; };
 		3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524619ED2B1F0038A3A1 /* SKSentryFile.m */; };
+		362AE3431A2E7D4300D36EE7 /* EXStringPromptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 362AE3421A2E7D4300D36EE7 /* EXStringPromptController.m */; };
 		363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */; };
 		3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3646FE3119FAA9D900143668 /* SKProtobufKey.m */; };
 		3647D1A41A13170E00D88225 /* SKFriendCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3647D1A31A13170E00D88225 /* SKFriendCache.m */; };
@@ -122,6 +123,8 @@
 		3613524519ED2B1F0038A3A1 /* SKSentryFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSentryFile.h; path = SteamKit/Security/SKSentryFile.h; sourceTree = "<group>"; };
 		3613524619ED2B1F0038A3A1 /* SKSentryFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSentryFile.m; path = SteamKit/Security/SKSentryFile.m; sourceTree = "<group>"; };
 		3613524919ED78DA0038A3A1 /* SteamConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteamConstants.h; path = SteamKit/SteamConstants.h; sourceTree = "<group>"; };
+		362AE3411A2E7D4300D36EE7 /* EXStringPromptController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXStringPromptController.h; path = Classes/WindowControllers/EXStringPromptController.h; sourceTree = "<group>"; };
+		362AE3421A2E7D4300D36EE7 /* EXStringPromptController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXStringPromptController.m; path = Classes/WindowControllers/EXStringPromptController.m; sourceTree = "<group>"; };
 		363C842919F65AC500DC3CCD /* MsgType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MsgType.h; path = SteamKit/MsgType.h; sourceTree = "<group>"; };
 		363CBDD119F8F2E30012AD78 /* SKProtobufScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufScanner.h; path = SteamKit/Packet/SKProtobufScanner.h; sourceTree = "<group>"; };
 		363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufScanner.m; path = SteamKit/Packet/SKProtobufScanner.m; sourceTree = "<group>"; };
@@ -324,6 +327,8 @@
 				366863A91A10553900EA08B6 /* EXChatWindowController.m */,
 				365E9BDA1A20C5C40037C50C /* EXPreferencesWindowController.h */,
 				365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */,
+				362AE3411A2E7D4300D36EE7 /* EXStringPromptController.h */,
+				362AE3421A2E7D4300D36EE7 /* EXStringPromptController.m */,
 			);
 			name = WindowControllers;
 			sourceTree = "<group>";
@@ -825,6 +830,7 @@
 				36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */,
 				36B714B919D07A4F006F08B3 /* SKSession.m in Sources */,
 				3672A7C01A10F441003AF16D /* BFSoundSet.m in Sources */,
+				362AE3431A2E7D4300D36EE7 /* EXStringPromptController.m in Sources */,
 				3663977F1A2258D40070AD09 /* SKGamesManager.m in Sources */,
 				36F263D21A1F9BC5000CEADC /* EXImageView.m in Sources */,
 				3672A7BF1A10F441003AF16D /* BFNotificationCenter.m in Sources */,

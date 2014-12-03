@@ -410,7 +410,6 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	else if( [item isKindOfClass:[NSString class]] )
 	{
 		EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"GroupCell" owner:self];
-		//[view.imageView setImage:[NSImage imageNamed:@"avatar-default"]];
 		[view.textField setStringValue:item];
 		return view;
 	}
@@ -434,5 +433,9 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	}
 	return nil;
 }
+
+#pragma mark - Menu actions
+
+
 
 @end

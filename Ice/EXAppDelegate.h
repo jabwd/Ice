@@ -45,6 +45,7 @@
 - (IBAction)createAccount:(id)sender;
 - (IBAction)openDeveloperWindow:(id)sender;
 - (IBAction)showPreferences:(id)sender;
+- (IBAction)showProfile:(id)sender;
 
 - (IBAction)selectStatus:(id)sender;
 
