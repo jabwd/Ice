@@ -71,7 +71,11 @@ static BFKeychainManager *sharedManager = nil;
 
 
 - (BOOL)addPassword:(NSString *)aPassword serviceName:(NSString *)aServiceName accountName:(NSString *)anAccountName {
-	
+	NSString *existing = [self passwordForServiceName:aServiceName accountName:anAccountName];
+	if( existing )
+	{
+		return [self replacePassword:aPassword serviceName:aServiceName accountName:anAccountName];
+	}
 	if (aPassword && [aPassword length] && aServiceName && [aServiceName length] && anAccountName && [anAccountName length]) {
 		OSStatus status = noErr;
 		

@@ -16,6 +16,7 @@
 #import "BFSoundSet.h"
 
 #import "EXPreferencesWindowController.h"
+#import "BFKeychainManager.h"
 
 @implementation EXAppDelegate
 
@@ -56,16 +57,7 @@
 {
 	[self switchMainView:_loginView];
 	
-	NSString *defaultUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultUsername"];
-	if( defaultUsername && [[NSUserDefaults standardUserDefaults] boolForKey:@"rememberUsername"] )
-	{
-		[_usernameField setStringValue:defaultUsername];
-		[self.window makeFirstResponder:_passwordField];
-	}
-	else
-	{
-		[self.window makeFirstResponder:_usernameField];
-	}
+	[self setupLoginView];
 	
 	[[NSNotificationCenter defaultCenter]
 	 addObserver:self
@@ -86,6 +78,29 @@
 	
 	[toolbar      setDelegate:self];
 	[_window	setToolbar:toolbar];
+}
+
+- (void)setupLoginView
+{
+	NSString *defaultUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultUsername"];
+	if( defaultUsername && [[NSUserDefaults standardUserDefaults] boolForKey:@"rememberUsername"] )
+	{
+		[_usernameField setStringValue:defaultUsername];
+		[self.window makeFirstResponder:_passwordField];
+		
+		if( [[_passwordField stringValue] length] == 0 )
+		{
+			NSString *password = [[BFKeychainManager defaultManager] passwordForServiceName:@"com.exurion.Ice" accountName:defaultUsername];
+			if( password )
+			{
+				[_passwordField setStringValue:password];
+			}
+		}
+	}
+	else
+	{
+		[self.window makeFirstResponder:_usernameField];
+	}
 }
 
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
@@ -393,6 +408,7 @@
 			[_statusImageView setImage:[NSImage imageNamed:@"NSStatusNone"]];
 			
 			[self switchMainView:_loginView];
+			[self setupLoginView];
 		}
 			break;
 			
@@ -408,6 +424,12 @@
 		case SKSessionStatusConnected:
 		{
 			[[NSUserDefaults standardUserDefaults] setObject:[_usernameField stringValue] forKey:@"defaultUsername"];
+			
+			// Attempt to save the password
+			[[BFKeychainManager defaultManager] addPassword:[_passwordField stringValue]
+												serviceName:@"com.exurion.Ice"
+												accountName:[_usernameField stringValue]];
+			
 			if( !_friendsListController )
 			{
 				_friendsListController = [[EXFriendsListController alloc] initWithSession:_session];
