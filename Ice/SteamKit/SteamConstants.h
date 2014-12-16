@@ -25,6 +25,22 @@ typedef NS_ENUM(UInt32, SKFriendRelationType)
 	SKFriendRelationTypeMax = 8,
 };
 
+typedef NS_ENUM(UInt32, SKAccountType)
+{
+	SKAccountTypeInvalid		= 0,
+	SKAccountTypeIndividual		= 1,
+	SKAccountTypeMultiseat		= 2,
+	SKAccountTypeGameServer		= 3,
+	SKAccountTypeAnonGameServer = 4,
+	SKAccountTypePending		= 5,
+	SKAccountTypeContentServer	= 6,
+	SKAccountTypeClan			= 7,
+	SKAccountTypeChat			= 8,
+	SKAccountTypeConsoleUser	= 9,
+	SKAccountTypeAnonUser		= 10,
+	SKAccountTypeMax			= 11
+};
+
 typedef NS_ENUM(SInt32, SKChatEntryType)
 {
 	SKChatEntryTypeInvalid	= 0,
