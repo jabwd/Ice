@@ -374,7 +374,6 @@
 
 - (void)handleGroupsList:(SKPacket *)packet
 {
-	
 }
 
 - (void)handleFriendsList:(SKPacket *)packet
@@ -396,28 +395,42 @@
 		{
 			continue;
 		}
-		NSDictionary *remoteFriend = [packet.scanner scanRepeated:friend][0];
-		SKFriendRelationType type = [remoteFriend[@"2"] unsignedIntValue];
-		SKFriend *friend	= [[SKFriend alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
-		if( type == SKFriendRelationTypeFriend )
+		NSDictionary *remoteFriend	= [packet.scanner scanRepeated:friend][0];
+		SKFriendRelationType type	= [remoteFriend[@"2"] unsignedIntValue];
+		SKFriend *friend			= [[SKFriend alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
+		SKAccountType accType		= friend.steamID.accountType;
+		
+		// make sure we don't add clans and other weird types to the friends list
+		if( accType == SKAccountTypeClan )
 		{
-			[_session connectionAddFriend:friend moreComing:YES];
+			DLog(@"Found a group with steamID: %@", friend);
 		}
-		else if( type == SKFriendRelationTypeRequestRecipient )
+		else if( accType == SKAccountTypeIndividual )
 		{
-			[_connection.session addPendingFriend:friend];
-		}
-		else if( type == SKFriendRelationTypeNone )
-		{
-			SKFriend *fr = [_session friendForRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
-			if( fr )
+			if( type == SKFriendRelationTypeFriend )
 			{
-				[_session connectionRemoveFriend:fr];
+				[_session connectionAddFriend:friend moreComing:YES];
+			}
+			else if( type == SKFriendRelationTypeRequestRecipient )
+			{
+				[_connection.session addPendingFriend:friend];
+			}
+			else if( type == SKFriendRelationTypeNone )
+			{
+				SKFriend *fr = [_session friendForRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
+				if( fr )
+				{
+					[_session connectionRemoveFriend:fr];
+				}
+			}
+			else
+			{
+				DLog(@"=> Unhandled friend relationship type: %u", type);
 			}
 		}
 		else
 		{
-			DLog(@"=> Unhandled friend relationship type: %u", type);
+			DLog(@"Unhandled friend %@", remoteFriend);
 		}
 		[friend release];
 	}

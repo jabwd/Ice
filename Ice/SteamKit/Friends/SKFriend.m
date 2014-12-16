@@ -413,7 +413,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"[SKFriend displayName=%@ steamID=%@ avatarHash=%@]", _displayName, _steamID, _avatarHash];
+	return [NSString stringWithFormat:@"[SKFriend displayName=%@ steamID=%@ avatarHash=%@ onlineInstance=%u currentInstance=%u]", _displayName, _steamID, _avatarHash, _onlineInstances, _currentInstance];
 }
 
 @end
