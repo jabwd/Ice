@@ -243,7 +243,17 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		}
 		else
 		{
-			[fr removeAsFriend];
+			NSAlert *alert = [[NSAlert alloc] init];
+			
+			[alert setAlertStyle:NSCriticalAlertStyle];
+			[alert setMessageText:@"Remove friend"];
+			[alert setInformativeText:[NSString stringWithFormat:@"Are you sure you want to remove %@ from your friends list?", [fr displayNameString]]];
+			
+			[alert beginSheetModalForWindow:_outlineView.window completionHandler:^(NSModalResponse returnCode){
+				[fr removeAsFriend];
+				[alert release];
+			}];
+			
 		}
 	}
 }

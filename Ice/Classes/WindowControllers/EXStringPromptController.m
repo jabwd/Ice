@@ -16,7 +16,7 @@
 
 - (id)initWithNibName:(NSString *)name completionHandler:(void (^)(void))completionHandler
 {
-	if( (self = [super initWithWindowNibName:name owner:self]) )
+	if( (self = [super initWithWindowNibName:@"EXStringPromptController" owner:self]) )
 	{
 		
 	}

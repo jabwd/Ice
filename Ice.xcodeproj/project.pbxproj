@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3600D22D1A31D2D700ECBE59 /* EXStringPrompt.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3600D22B1A31D2D700ECBE59 /* EXStringPrompt.xib */; };
 		360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 360609B319EBE12B0003EA2D /* libz.dylib */; };
 		3613523E19ECB1060038A3A1 /* SKPacketScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613523D19ECB1060038A3A1 /* SKPacketScanner.m */; };
 		3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_SteamKitAdditions.m */; };
@@ -85,6 +86,10 @@
 		36E7671E19C707D900D9C761 /* SKPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671D19C707D900D9C761 /* SKPacket.m */; };
 		36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F143251A1690D100FFF4A4 /* EXMemoryManager.m */; };
 		36F263D21A1F9BC5000CEADC /* EXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F263D11A1F9BC5000CEADC /* EXImageView.m */; };
+		36FD880A1A3F122900E79A7E /* BFIdleTimeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FD88091A3F122900E79A7E /* BFIdleTimeManager.m */; };
+		36FD880F1A3F503D00E79A7E /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FD880C1A3F503D00E79A7E /* HTMLNode.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		36FD88101A3F503D00E79A7E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FD880E1A3F503D00E79A7E /* HTMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		36FD88121A3F508100E79A7E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 36FD88111A3F508100E79A7E /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +118,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3600D22C1A31D2D700ECBE59 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EXStringPrompt.xib; sourceTree = "<group>"; };
 		360609B319EBE12B0003EA2D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		3613523C19ECB1060038A3A1 /* SKPacketScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPacketScanner.h; path = SteamKit/Packet/SKPacketScanner.h; sourceTree = "<group>"; };
 		3613523D19ECB1060038A3A1 /* SKPacketScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPacketScanner.m; path = SteamKit/Packet/SKPacketScanner.m; sourceTree = "<group>"; };
@@ -247,6 +253,13 @@
 		36F143251A1690D100FFF4A4 /* EXMemoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXMemoryManager.m; path = Classes/Developer/EXMemoryManager.m; sourceTree = "<group>"; };
 		36F263D01A1F9BC5000CEADC /* EXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXImageView.h; path = Classes/Views/EXImageView.h; sourceTree = "<group>"; };
 		36F263D11A1F9BC5000CEADC /* EXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXImageView.m; path = Classes/Views/EXImageView.m; sourceTree = "<group>"; };
+		36FD88081A3F122900E79A7E /* BFIdleTimeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFIdleTimeManager.h; sourceTree = "<group>"; };
+		36FD88091A3F122900E79A7E /* BFIdleTimeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFIdleTimeManager.m; sourceTree = "<group>"; };
+		36FD880B1A3F503D00E79A7E /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLNode.h; path = Classes/Helpers/HTMLNode.h; sourceTree = "<group>"; };
+		36FD880C1A3F503D00E79A7E /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLNode.m; path = Classes/Helpers/HTMLNode.m; sourceTree = "<group>"; };
+		36FD880D1A3F503D00E79A7E /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLParser.h; path = Classes/Helpers/HTMLParser.h; sourceTree = "<group>"; };
+		36FD880E1A3F503D00E79A7E /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLParser.m; path = Classes/Helpers/HTMLParser.m; sourceTree = "<group>"; };
+		36FD88111A3F508100E79A7E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +267,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36FD88121A3F508100E79A7E /* libxml2.dylib in Frameworks */,
 				360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */,
 				36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */,
 				36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */,
@@ -336,6 +350,10 @@
 		3672A79A1A10EBCC003AF16D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				36FD880B1A3F503D00E79A7E /* HTMLNode.h */,
+				36FD880C1A3F503D00E79A7E /* HTMLNode.m */,
+				36FD880D1A3F503D00E79A7E /* HTMLParser.h */,
+				36FD880E1A3F503D00E79A7E /* HTMLParser.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -343,6 +361,8 @@
 		3672A79B1A10F405003AF16D /* BlackFire */ = {
 			isa = PBXGroup;
 			children = (
+				36FD88081A3F122900E79A7E /* BFIdleTimeManager.h */,
+				36FD88091A3F122900E79A7E /* BFIdleTimeManager.m */,
 				36CE6D051A20EA980093EA4C /* BFKeychainManager.h */,
 				36CE6D061A20EA980093EA4C /* BFKeychainManager.m */,
 				3672A7B11A10F441003AF16D /* BFNotificationCenter.h */,
@@ -521,6 +541,7 @@
 				367EF2D41A103F060038548D /* EXSteamDeveloperWindow.xib */,
 				36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */,
 				36E766F119C6D54000D9C761 /* MainMenu.xib */,
+				3600D22B1A31D2D700ECBE59 /* EXStringPrompt.xib */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -548,6 +569,7 @@
 		36E766DB19C6D54000D9C761 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				36FD88111A3F508100E79A7E /* libxml2.dylib */,
 				36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */,
 				36E0F7D31A22432900FF6A22 /* Sparkle.framework */,
 				360609B319EBE12B0003EA2D /* libz.dylib */,
@@ -774,6 +796,7 @@
 				36E766F519C6D54000D9C761 /* Images.xcassets in Resources */,
 				3672A7D81A10F65A003AF16D /* online.m4v in Resources */,
 				3672A7D71A10F65A003AF16D /* offline.m4v in Resources */,
+				3600D22D1A31D2D700ECBE59 /* EXStringPrompt.xib in Resources */,
 				3672A7DF1A10F670003AF16D /* private.pem in Resources */,
 				3672A7E01A10F670003AF16D /* public.pem in Resources */,
 				3672A7D91A10F65A003AF16D /* receive.m4v in Resources */,
@@ -805,6 +828,7 @@
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */,
+				36FD880A1A3F122900E79A7E /* BFIdleTimeManager.m in Sources */,
 				36CE6D0A1A20F8620093EA4C /* SKServerListManager.m in Sources */,
 				3672A7C51A10F441003AF16D /* XNResizingMessageView.m in Sources */,
 				36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */,
@@ -832,6 +856,7 @@
 				3672A7C01A10F441003AF16D /* BFSoundSet.m in Sources */,
 				362AE3431A2E7D4300D36EE7 /* EXStringPromptController.m in Sources */,
 				3663977F1A2258D40070AD09 /* SKGamesManager.m in Sources */,
+				36FD880F1A3F503D00E79A7E /* HTMLNode.m in Sources */,
 				36F263D21A1F9BC5000CEADC /* EXImageView.m in Sources */,
 				3672A7BF1A10F441003AF16D /* BFNotificationCenter.m in Sources */,
 				36E766E919C6D54000D9C761 /* main.m in Sources */,
@@ -840,6 +865,7 @@
 				3672A7C41A10F441003AF16D /* XNBorderedScrollView.m in Sources */,
 				36E5DA9619FDEBF300AD2A4D /* SKProtobufValue.m in Sources */,
 				369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */,
+				36FD88101A3F503D00E79A7E /* HTMLParser.m in Sources */,
 				3647D1A41A13170E00D88225 /* SKFriendCache.m in Sources */,
 				367EF2DB1A1045C00038548D /* EXFriendsListController.m in Sources */,
 				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
@@ -872,6 +898,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3600D22B1A31D2D700ECBE59 /* EXStringPrompt.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3600D22C1A31D2D700ECBE59 /* Base */,
+			);
+			name = EXStringPrompt.xib;
+			sourceTree = "<group>";
+		};
 		36E766E519C6D54000D9C761 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -990,6 +1024,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ice/Ice-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					$SDKROOT/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "Ice/Ice-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1016,6 +1055,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ice/Ice-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					$SDKROOT/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "Ice/Ice-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
