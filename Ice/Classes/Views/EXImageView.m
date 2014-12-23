@@ -24,8 +24,12 @@
 	{
 		[[NSGraphicsContext currentContext] saveGraphicsState];
 		NSBezierPath *curvePath = [NSBezierPath bezierPathWithRoundedRect:drawRect xRadius:4 yRadius:4];
+		[curvePath setLineWidth:3.0f];
 		[curvePath setClip];
 		[_avatarImage drawInRect:drawRect];
+		
+		[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.8f alpha:1.0f] set];
+		[curvePath stroke];
 		[[NSGraphicsContext currentContext] restoreGraphicsState];
 	}
 }

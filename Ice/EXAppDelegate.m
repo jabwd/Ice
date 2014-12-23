@@ -78,6 +78,35 @@
 	
 	[toolbar      setDelegate:self];
 	[_window	setToolbar:toolbar];
+	
+	NSUInteger sessionIDLen = [@"MTIxMTA5Mjk0MA==" length];
+	
+	NSString *URL = [NSString stringWithFormat:@"http://steamcommunity.com/search/users/"];
+	NSString *content = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:URL] encoding:NSUTF8StringEncoding error:nil];
+	NSRange strRange = [content rangeOfString:@"g_sessionID = \""];
+	NSString *sub = [content substringWithRange:NSMakeRange(strRange.location+strRange.length, sessionIDLen-2)];
+	DLog(@"Sub: %@", sub);
+	URL = [NSString stringWithFormat:@"http://steamcommunity.com/search/SearchCommunityAjax?text=ThunderCat&filter=users&sessionid=%@&steamid_user=false", [sub stringByAppendingString:@"%3D%3D"]];
+	DLog(@"Request URL: %@", URL);
+	
+	NSData *responseData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:URL]];
+	
+	NSError *error = nil;
+	NSDictionary *dict = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+	if( dict && [dict isKindOfClass:[NSDictionary class]] & !error )
+	{
+		if( [dict[@"success"] intValue] == 1 )
+		{
+			NSString *HTML = dict[@"html"];
+			[HTML writeToFile:@"/Users/jabwd/Desktop/out.html" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+			HTML = [HTML stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+			HTML = [HTML stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+			DLog(@"%@", HTML);
+		}
+	}
+	
+	[responseData release];
+	[content release];
 }
 
 - (void)setupLoginView
