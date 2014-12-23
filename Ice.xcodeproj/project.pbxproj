@@ -13,6 +13,8 @@
 		3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524019ECB12F0038A3A1 /* NSData_SteamKitAdditions.m */; };
 		3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524219ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m */; };
 		3613524719ED2B1F0038A3A1 /* SKSentryFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3613524619ED2B1F0038A3A1 /* SKSentryFile.m */; };
+		3614B2751A41FA0B0097696C /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3614B2741A41FA0B0097696C /* AutoHyperlinks.framework */; };
+		3614B2761A41FABE0097696C /* AutoHyperlinks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3614B2741A41FA0B0097696C /* AutoHyperlinks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		362AE3431A2E7D4300D36EE7 /* EXStringPromptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 362AE3421A2E7D4300D36EE7 /* EXStringPromptController.m */; };
 		363CBDD319F8F2E30012AD78 /* SKProtobufScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 363CBDD219F8F2E30012AD78 /* SKProtobufScanner.m */; };
 		3646FE3219FAA9D900143668 /* SKProtobufKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3646FE3119FAA9D900143668 /* SKProtobufKey.m */; };
@@ -61,8 +63,6 @@
 		36CE6D0D1A20FA9E0093EA4C /* EXBetterTextview.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CE6D0C1A20FA9E0093EA4C /* EXBetterTextview.m */; };
 		36CF7DD61A01199D00973C8B /* SKFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF7DD51A01199D00973C8B /* SKFriend.m */; };
 		36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */; };
-		36D13CB81A236C7B0006008F /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */; };
-		36D13CB91A236C840006008F /* AutoHyperlinks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36D4F8821A00EE570028CE96 /* SKOneTimePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
@@ -110,7 +110,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				3663977A1A2257680070AD09 /* Sparkle.framework in Embed Frameworks */,
-				36D13CB91A236C840006008F /* AutoHyperlinks.framework in Embed Frameworks */,
+				3614B2761A41FABE0097696C /* AutoHyperlinks.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +129,7 @@
 		3613524519ED2B1F0038A3A1 /* SKSentryFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSentryFile.h; path = SteamKit/Security/SKSentryFile.h; sourceTree = "<group>"; };
 		3613524619ED2B1F0038A3A1 /* SKSentryFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSentryFile.m; path = SteamKit/Security/SKSentryFile.m; sourceTree = "<group>"; };
 		3613524919ED78DA0038A3A1 /* SteamConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteamConstants.h; path = SteamKit/SteamConstants.h; sourceTree = "<group>"; };
+		3614B2741A41FA0B0097696C /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AutoHyperlinks.framework; sourceTree = "<group>"; };
 		362AE3411A2E7D4300D36EE7 /* EXStringPromptController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXStringPromptController.h; path = Classes/WindowControllers/EXStringPromptController.h; sourceTree = "<group>"; };
 		362AE3421A2E7D4300D36EE7 /* EXStringPromptController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXStringPromptController.m; path = Classes/WindowControllers/EXStringPromptController.m; sourceTree = "<group>"; };
 		363C842919F65AC500DC3CCD /* MsgType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MsgType.h; path = SteamKit/MsgType.h; sourceTree = "<group>"; };
@@ -207,7 +208,6 @@
 		36CF7DD51A01199D00973C8B /* SKFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKFriend.m; path = SteamKit/Friends/SKFriend.m; sourceTree = "<group>"; };
 		36CF849A1A0F19A000C7A087 /* SKProtobufHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufHeader.h; path = SteamKit/Packet/Protobuf/SKProtobufHeader.h; sourceTree = "<group>"; };
 		36CF849B1A0F19A000C7A087 /* SKProtobufHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufHeader.m; path = SteamKit/Packet/Protobuf/SKProtobufHeader.m; sourceTree = "<group>"; };
-		36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AutoHyperlinks.framework; sourceTree = "<group>"; };
 		36D4F8801A00EE570028CE96 /* SKOneTimePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKOneTimePassword.h; path = SteamKit/Security/SKOneTimePassword.h; sourceTree = "<group>"; };
 		36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKOneTimePassword.m; path = SteamKit/Security/SKOneTimePassword.m; sourceTree = "<group>"; };
 		36DAFB5519CAD81600A65E6F /* SKUDPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKUDPConnection.h; path = SteamKit/Connection/SKUDPConnection.h; sourceTree = "<group>"; };
@@ -271,8 +271,8 @@
 				360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */,
 				36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */,
 				36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */,
+				3614B2751A41FA0B0097696C /* AutoHyperlinks.framework in Frameworks */,
 				366397791A2257680070AD09 /* Sparkle.framework in Frameworks */,
-				36D13CB81A236C7B0006008F /* AutoHyperlinks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,8 +569,8 @@
 		36E766DB19C6D54000D9C761 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3614B2741A41FA0B0097696C /* AutoHyperlinks.framework */,
 				36FD88111A3F508100E79A7E /* libxml2.dylib */,
-				36D13CB71A236C7B0006008F /* AutoHyperlinks.framework */,
 				36E0F7D31A22432900FF6A22 /* Sparkle.framework */,
 				360609B319EBE12B0003EA2D /* libz.dylib */,
 				36B714CA19D2FB69006F08B3 /* Security.framework */,
