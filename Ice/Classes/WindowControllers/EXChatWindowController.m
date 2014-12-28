@@ -38,6 +38,8 @@ const CGFloat EXChatFontSize	= 14.0f;
 
 - (void)dealloc
 {
+	[[BFNotificationCenter defaultNotificationCenter] deleteBadgeCount:_missedMessagesCount];
+	_missedMessagesCount = 0;
 	_remoteFriend.delegate = nil;
 	[_remoteFriend release];
 	_remoteFriend = nil;
