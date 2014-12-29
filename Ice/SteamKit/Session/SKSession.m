@@ -18,6 +18,7 @@
 NSString *SKSessionStatusChangedNotificationName	= @"SKSessionStatusChanged";
 NSString *SKLoginFailedSteamGuardNotificationName	= @"SKLoginFailedSteamGuard";
 NSString *SKFriendsListChangedNotificationName		= @"SKFriendsListChangedNotification";
+NSString *SKCurrentUserChangedNotificationName		= @"SKCurrentUserChangedNotification";
 NSString *SKFriendNeedsChatWindowNotificationName	= @"SKFriendNeedsChatWindowNotification";
 
 static SKSession *_currentSession = nil;
@@ -239,6 +240,9 @@ static SKSession *_currentSession = nil;
 		if( steamID == self.rawSteamID )
 		{
 			[_currentUser updateWithBody:packetData];
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:SKCurrentUserChangedNotificationName
+																object:nil];
 			return;
 		}
 		// At this point in time I do not know why this is happening.
