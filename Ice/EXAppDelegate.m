@@ -64,6 +64,11 @@
 	 selector:@selector(notificationReceived:)
 	 name:SKLoginFailedSteamGuardNotificationName object:nil];
 	
+	[[NSNotificationCenter defaultCenter]
+	 addObserver:self
+	 selector:@selector(currentUserChanged:)
+	 name:SKCurrentUserChangedNotificationName object:nil];
+	
 	
 	NSToolbar*toolbar = [[NSToolbar alloc] initWithIdentifier:@"friendsListToolbar"];
 	[toolbar setAllowsUserCustomization:NO];
@@ -345,6 +350,11 @@
 	}
 }
 
+- (void)currentUserChanged:(NSNotification *)notification
+{
+	[_namePopup setTitle:[_session.currentUser displayNameString]];
+}
+
 - (IBAction)changeNickname:(id)sender
 {
 	NSAlert *alert = [[NSAlert alloc] init];
@@ -358,7 +368,13 @@
 	[alert setIcon:[_session.currentUser avatarImage]];
 	
 	[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
-		[_session setUserDisplayName:[field stringValue]];
+		if( [[field stringValue] length] > 0 && [[field stringValue] length] < 200 )
+		{
+			//[_namePopup setTitle:[field stringValue]];
+			[_session setUserDisplayName:[field stringValue]];
+		}
+		
+		
 		[alert release];
 	}];
 	[field release];
