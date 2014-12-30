@@ -404,6 +404,19 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		{
 			[view setShowsStatusField:YES];
 			[view.statusField setStringValue:[remoteFriend statusDisplayString]];
+			
+			if( remoteFriend.appID != 0 )
+			{
+				[view.statusImageView setImage:[NSImage imageNamed:@"NSStatusPartiallyAvailable"]];
+			}
+			else if( remoteFriend.status == SKPersonaStateOffline )
+			{
+				[view.statusImageView setImage:[NSImage imageNamed:@"NSStatusNone"]];
+			}
+			else
+			{
+				[view.statusImageView setImage:[NSImage imageNamed:@"NSStatusUnavailable"]];
+			}
 		}
 		else if( remoteFriend.isPendingFriend )
 		{
@@ -414,6 +427,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		{
 			[view setShowsStatusField:NO];
 			[view.statusField setStringValue:@""];
+			[view.statusImageView setImage:[NSImage imageNamed:@"NSStatusAvailable"]];
 		}
 		return view;
 	}

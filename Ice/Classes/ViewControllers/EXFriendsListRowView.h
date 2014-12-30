@@ -14,6 +14,7 @@
 
 @property (assign) IBOutlet NSTextField *statusField;
 @property (assign) IBOutlet EXImageView *avatarView;
+@property (assign) IBOutlet NSImageView *statusImageView;
 
 - (void)setShowsStatusField:(BOOL)showsStatus;
 

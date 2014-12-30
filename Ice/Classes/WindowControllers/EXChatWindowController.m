@@ -286,10 +286,13 @@ const CGFloat EXChatFontSize	= 14.0f;
 	NSPoint newScrollOrigin;
 	NSScrollView *scrollview = (NSScrollView *)[[_textView superview] superview];
 	// assume that the scrollview is an existing variable
-	if ([[scrollview documentView] isFlipped]) {
+	if ([[scrollview documentView] isFlipped])
+	{
 		newScrollOrigin=NSMakePoint(0.0,NSMaxY([[scrollview documentView] frame])
 									-NSHeight([[scrollview contentView] bounds]));
-	} else {
+	}
+	else
+	{
 		newScrollOrigin=NSMakePoint(0.0,0.0);
 	}
 	[[scrollview documentView] scrollPoint:newScrollOrigin];

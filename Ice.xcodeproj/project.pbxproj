@@ -350,6 +350,8 @@
 		3672A79A1A10EBCC003AF16D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				36F143241A1690D100FFF4A4 /* EXMemoryManager.h */,
+				36F143251A1690D100FFF4A4 /* EXMemoryManager.m */,
 				36FD880B1A3F503D00E79A7E /* HTMLNode.h */,
 				36FD880C1A3F503D00E79A7E /* HTMLNode.m */,
 				36FD880D1A3F503D00E79A7E /* HTMLParser.h */,
@@ -431,6 +433,15 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		36A81A731A51B6510067439C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				366863A71A10551C00EA08B6 /* WindowControllers */,
+				367EF2D71A1045A50038548D /* ViewControllers */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		36B714B619D07A3A006F08B3 /* Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -498,14 +509,12 @@
 		36CB626C19FF343A00F2E996 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				3672A79A1A10EBCC003AF16D /* Helpers */,
-				36A7F1851A1A52A80033FF89 /* Views */,
-				36F143231A1690BE00FFF4A4 /* Debug */,
 				36E766EE19C6D54000D9C761 /* EXAppDelegate.h */,
 				36E766EF19C6D54000D9C761 /* EXAppDelegate.m */,
+				36A81A731A51B6510067439C /* Controllers */,
+				36A7F1851A1A52A80033FF89 /* Views */,
+				3672A79A1A10EBCC003AF16D /* Helpers */,
 				3672A79B1A10F405003AF16D /* BlackFire */,
-				366863A71A10551C00EA08B6 /* WindowControllers */,
-				367EF2D71A1045A50038548D /* ViewControllers */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -674,15 +683,6 @@
 				3613523D19ECB1060038A3A1 /* SKPacketScanner.m */,
 			);
 			name = Packet;
-			sourceTree = "<group>";
-		};
-		36F143231A1690BE00FFF4A4 /* Debug */ = {
-			isa = PBXGroup;
-			children = (
-				36F143241A1690D100FFF4A4 /* EXMemoryManager.h */,
-				36F143251A1690D100FFF4A4 /* EXMemoryManager.m */,
-			);
-			name = Debug;
 			sourceTree = "<group>";
 		};
 		36F263D31A1F9BD5000CEADC /* MessageView */ = {

@@ -17,8 +17,8 @@
 		return [super frameOfCellAtColumn:column row:row];
 	}
 	NSRect cellFrame		= [super frameOfCellAtColumn:column row:row];
-	cellFrame.size.width	+= cellFrame.origin.x-14;
-	cellFrame.origin.x		= 8;
+	cellFrame.size.width	+= (cellFrame.origin.x-4);
+	cellFrame.origin.x		= 4;
 	return cellFrame;
 }
 

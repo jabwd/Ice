@@ -84,6 +84,7 @@
 	[toolbar      setDelegate:self];
 	[_window	setToolbar:toolbar];
 	
+	return;
 	NSUInteger sessionIDLen = [@"MTIxMTA5Mjk0MA==" length];
 	
 	NSString *URL = [NSString stringWithFormat:@"http://steamcommunity.com/search/users/"];
@@ -370,11 +371,8 @@
 	[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
 		if( [[field stringValue] length] > 0 && [[field stringValue] length] < 200 )
 		{
-			//[_namePopup setTitle:[field stringValue]];
 			[_session setUserDisplayName:[field stringValue]];
 		}
-		
-		
 		[alert release];
 	}];
 	[field release];
