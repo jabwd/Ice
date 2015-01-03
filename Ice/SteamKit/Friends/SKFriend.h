@@ -49,6 +49,7 @@ extern NSString *SKDefaultAvatarImageName;
 	
 	BOOL _userSetStatus;
 	BOOL _isPendingFriend;
+	BOOL _isMobile;
 }
 
 @property (retain) NSString *displayName;
@@ -101,6 +102,8 @@ extern NSString *SKDefaultAvatarImageName;
 - (NSString *)displayNameString;
 - (NSString *)statusDisplayString;
 - (NSImage *)avatarImage;
+
+- (BOOL)isMobile;
 
 /**
  * Handles the given incoming msg protobuf body

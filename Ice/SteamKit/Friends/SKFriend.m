@@ -35,10 +35,12 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 		_avatarHash		= [body[@"31"] retain];
 		_gameName		= [body[@"55"] retain];
 		
-		_lastLogoff		= [body[@"45"] unsignedIntValue];
-		_lastLogon		= [body[@"46"] unsignedIntValue];
-		_appID			= [body[@"3"] unsignedIntValue];
-		_status			= [body[@"2"] unsignedIntValue];
+		_lastLogoff			= [body[@"45"] unsignedIntValue];
+		_lastLogon			= [body[@"46"] unsignedIntValue];
+		_appID				= [body[@"3"] unsignedIntValue];
+		_status				= [body[@"2"] unsignedIntValue];
+		_onlineInstances	= [body[@"7"] unsignedIntValue];
+		_currentInstance	= [body[@"8"] unsignedIntValue];
 	}
 	return self;
 }
@@ -79,7 +81,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 		_gameName = [body[@"55"] retain];
 	}
 	
-	if( body[@"45"] )
+	if( body[@"45"] || body[@"46"] )
 	{
 		_lastLogoff = [body[@"45"] unsignedIntValue];
 		_lastLogon	= [body[@"46"] unsignedIntValue];
@@ -107,6 +109,36 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 		// so we can display the game icon
 		[_avatarImage release];
 		_avatarImage = nil;
+	}
+	
+	if( body[@"7"] )
+	{
+		UInt32 newOnlineInstance = [body[@"7"] unsignedIntValue];
+		UInt32 newCurrentInstance = [body[@"8"] unsignedIntValue];
+		if( newOnlineInstance != _onlineInstances )
+		{
+			_onlineInstances = newOnlineInstance;
+			_currentInstance = newCurrentInstance;
+			
+			if( oldStatus == SKPersonaStateMax )
+			{
+				[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendsListChangedNotificationName
+																	object:self.session];
+				if( _delegate )
+				{
+					if( [_delegate respondsToSelector:@selector(friendStatusDidChange)] )
+					{
+						[_delegate friendStatusDidChange];
+					}
+				}
+			}
+		}
+		if( oldStatus == SKPersonaStateMax )
+		{
+			//[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
+			//													object:self
+			//												  userInfo:nil];
+		}
 	}
 	
 	if( oldStatus != SKPersonaStateMax )
@@ -204,6 +236,16 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 		return [NSString stringWithFormat:@"Self %@", [self personaStateToString:_status]];
 	}
 	return [self personaStateToString:_status];
+}
+
+- (BOOL)isMobile
+{
+	if( (_onlineInstances & 0x04) != 0 )
+	{
+		return YES;
+	}
+	//DLog(@"Instances: %u %u", _onlineInstances, (_onlineInstances & 0x4));
+	return NO;
 }
 
 - (NSString *)personaStateToString:(SKPersonaState)state

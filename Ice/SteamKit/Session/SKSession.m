@@ -234,6 +234,7 @@ static SKSession *_currentSession = nil;
 {
 	UInt64 steamID			= [packetData[@"1"] unsignedIntegerValue];
 	SKFriend *remoteFriend	= [self friendForRawSteamID:steamID];
+	DLog(@"Updated: %@", remoteFriend);
 	if( !remoteFriend )
 	{
 		// Don't add your self.
@@ -397,7 +398,7 @@ static SKSession *_currentSession = nil;
 
 - (void)requestFriendData:(SKFriend *)remoteFriend
 {
-	SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPlayerName|SKPersonaStateFlagPresence];
+	SKPacket *packet = [SKPacket requestFriendDataPacket:remoteFriend flag:SKPersonaStateFlagPlayerName|SKPersonaStateFlagPresence|SKPersonaStateFlagLastSeen];
 	[_TCPConnection sendPacket:packet];
 	
 }

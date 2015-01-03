@@ -13,6 +13,7 @@
 #import "SKSteamID.h"
 #import "EXChatWindowController.h"
 #import "BFNotificationCenter.h"
+#import "NSDate+TimeAgo.h"
 
 NSString *EXOnlineFriendsGroupName = @"Online Friends";
 NSString *EXOfflineFriendsGroupName = @"Offline Friends";
@@ -400,6 +401,13 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		[view setAvatarImage:[remoteFriend avatarImage]];
 		[view.textField setStringValue:[remoteFriend displayNameString]];
 		
+		if( [remoteFriend isMobile] && remoteFriend.currentInstance == 4 )
+		{
+			[view.textField setStringValue:[NSString stringWithFormat:@"%@📱", [remoteFriend displayNameString]]];
+		}
+		
+		//DLog(@"%@", remoteFriend);
+		
 		if( remoteFriend.status != SKPersonaStateOnline || remoteFriend.appID != 0 )
 		{
 			[view setShowsStatusField:YES];
@@ -411,6 +419,13 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 			}
 			else if( remoteFriend.status == SKPersonaStateOffline )
 			{
+				//NSString *lastOnline = @"Unknown";
+				if( remoteFriend.lastLogoff != 0 )
+				{
+			//		lastOnline = [[NSDate dateWithTimeIntervalSince1970:remoteFriend.lastLogoff] timeAgo];
+				}
+			//l	DLog(@"Last online: %@", lastOnline);
+			//	[view.statusField setStringValue:[NSString stringWithFormat:@"Last online: %@", lastOnline]];
 				[view.statusImageView setImage:[NSImage imageNamed:@"NSStatusNone"]];
 			}
 			else
