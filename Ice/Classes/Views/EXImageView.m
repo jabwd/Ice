@@ -20,18 +20,23 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
 	NSRect drawRect = [self bounds];
+	[[NSColor whiteColor] set];
+	
+	[[NSGraphicsContext currentContext] saveGraphicsState];
+	NSBezierPath *curvePath = [NSBezierPath bezierPathWithRoundedRect:drawRect xRadius:4 yRadius:4];
+	[curvePath setLineWidth:1.0f];
+	[curvePath setClip];
 	if( _avatarImage )
 	{
-		[[NSGraphicsContext currentContext] saveGraphicsState];
-		NSBezierPath *curvePath = [NSBezierPath bezierPathWithRoundedRect:drawRect xRadius:4 yRadius:4];
-		[curvePath setLineWidth:1.0f];
-		[curvePath setClip];
 		[_avatarImage drawInRect:drawRect];
-		
-		[[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f] set];
-		[curvePath stroke];
-		[[NSGraphicsContext currentContext] restoreGraphicsState];
 	}
+	else
+	{
+		[curvePath fill];
+	}
+	[[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f] set];
+	[curvePath stroke];
+	[[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
 @end

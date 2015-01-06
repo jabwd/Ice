@@ -113,8 +113,8 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 	
 	if( body[@"7"] )
 	{
-		UInt32 newOnlineInstance = [body[@"7"] unsignedIntValue];
-		UInt32 newCurrentInstance = [body[@"8"] unsignedIntValue];
+		UInt32 newOnlineInstance = [body[@"7"] intValue];
+		UInt32 newCurrentInstance = [body[@"8"] intValue];
 		if( newOnlineInstance != _onlineInstances )
 		{
 			_onlineInstances = newOnlineInstance;
@@ -132,12 +132,6 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 					}
 				}
 			}
-		}
-		if( oldStatus == SKPersonaStateMax )
-		{
-			//[[NSNotificationCenter defaultCenter] postNotificationName:SKFriendOnlineStatusChangedNotification
-			//													object:self
-			//												  userInfo:nil];
 		}
 	}
 	

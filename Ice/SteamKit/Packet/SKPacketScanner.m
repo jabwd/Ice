@@ -52,7 +52,7 @@
 	[buffer getBytes:&first length:4];
 	[buffer getBytes:&second range:NSMakeRange(0x04, 4)];
 	
-	if( second == SKPacketTCPMagicHeader && first <= [buffer length] )
+	if( second == SKPacketTCPMagicHeader && (first+8) <= [buffer length] )
 	{
 		packet = [SKPacket packetByDecodingTCPBuffer:[buffer subdataWithRange:NSMakeRange(0x08, first)]
 										  sessionKey:_connection.session.sessionKey
@@ -64,6 +64,11 @@
 	else if( first == SKPacketUDPMagicHeader )
 	{
 		DLog(@"UDP Packets are not supported right now");
+	}
+	else
+	{
+		DLog(@"This really shouldn't happen");
+		[_connection removeBytesOfLength:[buffer length]];
 	}
 	
 	if( packet )

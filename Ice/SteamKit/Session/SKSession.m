@@ -234,13 +234,16 @@ static SKSession *_currentSession = nil;
 {
 	UInt64 steamID			= [packetData[@"1"] unsignedIntegerValue];
 	SKFriend *remoteFriend	= [self friendForRawSteamID:steamID];
-	DLog(@"Updated: %@", remoteFriend);
+	//DLog(@"Updated: %@", remoteFriend);
 	if( !remoteFriend )
 	{
 		// Don't add your self.
 		if( steamID == self.rawSteamID )
 		{
+			DLog(@"Should update current user %@", packetData);
 			[_currentUser updateWithBody:packetData];
+			//_currentUser.session = self;
+			//[self requestFriendData:_currentUser];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:SKCurrentUserChangedNotificationName
 																object:nil];

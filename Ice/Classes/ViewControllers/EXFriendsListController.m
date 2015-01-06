@@ -401,7 +401,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 		[view setAvatarImage:[remoteFriend avatarImage]];
 		[view.textField setStringValue:[remoteFriend displayNameString]];
 		
-		if( [remoteFriend isMobile] && remoteFriend.currentInstance == 4 )
+		if( [remoteFriend isMobile] )
 		{
 			[view.textField setStringValue:[NSString stringWithFormat:@"%@📱", [remoteFriend displayNameString]]];
 		}

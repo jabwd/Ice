@@ -354,6 +354,9 @@
 - (void)currentUserChanged:(NSNotification *)notification
 {
 	[_namePopup setTitle:[_session.currentUser displayNameString]];
+	[_avatarImageView setAvatarImage:[_session.currentUser avatarImage]];
+	[_avatarImageView setNeedsDisplay:YES];
+	//DLog(@"%@", [_session.currentUser avatarImage]);
 }
 
 - (IBAction)changeNickname:(id)sender
