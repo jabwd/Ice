@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="15A179w" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EXPreferencesWindowController">
@@ -24,6 +24,7 @@
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="456" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <animations/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="37D8287F-8893-4A43-8A2F-856444FDA6A2" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="G5M-72-YY7">
                 <allowedToolbarItems>
@@ -64,6 +65,7 @@
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="6gB-S6-gPY">
                     <rect key="frame" x="118" y="145" width="43" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Login:" id="Dk1-Pi-nGu">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -73,6 +75,7 @@
                 <button id="DwD-3y-v8F">
                     <rect key="frame" x="185" y="124" width="154" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="Remember password" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Y7t-x8-FKK">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -85,6 +88,7 @@
                 <button id="gkZ-mv-dhH">
                     <rect key="frame" x="165" y="144" width="154" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="Remember username" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Had-Sc-Gt3">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -96,6 +100,7 @@
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="1pM-Bl-wxy">
                     <rect key="frame" x="114" y="83" width="47" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Profile:" id="2Yn-QI-GAR">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -105,6 +110,7 @@
                 <textField verticalHuggingPriority="750" id="AvZ-d8-EiK">
                     <rect key="frame" x="167" y="80" width="170" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Nickname" drawsBackground="YES" id="AoE-nU-Z8i">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -115,6 +121,7 @@
                     </connections>
                 </textField>
             </subviews>
+            <animations/>
             <point key="canvasLocation" x="344" y="372"/>
         </customView>
         <customView id="QbU-Jp-JdJ" userLabel="Sound view">
@@ -124,6 +131,7 @@
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="KzV-MO-yhd">
                     <rect key="frame" x="69" y="226" width="112" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sound on events:" id="eQi-Z7-RB5">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -133,6 +141,7 @@
                 <button id="V9y-2A-Dpz">
                     <rect key="frame" x="185" y="225" width="194" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="When a friend comes online" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RLS-L3-9sT">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -144,6 +153,7 @@
                 <button id="Ssp-Qv-8se">
                     <rect key="frame" x="185" y="205" width="183" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="When a friend goes offline" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MXX-TW-aGe">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -155,6 +165,7 @@
                 <button id="bop-0g-0Q9">
                     <rect key="frame" x="185" y="185" width="202" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="When you receive a message" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="V64-3t-2vC">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -166,6 +177,7 @@
                 <button id="WTD-iz-D7D">
                     <rect key="frame" x="207" y="165" width="143" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="Only in background" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xb2-2Y-znJ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -178,6 +190,7 @@
                 <button id="RWR-be-MLv">
                     <rect key="frame" x="185" y="145" width="188" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="When you send a message" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fSa-54-fuL">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -189,6 +202,7 @@
                 <button id="3wB-eu-vrj">
                     <rect key="frame" x="185" y="125" width="176" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="When you are connected" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Aeq-Mw-9y1">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -200,6 +214,7 @@
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="BJ9-3E-tgS">
                     <rect key="frame" x="84" y="93" width="97" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sound volume:" id="VNY-Iu-iK7">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -209,6 +224,7 @@
                 <slider verticalHuggingPriority="750" id="NQZ-rr-Jtr">
                     <rect key="frame" x="185" y="91" width="202" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="bpy-lK-nT3"/>
                     <connections>
                         <action selector="playTestSound:" target="-2" id="rDH-FI-9Br"/>
@@ -218,6 +234,7 @@
                 <button verticalHuggingPriority="750" id="wca-hB-wo5">
                     <rect key="frame" x="174" y="13" width="108" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="push" title="Test sound" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d1V-gg-inW">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -229,6 +246,7 @@
                 <popUpButton verticalHuggingPriority="750" id="1J8-EB-PXH">
                     <rect key="frame" x="127" y="58" width="203" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <popUpButtonCell key="cell" type="push" title="Default soundpack" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="uTw-LV-Rxr" id="APp-qE-OJ1">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -243,12 +261,14 @@
                     </connections>
                 </popUpButton>
             </subviews>
+            <animations/>
             <point key="canvasLocation" x="344" y="720.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="s0k-WD-OxP"/>
         <customView id="C70-Vp-2wx" userLabel="Advanced view">
             <rect key="frame" x="0.0" y="0.0" width="456" height="259"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <animations/>
             <point key="canvasLocation" x="344" y="1025.5"/>
         </customView>
     </objects>

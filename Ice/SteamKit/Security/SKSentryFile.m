@@ -12,10 +12,13 @@
 #import "SKSteamID.h"
 #import "SKSession.h"
 
+#import "Ice-Swift.h"
+
 @implementation SKSentryFile
 
 + (NSString *)appSupportDirectory
 {
+	return [Sentry appSupportDirectory];
 	static NSString *finalPath = nil;
 	if( finalPath )
 	{

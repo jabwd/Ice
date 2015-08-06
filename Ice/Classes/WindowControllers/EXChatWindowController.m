@@ -248,9 +248,9 @@ const CGFloat EXChatFontSize	= 14.0f;
 			break;
 			
 		case EXChatMessageTypeNotification:
-			nameColor = [NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
+			nameColor = [NSColor colorWithCalibratedRed:0.3f green:0.5f blue:0.3f alpha:1.0f];
 			[finalMessage release];
-			finalMessage = [[NSString alloc] initWithFormat:@"<%@ - %@>\n", dateString, message];
+			finalMessage = [[NSString alloc] initWithFormat:@"%@ - %@\n", dateString, message];
 			break;
 	}
 	

@@ -25,7 +25,7 @@
  */
 SU_EXPORT @interface SUUpdater : NSObject
 
-@property (weak) IBOutlet id<SUUpdaterDelegate> delegate;
+@property (unsafe_unretained) IBOutlet id<SUUpdaterDelegate> delegate;
 
 + (SUUpdater *)sharedUpdater;
 + (SUUpdater *)updaterForBundle:(NSBundle *)bundle;
@@ -45,6 +45,8 @@ SU_EXPORT @interface SUUpdater : NSObject
 @property (copy) NSURL *feedURL;
 
 @property (nonatomic, copy) NSString *userAgentString;
+
+@property (copy) NSDictionary *httpHeaders;
 
 @property BOOL sendsSystemProfile;
 
