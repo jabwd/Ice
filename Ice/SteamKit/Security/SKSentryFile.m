@@ -19,72 +19,18 @@
 + (NSString *)appSupportDirectory
 {
 	return [Sentry appSupportDirectory];
-	static NSString *finalPath = nil;
-	if( finalPath )
-	{
-		return finalPath;
-	}
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(
-		NSApplicationSupportDirectory,
-		NSUserDomainMask,
-		YES
-	);
-	
-	if( [paths count] == 0 )
-	{
-		NSLog(@"Error: cannot find AppSupport directory to store steam guard file!");
-		return nil;
-	}
-	
-	NSString *executableName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
-	NSString *appSupport = paths[0];
-	if( [executableName length] == 0 )
-	{
-		NSLog(@"Error: unable to find application executable name");
-		return nil;
-	}
-	
-	finalPath = [[appSupport stringByAppendingPathComponent:executableName] retain];
-	NSError *error = nil;
-	[[NSFileManager defaultManager] createDirectoryAtPath:finalPath withIntermediateDirectories:YES attributes:nil error:&error];
-	if( error )
-	{
-		NSLog(@"Unable to create AppSupport directory");
-		return nil;
-	}
-	return finalPath;
 }
 
 + (NSString *)cacheFolderPath
 {
-	static NSString *finalPath = nil;
-	if( finalPath )
-	{
-		return finalPath;
-	}
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(
-														 NSCachesDirectory,
-														 NSUserDomainMask,
-														 YES
-														 );
-	
-	if( [paths count] == 0 )
-	{
-		DLog(@"Cannot find cache folder path");
-		return nil;
-	}
-	
-	NSString *domain = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
-	
-	finalPath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:domain] retain];
-	[[NSFileManager defaultManager] createDirectoryAtPath:finalPath withIntermediateDirectories:YES attributes:nil error:nil];
-	return finalPath;
+	return [Sentry cacheFolderPath];
 }
 
 - (id)initWithSession:(SKSession *)session
 {
 	if( (self = [super init]) )
 	{
+		_sentry = [[Sentry alloc] initWithSession:session];
 		_session = session;
 	}
 	return self;
@@ -92,6 +38,8 @@
 
 - (void)dealloc
 {
+	[_sentry release];
+	_sentry = nil;
 	[_data release];
 	_data = nil;
 	_session = nil;
@@ -102,31 +50,26 @@
 
 - (NSString *)sentryPath:(NSString *)fileName
 {
-	NSString *appSupport = [SKSentryFile appSupportDirectory];
-	appSupport = [appSupport stringByAppendingPathComponent:[_session username]];
-	[[NSFileManager defaultManager] createDirectoryAtPath:appSupport withIntermediateDirectories:YES attributes:nil error:nil];
-	return [appSupport stringByAppendingPathComponent:fileName];
+	if( fileName )
+	{
+		return [_sentry sentryPath:fileName];
+	}
+	return nil;
 }
 
 - (NSString *)fileName
 {
-	NSString *key = [NSString stringWithFormat:@"Sentry.%@", [_session username]];
-	return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+	return [_sentry fileName];
 }
 
 - (NSString *)currentSentryFilePath
 {
-	NSString *fileName = [self fileName];
-	if( !fileName )
-	{
-		return nil;
-	}
-	return [self sentryPath:fileName];
+	return [_sentry currentSentryFilePath];
 }
 
 - (NSData *)sha1Hash
 {
-	
+	//return [_sentry sha1Hash];
 	NSString *path = [self currentSentryFilePath];
 	NSFileManager *manager = [NSFileManager defaultManager];
 	if( ![manager fileExistsAtPath:path] )
@@ -160,27 +103,16 @@
 
 - (BOOL)exists
 {
-	NSData *hash = [self sha1Hash];
-	if( [hash length] != 40 )
-	{
-		DLog(@"Corrupt or non existing SteamGuard data file");
-		return NO;
-	}
-	return YES;
+	return [_sentry exists];
 }
 
 - (void)createWithData:(NSData *)bytes fileName:(NSString *)fileName
 {
-	if( [bytes length] > 1 )
+	if( !bytes || !fileName )
 	{
-		NSString *path = [self sentryPath:fileName];
-		[[NSUserDefaults standardUserDefaults] setObject:fileName forKey:[NSString stringWithFormat:@"Sentry.%@", [_session username]]];
-		[bytes writeToFile:path atomically:NO];
+		return;
 	}
-	else
-	{
-		DLog(@"Not enough bytes to write sentry file %lu", [bytes length]);
-	}
+	return [_sentry createWithData:bytes fileName:fileName];
 }
 
 @end

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-@objc class Sentry {
+@objc class Sentry:NSObject {
 	var session: SKSession
 	
 	init(session: SKSession) {
@@ -102,15 +102,17 @@ import Cocoa
 			return nil
 		}
 		
-		let idx: CFIndex = 40
-		let digestType: AnyObject = kSecDigestSHA1
-		let digest: Unmanaged<SecTransform> = SecDigestTransformCreate(digestType, idx, nil)
+		//let digest: Unmanaged = SecTransformCreate(kSecDigestSHA1, nil)
+		let digest: Unmanaged = SecDigestTransformCreate(kSecDigestSHA1, 40, nil)
+		SecTransformSetAttribute(digest as SecTransformRef!, kSecTransformInputAttributeName, fileData as! CFDataRef, nil)
 		
-		let result: NSData? = SecTransformExecute(digest as! AnyObject, nil) as? NSData
+		/*let result = nil
+		//let result: NSData? = SecTransformExecute(SecDigestTransformCreate(digestType, idx, nil), nil)
+		//let result: NSData? = SecTransformExecute(digest as! AnyObject, nil) as? NSData
 		if result != nil
 		{
 			return result
-		}
+		}*/
 		return nil
 	}
 	
