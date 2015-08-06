@@ -69,7 +69,6 @@
 		36D4F8821A00EE570028CE96 /* SKOneTimePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
-		36DD1C041B284DEE00DEA375 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C031B284DEE00DEA375 /* Test.swift */; };
 		36DD1C061B28863A00DEA375 /* CryptoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C051B28863A00DEA375 /* CryptoHelper.swift */; };
 		36DD1C081B288F8C00DEA375 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C071B288F8C00DEA375 /* Sentry.swift */; };
 		36E0F7D21A22400D00FF6A22 /* SKProtobufDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E0F7D11A22400D00FF6A22 /* SKProtobufDecoder.m */; };
@@ -225,7 +224,6 @@
 		36DAFB5819CB30DF00A65E6F /* SKTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKTCPConnection.h; path = SteamKit/Connection/SKTCPConnection.h; sourceTree = "<group>"; };
 		36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKTCPConnection.m; path = SteamKit/Connection/SKTCPConnection.m; sourceTree = "<group>"; };
 		36DD1C021B284DED00DEA375 /* Ice-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ice-Bridging-Header.h"; sourceTree = "<group>"; };
-		36DD1C031B284DEE00DEA375 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		36DD1C051B28863A00DEA375 /* CryptoHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoHelper.swift; sourceTree = "<group>"; };
 		36DD1C071B288F8C00DEA375 /* Sentry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
 		36E0F7D01A22400D00FF6A22 /* SKProtobufDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufDecoder.h; path = SteamKit/Packet/Protobuf/SKProtobufDecoder.h; sourceTree = "<group>"; };
@@ -533,7 +531,6 @@
 				36A7F1851A1A52A80033FF89 /* Views */,
 				3672A79A1A10EBCC003AF16D /* Helpers */,
 				3672A79B1A10F405003AF16D /* BlackFire */,
-				36DD1C031B284DEE00DEA375 /* Test.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -894,7 +891,6 @@
 				367EF2DB1A1045C00038548D /* EXFriendsListController.m in Sources */,
 				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
-				36DD1C041B284DEE00DEA375 /* Test.swift in Sources */,
 				36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */,
 				3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */,
 				367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */,

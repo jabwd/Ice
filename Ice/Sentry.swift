@@ -86,12 +86,7 @@ import Cocoa
 	func sha1Hash() -> NSData?
 	{
 		let path	= self.currentSentryFilePath()
-		if path == nil
-		{
-			return nil
-		}
-		
-		if NSFileManager.defaultManager().fileExistsAtPath(path!) == false
+		if ( path == nil || NSFileManager.defaultManager().fileExistsAtPath(path!) == false )
 		{
 			return nil
 		}
@@ -99,20 +94,18 @@ import Cocoa
 		let fileData: NSData? = NSData.init(contentsOfFile: path!)
 		if fileData == nil
 		{
+			print("Unable to read sentryfile (" + path! + ")")
 			return nil
 		}
+		let preDgst: Unmanaged = SecDigestTransformCreate(kSecDigestSHA1, 40, nil)
+		let dgst: SecTransformRef = preDgst.takeRetainedValue()
 		
-		//let digest: Unmanaged = SecTransformCreate(kSecDigestSHA1, nil)
-		let digest: Unmanaged = SecDigestTransformCreate(kSecDigestSHA1, 40, nil)
-		SecTransformSetAttribute(digest as SecTransformRef!, kSecTransformInputAttributeName, fileData as! CFDataRef, nil)
-		
-		/*let result = nil
-		//let result: NSData? = SecTransformExecute(SecDigestTransformCreate(digestType, idx, nil), nil)
-		//let result: NSData? = SecTransformExecute(digest as! AnyObject, nil) as? NSData
-		if result != nil
+		SecTransformSetAttribute(dgst, kSecTransformInputAttributeName, fileData!, nil)
+		let result: NSData? = SecTransformExecute(dgst, nil) as! NSData?
+		if( result != nil )
 		{
 			return result
-		}*/
+		}
 		return nil
 	}
 	

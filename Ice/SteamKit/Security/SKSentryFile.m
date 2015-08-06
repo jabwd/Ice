@@ -69,36 +69,7 @@
 
 - (NSData *)sha1Hash
 {
-	//return [_sentry sha1Hash];
-	NSString *path = [self currentSentryFilePath];
-	NSFileManager *manager = [NSFileManager defaultManager];
-	if( ![manager fileExistsAtPath:path] )
-	{
-		return nil;
-	}
-	NSData *fileData = [[NSData alloc] initWithContentsOfFile:path];
-	if( !fileData )
-	{
-		return nil;
-	}
-	
-	SecTransformRef digest;
-	CFErrorRef error;
-	
-	digest = SecDigestTransformCreate(kSecDigestSHA1, 40, &error);
-	SecTransformSetAttribute(digest, kSecTransformInputAttributeName, (CFDataRef)fileData, &error);
-	
-	NSData *result = (NSData *)SecTransformExecute(digest, &error);
-	if( error )
-	{
-		DLog(@"Error while hashing SteamGuard file: %@", (NSError *)error);
-	}
-	
-	// Cleanup
-	CFRelease(digest);
-	[fileData release];
-	
-	return [result autorelease];
+	return [_sentry sha1Hash];
 }
 
 - (BOOL)exists
