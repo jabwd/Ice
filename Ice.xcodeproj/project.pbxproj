@@ -58,6 +58,7 @@
 		36C25B801B7363BD0004650B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; };
 		36C25B811B7363BD0004650B /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36C25B831B73674E0004650B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 36C25B821B73674E0004650B /* dsa_pub.pem */; };
+		36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B841B73945E0004650B /* ChatWindowController.swift */; };
 		36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */; };
 		36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */; };
 		36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */; };
@@ -201,6 +202,7 @@
 		36B714CA19D2FB69006F08B3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		36C25B7E1B7363B50004650B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		36C25B821B73674E0004650B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		36C25B841B73945E0004650B /* ChatWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatWindowController.swift; sourceTree = "<group>"; };
 		36C5CFFC1A0F8CE9006CE1BD /* SKProtobufEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufEncoder.h; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.h; sourceTree = "<group>"; };
 		36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufEncoder.m; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.m; sourceTree = "<group>"; };
 		36C92ED219FBE6B7009FD8E2 /* SKProtobufConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKProtobufConstants.h; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */,
 				362AE3411A2E7D4300D36EE7 /* EXStringPromptController.h */,
 				362AE3421A2E7D4300D36EE7 /* EXStringPromptController.m */,
+				36C25B841B73945E0004650B /* ChatWindowController.swift */,
 			);
 			name = WindowControllers;
 			sourceTree = "<group>";
@@ -843,6 +846,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				367EF2DF1A1046120038548D /* EXFriendsListRowView.m in Sources */,
+				36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */,
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */,
