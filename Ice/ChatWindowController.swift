@@ -28,6 +28,11 @@ enum ChatMessageType
 	var previousTime:		UInt
 	var missedMsgsCount:	UInt
 	
+	@IBOutlet weak var messageView:		XNResizingMessageView
+	@IBOutlet weak var textView:		NSTextView
+	@IBOutlet weak var isTypingView:	NSImageView
+	@IBOutlet weak var stripView:		SFTabStripView
+	
 	
 	init(remoteFriend: SKFriend)
 	{

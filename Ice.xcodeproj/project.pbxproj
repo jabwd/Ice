@@ -59,6 +59,7 @@
 		36C25B811B7363BD0004650B /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36C25B831B73674E0004650B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 36C25B821B73674E0004650B /* dsa_pub.pem */; };
 		36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B841B73945E0004650B /* ChatWindowController.swift */; };
+		36C25B871B739E0A0004650B /* SteamId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B861B739E0A0004650B /* SteamId.swift */; };
 		36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */; };
 		36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */; };
 		36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */; };
@@ -203,6 +204,7 @@
 		36C25B7E1B7363B50004650B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		36C25B821B73674E0004650B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		36C25B841B73945E0004650B /* ChatWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatWindowController.swift; sourceTree = "<group>"; };
+		36C25B861B739E0A0004650B /* SteamId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SteamId.swift; sourceTree = "<group>"; };
 		36C5CFFC1A0F8CE9006CE1BD /* SKProtobufEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufEncoder.h; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.h; sourceTree = "<group>"; };
 		36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufEncoder.m; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.m; sourceTree = "<group>"; };
 		36C92ED219FBE6B7009FD8E2 /* SKProtobufConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKProtobufConstants.h; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 				36B303D21A0FF0DF009C2D0B /* SKSteamID.m */,
 				3647D1A21A13170E00D88225 /* SKFriendCache.h */,
 				3647D1A31A13170E00D88225 /* SKFriendCache.m */,
+				36C25B861B739E0A0004650B /* SteamId.swift */,
 			);
 			name = Friends;
 			sourceTree = "<group>";
@@ -898,6 +901,7 @@
 				36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */,
 				3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */,
 				367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */,
+				36C25B871B739E0A0004650B /* SteamId.swift in Sources */,
 				36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */,
 				3672A7E51A10F90F003AF16D /* NSViewAdditions.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,
