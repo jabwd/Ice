@@ -397,6 +397,19 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	{
 		SKFriend *remoteFriend = (SKFriend *)item;
 		
+		/*UInt64 rawId = remoteFriend.steamID.rawSteamID;
+		switch(rawId)
+		{
+			case 76561198017855726:
+			case 76561198032401593:
+			case 76561198052972982:
+			case 76561198073002103:
+			case 76561198088678700:
+			{
+				DLog(@"%@", remoteFriend);
+			}
+		}*/
+		
 		EXFriendsListRowView *view = [outlineView makeViewWithIdentifier:@"FriendCell" owner:self];
 		[view setAvatarImage:[remoteFriend avatarImage]];
 		[view.textField setStringValue:[remoteFriend displayNameString]];

@@ -60,6 +60,7 @@
 		36C25B831B73674E0004650B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 36C25B821B73674E0004650B /* dsa_pub.pem */; };
 		36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B841B73945E0004650B /* ChatWindowController.swift */; };
 		36C25B871B739E0A0004650B /* SteamId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B861B739E0A0004650B /* SteamId.swift */; };
+		36C25B8B1B78E3F30004650B /* BorderedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */; };
 		36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */; };
 		36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */; };
 		36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */; };
@@ -205,6 +206,7 @@
 		36C25B821B73674E0004650B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		36C25B841B73945E0004650B /* ChatWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatWindowController.swift; sourceTree = "<group>"; };
 		36C25B861B739E0A0004650B /* SteamId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SteamId.swift; sourceTree = "<group>"; };
+		36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedScrollView.swift; sourceTree = "<group>"; };
 		36C5CFFC1A0F8CE9006CE1BD /* SKProtobufEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufEncoder.h; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.h; sourceTree = "<group>"; };
 		36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufEncoder.m; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.m; sourceTree = "<group>"; };
 		36C92ED219FBE6B7009FD8E2 /* SKProtobufConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKProtobufConstants.h; sourceTree = "<group>"; };
@@ -715,6 +717,7 @@
 				3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */,
 				3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */,
 				3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */,
+				36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */,
 			);
 			name = MessageView;
 			sourceTree = "<group>";
@@ -903,6 +906,7 @@
 				367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */,
 				36C25B871B739E0A0004650B /* SteamId.swift in Sources */,
 				36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */,
+				36C25B8B1B78E3F30004650B /* BorderedScrollView.swift in Sources */,
 				3672A7E51A10F90F003AF16D /* NSViewAdditions.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,
 			);
@@ -987,6 +991,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1027,6 +1032,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1049,6 +1055,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1068,6 +1075,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				New_Setting = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exurion.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ice/Ice-Bridging-Header.h";
@@ -1084,6 +1092,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1103,6 +1112,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				New_Setting = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exurion.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ice/Ice-Bridging-Header.h";

@@ -428,6 +428,10 @@
 					[_session connectionRemoveFriend:fr];
 				}
 			}
+			else if( type == SKFriendRelationTypeIgnored )
+			{
+				DLog(@"%@ %@ ignored relationship type", [_session friendForRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]], remoteFriend);
+			}
 			else
 			{
 				DLog(@"=> Unhandled friend relationship type: %u", type);
