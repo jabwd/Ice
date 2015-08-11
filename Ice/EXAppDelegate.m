@@ -18,6 +18,8 @@
 #import "EXPreferencesWindowController.h"
 #import "BFKeychainManager.h"
 
+#import "Ice-Swift.h"
+
 @implementation EXAppDelegate
 
 + (void)initialize
@@ -546,9 +548,17 @@
 
 - (void)updateSentryFile:(NSString *)fileName data:(NSData *)data
 {
-	SKSentryFile *file = [[SKSentryFile alloc] initWithSession:_session];
+	if( !data || !fileName )
+	{
+		DLog(@"[Error] cannot update sentry file with either null fileName and or data %@ %@", fileName, data);
+		return;
+	}
+	Sentry *file = [[Sentry alloc] initWithSession:_session];
 	[file createWithData:data fileName:fileName];
 	[file release];
+	/*SKSentryFile *file = [[SKSentryFile alloc] initWithSession:_session];
+	[file createWithData:data fileName:fileName];
+	[file release];*/
 }
 
 - (NSString *)username
