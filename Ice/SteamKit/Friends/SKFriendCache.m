@@ -9,7 +9,6 @@
 #import "SKFriendCache.h"
 #import "SKSentryFile.h"
 #import "SKFriend.h"
-#import "SKSteamID.h"
 
 NSString *SKPlayerNameKey = @"name";
 NSString *SKAvatarHashKey = @"avatarHash";

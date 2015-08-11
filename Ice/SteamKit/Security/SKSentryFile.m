@@ -9,7 +9,6 @@
 #import "SKSentryFile.h"
 #import <Security/Security.h>
 #import "SKFriend.h"
-#import "SKSteamID.h"
 #import "SKSession.h"
 
 #import "Ice-Swift.h"

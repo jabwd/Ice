@@ -15,7 +15,6 @@
 #import "NSData_SteamKitAdditions.h"
 #import "NSMutableData_XfireAdditions.h"
 #import "SKProtobufValue.h"
-#import "SKSteamID.h"
 #import "SKGamesManager.h"
 #import "SKServerListManager.h"
 
@@ -403,7 +402,7 @@
 		NSDictionary *remoteFriend	= [packet.scanner scanRepeated:friend][0];
 		SKFriendRelationType type	= [remoteFriend[@"2"] unsignedIntValue];
 		SKFriend *friend			= [[SKFriend alloc] initWithRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]];
-		SKAccountType accType		= friend.steamID.accountType;
+		SKAccountType accType		= friend.steamID.type;
 		
 		// make sure we don't add clans and other weird types to the friends list
 		if( accType == SKAccountTypeClan )

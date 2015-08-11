@@ -18,7 +18,6 @@
 #import "SKProtobufValue.h"
 #import "NSData_SteamKitAdditions.h"
 #import "SKSentryFile.h"
-#import "SKSteamID.h"
 #import "SKFriend.h"
 #import "SKProtobufEncoder.h"
 

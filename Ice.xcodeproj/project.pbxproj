@@ -50,7 +50,6 @@
 		369715A419D4387A001D8653 /* SKRSAEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 369715A319D4387A001D8653 /* SKRSAEncryption.m */; };
 		36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */; };
 		36A81A761A52E1FF0067439C /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A81A751A52E1FF0067439C /* NSDate+TimeAgo.m */; };
-		36B303D31A0FF0DF009C2D0B /* SKSteamID.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B303D21A0FF0DF009C2D0B /* SKSteamID.m */; };
 		36B714B919D07A4F006F08B3 /* SKSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714B819D07A4F006F08B3 /* SKSession.m */; };
 		36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714C819D2F36F006F08B3 /* SKAESEncryption.m */; };
 		36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B714CA19D2FB69006F08B3 /* Security.framework */; };
@@ -59,7 +58,7 @@
 		36C25B811B7363BD0004650B /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36C25B831B73674E0004650B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 36C25B821B73674E0004650B /* dsa_pub.pem */; };
 		36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B841B73945E0004650B /* ChatWindowController.swift */; };
-		36C25B871B739E0A0004650B /* SteamId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B861B739E0A0004650B /* SteamId.swift */; };
+		36C25B871B739E0A0004650B /* SteamID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B861B739E0A0004650B /* SteamID.swift */; };
 		36C25B8B1B78E3F30004650B /* BorderedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */; };
 		36C25B8D1B79F1D50004650B /* IdleTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B8C1B79F1D50004650B /* IdleTimeManager.swift */; };
 		36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */; };
@@ -195,8 +194,6 @@
 		36A7F1881A1A52EC0033FF89 /* EXOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXOutlineView.m; path = Classes/Views/EXOutlineView.m; sourceTree = "<group>"; };
 		36A81A741A52E1FF0067439C /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
 		36A81A751A52E1FF0067439C /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
-		36B303D11A0FF0DF009C2D0B /* SKSteamID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSteamID.h; path = SteamKit/Friends/SKSteamID.h; sourceTree = "<group>"; };
-		36B303D21A0FF0DF009C2D0B /* SKSteamID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSteamID.m; path = SteamKit/Friends/SKSteamID.m; sourceTree = "<group>"; };
 		36B714B719D07A4F006F08B3 /* SKSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSession.h; path = SteamKit/Session/SKSession.h; sourceTree = "<group>"; };
 		36B714B819D07A4F006F08B3 /* SKSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKSession.m; path = SteamKit/Session/SKSession.m; sourceTree = "<group>"; };
 		36B714C719D2F36F006F08B3 /* SKAESEncryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKAESEncryption.h; path = SteamKit/Security/SKAESEncryption.h; sourceTree = "<group>"; };
@@ -205,7 +202,7 @@
 		36C25B7E1B7363B50004650B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		36C25B821B73674E0004650B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		36C25B841B73945E0004650B /* ChatWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatWindowController.swift; sourceTree = "<group>"; };
-		36C25B861B739E0A0004650B /* SteamId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SteamId.swift; sourceTree = "<group>"; };
+		36C25B861B739E0A0004650B /* SteamID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SteamID.swift; sourceTree = "<group>"; };
 		36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedScrollView.swift; sourceTree = "<group>"; };
 		36C25B8C1B79F1D50004650B /* IdleTimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdleTimeManager.swift; sourceTree = "<group>"; };
 		36C5CFFC1A0F8CE9006CE1BD /* SKProtobufEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufEncoder.h; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.h; sourceTree = "<group>"; };
@@ -557,11 +554,9 @@
 			children = (
 				36CF7DD41A01199D00973C8B /* SKFriend.h */,
 				36CF7DD51A01199D00973C8B /* SKFriend.m */,
-				36B303D11A0FF0DF009C2D0B /* SKSteamID.h */,
-				36B303D21A0FF0DF009C2D0B /* SKSteamID.m */,
 				3647D1A21A13170E00D88225 /* SKFriendCache.h */,
 				3647D1A31A13170E00D88225 /* SKFriendCache.m */,
-				36C25B861B739E0A0004650B /* SteamId.swift */,
+				36C25B861B739E0A0004650B /* SteamID.swift */,
 			);
 			name = Friends;
 			sourceTree = "<group>";
@@ -872,7 +867,6 @@
 				36CE6D0D1A20FA9E0093EA4C /* EXBetterTextview.m in Sources */,
 				36A81A761A52E1FF0067439C /* NSDate+TimeAgo.m in Sources */,
 				36E5DA9319FDE4EB00AD2A4D /* SKProtobufCompiler.m in Sources */,
-				36B303D31A0FF0DF009C2D0B /* SKSteamID.m in Sources */,
 				36CE6D071A20EA980093EA4C /* BFKeychainManager.m in Sources */,
 				36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */,
 				36E7671E19C707D900D9C761 /* SKPacket.m in Sources */,
@@ -906,7 +900,7 @@
 				36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */,
 				3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */,
 				367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */,
-				36C25B871B739E0A0004650B /* SteamId.swift in Sources */,
+				36C25B871B739E0A0004650B /* SteamID.swift in Sources */,
 				36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */,
 				36C25B8B1B78E3F30004650B /* BorderedScrollView.swift in Sources */,
 				3672A7E51A10F90F003AF16D /* NSViewAdditions.m in Sources */,

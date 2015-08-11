@@ -10,7 +10,7 @@
 #import "SteamConstants.h"
 #import "SKFriendCache.h"
 
-@class SKSteamID, SKSession;
+@class SteamID, SKSession;
 
 // /steamcommunity/public/images/avatars/c2/c236e022f0a5c083634de2a4b3aab8e74a645cbf_medium.jpg
 
@@ -29,7 +29,7 @@ extern NSString *SKDefaultAvatarImageName;
 	NSString *_displayName;
 	NSString *_gameName;
 	
-	SKSteamID *_steamID;
+	SteamID *_steamID;
 	SKSession *_session;
 	
 	NSData	*_avatarHash;
@@ -56,7 +56,7 @@ extern NSString *SKDefaultAvatarImageName;
 @property (retain) NSString *gameName;
 @property (retain) NSData *avatarHash;
 
-@property (retain) SKSteamID *steamID;
+@property (retain) SteamID *steamID;
 @property (retain) SKSession *session;
 @property (assign) id <SKFriendChatDelegate> delegate;
 @property (assign) BOOL userSetStatus;

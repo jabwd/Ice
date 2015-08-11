@@ -26,7 +26,7 @@ extern NSString *SKCurrentUserChangedNotificationName;
 extern NSString *SKFriendNeedsChatWindowNotificationName;
 
 @class SKUDPConnection, SKTCPConnection, SKSession;
-@class SKFriend, SKSteamID;
+@class SKFriend, SteamID;
 
 @protocol SKSessionDelegate <NSObject>
 - (void)sessionChangedStatus:(SKSession *)session;
@@ -135,7 +135,7 @@ extern NSString *SKFriendNeedsChatWindowNotificationName;
 - (void)removePendingFriend:(SKFriend *)friend;
 - (void)addPendingFriend:(SKFriend *)pendingFriend;
 - (void)sortFriendsList;
-- (SKFriend *)friendForSteamID:(SKSteamID *)steamID;
+- (SKFriend *)friendForSteamID:(SteamID *)steamID;
 - (SKFriend *)friendForRawSteamID:(UInt64)rawSteamID;
 
 - (void)requestAppInfo:(UInt32)appID;

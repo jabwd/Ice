@@ -7,7 +7,6 @@
 //
 
 #import "SKFriend.h"
-#import "SKSteamID.h"
 #import "SKPacket.h"
 #import "SKSession.h"
 #import "SKTCPConnection.h"
@@ -22,7 +21,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 {
 	if( (self = [super init]) )
 	{
-		_steamID		= [[SKSteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
+		_steamID		= [[SteamID alloc] initWithRawSteamID:[body[@"1"] unsignedIntegerValue]];
 		_displayName	= [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
 		
 		if( body[@"15"] && ![_displayName isEqualToString:body[@"15"]] )
@@ -49,7 +48,7 @@ NSString *SKDefaultAvatarImageName					= @"avatar-default";
 {
 	if( (self = [super init]) )
 	{
-		_steamID		= [[SKSteamID alloc] initWithRawSteamID:steamID];
+		_steamID		= [[SteamID alloc] initWithRawSteamID:steamID];
 		_displayName	= [[[SKFriendCache sharedCache] playerNameForFriend:self] retain];
 		_avatarHash		= [[[SKFriendCache sharedCache] avatarHashForFriend:self] retain];
 		_status			= SKPersonaStateOffline;

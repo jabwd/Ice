@@ -11,7 +11,6 @@
 #import "SKTCPConnection.h"
 #import "SKPacket.h"
 #import "SKFriend.h"
-#import "SKSteamID.h"
 #import "NSData_SteamKitAdditions.h"
 #import "SKServerListManager.h"
 
@@ -388,7 +387,7 @@ static SKSession *_currentSession = nil;
 	return nil;
 }
 
-- (SKFriend *)friendForSteamID:(SKSteamID *)steamID
+- (SKFriend *)friendForSteamID:(SteamID *)steamID
 {
 	return [self friendForRawSteamID:steamID.rawSteamID];
 }

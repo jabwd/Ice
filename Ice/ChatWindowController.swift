@@ -11,7 +11,7 @@ import Cocoa
 protocol ChatWindowControllerDelegate
 {
 	func shouldCloseController(controller: ChatWindowController)
-	func newRemoteFriendForID(steamId: SKSteamID) -> SKFriend
+	func newRemoteFriendForID(steamId: SteamID) -> SKFriend
 }
 
 enum ChatMessageType

@@ -10,7 +10,6 @@
 #import "SKSession.h"
 #import "EXFriendsListRowView.h"
 #import "SKFriend.h"
-#import "SKSteamID.h"
 #import "EXChatWindowController.h"
 #import "BFNotificationCenter.h"
 #import "NSDate+TimeAgo.h"
@@ -82,7 +81,7 @@ NSString *EXPendingFriendsGroupName = @"Pending Friends";
 	[self reloadData:nil];
 }
 
-- (SKFriend *)newRemoteFriendForID:(SKSteamID *)steamID
+- (SKFriend *)newRemoteFriendForID:(SteamID *)steamID
 {
 	return nil;
 }

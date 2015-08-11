@@ -15,7 +15,7 @@
 
 @protocol EXChatWindowControllerDelegate <NSObject>
 - (void)shouldCloseController:(EXChatWindowController *)controller;
-- (SKFriend *)newRemoteFriendForID:(SKSteamID *)steamID;
+- (SKFriend *)newRemoteFriendForID:(SteamID *)steamID;
 @end
 
 typedef NS_ENUM(UInt32, EXChatMessageType)
