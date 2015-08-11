@@ -79,10 +79,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="223" height="20"/>
+                                    <size key="minSize" width="251" height="20"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="223" height="20"/>
+                                    <size key="minSize" width="251" height="20"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <connections>
                                         <outlet property="delegate" destination="-2" id="enx-Jg-Bss"/>

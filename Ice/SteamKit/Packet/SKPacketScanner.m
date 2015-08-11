@@ -429,7 +429,8 @@
 			}
 			else if( type == SKFriendRelationTypeIgnored )
 			{
-				DLog(@"%@ %@ ignored relationship type", [_session friendForRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]], remoteFriend);
+				// Literally no clue what to do with these, these are all unknown users. Maybe people that added me or / ignored my friend requests?
+				//DLog(@"%@ %@ ignored relationship type", [_session friendForRawSteamID:[remoteFriend[@"1"] unsignedIntegerValue]], remoteFriend);
 			}
 			else
 			{

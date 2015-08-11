@@ -35,7 +35,7 @@
 						  n_YES, @"connectSound",
 						  n_YES, @"rememberUsername",
 						  n_YES, @"rememberPassword",
-						  [NSNumber numberWithDouble:10.0f], IdleTimeManager.autoAwayTimeKey,
+						  @300.0f, IdleTimeManager.autoAwayTimeKey,
 						  n_YES, IdleTimeManager.shouldAutoAwayKey,
 						  nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dict];
@@ -514,8 +514,9 @@
 			[_statusImageView setImage:[NSImage imageNamed:@"NSStatusAvailable"]];
 			
 			[[BFNotificationCenter defaultNotificationCenter] playConnectedSound];
-			
-			[[IdleTimeManager sharedManager] setAwayStatusAutomatically:YES];
+			IdleTimeManager *mgr = IdleTimeManager.sharedManager; // start the idle timer
+			mgr = nil; // yeah do nothing lol.
+			//[[IdleTimeManager sharedManager] setAwayStatusAutomatically:YES];
 		}
 			break;
 			

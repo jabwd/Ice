@@ -149,6 +149,7 @@ const CGFloat EXChatFontSize	= 14.0f;
 	NSRect mainView = [scrollView frame];
 	mainView.origin.y += heightAddition;
 	mainView.size.height -= heightAddition;
+	//mainView.size.height -= 1;
 	/*if( heightAddition < 0 )
 	{
 		[scrollView setFrame:mainView];

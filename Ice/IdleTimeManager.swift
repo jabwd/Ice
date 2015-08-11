@@ -33,9 +33,16 @@ import ApplicationServices
 		
 		if( setStatusAutomatically == true )
 		{
+			print("=> The AFK time has started and will check for the idle state soon")
 			eventSource = CGEventSourceCreate(CGEventSourceStateID.CombinedSessionState)
 			let time: NSTimeInterval = NSUserDefaults.standardUserDefaults().objectForKey("autoGoAwayTime")!.doubleValue
-			timer  = NSTimer(timeInterval: time, target: self, selector: Selector("checkIdleState"), userInfo: nil, repeats: false)
+			print("=> The time used will be \(time)seconds")
+			//timer  = NSTimer(timeInterval: time, target: self, selector: Selector("checkIdleState"), userInfo: nil, repeats: false)
+			timer = NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: Selector("checkIdleState:"), userInfo: nil, repeats: false)
+		}
+		else
+		{
+			print("=> The AFK timer did not start, user has disabled it")
 		}
 	}
 	
@@ -56,7 +63,7 @@ import ApplicationServices
 		{
 			eventSource = CGEventSourceCreate(CGEventSourceStateID.CombinedSessionState)
 			let time: NSTimeInterval = NSUserDefaults.standardUserDefaults().objectForKey("autoGoAwayTime")!.doubleValue
-			timer  = NSTimer(timeInterval: time, target: self, selector: Selector("checkIdleState"), userInfo: nil, repeats: false)
+			timer = NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: Selector("checkIdleState:"), userInfo: nil, repeats: false)
 		}
 		else
 		{
@@ -71,14 +78,10 @@ import ApplicationServices
 	
 	func checkIdleState(passedTimer: NSTimer)
 	{
+		print("=> Checking idle state")
 		let time: NSTimeInterval	= NSUserDefaults.standardUserDefaults().objectForKey("autoGoAwayTime")!.doubleValue
-		let seconds: NSTimeInterval = CGEventSourceSecondsSinceLastEventType(CGEventSourceStateID.CombinedSessionState, CGEventType.Null)
-		
-		if( timer != nil )
-		{
-			timer!.invalidate()
-			timer = nil
-		}
+		let seconds: NSTimeInterval = CGEventSourceSecondsSinceLastEventType(CGEventSourceStateID.CombinedSessionState, CGEventType.TapDisabledByUserInput)
+		print("=> The user was idle for \(seconds)seconds")
 		
 		if( isIdle == true )
 		{
@@ -87,8 +90,12 @@ import ApplicationServices
 				isIdle	= false
 				
 				NSNotificationCenter.defaultCenter().postNotificationName(IdleTimeManager.userCameBackNotification, object: self)
-				
-				timer	= NSTimer(timeInterval: 2.0, target: self, selector: Selector("checkIdleState"), userInfo: nil, repeats: false)
+				if( timer != nil )
+				{
+					timer!.invalidate()
+					timer = nil
+				}
+				timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: Selector("checkIdleState:"), userInfo: nil, repeats: false)
 			}
 			else
 			{
@@ -102,13 +109,22 @@ import ApplicationServices
 				isIdle = true
 				
 				NSNotificationCenter.defaultCenter().postNotificationName(IdleTimeManager.userWentAwayNotification, object: self)
-				
-				timer = NSTimer(timeInterval: 2.0, target: self, selector: Selector("checkIdleState"), userInfo: nil, repeats: true)
+				if( timer != nil )
+				{
+					timer!.invalidate()
+					timer = nil
+				}
+				timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: Selector("checkIdleState:"), userInfo: nil, repeats: true)
 			}
 			else
 			{
+				if( timer != nil )
+				{
+					timer!.invalidate()
+					timer = nil
+				}
 				let diff: NSTimeInterval = (time - seconds)
-				timer = NSTimer(timeInterval: diff, target: self, selector: Selector("checkIdleState"), userInfo: nil, repeats: false)
+				timer = NSTimer.scheduledTimerWithTimeInterval(diff, target: self, selector: Selector("checkIdleState:"), userInfo: nil, repeats: false)
 			}
 		}
 	}
