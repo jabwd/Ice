@@ -35,6 +35,8 @@
 						  n_YES, @"connectSound",
 						  n_YES, @"rememberUsername",
 						  n_YES, @"rememberPassword",
+						  [NSNumber numberWithDouble:10.0f], IdleTimeManager.autoAwayTimeKey,
+						  n_YES, IdleTimeManager.shouldAutoAwayKey,
 						  nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 	[dict release];
@@ -52,11 +54,26 @@
 	_developerWindowController = nil;
 	[_friendsListController release];
 	_friendsListController = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
+}
+
+- (void)setAway:(NSNotification *)notification
+{
+	DLog(@"=> The user went away");
+	[_session setUserStatus:SKPersonaStateAway];
+}
+
+- (void)setAvailable:(NSNotification *)notification
+{
+	DLog(@"=> The user returned");
+	[_session setUserStatus:SKPersonaStateOnline];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setAway:) name:IdleTimeManager.userWentAwayNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setAvailable:) name:IdleTimeManager.userCameBackNotification object:nil];
 	[self switchMainView:_loginView];
 	
 	[self setupLoginView];
@@ -358,6 +375,11 @@
 	[_namePopup setTitle:[_session.currentUser displayNameString]];
 	[_avatarImageView setAvatarImage:[_session.currentUser avatarImage]];
 	[_avatarImageView setNeedsDisplay:YES];
+	
+	// Also change the status dropdown
+	//DLog(@"Should be updating the current status popup %@ with %u", _statusPopup, _session.currentUser.status);
+	//[_statusPopup selectItemWithTag:(unsigned int)_session.currentUser.status];
+	[self selectStatusWithState:_session.currentUser.status];
 	//DLog(@"%@", [_session.currentUser avatarImage]);
 }
 
@@ -492,6 +514,8 @@
 			[_statusImageView setImage:[NSImage imageNamed:@"NSStatusAvailable"]];
 			
 			[[BFNotificationCenter defaultNotificationCenter] playConnectedSound];
+			
+			[[IdleTimeManager sharedManager] setAwayStatusAutomatically:YES];
 		}
 			break;
 			
@@ -500,9 +524,8 @@
 	}
 }
 
-- (IBAction)selectStatus:(id)sender
+- (void)selectStatusWithState:(SKPersonaState)state
 {
-	SKPersonaState state = (SKPersonaState)[sender tag];
 	if( state == SKPersonaStateOffline )
 	{
 		//[self disconnect:nil];
@@ -544,6 +567,12 @@
 	}
 	[_statusImageView setImage:image];
 	[[_statusPopup itemAtIndex:0] setTitle:statusString];
+}
+
+- (IBAction)selectStatus:(id)sender
+{
+	//SKPersonaState state = (SKPersonaState)[sender tag];
+	[self selectStatusWithState:(SKPersonaState)[sender tag]];
 }
 
 - (void)updateSentryFile:(NSString *)fileName data:(NSData *)data
