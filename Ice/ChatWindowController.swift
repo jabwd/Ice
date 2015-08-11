@@ -24,19 +24,27 @@ enum ChatMessageType
 @objc class ChatWindowController: NSWindowController, SKFriendChatDelegate, NSWindowDelegate, BFChatMessageViewDelegate
 {
 	var remoteFriend:		SKFriend
-	var delegate:			ChatWindowControllerDelegate
-	var previousTime:		UInt
-	var missedMsgsCount:	UInt
+	var delegate:			ChatWindowControllerDelegate?
+	var previousTime:		UInt?
+	var missedMsgsCount:	UInt?
 	
-	@IBOutlet weak var messageView:		XNResizingMessageView
-	@IBOutlet weak var textView:		NSTextView
-	@IBOutlet weak var isTypingView:	NSImageView
-	@IBOutlet weak var stripView:		SFTabStripView
+	@IBOutlet weak var messageView:		XNResizingMessageView?
+	@IBOutlet weak var textView:		NSTextView?
+	@IBOutlet weak var isTypingView:	NSImageView?
+	@IBOutlet weak var stripView:		SFTabStripView?
 	
-	
-	init(remoteFriend: SKFriend)
+	override init(window: NSWindow!)
 	{
+		self.remoteFriend = SKFriend()
+		super.init(window: window)
+	}
+	
+	convenience init(remoteFriend: SKFriend)
+	{
+		self.init(windowNibName: "EXChatWindowController")
 		self.remoteFriend			= remoteFriend
+		self.previousTime			= 0
+		self.missedMsgsCount		= 0
 		self.remoteFriend.delegate	= self
 	}
 
@@ -48,7 +56,7 @@ enum ChatMessageType
 	func windowShouldClose(sender: AnyObject) -> Bool
 	{
 		remoteFriend.delegate = nil
-		delegate.shouldCloseController(self)
+		delegate!.shouldCloseController(self)
 		return true
 	}
 	
@@ -66,5 +74,38 @@ enum ChatMessageType
 		chatWindow.setContentBorderThickness(35.0, forEdge: NSRectEdge.MinY)
 		chatWindow.setAutorecalculatesContentBorderThickness(false, forEdge: NSRectEdge.MinY)
 		
+	}
+	
+	func windowDidBecomeKey(notification: NSNotification) {
+		
+	}
+	
+	func controlTextChanged()
+	{
+		
+	}
+	
+	func resizeMessageView(messageView: AnyObject!)
+	{
+		
+	}
+	
+	func friendDidReceiveMessage(message: String!, date: NSDate!, type entryType: SKChatEntryType) {
+		
+	}
+	
+	func friendStatusDidChange() {
+		
+	}
+	
+	func goOffline()
+	{
+		messageView!.enabled = false
+	}
+	
+	func sendMessage(message: String!)
+	{
+		previousTime = 0
+		//remoteFriend.sendMessage(message, ofType: 1 as SKChatEntryType)
 	}
 }

@@ -128,26 +128,35 @@ const CGFloat EXChatFontSize	= 14.0f;
 	NSSize size = [(XNResizingMessageView *)messageView desiredSize];
 	NSRect frame = [messageScrollView frame];
 	CGFloat heightAddition = size.height - frame.size.height;
+	
+	if( heightAddition < 1 && heightAddition > -1 )
+	{
+		return; // idk why this happens honestly.
+	}
+	
 	frame.size.height += heightAddition;
 	[messageScrollView setFrame:frame];
 	
 	// change the window frame
 	NSRect windowFrame = [window frame];
 	windowFrame.size.height += heightAddition;
+	//windowFrame.size.height -= 1;
 	windowFrame.origin.y -= heightAddition;
+	//windowFrame.origin.y += 1;
 	CGFloat height = [window contentBorderThicknessForEdge:NSMinYEdge];
 	height += heightAddition;
 	[window setContentBorderThickness:height forEdge:NSMinYEdge];
 	NSRect mainView = [scrollView frame];
 	mainView.origin.y += heightAddition;
 	mainView.size.height -= heightAddition;
-	if( heightAddition < 0 )
+	/*if( heightAddition < 0 )
 	{
 		[scrollView setFrame:mainView];
 	}
 	else
-		[scrollView setFrame:mainView];
-	[window setFrame:windowFrame display:YES animate:NO];
+		[scrollView setFrame:mainView];*/
+	[scrollView setFrame:mainView];
+	[window setFrame:windowFrame display:true animate:false];
 }
 
 #pragma mark - Chat delegate
