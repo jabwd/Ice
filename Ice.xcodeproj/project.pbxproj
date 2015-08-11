@@ -58,6 +58,9 @@
 		36C25B801B7363BD0004650B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; };
 		36C25B811B7363BD0004650B /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36C25B831B73674E0004650B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 36C25B821B73674E0004650B /* dsa_pub.pem */; };
+		36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B841B73945E0004650B /* ChatWindowController.swift */; };
+		36C25B871B739E0A0004650B /* SteamId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B861B739E0A0004650B /* SteamId.swift */; };
+		36C25B8B1B78E3F30004650B /* BorderedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */; };
 		36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */; };
 		36CB627119FF347000F2E996 /* EXSteamGuardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CB626F19FF347000F2E996 /* EXSteamGuardWindowController.m */; };
 		36CB627219FF347000F2E996 /* EXSteamGuardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CB627019FF347000F2E996 /* EXSteamGuardWindowController.xib */; };
@@ -69,7 +72,6 @@
 		36D4F8821A00EE570028CE96 /* SKOneTimePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D4F8811A00EE570028CE96 /* SKOneTimePassword.m */; };
 		36DAFB5719CAD81600A65E6F /* SKUDPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5619CAD81600A65E6F /* SKUDPConnection.m */; };
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
-		36DD1C041B284DEE00DEA375 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C031B284DEE00DEA375 /* Test.swift */; };
 		36DD1C061B28863A00DEA375 /* CryptoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C051B28863A00DEA375 /* CryptoHelper.swift */; };
 		36DD1C081B288F8C00DEA375 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C071B288F8C00DEA375 /* Sentry.swift */; };
 		36E0F7D21A22400D00FF6A22 /* SKProtobufDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E0F7D11A22400D00FF6A22 /* SKProtobufDecoder.m */; };
@@ -202,6 +204,9 @@
 		36B714CA19D2FB69006F08B3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		36C25B7E1B7363B50004650B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		36C25B821B73674E0004650B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		36C25B841B73945E0004650B /* ChatWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatWindowController.swift; sourceTree = "<group>"; };
+		36C25B861B739E0A0004650B /* SteamId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SteamId.swift; sourceTree = "<group>"; };
+		36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedScrollView.swift; sourceTree = "<group>"; };
 		36C5CFFC1A0F8CE9006CE1BD /* SKProtobufEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufEncoder.h; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.h; sourceTree = "<group>"; };
 		36C5CFFD1A0F8CE9006CE1BD /* SKProtobufEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufEncoder.m; path = SteamKit/Packet/Protobuf/SKProtobufEncoder.m; sourceTree = "<group>"; };
 		36C92ED219FBE6B7009FD8E2 /* SKProtobufConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKProtobufConstants.h; sourceTree = "<group>"; };
@@ -225,7 +230,6 @@
 		36DAFB5819CB30DF00A65E6F /* SKTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKTCPConnection.h; path = SteamKit/Connection/SKTCPConnection.h; sourceTree = "<group>"; };
 		36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKTCPConnection.m; path = SteamKit/Connection/SKTCPConnection.m; sourceTree = "<group>"; };
 		36DD1C021B284DED00DEA375 /* Ice-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ice-Bridging-Header.h"; sourceTree = "<group>"; };
-		36DD1C031B284DEE00DEA375 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		36DD1C051B28863A00DEA375 /* CryptoHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoHelper.swift; sourceTree = "<group>"; };
 		36DD1C071B288F8C00DEA375 /* Sentry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
 		36E0F7D01A22400D00FF6A22 /* SKProtobufDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufDecoder.h; path = SteamKit/Packet/Protobuf/SKProtobufDecoder.h; sourceTree = "<group>"; };
@@ -356,6 +360,7 @@
 				365E9BDB1A20C5C40037C50C /* EXPreferencesWindowController.m */,
 				362AE3411A2E7D4300D36EE7 /* EXStringPromptController.h */,
 				362AE3421A2E7D4300D36EE7 /* EXStringPromptController.m */,
+				36C25B841B73945E0004650B /* ChatWindowController.swift */,
 			);
 			name = WindowControllers;
 			sourceTree = "<group>";
@@ -533,7 +538,6 @@
 				36A7F1851A1A52A80033FF89 /* Views */,
 				3672A79A1A10EBCC003AF16D /* Helpers */,
 				3672A79B1A10F405003AF16D /* BlackFire */,
-				36DD1C031B284DEE00DEA375 /* Test.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -556,6 +560,7 @@
 				36B303D21A0FF0DF009C2D0B /* SKSteamID.m */,
 				3647D1A21A13170E00D88225 /* SKFriendCache.h */,
 				3647D1A31A13170E00D88225 /* SKFriendCache.m */,
+				36C25B861B739E0A0004650B /* SteamId.swift */,
 			);
 			name = Friends;
 			sourceTree = "<group>";
@@ -712,6 +717,7 @@
 				3672A7BC1A10F441003AF16D /* XNBorderedScrollView.m */,
 				3672A7BD1A10F441003AF16D /* XNResizingMessageView.h */,
 				3672A7BE1A10F441003AF16D /* XNResizingMessageView.m */,
+				36C25B8A1B78E3F30004650B /* BorderedScrollView.swift */,
 			);
 			name = MessageView;
 			sourceTree = "<group>";
@@ -846,6 +852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				367EF2DF1A1046120038548D /* EXFriendsListRowView.m in Sources */,
+				36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */,
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */,
@@ -894,11 +901,12 @@
 				367EF2DB1A1045C00038548D /* EXFriendsListController.m in Sources */,
 				3613524419ECB12F0038A3A1 /* NSMutableData_XfireAdditions.m in Sources */,
 				36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */,
-				36DD1C041B284DEE00DEA375 /* Test.swift in Sources */,
 				36CF849C1A0F19A000C7A087 /* SKProtobufHeader.m in Sources */,
 				3613524319ECB12F0038A3A1 /* NSData_SteamKitAdditions.m in Sources */,
 				367EF2D51A103F060038548D /* EXSteamDeveloperWindow.m in Sources */,
+				36C25B871B739E0A0004650B /* SteamId.swift in Sources */,
 				36C5CFFE1A0F8CE9006CE1BD /* SKProtobufEncoder.m in Sources */,
+				36C25B8B1B78E3F30004650B /* BorderedScrollView.swift in Sources */,
 				3672A7E51A10F90F003AF16D /* NSViewAdditions.m in Sources */,
 				36E766F019C6D54000D9C761 /* EXAppDelegate.m in Sources */,
 			);
@@ -983,6 +991,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1023,6 +1032,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1045,6 +1055,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1064,6 +1075,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				New_Setting = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exurion.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ice/Ice-Bridging-Header.h";
@@ -1080,6 +1092,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1099,6 +1112,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				New_Setting = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exurion.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ice/Ice-Bridging-Header.h";

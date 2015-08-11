@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class SKSession;
+@class SKSession, Sentry;
 
 @interface SKSentryFile : NSObject
 {
 	NSData		*_data;
 	SKSession	*_session;
+	
+	Sentry *_sentry;
 }
 @property (retain) NSData *data;
 

@@ -33,5 +33,6 @@
 - (void)nextMessage;
 - (void)addMessage:(NSString *)message;
 - (void)becomeKey;
+- (void)setEnabled:(BOOL)enabled;
 
 @end

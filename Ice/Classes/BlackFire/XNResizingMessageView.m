@@ -231,7 +231,6 @@
 		lastPostedSize = [self desiredSize];
 		if( lastPostedSize.height >= MAX_HEIGHT )
 			return; // don't go bigger than this!!
-		//[[NSNotificationCenter defaultCenter] postNotificationName:@"TextViewSizeShouldChange" object:self];
 		[_messageDelegate resizeMessageView:self];
 	}
 }

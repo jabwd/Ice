@@ -8,7 +8,7 @@
 
 import Cocoa
 
-@objc class Sentry {
+@objc class Sentry:NSObject {
 	var session: SKSession
 	
 	init(session: SKSession) {
@@ -86,12 +86,7 @@ import Cocoa
 	func sha1Hash() -> NSData?
 	{
 		let path	= self.currentSentryFilePath()
-		if path == nil
-		{
-			return nil
-		}
-		
-		if NSFileManager.defaultManager().fileExistsAtPath(path!) == false
+		if ( path == nil || NSFileManager.defaultManager().fileExistsAtPath(path!) == false )
 		{
 			return nil
 		}
@@ -99,15 +94,15 @@ import Cocoa
 		let fileData: NSData? = NSData.init(contentsOfFile: path!)
 		if fileData == nil
 		{
+			print("Unable to read sentryfile (" + path! + ")")
 			return nil
 		}
+		let preDgst: Unmanaged = SecDigestTransformCreate(kSecDigestSHA1, 40, nil)
+		let dgst: SecTransformRef = preDgst.takeRetainedValue()
 		
-		let idx: CFIndex = 40
-		let digestType: AnyObject = kSecDigestSHA1
-		let digest: Unmanaged<SecTransform> = SecDigestTransformCreate(digestType, idx, nil)
-		
-		let result: NSData? = SecTransformExecute(digest as! AnyObject, nil) as? NSData
-		if result != nil
+		SecTransformSetAttribute(dgst, kSecTransformInputAttributeName, fileData!, nil)
+		let result: NSData? = SecTransformExecute(dgst, nil) as! NSData?
+		if( result != nil )
 		{
 			return result
 		}
