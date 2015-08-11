@@ -74,6 +74,7 @@
 		36DAFB5A19CB30DF00A65E6F /* SKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFB5919CB30DF00A65E6F /* SKTCPConnection.m */; };
 		36DD1C061B28863A00DEA375 /* CryptoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C051B28863A00DEA375 /* CryptoHelper.swift */; };
 		36DD1C081B288F8C00DEA375 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DD1C071B288F8C00DEA375 /* Sentry.swift */; };
+		36E0E7251B7A57B600A1DC5F /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0E7241B7A57B600A1DC5F /* APITests.swift */; };
 		36E0F7D21A22400D00FF6A22 /* SKProtobufDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E0F7D11A22400D00FF6A22 /* SKProtobufDecoder.m */; };
 		36E5DA9319FDE4EB00AD2A4D /* SKProtobufCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E5DA9219FDE4EB00AD2A4D /* SKProtobufCompiler.m */; };
 		36E5DA9619FDEBF300AD2A4D /* SKProtobufValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E5DA9519FDEBF300AD2A4D /* SKProtobufValue.m */; };
@@ -86,14 +87,12 @@
 		36E766FC19C6D54000D9C761 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E766FB19C6D54000D9C761 /* XCTest.framework */; };
 		36E766FD19C6D54000D9C761 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E766DC19C6D54000D9C761 /* Cocoa.framework */; };
 		36E7670519C6D54100D9C761 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 36E7670319C6D54100D9C761 /* InfoPlist.strings */; };
-		36E7670719C6D54100D9C761 /* IceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7670619C6D54100D9C761 /* IceTests.m */; };
 		36E7671619C6D8E300D9C761 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671319C6D8E300D9C761 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671519C6D8E300D9C761 /* GCDAsyncUdpSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		36E7671B19C6DAF500D9C761 /* SKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671A19C6DAF500D9C761 /* SKConnection.m */; };
 		36E7671E19C707D900D9C761 /* SKPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E7671D19C707D900D9C761 /* SKPacket.m */; };
 		36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F143251A1690D100FFF4A4 /* EXMemoryManager.m */; };
 		36F263D21A1F9BC5000CEADC /* EXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F263D11A1F9BC5000CEADC /* EXImageView.m */; };
-		36FD880A1A3F122900E79A7E /* BFIdleTimeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FD88091A3F122900E79A7E /* BFIdleTimeManager.m */; };
 		36FD880F1A3F503D00E79A7E /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FD880C1A3F503D00E79A7E /* HTMLNode.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		36FD88101A3F503D00E79A7E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FD880E1A3F503D00E79A7E /* HTMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		36FD88121A3F508100E79A7E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 36FD88111A3F508100E79A7E /* libxml2.dylib */; };
@@ -230,6 +229,8 @@
 		36DD1C021B284DED00DEA375 /* Ice-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ice-Bridging-Header.h"; sourceTree = "<group>"; };
 		36DD1C051B28863A00DEA375 /* CryptoHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoHelper.swift; sourceTree = "<group>"; };
 		36DD1C071B288F8C00DEA375 /* Sentry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
+		36E0E7231B7A57B600A1DC5F /* IceTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IceTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		36E0E7241B7A57B600A1DC5F /* APITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
 		36E0F7D01A22400D00FF6A22 /* SKProtobufDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufDecoder.h; path = SteamKit/Packet/Protobuf/SKProtobufDecoder.h; sourceTree = "<group>"; };
 		36E0F7D11A22400D00FF6A22 /* SKProtobufDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKProtobufDecoder.m; path = SteamKit/Packet/Protobuf/SKProtobufDecoder.m; sourceTree = "<group>"; };
 		36E5DA9119FDE4EB00AD2A4D /* SKProtobufCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKProtobufCompiler.h; path = SteamKit/Packet/Protobuf/SKProtobufCompiler.h; sourceTree = "<group>"; };
@@ -254,7 +255,6 @@
 		36E766FB19C6D54000D9C761 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		36E7670219C6D54100D9C761 /* IceTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IceTests-Info.plist"; sourceTree = "<group>"; };
 		36E7670419C6D54100D9C761 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		36E7670619C6D54100D9C761 /* IceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IceTests.m; sourceTree = "<group>"; };
 		36E7671219C6D8E300D9C761 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = CocoaAsyncSocket/GCD/GCDAsyncSocket.h; sourceTree = SOURCE_ROOT; };
 		36E7671319C6D8E300D9C761 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = CocoaAsyncSocket/GCD/GCDAsyncSocket.m; sourceTree = SOURCE_ROOT; };
 		36E7671419C6D8E300D9C761 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = CocoaAsyncSocket/GCD/GCDAsyncUdpSocket.h; sourceTree = SOURCE_ROOT; };
@@ -267,8 +267,6 @@
 		36F143251A1690D100FFF4A4 /* EXMemoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXMemoryManager.m; path = Classes/Developer/EXMemoryManager.m; sourceTree = "<group>"; };
 		36F263D01A1F9BC5000CEADC /* EXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXImageView.h; path = Classes/Views/EXImageView.h; sourceTree = "<group>"; };
 		36F263D11A1F9BC5000CEADC /* EXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXImageView.m; path = Classes/Views/EXImageView.m; sourceTree = "<group>"; };
-		36FD88081A3F122900E79A7E /* BFIdleTimeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFIdleTimeManager.h; sourceTree = "<group>"; };
-		36FD88091A3F122900E79A7E /* BFIdleTimeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFIdleTimeManager.m; sourceTree = "<group>"; };
 		36FD880B1A3F503D00E79A7E /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLNode.h; path = Classes/Helpers/HTMLNode.h; sourceTree = "<group>"; };
 		36FD880C1A3F503D00E79A7E /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLNode.m; path = Classes/Helpers/HTMLNode.m; sourceTree = "<group>"; };
 		36FD880D1A3F503D00E79A7E /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLParser.h; path = Classes/Helpers/HTMLParser.h; sourceTree = "<group>"; };
@@ -381,8 +379,6 @@
 		3672A79B1A10F405003AF16D /* BlackFire */ = {
 			isa = PBXGroup;
 			children = (
-				36FD88081A3F122900E79A7E /* BFIdleTimeManager.h */,
-				36FD88091A3F122900E79A7E /* BFIdleTimeManager.m */,
 				36CE6D051A20EA980093EA4C /* BFKeychainManager.h */,
 				36CE6D061A20EA980093EA4C /* BFKeychainManager.m */,
 				3672A7B11A10F441003AF16D /* BFNotificationCenter.h */,
@@ -647,8 +643,9 @@
 		36E7670019C6D54100D9C761 /* IceTests */ = {
 			isa = PBXGroup;
 			children = (
-				36E7670619C6D54100D9C761 /* IceTests.m */,
 				36E7670119C6D54100D9C761 /* Supporting Files */,
+				36E0E7241B7A57B600A1DC5F /* APITests.swift */,
+				36E0E7231B7A57B600A1DC5F /* IceTests-Bridging-Header.h */,
 			);
 			path = IceTests;
 			sourceTree = "<group>";
@@ -852,7 +849,6 @@
 				3672A7C31A10F441003AF16D /* SFTabView.m in Sources */,
 				36E7671719C6D8E300D9C761 /* GCDAsyncUdpSocket.m in Sources */,
 				36A7F1891A1A52EC0033FF89 /* EXOutlineView.m in Sources */,
-				36FD880A1A3F122900E79A7E /* BFIdleTimeManager.m in Sources */,
 				36CE6D0A1A20F8620093EA4C /* SKServerListManager.m in Sources */,
 				3672A7C51A10F441003AF16D /* XNResizingMessageView.m in Sources */,
 				36F143261A1690D100FFF4A4 /* EXMemoryManager.m in Sources */,
@@ -912,7 +908,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36E7670719C6D54100D9C761 /* IceTests.m in Sources */,
+				36E0E7251B7A57B600A1DC5F /* APITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1120,6 +1116,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ice.app/Contents/MacOS/Ice";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1132,8 +1129,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "IceTests/IceTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exurion.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "IceTests/IceTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1143,6 +1143,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ice.app/Contents/MacOS/Ice";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1151,8 +1152,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ice/Ice-Prefix.pch";
 				INFOPLIST_FILE = "IceTests/IceTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exurion.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "IceTests/IceTests-Bridging-Header.h";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
