@@ -97,11 +97,11 @@ import Cocoa
 			print("Unable to read sentryfile (" + path! + ")")
 			return nil
 		}
-		let preDgst: Unmanaged = SecDigestTransformCreate(kSecDigestSHA1, 40, nil)
-		let dgst: SecTransformRef = preDgst.takeRetainedValue()
+		let preDgst: SecTransform = SecDigestTransformCreate(kSecDigestSHA1, 40, nil)
 		
-		SecTransformSetAttribute(dgst, kSecTransformInputAttributeName, fileData!, nil)
-		let result: NSData? = SecTransformExecute(dgst, nil) as! NSData?
+		SecTransformSetAttribute(preDgst, kSecTransformInputAttributeName, fileData!, nil)
+		//SecTransformSetAttribute(dgst, kSecTransformInputAttributeName, fileData!, nil)
+		let result: NSData? = SecTransformExecute(preDgst, nil) as! CFDataRef
 		if( result != nil )
 		{
 			return result

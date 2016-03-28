@@ -55,7 +55,6 @@
 		36B714C919D2F36F006F08B3 /* SKAESEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B714C819D2F36F006F08B3 /* SKAESEncryption.m */; };
 		36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B714CA19D2FB69006F08B3 /* Security.framework */; };
 		36C25B7F1B7363B50004650B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; };
-		36C25B801B7363BD0004650B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; };
 		36C25B811B7363BD0004650B /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36C25B7E1B7363B50004650B /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36C25B831B73674E0004650B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 36C25B821B73674E0004650B /* dsa_pub.pem */; };
 		36C25B851B73945E0004650B /* ChatWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25B841B73945E0004650B /* ChatWindowController.swift */; };
@@ -286,7 +285,6 @@
 				36FD88121A3F508100E79A7E /* libxml2.dylib in Frameworks */,
 				36C25B7F1B7363B50004650B /* Sparkle.framework in Frameworks */,
 				360609B419EBE12B0003EA2D /* libz.dylib in Frameworks */,
-				36C25B801B7363BD0004650B /* Sparkle.framework in Frameworks */,
 				36B714CB19D2FB69006F08B3 /* Security.framework in Frameworks */,
 				36E766DD19C6D54000D9C761 /* Cocoa.framework in Frameworks */,
 				3614B2751A41FA0B0097696C /* AutoHyperlinks.framework in Frameworks */,
@@ -782,7 +780,7 @@
 			attributes = {
 				CLASSPREFIX = EX;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Exurion;
 				TargetAttributes = {
 					36E766F919C6D54000D9C761 = {
