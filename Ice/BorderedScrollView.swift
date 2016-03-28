@@ -16,8 +16,8 @@ import Cocoa
 	required init?(coder: NSCoder)
 	{
 		super.init(coder: coder)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSWindowDidBecomeKeyNotification, object: self.window)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "update", name: NSWindowDidResignKeyNotification, object: self.window)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BorderedScrollView.update), name: NSWindowDidBecomeKeyNotification, object: self.window)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BorderedScrollView.update), name: NSWindowDidResignKeyNotification, object: self.window)
 	}
 	
 	deinit
